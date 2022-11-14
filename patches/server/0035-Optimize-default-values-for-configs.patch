@@ -1,11 +1,11 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-From: NONPLAY <admin@bxteam.gq>
-Date: Sat, 12 Nov 2022 22:59:14 +0300
+From: etil2jz <81570777+etil2jz@users.noreply.github.com>
+Date: Sun, 8 May 2022 13:13:02 +0200
 Subject: [PATCH] Optimize default values for configs
 
 
 diff --git a/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java b/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
-index 34eb43ca2bf446504c372f98dfbe6dbfd0a81369..74d86c1a9ef79e09b1ec02b93e8f62d3e0746d43 100644
+index 34eb43ca2bf446504c372f98dfbe6dbfd0a81369..40d61b50ad783a6d68fc7b43ae0d3fa9cc579ecb 100644
 --- a/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
 +++ b/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
 @@ -217,7 +217,7 @@ public class PufferfishConfig {
@@ -18,7 +18,7 @@ index 34eb43ca2bf446504c372f98dfbe6dbfd0a81369..74d86c1a9ef79e09b1ec02b93e8f62d3
          setComment("projectile", "Optimizes projectile settings");
      }
 diff --git a/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java b/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
-index 54bca103347e89f116fb7fbf37449a32ac094286..76810d7767b1a66315b006569654c718105ab4ee 100644
+index 54bca103347e89f116fb7fbf37449a32ac094286..4c6ce35aa6f0ccdcbbf66e0e53a1cc8421b04ef0 100644
 --- a/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
 +++ b/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
 @@ -55,7 +55,7 @@ public class GlobalConfiguration extends ConfigurationPart {
@@ -43,7 +43,7 @@ index 54bca103347e89f116fb7fbf37449a32ac094286..76810d7767b1a66315b006569654c718
          public boolean useDimensionTypeForCustomSpawners = false;
          public boolean strictAdvancementDimensionCheck = false;
 diff --git a/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java b/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
-index 3d2e67dc559ee3910b17ca86a46030ec05232250..9fe2a3800f4cb2dc5a3148463144835f94db8a10 100644
+index 3d2e67dc559ee3910b17ca86a46030ec05232250..71ef6082b459bb9812f362141d8fadfc162c88ea 100644
 --- a/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
 +++ b/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
 @@ -113,8 +113,8 @@ public class WorldConfiguration extends ConfigurationPart {
@@ -217,7 +217,7 @@ index 3d2e67dc559ee3910b17ca86a46030ec05232250..9fe2a3800f4cb2dc5a3148463144835f
          public float maxLeashDistance = 10f;
          public boolean disableSprintInterruptionOnAttack = false;
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-index a5a2e497eb3e651f3e715f995a80161d919ebab9..6594d184940fd5b0a5418ce10c02ebe6540a4d0f 100644
+index a5a2e497eb3e651f3e715f995a80161d919ebab9..b88bda3a9a8b3d4e77569f7e3b405bc4b0fbf0df 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
 @@ -150,14 +150,14 @@ public class SpigotWorldConfig

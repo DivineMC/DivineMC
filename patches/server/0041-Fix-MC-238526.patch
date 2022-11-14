@@ -1,11 +1,11 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-From: NONPLAY <admin@bxteam.gq>
-Date: Sat, 12 Nov 2022 22:59:14 +0300
+From: etil2jz <81570777+etil2jz@users.noreply.github.com>
+Date: Mon, 8 Aug 2022 11:21:49 +0200
 Subject: [PATCH] Fix MC-238526
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/animal/WaterAnimal.java b/src/main/java/net/minecraft/world/entity/animal/WaterAnimal.java
-index 18389f46902bb9879ac6d734723e9a720724dc48..f23bb15cbed31ca555e49b2c417977813360cf04 100644
+index 18389f46902bb9879ac6d734723e9a720724dc48..a50dff923743c9f916747abbf5c7d8c729ac8efe 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/WaterAnimal.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/WaterAnimal.java
 @@ -83,6 +83,6 @@ public abstract class WaterAnimal extends PathfinderMob {

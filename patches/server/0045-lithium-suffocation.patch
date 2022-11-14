@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-From: NONPLAY <admin@bxteam.gq>
-Date: Sat, 12 Nov 2022 22:59:14 +0300
+From: etil2jz <81570777+etil2jz@users.noreply.github.com>
+Date: Fri, 8 Apr 2022 22:21:48 +0200
 Subject: [PATCH] lithium: suffocation
 
 Author: 2No2Name <2No2Name@web.de>
@@ -9,10 +9,10 @@ Original license: GNU Lesser General Public License v3.0
 Original project: https://github.com/CaffeineMC/lithium-fabric (Yarn mappings)
 
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index d2bffae52474883488a05534273dff9450a1634c..b19d4b2fec798c13601b5e46f8e77ed95917c2f0 100644
+index 8a614fd335810b38c95f9f8b71f98b378893b985..e1edcc723428717b5a03621fcf6072ca857f5c28 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
-@@ -2607,39 +2607,64 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -2584,39 +2584,64 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
          return !this.isRemoved();
      }
  

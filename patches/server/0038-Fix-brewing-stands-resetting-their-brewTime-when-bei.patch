@@ -1,12 +1,12 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-From: NONPLAY <admin@bxteam.gq>
-Date: Sat, 12 Nov 2022 22:59:14 +0300
+From: etil2jz <81570777+etil2jz@users.noreply.github.com>
+Date: Sun, 8 May 2022 16:34:27 +0200
 Subject: [PATCH] Fix brewing stands resetting their brewTime when being
  unloaded
 
 
 diff --git a/src/main/java/net/minecraft/world/level/block/entity/BrewingStandBlockEntity.java b/src/main/java/net/minecraft/world/level/block/entity/BrewingStandBlockEntity.java
-index 55006724ccec9f3de828ec18693728e9741ff65f..bc860dbb9a896dce1577b4b9efb31b6244472803 100644
+index 55006724ccec9f3de828ec18693728e9741ff65f..694dfd4e5d77f94b17c5c3927e09e962a566b4ed 100644
 --- a/src/main/java/net/minecraft/world/level/block/entity/BrewingStandBlockEntity.java
 +++ b/src/main/java/net/minecraft/world/level/block/entity/BrewingStandBlockEntity.java
 @@ -295,6 +295,7 @@ public class BrewingStandBlockEntity extends BaseContainerBlockEntity implements

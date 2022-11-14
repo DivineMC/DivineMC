@@ -1,11 +1,11 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-From: NONPLAY <admin@bxteam.gq>
-Date: Sat, 12 Nov 2022 22:59:14 +0300
+From: Etil <81570777+etil2jz@users.noreply.github.com>
+Date: Sun, 2 Jan 2022 20:37:30 +0100
 Subject: [PATCH] Fix MC-121706
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/ai/goal/RangedBowAttackGoal.java b/src/main/java/net/minecraft/world/entity/ai/goal/RangedBowAttackGoal.java
-index 6558b0d4bea99948fdc2b51751f3cfdc239d4b67..70a1b1821d4f05e9d2baac85f298eedd425577d2 100644
+index 6558b0d4bea99948fdc2b51751f3cfdc239d4b67..edb296ceaebfc296cf76682beeeda95d6ac2d93a 100644
 --- a/src/main/java/net/minecraft/world/entity/ai/goal/RangedBowAttackGoal.java
 +++ b/src/main/java/net/minecraft/world/entity/ai/goal/RangedBowAttackGoal.java
 @@ -111,10 +111,10 @@ public class RangedBowAttackGoal<T extends Monster & RangedAttackMob> extends Go

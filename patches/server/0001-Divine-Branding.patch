@@ -26,6 +26,19 @@ index f0d22a733e3b97fb959cd566fb6c93c6d5681e16..91aa2bbb1a5d860e61ebd77fb7af6edf
              "Implementation-Vendor" to date, // Paper
              "Specification-Title" to "Bukkit",
              "Specification-Version" to project.version,
+diff --git a/src/main/java/com/destroystokyo/paper/Metrics.java b/src/main/java/com/destroystokyo/paper/Metrics.java
+index 061716934ba0a1f01e4d85d664034f72b3c7a765..728c176fd19d3b322f9092153b3c1d189aec3fe8 100644
+--- a/src/main/java/com/destroystokyo/paper/Metrics.java
++++ b/src/main/java/com/destroystokyo/paper/Metrics.java
+@@ -593,7 +593,7 @@ public class Metrics {
+             boolean logFailedRequests = config.getBoolean("logFailedRequests", false);
+             // Only start Metrics, if it's enabled in the config
+             if (config.getBoolean("enabled", true)) {
+-                Metrics metrics = new Metrics("Pufferfish", serverUUID, logFailedRequests, Bukkit.getLogger()); // Pufferfish
++                Metrics metrics = new Metrics("DivineMC", serverUUID, logFailedRequests, Bukkit.getLogger()); // Pufferfish // DivineMC
+ 
+                 metrics.addCustomChart(new Metrics.SimplePie("minecraft_version", () -> {
+                     String minecraftVersion = Bukkit.getVersion();
 diff --git a/src/main/java/com/destroystokyo/paper/console/PaperConsole.java b/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
 index c5d5648f4ca603ef2b1df723b58f9caf4dd3c722..05478a1ea04ec0396bc8c97090edef4a2aced2a9 100644
 --- a/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
@@ -182,19 +195,6 @@ index 0000000000000000000000000000000000000000..b222c6480376a8167dbf95db69ec0467
 +        return text("Previous version: " + oldVersion, NamedTextColor.GRAY, TextDecoration.ITALIC);
 +    }
 +}
-diff --git a/src/main/java/com/destroystokyo/paper/Metrics.java b/src/main/java/com/destroystokyo/paper/Metrics.java
-index 061716934ba0a1f01e4d85d664034f72b3c7a765..728c176fd19d3b322f9092153b3c1d189aec3fe8 100644
---- a/src/main/java/com/destroystokyo/paper/Metrics.java
-+++ b/src/main/java/com/destroystokyo/paper/Metrics.java
-@@ -593,7 +593,7 @@ public class Metrics {
-             boolean logFailedRequests = config.getBoolean("logFailedRequests", false);
-             // Only start Metrics, if it's enabled in the config
-             if (config.getBoolean("enabled", true)) {
--                Metrics metrics = new Metrics("Pufferfish", serverUUID, logFailedRequests, Bukkit.getLogger()); // Pufferfish
-+                Metrics metrics = new Metrics("DivineMC", serverUUID, logFailedRequests, Bukkit.getLogger()); // Pufferfish // DivineMC
- 
-                 metrics.addCustomChart(new Metrics.SimplePie("minecraft_version", () -> {
-                     String minecraftVersion = Bukkit.getVersion();
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
 index af9da39dffda01325af2ab3dd8b5e1efb18e013a..6b4dbf0e1b5ddcf2bd33a917e4ee3654be511147 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
@@ -222,7 +222,7 @@ index b8efe50c860a7537f345f46f3b3d68906ad54006..662d9f8474ad2bc2d741875fb6e78804
      private final String bukkitVersion = Versioning.getBukkitVersion();
      private final Logger logger = Logger.getLogger("Minecraft");
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index f30621be24c6c3a4f173436fce1ad1c13507c84f..47d2d770bea5893f0483efa1a83aba5c5b0183f6 100644
+index f30621be24c6c3a4f173436fce1ad1c13507c84f..490ef861ecb5c1001d7ab8de09d8be2961b6579f 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -278,7 +278,7 @@ public class Main {

@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-From: NONPLAY <admin@bxteam.gq>
-Date: Sat, 12 Nov 2022 22:59:14 +0300
+From: etil2jz <81570777+etil2jz@users.noreply.github.com>
+Date: Fri, 22 Apr 2022 22:44:56 +0200
 Subject: [PATCH] carpetfixes: BiomeAccess prediction
 
 Author: fxmorin <fx.e.morin@gmail.com>
@@ -11,7 +11,7 @@ Original project: https://github.com/fxmorin/carpet-fixes (Yarn mappings)
 Copyright (c) 2020 Fx Morin
 
 diff --git a/src/main/java/net/minecraft/world/level/biome/BiomeManager.java b/src/main/java/net/minecraft/world/level/biome/BiomeManager.java
-index 5695c5116c8a338b2e41aafcb2dc9f2146856970..e477b2f28121e043f2edfd0918e2a4dd8ba6f091 100644
+index 5695c5116c8a338b2e41aafcb2dc9f2146856970..6ee0a42dd048352c3df5d4788ea09170010a95b5 100644
 --- a/src/main/java/net/minecraft/world/level/biome/BiomeManager.java
 +++ b/src/main/java/net/minecraft/world/level/biome/BiomeManager.java
 @@ -28,41 +28,72 @@ public class BiomeManager {
