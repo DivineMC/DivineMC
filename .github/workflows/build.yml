@@ -51,7 +51,7 @@ jobs:
         with:
           title: "Release #${{ env.workflow }}"
           automatic_release_tag: release-${{ env.workflow }}
-          repo_token: "${{ secrets.REPO_TOKEN }}"
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
           files: build/libs/*.jar
           prerelease: false
           
@@ -61,6 +61,6 @@ jobs:
         with:
           title: "Release #${{ env.workflow }}"
           automatic_release_tag: latest-${{ env.version }}
-          repo_token: "${{ secrets.REPO_TOKEN }}"
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
           files: build/libs/*.jar
           prerelease: false
