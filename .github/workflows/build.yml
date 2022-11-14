@@ -13,23 +13,22 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: gradle/wrapper-validation-action@v1
+
       - name: Setup JDK 17
         uses: actions/setup-java@v2
         with:
           distribution: temurin
           java-version: 17
+          cache: 'gradle'
 
       - name: Configure Git
         run: |
-          git config --global user.email "no-reply@github.com"
-          git config --global user.name "Github Actions"
+          git config --global user.email "no-reply@github.com" && git config --global user.name "Github Actions"
+          echo "workflow=$GITHUB_RUN_NUMBER" >> $GITHUB_ENV
           chmod +x gradlew
 
       - name: Patch
         run: ./gradlew applyPatches --stacktrace
-        
-      - name: Build
-        run: ./gradlew build --stacktrace
 
       - name: Create Reobf Jar
         run: ./gradlew createReobfPaperclipJar --stacktrace
