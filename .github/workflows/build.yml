@@ -44,16 +44,6 @@ jobs:
         with:
           name: Artifacts
           path: build/libs
-
-      - name: Release Artifacts
-        if: github.ref_name == env.branch
-        uses: marvinpinto/action-automatic-releases@latest
-        with:
-          title: "Release #${{ env.workflow }}"
-          automatic_release_tag: release-${{ env.workflow }}
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          files: build/libs/*.jar
-          prerelease: false
           
       - name: Release Artifacts (Latest)
         if: github.ref_name == env.branch
