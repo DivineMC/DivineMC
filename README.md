@@ -25,11 +25,10 @@
 * **NOTE: We also borrow some patches from [Yatopia](https://github.com/YatopiaMC/Yatopia).**
 
 ## Downloads
-For now, we have a Jenkins bug and builds in Jenkins is not available, so you can download DivineMC from Github artifacts [here](https://github.com/DivineMC/DivineMC/actions)!
 
-**Please note Java >= 17 is required.**
+In normal case, you can download latest JAR file from releases tab [here](https://github.com/DivineMC/DivineMC/releases/latest)
 
-##### Soon we will request free repo at CodeMC
+**Please note:** Java >= 17 is required.
 
 ## Building
 In order to distribute and use this server software, you need a paperclip file:
