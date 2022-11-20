@@ -11,7 +11,7 @@
 
 ## Features
 
-- **DivineMC is a fork of [Pufferfish](https://github.com/pufferfish-gg/Pufferfish)** which a the best performance Minecraft core.
+- **DivineMC is a fork of [Purpur](https://github.com/PurpurMC/Purpur) which a the best performance core built on top of [Paper](https://github.com/PaperMC/Paper).
 - **Contains [Lithium](https://github.com/CaffeineMC/lithium-fabric) patches** which is optimize many areas in game.
 - **Bug fixes** for several Minecraft issues.
 - **Faster process** for Vanilla methods.

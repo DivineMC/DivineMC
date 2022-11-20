@@ -12,8 +12,8 @@ index f0d22a733e3b97fb959cd566fb6c93c6d5681e16..91aa2bbb1a5d860e61ebd77fb7af6edf
  }
  
  dependencies {
--    implementation(project(":pufferfish-api")) // Pufferfish // Paper
-+    implementation(project(":DivineMC-API")) // DivineMC // Pufferfish // Paper
+-    implementation(project(":purpur-api")) // Purpur
++    implementation(project(":DivineMC-API")) // Purpur // DivineMC
      // Pufferfish start
      implementation("io.papermc.paper:paper-mojangapi:1.19.2-R0.1-SNAPSHOT") {
          exclude("io.papermc.paper", "paper-api")
@@ -21,8 +21,8 @@ index f0d22a733e3b97fb959cd566fb6c93c6d5681e16..91aa2bbb1a5d860e61ebd77fb7af6edf
          attributes(
              "Main-Class" to "org.bukkit.craftbukkit.Main",
              "Implementation-Title" to "CraftBukkit",
--            "Implementation-Version" to "git-Pufferfish-$implementationVersion", // Pufferfish
-+            "Implementation-Version" to "git-DivineMC-$implementationVersion", // DivineMC // Pufferfish
+-            "Implementation-Version" to "git-Purpur-$implementationVersion",// Purpur
++            "Implementation-Version" to "git-DivineMC-$implementationVersion", // Purpur // DivineMC
              "Implementation-Vendor" to date, // Paper
              "Specification-Title" to "Bukkit",
              "Specification-Version" to project.version,
@@ -34,11 +34,20 @@ index 061716934ba0a1f01e4d85d664034f72b3c7a765..728c176fd19d3b322f9092153b3c1d18
              boolean logFailedRequests = config.getBoolean("logFailedRequests", false);
              // Only start Metrics, if it's enabled in the config
              if (config.getBoolean("enabled", true)) {
--                Metrics metrics = new Metrics("Pufferfish", serverUUID, logFailedRequests, Bukkit.getLogger()); // Pufferfish
-+                Metrics metrics = new Metrics("DivineMC", serverUUID, logFailedRequests, Bukkit.getLogger()); // Pufferfish // DivineMC
+-                Metrics metrics = new Metrics("Purpur", serverUUID, logFailedRequests, Bukkit.getLogger()); // Purpur
++                Metrics metrics = new Metrics("DivineMC", serverUUID, logFailedRequests, Bukkit.getLogger()); // Purpur // DivineMC
  
                  metrics.addCustomChart(new Metrics.SimplePie("minecraft_version", () -> {
                      String minecraftVersion = Bukkit.getVersion();
+@@ -603,7 +603,7 @@ public class Metrics {
+ 
+                 metrics.addCustomChart(new Metrics.SingleLineChart("players", () -> Bukkit.getOnlinePlayers().size()));
+                 metrics.addCustomChart(new Metrics.SimplePie("online_mode", () -> Bukkit.getOnlineMode() ? "online" : (io.papermc.paper.configuration.GlobalConfiguration.get().proxies.isProxyOnlineMode() ? "bungee" : "offline"))); // Purpur
+-                metrics.addCustomChart(new Metrics.SimplePie("purpur_version", () -> (Metrics.class.getPackage().getImplementationVersion() != null) ? Metrics.class.getPackage().getImplementationVersion() : "unknown")); // Purpur
++                metrics.addCustomChart(new Metrics.SimplePie("divinemc_version", () -> (Metrics.class.getPackage().getImplementationVersion() != null) ? Metrics.class.getPackage().getImplementationVersion() : "unknown")); // Purpur // DivineMC
+ 
+                 metrics.addCustomChart(new Metrics.DrilldownPie("java_version", () -> {
+                     Map<String, Map<String, Integer>> map = new HashMap<>();
 diff --git a/src/main/java/com/destroystokyo/paper/console/PaperConsole.java b/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
 index c5d5648f4ca603ef2b1df723b58f9caf4dd3c722..05478a1ea04ec0396bc8c97090edef4a2aced2a9 100644
 --- a/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
@@ -47,8 +56,8 @@ index c5d5648f4ca603ef2b1df723b58f9caf4dd3c722..05478a1ea04ec0396bc8c97090edef4a
      @Override
      protected LineReader buildReader(LineReaderBuilder builder) {
          builder
--                .appName("Paper")
-+                .appName("DivineMC") // DivineMC
+-                .appName("Purpur") // Purpur
++                .appName("DivineMC") // Purpur // DivineMC
                  .variable(LineReader.HISTORY_FILE, java.nio.file.Paths.get(".console_history"))
                  .completer(new ConsoleCommandCompleter(this.server))
                  .option(LineReader.Option.COMPLETE_IN_WORD, true);
@@ -199,12 +208,12 @@ diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/
 index af9da39dffda01325af2ab3dd8b5e1efb18e013a..6b4dbf0e1b5ddcf2bd33a917e4ee3654be511147 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -1656,7 +1656,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1683,7 +1683,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
  
      @DontObfuscate
      public String getServerModName() {
--        return "Pufferfish"; // Pufferfish - Pufferfish > // Paper - Paper > // Spigot - Spigot > // CraftBukkit - cb > vanilla!
-+        return "DivineMC"; // DivineMC - DivineMC > // Pufferfish - Pufferfish > // Paper - Paper > // Spigot - Spigot > // CraftBukkit - cb > vanilla!
+-        return org.purpurmc.purpur.PurpurConfig.serverModName; // Purpur - Purpur > // Paper - Paper > // Spigot - Spigot > // CraftBukkit - cb > vanilla!
++        return "DivineMC"; // DivineMC - DivineMC > // Purpur - Purpur > // Paper - Paper > // Spigot - Spigot > // CraftBukkit - cb > vanilla!
      }
  
      public SystemReport fillSystemReport(SystemReport details) {
@@ -216,8 +225,8 @@ index b8efe50c860a7537f345f46f3b3d68906ad54006..662d9f8474ad2bc2d741875fb6e78804
  import javax.annotation.Nonnull; // Paper
  
  public final class CraftServer implements Server {
--    private final String serverName = "Pufferfish"; // Paper // Pufferfish
-+    private final String serverName = "DivineMC"; // Paper // Pufferfish // DivineMC
+-    private final String serverName = "Purpur"; // Paper // Purpur
++    private final String serverName = "DivineMC"; // Paper // Purpur // DivineMC
      private final String serverVersion;
      private final String bukkitVersion = Versioning.getBukkitVersion();
      private final Logger logger = Logger.getLogger("Minecraft");
@@ -225,7 +234,7 @@ diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/
 index f30621be24c6c3a4f173436fce1ad1c13507c84f..490ef861ecb5c1001d7ab8de09d8be2961b6579f 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
-@@ -278,7 +278,7 @@ public class Main {
+@@ -292,7 +292,7 @@ public class Main {
                      if (buildDate.before(deadline.getTime())) {
                          // Paper start - This is some stupid bullshit
                          System.err.println("*** Warning, you've not updated in a while! ***");
@@ -242,8 +251,8 @@ index 05cc8f9cdcd7e920bf9503f68efb16cd74a359a2..dfa5965f30ba9f9a8f921ba73e340a91
  
      @Override
      public com.destroystokyo.paper.util.VersionFetcher getVersionFetcher() {
--        return new gg.pufferfish.pufferfish.PufferfishVersionFetcher(); // Pufferfish
-+        return new gq.bxteam.divinemc.DivineVersionFetcher(); // Pufferfish // DivineMC
+-        return new com.destroystokyo.paper.PaperVersionFetcher(); // Purpur
++        return new gq.bxteam.divinemc.DivineVersionFetcher(); // Purpur // DivineMC
      }
  
      @Override
@@ -255,8 +264,8 @@ index 80553face9c70c2a3d897681e7761df85b22d464..627ceea9fa0fccd3e466eb34d59e760b
      public static String getBukkitVersion() {
          String result = "Unknown-Version";
  
--        InputStream stream = Bukkit.class.getClassLoader().getResourceAsStream("META-INF/maven/gg.pufferfish.pufferfish/pufferfish-api/pom.properties"); // Pufferfish
-+        InputStream stream = Bukkit.class.getClassLoader().getResourceAsStream("META-INF/maven/gq.bxteam.divinemc/divinemc-api/pom.properties"); // Pufferfish // DivineMC
+-        InputStream stream = Bukkit.class.getClassLoader().getResourceAsStream("META-INF/maven/org.purpurmc.purpur/purpur-api/pom.properties"); // Purpur
++        InputStream stream = Bukkit.class.getClassLoader().getResourceAsStream("META-INF/maven/gq.bxteam.divinemc/divinemc-api/pom.properties"); // Purpur // DivineMC
          Properties properties = new Properties();
  
          if (stream != null) {
