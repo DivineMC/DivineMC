@@ -5,7 +5,7 @@ Subject: [PATCH] Divine Branding
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index f0d22a733e3b97fb959cd566fb6c93c6d5681e16..91aa2bbb1a5d860e61ebd77fb7af6edf804c4a45 100644
+index 2ee34f92e8a89b90448bbf710fdc0d5d6350e919..32a5580ddb2475ba8b274fcc790c86a83c4748df 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -9,7 +9,7 @@ plugins {
@@ -17,7 +17,7 @@ index f0d22a733e3b97fb959cd566fb6c93c6d5681e16..91aa2bbb1a5d860e61ebd77fb7af6edf
      // Pufferfish start
      implementation("io.papermc.paper:paper-mojangapi:1.19.2-R0.1-SNAPSHOT") {
          exclude("io.papermc.paper", "paper-api")
-@@ -84,7 +84,7 @@ tasks.jar {
+@@ -86,7 +86,7 @@ tasks.jar {
          attributes(
              "Main-Class" to "org.bukkit.craftbukkit.Main",
              "Implementation-Title" to "CraftBukkit",
@@ -27,7 +27,7 @@ index f0d22a733e3b97fb959cd566fb6c93c6d5681e16..91aa2bbb1a5d860e61ebd77fb7af6edf
              "Specification-Title" to "Bukkit",
              "Specification-Version" to project.version,
 diff --git a/src/main/java/com/destroystokyo/paper/Metrics.java b/src/main/java/com/destroystokyo/paper/Metrics.java
-index 061716934ba0a1f01e4d85d664034f72b3c7a765..728c176fd19d3b322f9092153b3c1d189aec3fe8 100644
+index acd95cf1dc7f009b63e44e4404e1736283fd458e..03ebd41a9f1e3f51034da2f432c127d2b4b93fee 100644
 --- a/src/main/java/com/destroystokyo/paper/Metrics.java
 +++ b/src/main/java/com/destroystokyo/paper/Metrics.java
 @@ -593,7 +593,7 @@ public class Metrics {
@@ -49,7 +49,7 @@ index 061716934ba0a1f01e4d85d664034f72b3c7a765..728c176fd19d3b322f9092153b3c1d18
                  metrics.addCustomChart(new Metrics.DrilldownPie("java_version", () -> {
                      Map<String, Map<String, Integer>> map = new HashMap<>();
 diff --git a/src/main/java/com/destroystokyo/paper/console/PaperConsole.java b/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
-index c5d5648f4ca603ef2b1df723b58f9caf4dd3c722..05478a1ea04ec0396bc8c97090edef4a2aced2a9 100644
+index 3cb56595822799926a8141e60a42f5d1edfc6de5..33b4793a6f8229a8aa1fa859b1f29f8142216012 100644
 --- a/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
 +++ b/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
 @@ -17,7 +17,7 @@ public final class PaperConsole extends SimpleTerminalConsole {
@@ -63,7 +63,7 @@ index c5d5648f4ca603ef2b1df723b58f9caf4dd3c722..05478a1ea04ec0396bc8c97090edef4a
                  .option(LineReader.Option.COMPLETE_IN_WORD, true);
 diff --git a/src/main/java/gq/bxteam/divinemc/DivineVersionFetcher.java b/src/main/java/gq/bxteam/divinemc/DivineVersionFetcher.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..b222c6480376a8167dbf95db69ec046780753515
+index 0000000000000000000000000000000000000000..c9a08bfa92cf74194cd17127f22f2d5b428da8ed
 --- /dev/null
 +++ b/src/main/java/gq/bxteam/divinemc/DivineVersionFetcher.java
 @@ -0,0 +1,137 @@
@@ -205,7 +205,7 @@ index 0000000000000000000000000000000000000000..b222c6480376a8167dbf95db69ec0467
 +    }
 +}
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index af9da39dffda01325af2ab3dd8b5e1efb18e013a..6b4dbf0e1b5ddcf2bd33a917e4ee3654be511147 100644
+index 735e01c550d561aa21c3c8f7f34a495ec3a0ab67..7750b243e66f3ffd28feedda4c466f4e87e2d623 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -1683,7 +1683,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -218,10 +218,10 @@ index af9da39dffda01325af2ab3dd8b5e1efb18e013a..6b4dbf0e1b5ddcf2bd33a917e4ee3654
  
      public SystemReport fillSystemReport(SystemReport details) {
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index b8efe50c860a7537f345f46f3b3d68906ad54006..662d9f8474ad2bc2d741875fb6e78804fda6f17c 100644
+index 2491785f5edd782b74189bef33eeffe13288f3da..fe9074ec0c558ba09568b035a88c35eff9d1c0e8 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -248,7 +248,7 @@ import javax.annotation.Nullable; // Paper
+@@ -249,7 +249,7 @@ import javax.annotation.Nullable; // Paper
  import javax.annotation.Nonnull; // Paper
  
  public final class CraftServer implements Server {
@@ -231,7 +231,7 @@ index b8efe50c860a7537f345f46f3b3d68906ad54006..662d9f8474ad2bc2d741875fb6e78804
      private final String bukkitVersion = Versioning.getBukkitVersion();
      private final Logger logger = Logger.getLogger("Minecraft");
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index f30621be24c6c3a4f173436fce1ad1c13507c84f..490ef861ecb5c1001d7ab8de09d8be2961b6579f 100644
+index 8a4c8701122edf2f29edbe97e4fa199da2744e9e..899d6368602e83f0e2f4c81c386929a1cfceb28a 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -292,7 +292,7 @@ public class Main {
@@ -244,7 +244,7 @@ index f30621be24c6c3a4f173436fce1ad1c13507c84f..490ef861ecb5c1001d7ab8de09d8be29
                          //Thread.sleep(TimeUnit.SECONDS.toMillis(20));
                          // Paper End
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
-index 05cc8f9cdcd7e920bf9503f68efb16cd74a359a2..dfa5965f30ba9f9a8f921ba73e340a9166a6ed8b 100644
+index 0b248a987d22da21aa802c5dba00b4f987c365ea..543300f7cd7fd9dff92df559251385e37569ec36 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
 +++ b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
 @@ -430,7 +430,7 @@ public final class CraftMagicNumbers implements UnsafeValues {
@@ -257,7 +257,7 @@ index 05cc8f9cdcd7e920bf9503f68efb16cd74a359a2..dfa5965f30ba9f9a8f921ba73e340a91
  
      @Override
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java b/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
-index 80553face9c70c2a3d897681e7761df85b22d464..627ceea9fa0fccd3e466eb34d59e760be30a69a8 100644
+index fb87620c742ff7912f5e8ccd2a7930dd605576d9..909a4b84d1cfa4a42a28af97be16572bb728aac6 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
 +++ b/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
 @@ -11,7 +11,7 @@ public final class Versioning {

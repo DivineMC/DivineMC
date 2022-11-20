@@ -7,7 +7,7 @@ Original code by CaffeineMC, licensed under GNU Lesser General Public License v3
 You can find the original code on https://github.com/CaffeineMC/lithium-fabric (Yarn mappings)
 
 diff --git a/src/main/java/net/minecraft/core/Direction.java b/src/main/java/net/minecraft/core/Direction.java
-index a3bbebcdaea9e0dfddd9825272f84fc76cd13e89..ee725b972d3d5fb22538aaff9c72e47c6bad0cea 100644
+index 6c27b22dd1d497687c0f4d3835e34149bcf952c1..2217968eb5ecac0a2063cf1eae7d754d760e9f28 100644
 --- a/src/main/java/net/minecraft/core/Direction.java
 +++ b/src/main/java/net/minecraft/core/Direction.java
 @@ -196,7 +196,7 @@ public enum Direction implements StringRepresentable {
@@ -19,7 +19,7 @@ index a3bbebcdaea9e0dfddd9825272f84fc76cd13e89..ee725b972d3d5fb22538aaff9c72e47c
      }
  
      public Direction getClockWise(Direction.Axis axis) {
-@@ -446,7 +446,7 @@ public enum Direction implements StringRepresentable {
+@@ -458,7 +458,7 @@ public enum Direction implements StringRepresentable {
      }
  
      public static Direction getRandom(RandomSource random) {
@@ -29,7 +29,7 @@ index a3bbebcdaea9e0dfddd9825272f84fc76cd13e89..ee725b972d3d5fb22538aaff9c72e47c
  
      public static Direction getNearest(double x, double y, double z) {
 diff --git a/src/main/java/net/minecraft/world/phys/AABB.java b/src/main/java/net/minecraft/world/phys/AABB.java
-index 68cc6f2a78a06293a29317fda72ab3ee79b3533a..c5ff387a78693b0d5b18653dae67eb4a03324ff7 100644
+index cfb2e46b34b2982d6724f18214557fc80cf4adfa..a9a357dbc34dc9191bdc5f0be27142a4645d626c 100644
 --- a/src/main/java/net/minecraft/world/phys/AABB.java
 +++ b/src/main/java/net/minecraft/world/phys/AABB.java
 @@ -16,6 +16,15 @@ public class AABB {
