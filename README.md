@@ -5,7 +5,7 @@
   <h4>DivineMC is ❗ under heavy development ❗ and contributions are welcome!</h4>
   <br>
   
-  ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/DivineMC/DivineMC/Build%20DivineMC?style=for-the-badge)
+  ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/DivineMC/DivineMC/build.yml?branch=ver%2F1.19.2&style=for-the-badge)
   [![Discord](https://img.shields.io/discord/931595732752953375?color=5865F2&label=discord&style=for-the-badge)](https://discord.gg/PrKTKfR579)
 </div>
 
