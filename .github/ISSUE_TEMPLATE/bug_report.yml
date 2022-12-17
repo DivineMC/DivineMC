@@ -36,7 +36,7 @@ body:
         ```
         > version
         [17:22:05] [Thread-6/INFO]: Checking version, please wait...
-        [17:22:07] [Thread-6/INFO]: This server is running DivineMC version git-DivineMC-"98074bc" (MC: 1.19.2)  (Implementing API version Unknown-Version) (Git: 98074bc on ver/1.19.2)
+        [17:22:07] [Thread-6/INFO]: This server is running DivineMC version git-DivineMC-"060a5e8" (MC: 1.19.3)  (Implementing API version Unknown-Version) (Git: 060a5e8 on ver/1.19.3)
         [17:22:07] [Thread-6/INFO]: You are running 2 versions beyond. Please update your server when possible to maintain stability, security, and receive the latest optimizations.
         ```
 
@@ -48,7 +48,7 @@ body:
       label: Agreements
       description: Please agree to the following.
       options:
-        - label: I am running the latest version of DivineMC from [here](https://github.com/DivineMC/DivineMC/releases).
+        - label: I am running the latest version of DivineMC from [here](https://github.com/DivineMC/DivineMC/releases/latest).
           required: true
         - label: I have searched for and ensured there isn't already an open issue regarding this.
           required: true
