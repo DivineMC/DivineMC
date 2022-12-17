@@ -7,10 +7,10 @@ Original code by YatopiaMC, licensed under MIT
 You can find the original code on https://github.com/YatopiaMC/Yatopia
 
 diff --git a/src/main/java/org/bukkit/Bukkit.java b/src/main/java/org/bukkit/Bukkit.java
-index 232c08c9a588d957d90f198ce479e57615c6e650..bfa71be59dd84459bd420ace2d6694e1d80aee81 100644
+index ac9b690fcccb60b587e5345f12f1383afd0a73a1..4078ec0faa173d23b631cd221eec7f14aab1fc74 100644
 --- a/src/main/java/org/bukkit/Bukkit.java
 +++ b/src/main/java/org/bukkit/Bukkit.java
-@@ -2430,6 +2430,16 @@ public final class Bukkit {
+@@ -2432,6 +2432,16 @@ public final class Bukkit {
          return server.isStopping();
      }
  
@@ -28,10 +28,10 @@ index 232c08c9a588d957d90f198ce479e57615c6e650..bfa71be59dd84459bd420ace2d6694e1
       * Returns the {@link com.destroystokyo.paper.entity.ai.MobGoals} manager
       *
 diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Server.java
-index e43fef0152468944d8a33036344a43e95fe58476..6f4250d7750c7d834db87be14d82caaa4d94b51c 100644
+index 2204336d8800311b65e894739ab1b27273e7c6f2..3b454a75809eec9d8294ec6fa15c7e918497489c 100644
 --- a/src/main/java/org/bukkit/Server.java
 +++ b/src/main/java/org/bukkit/Server.java
-@@ -2116,6 +2116,26 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
+@@ -2118,6 +2118,26 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
       */
      boolean isStopping();
  

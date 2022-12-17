@@ -4,3 +4,4 @@ DivineMC-Server
 build/
 .gradle/
 run/
+.idea/

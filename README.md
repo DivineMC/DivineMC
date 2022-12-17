@@ -5,7 +5,7 @@
   <h4>DivineMC is ❗ under heavy development ❗ and contributions are welcome!</h4>
   <br>
   
-  ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/DivineMC/DivineMC/Build%20DivineMC?style=for-the-badge)
+  ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/DivineMC/DivineMC/build.yml?branch=ver%2F1.19.2&style=for-the-badge)
   [![Discord](https://img.shields.io/discord/931595732752953375?color=5865F2&label=discord&style=for-the-badge)](https://discord.gg/PrKTKfR579)
 </div>
 
@@ -20,7 +20,7 @@
 ## We use patches from the following projects
 
 * **[Paper](https://github.com/PaperMC/Paper)**
-* **[Purpur](https://github.com/pl3xgaming/Purpur)**
+* **[Purpur](https://github.com/PurpurMC/Purpur)**
 * **[Mirai](https://github.com/etil2jz/Mirai)**
 * **NOTE: We also borrow some patches from [Yatopia](https://github.com/YatopiaMC/Yatopia).**
 

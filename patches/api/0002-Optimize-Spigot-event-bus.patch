@@ -7,7 +7,7 @@ Original code by lynxplay, licensed under GNU General Public License v3.0
 You can find the original code on https://github.com/lynxplay/ktp
 
 diff --git a/src/main/java/org/bukkit/plugin/RegisteredListener.java b/src/main/java/org/bukkit/plugin/RegisteredListener.java
-index 419aec56b0e3fa8bcec2ea7f340caa3456b57d00..8530d926931a54ed1300c40cd1e0908b2d9b594d 100644
+index 3b3d9642a8d63798dc28f2f8df77f0466451cbff..8d3605f25e97a375971705c737bc7bacbac045cd 100644
 --- a/src/main/java/org/bukkit/plugin/RegisteredListener.java
 +++ b/src/main/java/org/bukkit/plugin/RegisteredListener.java
 @@ -62,8 +62,10 @@ public class RegisteredListener {
@@ -24,10 +24,10 @@ index 419aec56b0e3fa8bcec2ea7f340caa3456b57d00..8530d926931a54ed1300c40cd1e0908b
              }
          }
 diff --git a/src/main/java/org/bukkit/plugin/SimplePluginManager.java b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
-index 49a4611ed4891cce10fd6e01b4062740ad18ee6f..d70c0e3172828b43bc7dea2c84d92282403a7fa8 100644
+index c077e7c883613fcb6e559b4e4776e794caa3b363..ba869354adc59db2fc547c481c1ed4d5d0af23b7 100644
 --- a/src/main/java/org/bukkit/plugin/SimplePluginManager.java
 +++ b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
-@@ -654,11 +654,15 @@ public final class SimplePluginManager implements PluginManager {
+@@ -656,11 +656,15 @@ public final class SimplePluginManager implements PluginManager {
      @Override
      public void callEvent(@NotNull Event event) {
          // Paper - replace callEvent by merging to below method

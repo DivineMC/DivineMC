@@ -5,10 +5,10 @@ Subject: [PATCH] Divine Branding
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index f0d22a733e3b97fb959cd566fb6c93c6d5681e16..91aa2bbb1a5d860e61ebd77fb7af6edf804c4a45 100644
+index 04a1e3c9619b41f429bd598d55c9e0b5abaff920..349f2fc139ff8d9f731146b1c36417950437a482 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
-@@ -9,7 +9,7 @@ plugins {
+@@ -7,7 +7,7 @@ plugins {
  }
  
  dependencies {
@@ -17,7 +17,7 @@ index f0d22a733e3b97fb959cd566fb6c93c6d5681e16..91aa2bbb1a5d860e61ebd77fb7af6edf
      // Pufferfish start
      implementation("io.papermc.paper:paper-mojangapi:1.19.2-R0.1-SNAPSHOT") {
          exclude("io.papermc.paper", "paper-api")
-@@ -84,7 +84,7 @@ tasks.jar {
+@@ -81,7 +81,7 @@ tasks.jar {
          attributes(
              "Main-Class" to "org.bukkit.craftbukkit.Main",
              "Implementation-Title" to "CraftBukkit",
@@ -54,7 +54,7 @@ index c5d5648f4ca603ef2b1df723b58f9caf4dd3c722..05478a1ea04ec0396bc8c97090edef4a
                  .option(LineReader.Option.COMPLETE_IN_WORD, true);
 diff --git a/src/main/java/gq/bxteam/divinemc/DivineVersionFetcher.java b/src/main/java/gq/bxteam/divinemc/DivineVersionFetcher.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..c9a08bfa92cf74194cd17127f22f2d5b428da8ed
+index 0000000000000000000000000000000000000000..23b8d7f0a52f97fe7a0c297efe14403768f293cc
 --- /dev/null
 +++ b/src/main/java/gq/bxteam/divinemc/DivineVersionFetcher.java
 @@ -0,0 +1,137 @@
@@ -91,7 +91,7 @@ index 0000000000000000000000000000000000000000..c9a08bfa92cf74194cd17127f22f2d5b
 +    private static final HttpClient client = HttpClient.newHttpClient();
 +
 +    private static final URI JENKINS_URI = URI.create("https://api.bxteam.gq/v3/divine-latestBuild");
-+    private static final String GITHUB_FORMAT = "https://api.github.com/repos/DivineMC/DivineMC/compare/ver/1.19.2...%s";
++    private static final String GITHUB_FORMAT = "https://api.github.com/repos/DivineMC/DivineMC/compare/ver/1.19.3...%s";
 +
 +    private static final HttpResponse.BodyHandler<JsonObject> JSON_OBJECT_BODY_HANDLER = responseInfo -> HttpResponse.BodySubscribers.mapping(
 +            HttpResponse.BodySubscribers.ofString(StandardCharsets.UTF_8),
@@ -196,7 +196,7 @@ index 0000000000000000000000000000000000000000..c9a08bfa92cf74194cd17127f22f2d5b
 +    }
 +}
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index af9da39dffda01325af2ab3dd8b5e1efb18e013a..6b4dbf0e1b5ddcf2bd33a917e4ee3654be511147 100644
+index 68d16efaf9c2d997afabadcf1ee24c5de685b5b3..0fd92d123fd5e068a5304204e86fbdcbcbb150f6 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -1656,7 +1656,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -209,10 +209,10 @@ index af9da39dffda01325af2ab3dd8b5e1efb18e013a..6b4dbf0e1b5ddcf2bd33a917e4ee3654
  
      public SystemReport fillSystemReport(SystemReport details) {
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index b8efe50c860a7537f345f46f3b3d68906ad54006..662d9f8474ad2bc2d741875fb6e78804fda6f17c 100644
+index 098b67e6ad74be7698713623ca7fae70f19ac6b3..5f45d080854879db61ef12048e04ad605944605a 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -248,7 +248,7 @@ import javax.annotation.Nullable; // Paper
+@@ -261,7 +261,7 @@ import javax.annotation.Nullable; // Paper
  import javax.annotation.Nonnull; // Paper
  
  public final class CraftServer implements Server {
@@ -222,7 +222,7 @@ index b8efe50c860a7537f345f46f3b3d68906ad54006..662d9f8474ad2bc2d741875fb6e78804
      private final String bukkitVersion = Versioning.getBukkitVersion();
      private final Logger logger = Logger.getLogger("Minecraft");
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index f30621be24c6c3a4f173436fce1ad1c13507c84f..490ef861ecb5c1001d7ab8de09d8be2961b6579f 100644
+index 119d9bb5e41038704654e248bf168d22af246b7f..89e3ec17405f65e7b43f4c6dca79aa9bf1532f2b 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -278,7 +278,7 @@ public class Main {
@@ -230,25 +230,25 @@ index f30621be24c6c3a4f173436fce1ad1c13507c84f..490ef861ecb5c1001d7ab8de09d8be29
                          // Paper start - This is some stupid bullshit
                          System.err.println("*** Warning, you've not updated in a while! ***");
 -                        System.err.println("*** Please download a new build as per instructions from https://papermc.io/downloads ***"); // Paper
-+                        System.err.println("*** Please download a new build as per instructions from https://ci.bxteam.gq ***"); // Paper // DivineMC
++                        System.err.println("*** Please download a new build as per instructions from https://github.com/DivineMC/DivineMC/releases/latest ***"); // DivineMC
                          //System.err.println("*** Server will start in 20 seconds ***");
                          //Thread.sleep(TimeUnit.SECONDS.toMillis(20));
                          // Paper End
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
-index 05cc8f9cdcd7e920bf9503f68efb16cd74a359a2..dfa5965f30ba9f9a8f921ba73e340a9166a6ed8b 100644
+index a3c6b3dd87022e2def1f12da7c44c8d529191d1e..be85f38da7e4b022455bd17697e48ed34cd30f1a 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
 +++ b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
-@@ -430,7 +430,7 @@ public final class CraftMagicNumbers implements UnsafeValues {
+@@ -433,7 +433,7 @@ public final class CraftMagicNumbers implements UnsafeValues {
  
      @Override
      public com.destroystokyo.paper.util.VersionFetcher getVersionFetcher() {
 -        return new gg.pufferfish.pufferfish.PufferfishVersionFetcher(); // Pufferfish
-+        return new gq.bxteam.divinemc.DivineVersionFetcher(); // Pufferfish // DivineMC
++        return new gq.bxteam.divinemc.DivineVersionFetcher(); // DivineMC
      }
  
      @Override
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java b/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
-index 80553face9c70c2a3d897681e7761df85b22d464..627ceea9fa0fccd3e466eb34d59e760be30a69a8 100644
+index 80553face9c70c2a3d897681e7761df85b22d464..60ac52c6e12ee346133930394e9de8bf74e77ee6 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
 +++ b/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
 @@ -11,7 +11,7 @@ public final class Versioning {
@@ -256,7 +256,7 @@ index 80553face9c70c2a3d897681e7761df85b22d464..627ceea9fa0fccd3e466eb34d59e760b
          String result = "Unknown-Version";
  
 -        InputStream stream = Bukkit.class.getClassLoader().getResourceAsStream("META-INF/maven/gg.pufferfish.pufferfish/pufferfish-api/pom.properties"); // Pufferfish
-+        InputStream stream = Bukkit.class.getClassLoader().getResourceAsStream("META-INF/maven/gq.bxteam.divinemc/divinemc-api/pom.properties"); // Pufferfish // DivineMC
++        InputStream stream = Bukkit.class.getClassLoader().getResourceAsStream("META-INF/maven/gq.bxteam.divinemc/divinemc-api/pom.properties"); // DivineMC
          Properties properties = new Properties();
  
          if (stream != null) {
