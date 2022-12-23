@@ -227,17 +227,13 @@ index 119d9bb5e41038704654e248bf168d22af246b7f..89e3ec17405f65e7b43f4c6dca79aa9b
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -278,7 +278,7 @@ public class Main {
                      if (buildDate.before(deadline.getTime())) {
--                        // Paper start - This is some stupid bullshit
-+                        // DivineMC start - modify Paper bullshit
+                         // Paper start - This is some stupid bullshit
                          System.err.println("*** Warning, you've not updated in a while! ***");
 -                        System.err.println("*** Please download a new build as per instructions from https://papermc.io/downloads ***"); // Paper
 +                        System.err.println("*** Please download a new build from https://github.com/DivineMC/DivineMC/releases/latest ***"); // DivineMC
--                        //System.err.println("*** Server will start in 20 seconds ***");
-+                        System.err.println("*** Server will start in 5 seconds ***");
--                        //Thread.sleep(TimeUnit.SECONDS.toMillis(20));
-+                        Thread.sleep(TimeUnit.SECONDS.toMillis(5));
--                        // Paper End
-+                        // DivineMC End
+                         //System.err.println("*** Server will start in 20 seconds ***");
+                         //Thread.sleep(TimeUnit.SECONDS.toMillis(20));
+                         // Paper End
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
 index a3c6b3dd87022e2def1f12da7c44c8d529191d1e..be85f38da7e4b022455bd17697e48ed34cd30f1a 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
