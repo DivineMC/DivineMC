@@ -8,4 +8,4 @@ pluginManagement {
 
 rootProject.name = "DivineMC"
 
-include("DivineMC-API", "DivineMC-Server")
+include("divinemc-api", "divinemc-server")

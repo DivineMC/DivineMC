@@ -39,7 +39,7 @@ subprojects {
 }
 
 paperweight {
-    serverProject.set(project(":DivineMC-Server"))
+    serverProject.set(project(":divinemc-server"))
 
     remapRepo.set("https://maven.fabricmc.net/")
     decompileRepo.set("https://files.minecraftforge.net/maven/")
@@ -55,8 +55,8 @@ paperweight {
             apiPatchDir.set(layout.projectDirectory.dir("patches/api"))
             serverPatchDir.set(layout.projectDirectory.dir("patches/server"))
 
-            apiOutputDir.set(layout.projectDirectory.dir("DivineMC-API"))
-            serverOutputDir.set(layout.projectDirectory.dir("DivineMC-Server"))
+            apiOutputDir.set(layout.projectDirectory.dir("divinemc-api"))
+            serverOutputDir.set(layout.projectDirectory.dir("divinemc-server"))
         }
     }
 }

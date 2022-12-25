@@ -13,7 +13,7 @@ index 04a1e3c9619b41f429bd598d55c9e0b5abaff920..349f2fc139ff8d9f731146b1c3641795
  
  dependencies {
 -    implementation(project(":pufferfish-api")) // Pufferfish // Paper
-+    implementation(project(":DivineMC-API")) // DivineMC // Pufferfish // Paper
++    implementation(project(":divinemc-api")) // DivineMC // Pufferfish // Paper
      // Pufferfish start
      implementation("io.papermc.paper:paper-mojangapi:1.19.2-R0.1-SNAPSHOT") {
          exclude("io.papermc.paper", "paper-api")
