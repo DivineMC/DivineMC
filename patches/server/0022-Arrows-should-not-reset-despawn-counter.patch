@@ -10,10 +10,10 @@ Original code by PurpurMC, licensed under MIT
 You can find the original code on https://github.com/PurpurMC/Purpur
 
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/AbstractArrow.java b/src/main/java/net/minecraft/world/entity/projectile/AbstractArrow.java
-index e7ef36dac559d03d127cf45373a7e0dc935b80a8..df308678b1211537e1993106af4cab701b470f22 100644
+index 9788e477ff1446ad2ea3669922cc7dfc09900ce8..056ba60a855a2628e0b72ceaa3257da756ee61d9 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/AbstractArrow.java
 +++ b/src/main/java/net/minecraft/world/entity/projectile/AbstractArrow.java
-@@ -323,7 +323,7 @@ public abstract class AbstractArrow extends Projectile {
+@@ -312,7 +312,7 @@ public abstract class AbstractArrow extends Projectile {
          Vec3 vec3d = this.getDeltaMovement();
  
          this.setDeltaMovement(vec3d.multiply((double) (this.random.nextFloat() * 0.2F), (double) (this.random.nextFloat() * 0.2F), (double) (this.random.nextFloat() * 0.2F)));
