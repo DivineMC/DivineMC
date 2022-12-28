@@ -14,6 +14,7 @@
 - **DivineMC is a fork of [Pufferfish](https://github.com/pufferfish-gg/Pufferfish)** which a the best performance Minecraft core.
 - **Contains [Lithium](https://github.com/CaffeineMC/lithium-fabric) patches** which is optimize many areas in game.
 - **Bug fixes** for several Minecraft issues.
+- **Contains** PaperMC pull requests patches.
 - **Faster process** for Vanilla methods.
 - **Plugin compatibility** with Spigot & Paper plugins.
 
