@@ -1,7 +1,8 @@
 divinemc-api
 divinemc-server
 
-build/
-.gradle/
-run/
-.idea/
+scripts
+build
+.gradle
+run
+.idea
