@@ -8,10 +8,10 @@ the displayed hunger bar never goes down. Hunger (or any related value, includin
 should not go down on peaceful. See https://bugs.mojang.com/browse/MC-31819.
 
 diff --git a/src/main/java/net/minecraft/world/entity/player/Player.java b/src/main/java/net/minecraft/world/entity/player/Player.java
-index 0dcae10fd05a8fe963fdedda8199aa09dc717c9a..83c9626d8066e8d17dac5cb1cf6f2673f30d896a 100644
+index 61597ebe2f9faff43994c475074b87d11905e582..6f6fdab36ed5a912ad655a466dd16644eb7139fc 100644
 --- a/src/main/java/net/minecraft/world/entity/player/Player.java
 +++ b/src/main/java/net/minecraft/world/entity/player/Player.java
-@@ -1900,6 +1900,7 @@ public abstract class Player extends LivingEntity {
+@@ -1901,6 +1901,7 @@ public abstract class Player extends LivingEntity {
      }
  
      public void causeFoodExhaustion(float f, EntityExhaustionEvent.ExhaustionReason reason) {
