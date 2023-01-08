@@ -7,7 +7,7 @@ Original code by YatopiaMC, licensed under MIT
 You can find the original code on https://github.com/YatopiaMC/Yatopia
 
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index c0b599b1835d28ddda3690b29f29bd8c6f03e215..0c491a991d329569f1372ea431640513172fdfeb 100644
+index 8961310c0789c4dd95a729ecc0b8dbf8d701ffc4..d82912b4ff8325b4c3460171b0204597fdbfbb21 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -689,13 +689,19 @@ public abstract class PlayerList {
