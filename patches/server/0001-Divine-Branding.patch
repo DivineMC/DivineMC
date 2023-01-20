@@ -90,7 +90,7 @@ index 0000000000000000000000000000000000000000..23b8d7f0a52f97fe7a0c297efe144037
 +    private static final Logger LOGGER = Logger.getLogger("DivineVersionFetcher");
 +    private static final HttpClient client = HttpClient.newHttpClient();
 +
-+    private static final URI JENKINS_URI = URI.create("https://raw.githubusercontent.com/DivineMC/Website/main/latestBuild");
++    private static final URI JENKINS_URI = URI.create("https://raw.githubusercontent.com/DivineMC/Website/dev/latestBuild");
 +    private static final String GITHUB_FORMAT = "https://api.github.com/repos/DivineMC/DivineMC/compare/ver/1.19.3...%s";
 +
 +    private static final HttpResponse.BodyHandler<JsonObject> JSON_OBJECT_BODY_HANDLER = responseInfo -> HttpResponse.BodySubscribers.mapping(
