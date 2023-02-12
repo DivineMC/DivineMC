@@ -1,4 +1,4 @@
-<img src="https://cdn.bxteam.gq/divinemc-logo.png" height="240" alt="DivineMC Face" align="right">
+<img src="https://api.bxteam.gq/v3/resources/divinemc-logo.png" height="240" alt="DivineMC Face" align="right">
 <div align="center">
   <h1>DivineMC</h1>
   <h3>Fork of Paper compatible with Spigot plugins, offering best performance for your server.</h3>
