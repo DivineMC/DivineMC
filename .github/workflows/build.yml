@@ -23,7 +23,7 @@ jobs:
           java-version: 17
           cache: 'gradle'
 
-      - name: Configure Git
+      - name: Configure Git and Gradle
         run: |
           git config --global user.email "no-reply@github.com" && git config --global user.name "Github Actions"
           echo "workflow=$GITHUB_RUN_NUMBER" >> $GITHUB_ENV
