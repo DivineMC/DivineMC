@@ -5,7 +5,7 @@ Subject: [PATCH] Divine Branding
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 04a1e3c9619b41f429bd598d55c9e0b5abaff920..349f2fc139ff8d9f731146b1c36417950437a482 100644
+index d177ad2221c330488c3c9da59b454794f3f2a9c0..d913d58c428e8df1ce4921dbeb8a2384f9fa0d2d 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -7,7 +7,7 @@ plugins {
@@ -17,7 +17,7 @@ index 04a1e3c9619b41f429bd598d55c9e0b5abaff920..349f2fc139ff8d9f731146b1c3641795
      // Pufferfish start
      implementation("io.papermc.paper:paper-mojangapi:1.19.2-R0.1-SNAPSHOT") {
          exclude("io.papermc.paper", "paper-api")
-@@ -81,7 +81,7 @@ tasks.jar {
+@@ -82,7 +82,7 @@ tasks.jar {
          attributes(
              "Main-Class" to "org.bukkit.craftbukkit.Main",
              "Implementation-Title" to "CraftBukkit",
@@ -27,7 +27,7 @@ index 04a1e3c9619b41f429bd598d55c9e0b5abaff920..349f2fc139ff8d9f731146b1c3641795
              "Specification-Title" to "Bukkit",
              "Specification-Version" to project.version,
 diff --git a/src/main/java/com/destroystokyo/paper/Metrics.java b/src/main/java/com/destroystokyo/paper/Metrics.java
-index 061716934ba0a1f01e4d85d664034f72b3c7a765..728c176fd19d3b322f9092153b3c1d189aec3fe8 100644
+index 692c962193cf9fcc6801fc93f3220bdc673d527b..2bf46834536d3702fa2ae49ce276a163a5cd1456 100644
 --- a/src/main/java/com/destroystokyo/paper/Metrics.java
 +++ b/src/main/java/com/destroystokyo/paper/Metrics.java
 @@ -593,7 +593,7 @@ public class Metrics {
@@ -54,7 +54,7 @@ index c5d5648f4ca603ef2b1df723b58f9caf4dd3c722..05478a1ea04ec0396bc8c97090edef4a
                  .option(LineReader.Option.COMPLETE_IN_WORD, true);
 diff --git a/src/main/java/gq/bxteam/divinemc/DivineVersionFetcher.java b/src/main/java/gq/bxteam/divinemc/DivineVersionFetcher.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..23b8d7f0a52f97fe7a0c297efe14403768f293cc
+index 0000000000000000000000000000000000000000..0dc13e363448d7a0f20993e0576af625b5ca334a
 --- /dev/null
 +++ b/src/main/java/gq/bxteam/divinemc/DivineVersionFetcher.java
 @@ -0,0 +1,137 @@
@@ -209,7 +209,7 @@ index 68d16efaf9c2d997afabadcf1ee24c5de685b5b3..0fd92d123fd5e068a5304204e86fbdcb
  
      public SystemReport fillSystemReport(SystemReport details) {
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 098b67e6ad74be7698713623ca7fae70f19ac6b3..5f45d080854879db61ef12048e04ad605944605a 100644
+index 5077c545e74711d5268d3cfa31926af1e995ea05..54b85b17df42ab06b1c8d6507b3a4a259eccda34 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -261,7 +261,7 @@ import javax.annotation.Nullable; // Paper
@@ -222,7 +222,7 @@ index 098b67e6ad74be7698713623ca7fae70f19ac6b3..5f45d080854879db61ef12048e04ad60
      private final String bukkitVersion = Versioning.getBukkitVersion();
      private final Logger logger = Logger.getLogger("Minecraft");
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 119d9bb5e41038704654e248bf168d22af246b7f..89e3ec17405f65e7b43f4c6dca79aa9bf1532f2b 100644
+index 190e17eb28d166aedee06e9578561ba402d1b6d2..8f3577c35a1610772d2050534e5c201dcf002f23 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -278,7 +278,7 @@ public class Main {
@@ -235,10 +235,10 @@ index 119d9bb5e41038704654e248bf168d22af246b7f..89e3ec17405f65e7b43f4c6dca79aa9b
                          //Thread.sleep(TimeUnit.SECONDS.toMillis(20));
                          // Paper End
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
-index a3c6b3dd87022e2def1f12da7c44c8d529191d1e..be85f38da7e4b022455bd17697e48ed34cd30f1a 100644
+index b9e4305f515faa14c2afc0ccaf23d205e9c9f858..b71f9ac31941204f4f5e1aed9fec44f7a719e5a0 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
 +++ b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
-@@ -433,7 +433,7 @@ public final class CraftMagicNumbers implements UnsafeValues {
+@@ -462,7 +462,7 @@ public final class CraftMagicNumbers implements UnsafeValues {
  
      @Override
      public com.destroystokyo.paper.util.VersionFetcher getVersionFetcher() {
