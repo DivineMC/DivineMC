@@ -45,7 +45,7 @@ paperweight {
     decompileRepo.set("https://files.minecraftforge.net/maven/")
 
     useStandardUpstream("pufferfish") {
-        url.set(github("DivineMC", "Divine-Pufferfish"))
+        url.set(github("pufferfish-gg", "Pufferfish"))
         ref.set(providers.gradleProperty("pufferfishRef"))
 
         withStandardPatcher {

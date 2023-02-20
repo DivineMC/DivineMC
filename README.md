@@ -16,7 +16,7 @@
 
 ## Features
 
-- **DivineMC using a custom fork of [Pufferfish](https://github.com/DivineMC/Divine-Pufferfish)** which a the best performance Minecraft core.
+- **DivineMC is a fork of [Pufferfish](https://github.com/pufferfish-gg/Pufferfish)** which a the best performance Minecraft core.
 - **Contains [Lithium](https://github.com/CaffeineMC/lithium-fabric) patches** which is optimize many areas in game.
 - **Bug fixes** for several Minecraft issues.
 - **Contains** PaperMC pull requests patches.
