@@ -7,7 +7,7 @@ Original code by YatopiaMC, licensed under MIT
 You can find the original code on https://github.com/YatopiaMC/Yatopia
 
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 0fd92d123fd5e068a5304204e86fbdcbcbb150f6..60ce593f25bdd90d53407c1281f580ef5429c9ee 100644
+index 0b414bcb1799d895d8d1b7dce42d7d5bee265ec8..3a378940093d2990b95a2097973fafe38589d4e9 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -1096,6 +1096,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -29,10 +29,10 @@ index 0fd92d123fd5e068a5304204e86fbdcbcbb150f6..60ce593f25bdd90d53407c1281f580ef
                  this.mayHaveDelayedTasks = true;
                  this.delayedTasksMaxNextTickTime = Math.max(Util.getMillis() + 50L, this.nextTickTime);
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 54b85b17df42ab06b1c8d6507b3a4a259eccda34..ee2c7a73af0a64916f05ff9461c3e6fc30108f16 100644
+index cfb665cf895cd96d1b6f78267abfd2c1ac113312..ffde3c96f0593ca9719a3e1fb24ee5839b57f6db 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -2943,6 +2943,12 @@ public final class CraftServer implements Server {
+@@ -2924,6 +2924,12 @@ public final class CraftServer implements Server {
      public CraftPotionBrewer getPotionBrewer() {
          return this.potionBrewer;
      }
