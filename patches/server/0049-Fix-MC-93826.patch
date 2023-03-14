@@ -1,0 +1,22 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Tue, 14 Mar 2023 22:59:14 +0300
+Subject: [PATCH] Fix MC-93826
+
+
+diff --git a/src/main/java/net/minecraft/world/entity/animal/Animal.java b/src/main/java/net/minecraft/world/entity/animal/Animal.java
+--- a/src/main/java/net/minecraft/world/entity/animal/Animal.java	(revision 9aebf26656fd4bb0353b2943490fad61763600c4)
++++ b/src/main/java/net/minecraft/world/entity/animal/Animal.java	(date 1678823887900)
+@@ -69,7 +69,11 @@
+                 double d1 = this.random.nextGaussian() * 0.02D;
+                 double d2 = this.random.nextGaussian() * 0.02D;
+ 
+-                this.level.addParticle(ParticleTypes.HEART, this.getRandomX(1.0D), this.getRandomY() + 0.5D, this.getRandomZ(1.0D), d0, d1, d2);
++                // DivineMC start - Fix MC-93826
++                if (this.level instanceof ServerLevel serverLevel) {
++                    serverLevel.sendParticles(ParticleTypes.HEART, this.getRandomX(1.0D), this.getRandomY() + 0.5D, this.getRandomZ(1.0D), 1, d0, d1, d2, 0);
++                }
++                // DivineMC end
+             }
+         }
+ 
