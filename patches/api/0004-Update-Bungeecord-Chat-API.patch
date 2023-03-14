@@ -1,0 +1,17 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Tue, 14 Mar 2023 21:03:19 +0300
+Subject: [PATCH] Update Bungeecord chat api
+
+diff --git a/build.gradle.kts b/build.gradle.kts
+--- a/build.gradle.kts	(revision d4a930ba2525c0ab90b5a4943973a98cebfb7181)
++++ b/build.gradle.kts	(date 1678817156402)
+@@ -25,7 +25,7 @@
+     // api dependencies are listed transitively to API consumers
+     api("com.google.guava:guava:31.1-jre")
+     api("com.google.code.gson:gson:2.10")
+-    api("net.md-5:bungeecord-chat:1.16-R0.4-deprecated+build.6") // Paper
++    api("net.md-5:bungeecord-chat:1.19-R0.1-SNAPSHOT") // Paper // DivineMC
+     api("org.yaml:snakeyaml:1.33")
+     // Paper start
+     api("com.googlecode.json-simple:json-simple:1.1.1") {

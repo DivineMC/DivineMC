@@ -38,6 +38,13 @@ jobs:
       - name: Create Mojmap Jar
         run: ./gradlew createMojmapPaperclipJar --stacktrace
       
+      - name: Publish Packages
+        if: github.ref_name == env.branch
+        run: |
+          export GITHUB_USERNAME=${{ env.GH_USERNAME }}
+          export GITHUB_TOKEN=${{ secrets.GH_TOKEN }}
+          ./gradlew publish --stacktrace
+
       - name: Upload Artifacts
         if: env.debug == 'true' || github.ref_name != env.branch
         uses: actions/upload-artifact@main

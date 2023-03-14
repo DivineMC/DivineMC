@@ -5,7 +5,7 @@ Subject: [PATCH] Divine Branding
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 77d057333f2e7755a230eec1cfddac11e98f8c2f..c6085109028e8e458e800055fdc0a8fbfa7ed221 100644
+index 530159ef6307e092279824488652bbc94d3ad387..df5c8abe5fe5428f99fab668583c0af986adbd27 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -7,7 +7,7 @@ plugins {
@@ -222,7 +222,7 @@ index 7ddf52de4b095f63c75b696008fcdde6345fc3c8..cfb665cf895cd96d1b6f78267abfd2c1
      private final String bukkitVersion = Versioning.getBukkitVersion();
      private final Logger logger = Logger.getLogger("Minecraft");
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 190e17eb28d166aedee06e9578561ba402d1b6d2..8f3577c35a1610772d2050534e5c201dcf002f23 100644
+index f30621be24c6c3a4f173436fce1ad1c13507c84f..07c2991774323e051844aa83a80b9fdaa0cbeb63 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -278,7 +278,7 @@ public class Main {
@@ -235,10 +235,10 @@ index 190e17eb28d166aedee06e9578561ba402d1b6d2..8f3577c35a1610772d2050534e5c201d
                          //Thread.sleep(TimeUnit.SECONDS.toMillis(20));
                          // Paper End
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
-index 6aa2121e286dd6d43201a38722ea0cdd205baaa7..98794b2413111b7e6cb7900c1f91b494b60ddaed 100644
+index 0ccde7fe2a852f7da72f0b3f5a53cb48d28d1840..29c26e1ffa1d5212df6cdc954a286aba41fb50c3 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
 +++ b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
-@@ -468,7 +468,7 @@ public final class CraftMagicNumbers implements UnsafeValues {
+@@ -464,7 +464,7 @@ public final class CraftMagicNumbers implements UnsafeValues {
  
      @Override
      public com.destroystokyo.paper.util.VersionFetcher getVersionFetcher() {
