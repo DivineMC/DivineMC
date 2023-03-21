@@ -1,0 +1,21 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: SoSeDiK <mrsosedik@gmail.com>
+Date: Fri, 2 Dec 2022 23:05:04 +0200
+Subject: [PATCH] Increase manual minecart speed
+
+
+diff --git a/src/main/java/net/minecraft/world/entity/vehicle/AbstractMinecart.java b/src/main/java/net/minecraft/world/entity/vehicle/AbstractMinecart.java
+index 012d4ad1651d7a9118b24e0589d8bdf28ed0b708..522a04150da9473812f1ae3406664c2ea392d2ba 100644
+--- a/src/main/java/net/minecraft/world/entity/vehicle/AbstractMinecart.java
++++ b/src/main/java/net/minecraft/world/entity/vehicle/AbstractMinecart.java
+@@ -685,8 +685,8 @@ public abstract class AbstractMinecart extends Entity {
+             double d9 = vec3d2.horizontalDistanceSqr();
+             double d10 = this.getDeltaMovement().horizontalDistanceSqr();
+ 
+-            if (d9 > 1.0E-4D && d10 < 0.01D) {
+-                this.setDeltaMovement(this.getDeltaMovement().add(vec3d2.x * 0.1D, 0.0D, vec3d2.z * 0.1D));
++            if (d9 > 1.0E-4D && d10 < 0.04D) { // Kiterino - increase max manual speed
++                this.setDeltaMovement(this.getDeltaMovement().add(vec3d2.x * 0.12D, 0.0D, vec3d2.z * 0.12D)); // Kiterino - slightly increase speed buildup
+                 flag1 = false;
+             }
+         }

@@ -5,7 +5,7 @@ Subject: [PATCH] Divine Branding
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 530159ef6307e092279824488652bbc94d3ad387..df5c8abe5fe5428f99fab668583c0af986adbd27 100644
+index 3c8293f002f11b430083502362fdc801f44aa138..506456fd003dda0d544c9800301b1210a5d18457 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -7,7 +7,7 @@ plugins {
@@ -196,10 +196,10 @@ index 0000000000000000000000000000000000000000..0dc13e363448d7a0f20993e0576af625
 +    }
 +}
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 33a5e900c2cab99c311fa5f5b71a609cf8f802cb..0b414bcb1799d895d8d1b7dce42d7d5bee265ec8 100644
+index 6d5e9400892b86562519a893349ca55e566bfb24..9945d6efac1e1ea0d22d6fdfe8aa5d2805c615b2 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -1656,7 +1656,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1683,7 +1683,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
  
      @DontObfuscate
      public String getServerModName() {
@@ -209,10 +209,10 @@ index 33a5e900c2cab99c311fa5f5b71a609cf8f802cb..0b414bcb1799d895d8d1b7dce42d7d5b
  
      public SystemReport fillSystemReport(SystemReport details) {
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 7ddf52de4b095f63c75b696008fcdde6345fc3c8..cfb665cf895cd96d1b6f78267abfd2c1ac113312 100644
+index b2d94582037c091bd6a04451bf62b3f9c4923d19..efc137a8a9f1da4a7ffff6028af368cc7f90d20a 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -261,7 +261,7 @@ import javax.annotation.Nullable; // Paper
+@@ -256,7 +256,7 @@ import javax.annotation.Nullable; // Paper
  import javax.annotation.Nonnull; // Paper
  
  public final class CraftServer implements Server {
@@ -222,10 +222,10 @@ index 7ddf52de4b095f63c75b696008fcdde6345fc3c8..cfb665cf895cd96d1b6f78267abfd2c1
      private final String bukkitVersion = Versioning.getBukkitVersion();
      private final Logger logger = Logger.getLogger("Minecraft");
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index f30621be24c6c3a4f173436fce1ad1c13507c84f..07c2991774323e051844aa83a80b9fdaa0cbeb63 100644
+index 4966a1e3dd35357a8ea6a7d2944c84c9c3e9058e..5b4d42fd74a32e4e97690f0cd9a33c66dc1ae141 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
-@@ -278,7 +278,7 @@ public class Main {
+@@ -285,7 +285,7 @@ public class Main {
                      if (buildDate.before(deadline.getTime())) {
                          // Paper start - This is some stupid bullshit
                          System.err.println("*** Warning, you've not updated in a while! ***");
@@ -235,7 +235,7 @@ index f30621be24c6c3a4f173436fce1ad1c13507c84f..07c2991774323e051844aa83a80b9fda
                          //Thread.sleep(TimeUnit.SECONDS.toMillis(20));
                          // Paper End
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
-index 0ccde7fe2a852f7da72f0b3f5a53cb48d28d1840..29c26e1ffa1d5212df6cdc954a286aba41fb50c3 100644
+index d4f62940504e3ef7a70e13b1f4a7726f23b4c637..bd21dd728b6d47d354aeb879b083394e186d6a5c 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
 +++ b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
 @@ -464,7 +464,7 @@ public final class CraftMagicNumbers implements UnsafeValues {

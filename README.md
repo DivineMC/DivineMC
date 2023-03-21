@@ -21,12 +21,14 @@
 - **Bug fixes** for several Minecraft issues.
 - **Contains** PaperMC pull requests patches.
 - **Faster process** for Vanilla methods.
+- **Dynamic mine-carts speed**
 - **Plugin compatibility** with Spigot & Paper plugins.
 
 ## We use patches from the following projects
 
 * **[Paper](https://github.com/PaperMC/Paper)**
 * **[Purpur](https://github.com/PurpurMC/Purpur)**
+* **[Kiterino](https://github.com/SoSeDiKs-Universe/Kiterino)**
 * **[Mirai](https://github.com/etil2jz/Mirai)**
 * **NOTE: We also borrow some patches from [Yatopia](https://github.com/YatopiaMC/Yatopia).**
 
@@ -47,4 +49,4 @@ In order to distribute and use this server software, you need a paperclip file:
 Patches are licensed under GPL-3.0.  
 All other files are licensed under MIT.
 
-###### And we dont stealed logo from YatopiaMC!!!
+###### And we don't steal logo from YatopiaMC!!!
