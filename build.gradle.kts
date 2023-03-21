@@ -1,7 +1,7 @@
 plugins {
     java
     id("com.github.johnrengelman.shadow") version "8.1.0" apply false
-    id("io.papermc.paperweight.patcher") version "1.5.2"
+    id("io.papermc.paperweight.patcher") version "1.5.3"
 }
 
 repositories {
@@ -10,9 +10,9 @@ repositories {
 }
 
 dependencies {
-    remapper("net.fabricmc:tiny-remapper:0.7.0:fat")
-    decompiler("net.minecraftforge:forgeflower:2.0.605.1")
-    paperclip("io.papermc:paperclip:3.0.2")
+    remapper("net.fabricmc:tiny-remapper:0.8.6:fat")
+    decompiler("net.minecraftforge:forgeflower:2.0.627.2")
+    paperclip("io.papermc:paperclip:3.0.3")
 }
 
 subprojects {
