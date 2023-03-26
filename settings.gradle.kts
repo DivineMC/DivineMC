@@ -1,3 +1,5 @@
+import java.util.Locale
+
 pluginManagement {
     repositories {
         mavenLocal()
@@ -8,4 +10,8 @@ pluginManagement {
 
 rootProject.name = "DivineMC"
 
-include("divinemc-api", "divinemc-server")
+for (name in listOf("DivineMC-API", "DivineMC-Server")) {
+    val projName = name.toLowerCase(Locale.ENGLISH)
+    include(projName)
+    findProject(":$projName")!!.projectDir = file(name)
+}
