@@ -1,0 +1,19 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Fri, 31 Mar 2023 00:39:40 +0300
+Subject: [PATCH] Fix MC-98160 and MC-105103
+
+
+diff --git a/src/main/java/net/minecraft/world/entity/vehicle/Boat.java b/src/main/java/net/minecraft/world/entity/vehicle/Boat.java
+index 33de7cca8063618466fe47417e700a5b15c8dc70..49660b0b9ee24de96006441a46bf6efa95873db3 100644
+--- a/src/main/java/net/minecraft/world/entity/vehicle/Boat.java
++++ b/src/main/java/net/minecraft/world/entity/vehicle/Boat.java
+@@ -906,7 +906,7 @@ public class Boat extends Entity implements VariantHolder<Boat.Type> {
+         if (!this.isPassenger()) {
+             if (onGround) {
+                 if (this.fallDistance > 3.0F) {
+-                    if (this.status != Boat.Status.ON_LAND) {
++                    if (this.status != Boat.Status.ON_LAND && this.status != Status.IN_AIR) { // DivineMC - Fix MC-98160 and MC-105103
+                         this.resetFallDistance();
+                         return;
+                     }
