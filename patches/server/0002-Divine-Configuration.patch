@@ -5,10 +5,10 @@ Subject: [PATCH] Divine Configuration
 
 
 diff --git a/src/main/java/co/aikar/timings/TimingsExport.java b/src/main/java/co/aikar/timings/TimingsExport.java
-index 2cc44fbf8e5bd436b6d4e19f6c06b351e750cb31..de5086590c457546c6798bb064fe9af0cc6696b1 100644
+index 5af15c85fab72034b97ac210ff775e0a8fa0be78..b9a58a56b92c6bd692120b6eb4ec6e8215cfbf19 100644
 --- a/src/main/java/co/aikar/timings/TimingsExport.java
 +++ b/src/main/java/co/aikar/timings/TimingsExport.java
-@@ -242,7 +242,8 @@ public class TimingsExport extends Thread {
+@@ -243,7 +243,8 @@ public class TimingsExport extends Thread {
              pair("spigot", mapAsJSON(Bukkit.spigot().getSpigotConfig(), null)),
              pair("bukkit", mapAsJSON(Bukkit.spigot().getBukkitConfig(), null)),
              pair("paper", mapAsJSON(Bukkit.spigot().getPaperConfig(), null)), // Pufferfish
@@ -95,7 +95,7 @@ index 0000000000000000000000000000000000000000..cbd2e01fb7d88c056b39a791cf0e4b47
 \ No newline at end of file
 diff --git a/src/main/java/gq/bxteam/divinemc/config/DivineConfig.java b/src/main/java/gq/bxteam/divinemc/config/DivineConfig.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..87346c66366a579f09199fd89f88170f4120c6e0
+index 0000000000000000000000000000000000000000..d05d801476a31b728d9259aa56de57bfe3770d70
 --- /dev/null
 +++ b/src/main/java/gq/bxteam/divinemc/config/DivineConfig.java
 @@ -0,0 +1,135 @@
