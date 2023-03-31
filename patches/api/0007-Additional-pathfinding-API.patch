@@ -1,0 +1,25 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Sat, 1 Apr 2023 00:31:15 +0300
+Subject: [PATCH] Additional pathfinding API
+
+
+diff --git a/src/main/java/com/destroystokyo/paper/entity/Pathfinder.java b/src/main/java/com/destroystokyo/paper/entity/Pathfinder.java
+index 43f062257472a06e9e64c2feef6c3b1012aee00e..d3f12a2edeb5c0c548cfa1a13e93dbd1774b83a3 100644
+--- a/src/main/java/com/destroystokyo/paper/entity/Pathfinder.java
++++ b/src/main/java/com/destroystokyo/paper/entity/Pathfinder.java
+@@ -208,5 +208,14 @@ public interface Pathfinder {
+          * @return The closest point the path can get to the target location
+          */
+         @Nullable Location getFinalPoint();
++
++        // DivineMC start
++        /**
++         * Checks whether the final point if this path can be reached
++         *
++         * @return whether the final point if this path can be reached
++         */
++        boolean canReachFinalPoint();
++        // DivineMC end
+     }
+ }

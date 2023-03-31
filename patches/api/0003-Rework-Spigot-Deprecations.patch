@@ -1,0 +1,84 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Fri, 31 Mar 2023 23:38:43 +0300
+Subject: [PATCH] Rework Spigot Deprecations
+
+
+diff --git a/src/main/java/org/bukkit/OfflinePlayer.java b/src/main/java/org/bukkit/OfflinePlayer.java
+index 3578ab0c3a413d56bc39af43b5d3201d20d7d13a..29ac48445c3b6d14b1b549d856c350df6712ccac 100644
+--- a/src/main/java/org/bukkit/OfflinePlayer.java
++++ b/src/main/java/org/bukkit/OfflinePlayer.java
+@@ -160,9 +160,11 @@ public interface OfflinePlayer extends ServerOperator, AnimalTamer, Configuratio
+      * UTC.
+      *
+      * @return Date of last log-in for this player, or 0
+-     * @deprecated The API contract is ambiguous and the implementation may or may not return the correct value given this API ambiguity. It is instead recommended use {@link #getLastLogin()} or {@link #getLastSeen()} depending on your needs.
++     * @see #hasPlayedBefore()
++     * @see #getLastLogin()
++     * @see #getLastSeen()
+      */
+-    @Deprecated
++    // @Deprecated // DivineMC - remove deprecated
+     public long getLastPlayed();
+ 
+     /**
+diff --git a/src/main/java/org/bukkit/entity/Damageable.java b/src/main/java/org/bukkit/entity/Damageable.java
+index fc4d3bcd9b16097086fef7975274d825b65adb10..e485975dbb6973d2b21259c4e4d5d75191bacb60 100644
+--- a/src/main/java/org/bukkit/entity/Damageable.java
++++ b/src/main/java/org/bukkit/entity/Damageable.java
+@@ -60,9 +60,9 @@ public interface Damageable extends Entity {
+      * Gets the maximum health this entity has.
+      *
+      * @return Maximum health
+-     * @deprecated use {@link Attribute#GENERIC_MAX_HEALTH}.
++     * @see Attribute#GENERIC_MAX_HEALTH
+      */
+-    @Deprecated
++    // @Deprecated // DivineMC
+     double getMaxHealth();
+ 
+     /**
+@@ -75,15 +75,15 @@ public interface Damageable extends Entity {
+      * {@link Wither}, etc...} will have their bar scaled accordingly.
+      *
+      * @param health amount of health to set the maximum to
+-     * @deprecated use {@link Attribute#GENERIC_MAX_HEALTH}.
++     * @see Attribute#GENERIC_MAX_HEALTH
+      */
+-    @Deprecated
++    // @Deprecated // DivineMC
+     void setMaxHealth(double health);
+ 
+     /**
+      * Resets the max health to the original amount.
+-     * @deprecated use {@link Attribute#GENERIC_MAX_HEALTH}.
++     * @see Attribute#GENERIC_MAX_HEALTH
+      */
+-    @Deprecated
++    // @Deprecated // DivineMC
+     void resetMaxHealth();
+ }
+diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
+index 85c5987758b1d5145843705205dc99164c5f9f44..f427855ba2bdf8211a3b8b41129c22bf24a31bfb 100644
+--- a/src/main/java/org/bukkit/entity/Player.java
++++ b/src/main/java/org/bukkit/entity/Player.java
+@@ -278,14 +278,15 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+      * Returns true if the entity is supported by a block.
+      *
+      * This value is a state updated by the client after each movement.
+-     *
+-     * @return True if entity is on ground.
+-     * @deprecated This value is controlled only by the client and is therefore
++     * <p>
++     * Note: This value is controlled only by the client and is therefore
+      * unreliable and vulnerable to spoofing and/or desync depending on the
+      * context/time which it is accessed
++     *
++     * @return True if entity is on ground.
+      */
+     @Override
+-    @Deprecated
++    // @Deprecated // DivineMC
+     public boolean isOnGround();
+ 
+     /**

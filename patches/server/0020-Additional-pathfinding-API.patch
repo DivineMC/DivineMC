@@ -1,0 +1,126 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Sat, 1 Apr 2023 00:35:19 +0300
+Subject: [PATCH] Additional pathfinding API
+
+
+diff --git a/src/main/java/com/destroystokyo/paper/entity/PaperPathfinder.java b/src/main/java/com/destroystokyo/paper/entity/PaperPathfinder.java
+index 2d799fec40afe7dade649a294761d272c83157f0..81753d128d71bc6495d84358e861e919f731f4d0 100644
+--- a/src/main/java/com/destroystokyo/paper/entity/PaperPathfinder.java
++++ b/src/main/java/com/destroystokyo/paper/entity/PaperPathfinder.java
+@@ -135,6 +135,13 @@ public class PaperPathfinder implements com.destroystokyo.paper.entity.Pathfinde
+             }
+             return toLoc(path.nodes.get(path.getNextNodeIndex()));
+         }
++
++        // DivineMC start
++        @Override
++        public boolean canReachFinalPoint() {
++            return path.canReach();
++        }
++        // DivineMC end
+     }
+ 
+     private Location toLoc(Node point) {
+diff --git a/src/main/java/net/minecraft/world/entity/animal/Rabbit.java b/src/main/java/net/minecraft/world/entity/animal/Rabbit.java
+index 3395bc1d9140ab5496ad998343a963ae12f630d6..43fbc659d1f789510d6aba3ea9b465e3ccde5a70 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/Rabbit.java
++++ b/src/main/java/net/minecraft/world/entity/animal/Rabbit.java
+@@ -595,7 +595,7 @@ public class Rabbit extends Animal implements VariantHolder<Rabbit.Variant> {
+         }
+     }
+ 
+-    private static class RabbitPanicGoal extends PanicGoal {
++    public static class RabbitPanicGoal extends PanicGoal {
+ 
+         private final Rabbit rabbit;
+ 
+@@ -611,7 +611,7 @@ public class Rabbit extends Animal implements VariantHolder<Rabbit.Variant> {
+         }
+     }
+ 
+-    private static class RabbitAvoidEntityGoal<T extends LivingEntity> extends AvoidEntityGoal<T> {
++    public static class RabbitAvoidEntityGoal<T extends LivingEntity> extends AvoidEntityGoal<T> {
+ 
+         private final Rabbit rabbit;
+ 
+@@ -626,7 +626,7 @@ public class Rabbit extends Animal implements VariantHolder<Rabbit.Variant> {
+         }
+     }
+ 
+-    private static class RaidGardenGoal extends MoveToBlockGoal {
++    public static class RaidGardenGoal extends MoveToBlockGoal {
+ 
+         private final Rabbit rabbit;
+         private boolean wantsToRaid;
+@@ -744,7 +744,7 @@ public class Rabbit extends Animal implements VariantHolder<Rabbit.Variant> {
+         }
+     }
+ 
+-    private static class EvilRabbitAttackGoal extends MeleeAttackGoal {
++    public static class EvilRabbitAttackGoal extends MeleeAttackGoal {
+ 
+         public EvilRabbitAttackGoal(Rabbit rabbit) {
+             super(rabbit, 1.4D, true);
+diff --git a/src/main/java/net/minecraft/world/entity/monster/Slime.java b/src/main/java/net/minecraft/world/entity/monster/Slime.java
+index 89978fcb14362af2527693f3e6ec57e169080c9f..e1d591a33ee544011effaebd56bf5ade7681c899 100644
+--- a/src/main/java/net/minecraft/world/entity/monster/Slime.java
++++ b/src/main/java/net/minecraft/world/entity/monster/Slime.java
+@@ -554,7 +554,7 @@ public class Slime extends Mob implements Enemy {
+         }
+     }
+ 
+-    private static class SlimeFloatGoal extends Goal {
++    public static class SlimeFloatGoal extends Goal {
+ 
+         private final Slime slime;
+ 
+@@ -591,7 +591,7 @@ public class Slime extends Mob implements Enemy {
+         }
+     }
+ 
+-    private static class SlimeAttackGoal extends Goal {
++    public static class SlimeAttackGoal extends Goal {
+ 
+         private final Slime slime;
+         private int growTiredTimer;
+@@ -668,7 +668,7 @@ public class Slime extends Mob implements Enemy {
+         // Paper end
+     }
+ 
+-    private static class SlimeRandomDirectionGoal extends Goal {
++    public static class SlimeRandomDirectionGoal extends Goal {
+ 
+         private final Slime slime;
+         private float chosenDegrees;
+@@ -707,7 +707,7 @@ public class Slime extends Mob implements Enemy {
+         }
+     }
+ 
+-    private static class SlimeKeepOnJumpingGoal extends Goal {
++    public static class SlimeKeepOnJumpingGoal extends Goal {
+ 
+         private final Slime slime;
+ 
+diff --git a/src/main/java/net/minecraft/world/entity/monster/Spider.java b/src/main/java/net/minecraft/world/entity/monster/Spider.java
+index 8e071a0922164970e033029c12058db9e8da261a..c5464e61d1ae6abb6a44bcdae292e8d763f47bdd 100644
+--- a/src/main/java/net/minecraft/world/entity/monster/Spider.java
++++ b/src/main/java/net/minecraft/world/entity/monster/Spider.java
+@@ -226,7 +226,7 @@ public class Spider extends Monster {
+         return 0.65F;
+     }
+ 
+-    private static class SpiderAttackGoal extends MeleeAttackGoal {
++    public static class SpiderAttackGoal extends MeleeAttackGoal {
+ 
+         public SpiderAttackGoal(Spider spider) {
+             super(spider, 1.0D, true);
+@@ -255,7 +255,7 @@ public class Spider extends Monster {
+         }
+     }
+ 
+-    private static class SpiderTargetGoal<T extends LivingEntity> extends NearestAttackableTargetGoal<T> {
++    public static class SpiderTargetGoal<T extends LivingEntity> extends NearestAttackableTargetGoal<T> {
+ 
+         public SpiderTargetGoal(Spider spider, Class<T> targetEntityClass) {
+             super(spider, targetEntityClass, true);
