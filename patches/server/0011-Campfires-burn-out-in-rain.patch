@@ -1,0 +1,32 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Fri, 31 Mar 2023 22:47:12 +0300
+Subject: [PATCH] Campfires burn out in rain
+
+It can be annoying, but it adds more realistic. If you want to remove it - i will do this
+
+diff --git a/src/main/java/net/minecraft/world/level/block/entity/CampfireBlockEntity.java b/src/main/java/net/minecraft/world/level/block/entity/CampfireBlockEntity.java
+index 91feee1e284c929b008bc2df7ab548df898b3ef7..e0227afe23c69386e181fc9ba681f80a0d21832e 100644
+--- a/src/main/java/net/minecraft/world/level/block/entity/CampfireBlockEntity.java
++++ b/src/main/java/net/minecraft/world/level/block/entity/CampfireBlockEntity.java
+@@ -55,6 +55,20 @@ public class CampfireBlockEntity extends BlockEntity implements Clearable {
+     public static void cookTick(Level world, BlockPos pos, BlockState state, CampfireBlockEntity campfire) {
+         boolean flag = false;
+ 
++        // DivineMC start
++        if (world.random.nextDouble() < 0.2) {
++            if (state.getValue(CampfireBlock.WATERLOGGED) || world.isRainingAt(pos.above())) {
++                world.setBlock(pos, state.setValue(CampfireBlock.LIT, false), 3);
++                world.playSound(null, pos.getX() + 0.5, pos.getY() + 1D, pos.getZ() + 0.5, net.minecraft.sounds.SoundEvents.FIRE_EXTINGUISH, net.minecraft.sounds.SoundSource.BLOCKS, 1F, 1F);
++                flag = true;
++            }
++            if (flag) {
++                setChanged(world, pos, state);
++                return;
++            }
++        }
++        // DivineMC end
++
+         for (int i = 0; i < campfire.items.size(); ++i) {
+             ItemStack itemstack = (ItemStack) campfire.items.get(i);
+ 
