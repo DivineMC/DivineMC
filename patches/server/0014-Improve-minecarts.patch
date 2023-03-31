@@ -1,0 +1,363 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Fri, 31 Mar 2023 23:29:12 +0300
+Subject: [PATCH] Improve minecarts
+
+This patch contains: Dynamic minecart speed, Manual minecart speed increased, tweak off-rail velocity and lower rail sticking height.
+Maybe soon you can configure this options and use minecart from vanilla or modified by me. (camman will like this?)
+
+diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
+index d839a6d7be3fb2a9b14fbad1e3e48d0b88a1c6eb..6bda9ce51eff80b7ccaebcdfb185af40f94dd0a7 100644
+--- a/src/main/java/net/minecraft/world/entity/Entity.java
++++ b/src/main/java/net/minecraft/world/entity/Entity.java
+@@ -1388,7 +1388,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+         return offsetFactor;
+     }
+ 
+-    private Vec3 collide(Vec3 movement) {
++    protected Vec3 collide(Vec3 movement) { // DivineMC - private -> protected
+         // Paper start - optimise collisions
+         // This is a copy of vanilla's except that it uses strictly AABB math
+         if (movement.x == 0.0 && movement.y == 0.0 && movement.z == 0.0) {
+diff --git a/src/main/java/net/minecraft/world/entity/vehicle/AbstractMinecart.java b/src/main/java/net/minecraft/world/entity/vehicle/AbstractMinecart.java
+index cd8239423d964ef9b708d283a329986cb02404e5..f702c7425a9c8aba931bc29e023151c11ce576be 100644
+--- a/src/main/java/net/minecraft/world/entity/vehicle/AbstractMinecart.java
++++ b/src/main/java/net/minecraft/world/entity/vehicle/AbstractMinecart.java
+@@ -109,6 +109,10 @@ public abstract class AbstractMinecart extends Entity {
+     public double storedMaxSpeed; // Purpur
+     // CraftBukkit end
+ 
++    // DivineMC start
++    public @Nullable BlockState lastRailBlockState;
++    // DivineMC end
++
+     protected AbstractMinecart(EntityType<?> type, Level world) {
+         super(type, world);
+         this.blocksBuilding = true;
+@@ -525,10 +529,31 @@ public abstract class AbstractMinecart extends Entity {
+     // Purpur end
+ 
+     protected void comeOffTrack() {
+-        double d0 = this.getMaxSpeed();
++        double d0 = this.getMaxSpeed() * 1.4; // DivineMC
+         Vec3 vec3d = this.getDeltaMovement();
+ 
+-        this.setDeltaMovement(Mth.clamp(vec3d.x, -d0, d0), vec3d.y, Mth.clamp(vec3d.z, -d0, d0));
++        // DivineMC start
++        if (lastRailBlockState == null) {
++            this.setDeltaMovement(Mth.clamp(vec3d.x, -d0, d0), vec3d.y, Mth.clamp(vec3d.z, -d0, d0));
++        } else {
++            RailShape railShape = lastRailBlockState.getValue(((BaseRailBlock) lastRailBlockState.getBlock()).getShapeProperty());
++
++            double multiplier = 0.316;
++            double power = vec3d.horizontalDistance() * multiplier;
++            power = Math.min(power, 0.7D);
++
++            double yVel = switch (railShape) {
++                case ASCENDING_EAST -> vec3d.x() > 0 ? power : -power;
++                case ASCENDING_WEST -> vec3d.x() < 0 ? power : -power;
++                case ASCENDING_NORTH -> vec3d.z() < 0 ? power : -power;
++                case ASCENDING_SOUTH -> vec3d.z() > 0 ? power : -power;
++                default -> 0;
++            };
++
++            setDeltaMovement(Mth.clamp(vec3d.x() * multiplier, -d0, d0), vec3d.y() + yVel, Mth.clamp(vec3d.z() * multiplier, -d0, d0));
++            lastRailBlockState = null;
++        }
++        // DivineMC end
+ 
+         // Purpur start
+         if (level.purpurConfig.minecartControllable && !isInWater() && !isInLava() && !passengers.isEmpty()) {
+@@ -555,15 +580,42 @@ public abstract class AbstractMinecart extends Entity {
+         }
+         // Purpur end
+ 
+-        if (this.onGround) {
++        if (false && this.onGround) { // DivineMC
+             // CraftBukkit start - replace magic numbers with our variables
+             this.setDeltaMovement(new Vec3(this.getDeltaMovement().x * this.derailedX, this.getDeltaMovement().y * this.derailedY, this.getDeltaMovement().z * this.derailedZ));
+             // CraftBukkit end
+         }
+         else if (level.purpurConfig.minecartControllable) setDeltaMovement(new Vec3(getDeltaMovement().x * derailedX, getDeltaMovement().y, getDeltaMovement().z * derailedZ)); // Purpur
+ 
++        // DivineMC start
++        else {
++            setDeltaMovement(getDeltaMovement().scale(onGround ? 0.85D : 0.995D));
++        }
++
++        Vec3 ad = collide(getDeltaMovement());
++        BlockPos pos = getOnPos();
++        double deltaX = pos.getX() + ad.x();
++        double deltaY = pos.getY() + ad.y();
++        double deltaZ = pos.getZ() + ad.z();
++
++
++        if (ad.x() != vec3d.x()) {
++            BlockState state = level.getBlockState(new BlockPos((int) deltaX, (int) deltaY, pos.getZ()).relative(getMotionDirection()));
++            if (state.getBlock() == Blocks.SLIME_BLOCK) {
++                setDeltaMovement(getDeltaMovement().multiply(-0.9, 1, 1));
++            }
++        }
++
++        if (ad.z() != vec3d.z()) {
++            BlockState state = level.getBlockState(new BlockPos(pos.getX(), (int) deltaY, (int) deltaZ).relative(getMotionDirection()));
++            if (state.getBlock() == Blocks.SLIME_BLOCK) {
++                setDeltaMovement(getDeltaMovement().multiply(1, 1, -0.9));
++            }
++        }
++        // DivineMC end
++
+         this.move(MoverType.SELF, this.getDeltaMovement());
+-        if (!this.onGround) {
++        if (false && !this.onGround) { // DivineMC
+             // CraftBukkit start - replace magic numbers with our variables
+             this.setDeltaMovement(new Vec3(this.getDeltaMovement().x * this.flyingX, this.getDeltaMovement().y * this.flyingY, this.getDeltaMovement().z * this.flyingZ));
+             // CraftBukkit end
+@@ -572,6 +624,7 @@ public abstract class AbstractMinecart extends Entity {
+     }
+ 
+     protected void moveAlongTrack(BlockPos pos, BlockState state) {
++        lastRailBlockState = state; // DivineMC
+         this.resetFallDistance();
+         double d0 = this.getX();
+         double d1 = this.getY();
+@@ -628,7 +681,108 @@ public abstract class AbstractMinecart extends Entity {
+             d5 = -d5;
+         }
+ 
+-        double d8 = Math.min(2.0D, vec3d1.horizontalDistance());
++        // DivineMC start - dynamic minecart speed
++        double vanillaMaxHorizontalMovementPerTick = 0.4D;
++        double horizontalMomentumPerTick = vec3d1.horizontalDistance();
++
++        java.util.function.DoubleSupplier calculateMaxHorizontalMovementPerTick = () -> {
++            final double fallbackSpeedFactor = 1.15D;
++            double fallback = this.getMaxSpeed();
++
++            if (this.getPassengers().isEmpty())
++                return fallback;
++
++            if (horizontalMomentumPerTick < vanillaMaxHorizontalMovementPerTick)
++                return fallback;
++
++            fallback *= fallbackSpeedFactor;
++
++            boolean hasEligibleShape = blockpropertytrackposition == RailShape.NORTH_SOUTH || blockpropertytrackposition == RailShape.EAST_WEST;
++            if (!hasEligibleShape)
++                return fallback;
++
++            boolean hasEligibleType = state.is(Blocks.RAIL) || (state.is(Blocks.POWERED_RAIL) && state.getValue(PoweredRailBlock.POWERED));
++            if (!hasEligibleType)
++                return fallback;
++
++            var eligibleNeighbors = new java.util.concurrent.atomic.AtomicInteger();
++
++            java.util.HashSet<BlockPos> checkedPositions = new java.util.HashSet<>();
++            checkedPositions.add(pos);
++
++            java.util.function.BiFunction<BlockPos, RailShape, java.util.ArrayList<Pair<BlockPos, RailShape>>> checkNeighbors = (cPos, cRailShape) -> {
++                Pair<Vec3i, Vec3i> cAdjPosDiff = AbstractMinecart.exits(cRailShape);
++                java.util.ArrayList<Pair<BlockPos, RailShape>> newNeighbors = new java.util.ArrayList<>();
++
++                BlockPos n1Pos = cPos.offset(cAdjPosDiff.getFirst());
++
++                if (!checkedPositions.contains(n1Pos)) {
++                    BlockState n1State = this.level.getBlockState(n1Pos);
++                    boolean n1HasEligibleType = n1State.is(Blocks.RAIL) || (n1State.is(Blocks.POWERED_RAIL) && n1State.getValue(PoweredRailBlock.POWERED));
++                    if (!n1HasEligibleType)
++                        return new java.util.ArrayList<>();
++
++                    RailShape n1RailShape = n1State.getValue(((BaseRailBlock) n1State.getBlock()).getShapeProperty());
++                    if (n1RailShape != blockpropertytrackposition)
++                        return new java.util.ArrayList<>();
++
++                    checkedPositions.add(n1Pos);
++                    eligibleNeighbors.incrementAndGet();
++                    newNeighbors.add(Pair.of(n1Pos, n1RailShape));
++                }
++
++                BlockPos n2Pos = cPos.offset(cAdjPosDiff.getSecond());
++                if (!checkedPositions.contains(n2Pos)) {
++                    BlockState n2State = this.level.getBlockState(n2Pos);
++                    boolean n2HasEligibleType = n2State.is(Blocks.RAIL) || (n2State.is(Blocks.POWERED_RAIL) && n2State.getValue(PoweredRailBlock.POWERED));
++                    if (!n2HasEligibleType)
++                        return new java.util.ArrayList<>();
++
++                    RailShape n2RailShape = n2State.getValue(((BaseRailBlock) n2State.getBlock()).getShapeProperty());
++
++                    if (n2RailShape != blockpropertytrackposition)
++                        return new java.util.ArrayList<>();
++
++                    checkedPositions.add(n2Pos);
++                    eligibleNeighbors.incrementAndGet();
++                    newNeighbors.add(Pair.of(n2Pos, n2RailShape));
++                }
++
++                return newNeighbors;
++            };
++
++
++            java.util.ArrayList<Pair<BlockPos, RailShape>> newNeighbors = checkNeighbors.apply(pos, blockpropertytrackposition);
++
++            while (!newNeighbors.isEmpty() && eligibleNeighbors.get() < 16) {
++                java.util.ArrayList<Pair<BlockPos, RailShape>> tempNewNeighbors = new java.util.ArrayList<>(newNeighbors);
++                newNeighbors.clear();
++
++                for (Pair<BlockPos, RailShape> newNeighbor : tempNewNeighbors) {
++                    java.util.ArrayList<Pair<BlockPos, RailShape>> result = checkNeighbors.apply(newNeighbor.getFirst(), newNeighbor.getSecond());
++
++                    if (result.isEmpty()) {
++                        newNeighbors.clear();
++                        break;
++                    }
++
++                    newNeighbors.addAll(result);
++                }
++            }
++
++            int eligibleForwardRailTrackCount = eligibleNeighbors.get() / 2;
++
++            if (eligibleForwardRailTrackCount <= 1)
++                return fallback;
++
++            return (2.01D + eligibleForwardRailTrackCount * 4D) / 20D;
++        };
++
++        double maxHorizontalMovementPerTick = calculateMaxHorizontalMovementPerTick.getAsDouble();
++        double maxHorizontalMomentumPerTick = Math.max(maxHorizontalMovementPerTick * 5D, 4.2D);
++        // DivineMC end
++
++        double d8 = Math.min(maxHorizontalMomentumPerTick, vec3d1.horizontalDistance()); // DivineMC - dynamic minecart speed, unhardcode 2.0D
+ 
+         vec3d1 = new Vec3(d8 * d4 / d6, vec3d1.y, d8 * d5 / d6);
+         this.setDeltaMovement(vec3d1);
+@@ -639,8 +793,8 @@ public abstract class AbstractMinecart extends Entity {
+             double d9 = vec3d2.horizontalDistanceSqr();
+             double d10 = this.getDeltaMovement().horizontalDistanceSqr();
+ 
+-            if (d9 > 1.0E-4D && d10 < 0.01D) {
+-                this.setDeltaMovement(this.getDeltaMovement().add(vec3d2.x * 0.1D, 0.0D, vec3d2.z * 0.1D));
++            if (d9 > 1.0E-4D && d10 < 0.04D) { // DivineMC - increase max manual speed
++                this.setDeltaMovement(this.getDeltaMovement().add(vec3d2.x * 0.12D, 0.0D, vec3d2.z * 0.12D)); // DivineMC - slightly increase speed buildup
+                 flag1 = false;
+             }
+         }
+@@ -652,7 +806,13 @@ public abstract class AbstractMinecart extends Entity {
+             if (d11 < 0.03D) {
+                 this.setDeltaMovement(Vec3.ZERO);
+             } else {
+-                this.setDeltaMovement(this.getDeltaMovement().multiply(0.5D, 0.0D, 0.5D));
++                // DivineMC start - dynamic minecart speed
++                double brakeFactor = 0.5D;
++                if (horizontalMomentumPerTick > 4D * vanillaMaxHorizontalMovementPerTick) {
++                    brakeFactor = Math.pow(brakeFactor, 1D + ((horizontalMomentumPerTick - 3.99D * vanillaMaxHorizontalMovementPerTick) / 1.2D));
++                }
++                // DivineMC end
++                this.setDeltaMovement(this.getDeltaMovement().multiply(brakeFactor, 0.0D, brakeFactor)); // DivineMC - dynamic minecart speed, unhardcode 0.5D
+             }
+         }
+ 
+@@ -681,9 +841,10 @@ public abstract class AbstractMinecart extends Entity {
+         d2 = d12 + d5 * d15;
+         this.setPos(d0, d1, d2);
+         d16 = this.isVehicle() ? 0.75D : 1.0D;
+-        d17 = this.getMaxSpeed();
++        d17 = maxHorizontalMovementPerTick; // DivineMC - dynamic minecart speed
+         vec3d1 = this.getDeltaMovement();
+-        this.move(MoverType.SELF, new Vec3(Mth.clamp(d16 * vec3d1.x, -d17, d17), 0.0D, Mth.clamp(d16 * vec3d1.z, -d17, d17)));
++        var movement = new Vec3(Mth.clamp(d16 * vec3d1.x, -d17, d17), 0D, Mth.clamp(d16 * vec3d1.z, -d17, d17));
++        this.move(MoverType.SELF, movement); // DivineMC - dynamic minecart speed, expose into the variable
+         if (baseblockposition.getY() != 0 && Mth.floor(this.getX()) - pos.getX() == baseblockposition.getX() && Mth.floor(this.getZ()) - pos.getZ() == baseblockposition.getZ()) {
+             this.setPos(this.getX(), this.getY() + (double) baseblockposition.getY(), this.getZ());
+         } else if (baseblockposition1.getY() != 0 && Mth.floor(this.getX()) - pos.getX() == baseblockposition1.getX() && Mth.floor(this.getZ()) - pos.getZ() == baseblockposition1.getZ()) {
+@@ -713,26 +874,52 @@ public abstract class AbstractMinecart extends Entity {
+         if (i != pos.getX() || j != pos.getZ()) {
+             vec3d4 = this.getDeltaMovement();
+             d18 = vec3d4.horizontalDistance();
+-            this.setDeltaMovement(d18 * (double) (i - pos.getX()), vec3d4.y, d18 * (double) (j - pos.getZ()));
++            this.setDeltaMovement(d18 * Mth.clamp((double) i - pos.getX(), -1D, 1D), vec3d4.y, d18 * Mth.clamp((double) j - pos.getZ(), -1D, 1D)); // DivineMC - dynamic minecart speed, clamp values
+         }
+ 
+         if (flag) {
+             vec3d4 = this.getDeltaMovement();
+             d18 = vec3d4.horizontalDistance();
++            final double basisAccelerationPerTick = 0.021D; // DivineMC - dynamic minecart speed
+             if (d18 > 0.01D) {
++                // DivineMC start - dynamic minecart speed
++                if (!getPassengers().isEmpty()) {
++                    // Based on 10 ticks per second basis spent per powered block we calculate a fair acceleration per tick
++                    // due to spending less ticks per powered block on higher speeds (and even skipping blocks)
++                    final double basisTicksPerSecond = 10D;
++                    // Tps = Ticks per second
++                    final double tickMovementForBasisTps = 1D / basisTicksPerSecond;
++                    final double maxSkippedBlocksToConsider = 3D;
++
++                    double acceleration = basisAccelerationPerTick;
++                    final double distanceMovedHorizontally = movement.horizontalDistance();
++
++                    if (distanceMovedHorizontally > tickMovementForBasisTps) {
++                        acceleration *= Math.min((1D + maxSkippedBlocksToConsider) * basisTicksPerSecond, distanceMovedHorizontally / tickMovementForBasisTps);
++
++                        // Add progressively slower (or faster) acceleration for higher speeds;
++                        double highspeedFactor = 1D + Mth.clamp(-0.45D * (distanceMovedHorizontally / tickMovementForBasisTps / basisTicksPerSecond), -0.7D, 2D);
++                        acceleration *= highspeedFactor;
++                    }
++                    this.setDeltaMovement(vec3d4.add(acceleration * (vec3d4.x / d18), 0D, acceleration * (vec3d4.z / d18)));
++                } else {
++                    this.setDeltaMovement(vec3d4.add(vec3d4.x / d18 * 0.06D, 0D, vec3d4.z / d18 * 0.06D));
++                }
++                // DivineMC end
+                 double d20 = 0.06D;
+ 
+-                this.setDeltaMovement(vec3d4.add(vec3d4.x / d18 * this.level.purpurConfig.poweredRailBoostModifier, 0.0D, vec3d4.z / d18 * this.level.purpurConfig.poweredRailBoostModifier)); // Purpur
++                //this.setDeltaMovement(vec3d4.add(vec3d4.x / d18 * this.level.purpurConfig.poweredRailBoostModifier, 0.0D, vec3d4.z / d18 * this.level.purpurConfig.poweredRailBoostModifier)); // Purpur
+             } else {
+                 Vec3 vec3d5 = this.getDeltaMovement();
+                 double d21 = vec3d5.x;
+                 double d22 = vec3d5.z;
++                final double railStopperAcceleration = basisAccelerationPerTick * 16D; // DivineMC
+ 
+                 if (blockpropertytrackposition == RailShape.EAST_WEST) {
+                     if (this.isRedstoneConductor(pos.west())) {
+-                        d21 = 0.02D;
++                        d21 = railStopperAcceleration; // DivineMC - dynamic minecart speed, unhardcode 0.02D
+                     } else if (this.isRedstoneConductor(pos.east())) {
+-                        d21 = -0.02D;
++                        d21 = -railStopperAcceleration; // DivineMC - dynamic minecart speed, unhardcode 0.02D
+                     }
+                 } else {
+                     if (blockpropertytrackposition != RailShape.NORTH_SOUTH) {
+@@ -740,9 +927,9 @@ public abstract class AbstractMinecart extends Entity {
+                     }
+ 
+                     if (this.isRedstoneConductor(pos.north())) {
+-                        d22 = 0.02D;
++                        d22 = railStopperAcceleration; // DivineMC - dynamic minecart speed, unhardcode 0.02D
+                     } else if (this.isRedstoneConductor(pos.south())) {
+-                        d22 = -0.02D;
++                        d22 = -railStopperAcceleration; // DivineMC - dynamic minecart speed, unhardcode 0.02D
+                     }
+                 }
+ 
+@@ -774,13 +961,18 @@ public abstract class AbstractMinecart extends Entity {
+         int j = Mth.floor(y);
+         int k = Mth.floor(z);
+ 
+-        if (this.level.getBlockState(new BlockPos(i, j - 1, k)).is(BlockTags.RAILS)) {
+-            --j;
++        // DivineMC start
++        if (getY() - i < 0.2) {
++            BlockState belowState = this.level.getBlockState(new BlockPos(i, j - 1, k));
++            if (belowState.getBlock() instanceof BaseRailBlock railBlock && belowState.getValue(railBlock.getShapeProperty()).isAscending()) {
++                --j;
++            }
+         }
++        // DivineMC end
+ 
+         BlockState iblockdata = this.level.getBlockState(new BlockPos(i, j, k));
+ 
+-        if (BaseRailBlock.isRail(iblockdata)) {
++        if (iblockdata.is(BlockTags.RAILS) && iblockdata.getBlock() instanceof BaseRailBlock railBlock && (iblockdata.getValue(railBlock.getShapeProperty()).isAscending() || getY() < getBlockY() + 0.1)) { // DivineMC
+             RailShape blockpropertytrackposition = (RailShape) iblockdata.getValue(((BaseRailBlock) iblockdata.getBlock()).getShapeProperty());
+ 
+             y = (double) j;
