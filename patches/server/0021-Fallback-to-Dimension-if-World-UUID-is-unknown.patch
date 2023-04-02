@@ -1,0 +1,49 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Sun, 2 Apr 2023 21:27:33 +0300
+Subject: [PATCH] Fallback to Dimension if World UUID is unknown
+
+
+diff --git a/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java
+index 0a8baeb94ae553c4759b065eafd9e242153cf991..f89cc1a3209b189bce1eca8131b175c8f0419525 100644
+--- a/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java
++++ b/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java
+@@ -152,4 +152,9 @@ public class DivineConfig {
+         }
+         return builder.build();
+     }
++
++    public static boolean fallbackToDimensionIfWorldUUIDUnknown = true;
++    public static void fallbackToDimensionIfWorldUUIDUnknown() {
++        fallbackToDimensionIfWorldUUIDUnknown = getBoolean("settings.fallback-to-dimension-if-world-uuid-unknown", fallbackToDimensionIfWorldUUIDUnknown);
++    }
+ }
+\ No newline at end of file
+diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
+index 9d96965d7940fdfe1087ce61c076001bf4d11b4a..0f0fa88a9acf465de0b9659f3ed7f89c551fe010 100644
+--- a/src/main/java/net/minecraft/server/players/PlayerList.java
++++ b/src/main/java/net/minecraft/server/players/PlayerList.java
+@@ -8,6 +8,7 @@ import com.mojang.authlib.GameProfile;
+ import com.mojang.logging.LogUtils;
+ import com.mojang.serialization.DataResult;
+ import com.mojang.serialization.Dynamic;
++import gq.bxteam.divinemc.configuration.DivineConfig;
+ import io.netty.buffer.Unpooled;
+ import io.papermc.paper.adventure.PaperAdventure;
+ import java.io.File;
+@@ -210,7 +211,14 @@ public abstract class PlayerList {
+             if (bWorld != null) {
+                 resourcekey = ((CraftWorld) bWorld).getHandle().dimension();
+             } else {
+-                resourcekey = Level.OVERWORLD;
++                // DivineMC start - Fallback to Dimension if World UUID is unknown
++                if (DivineConfig.fallbackToDimensionIfWorldUUIDUnknown) {
++                    DataResult<ResourceKey<Level>> dataResult = Level.RESOURCE_KEY_CODEC.parse(new Dynamic<>(NbtOps.INSTANCE, nbttagcompound.get("Dimension")));
++                    resourcekey = dataResult.result().orElse(Level.OVERWORLD);
++                } else {
++                    resourcekey = Level.OVERWORLD;
++                }
++                // DivineMC end
+             }
+         } else if (nbttagcompound != null) {
+             // Vanilla migration support
