@@ -420,6 +420,7 @@ index 0a7dbd25be18be8b5b2ab495a0c624e018089115..537ea547862330b3ef57c9e80b85221a
 +        public YamlConfiguration getDivineConfig() {
 +            return DivineConfig.config;
 +        }
++        // DivineMC end
 +
          @Override
          public void restart() {
