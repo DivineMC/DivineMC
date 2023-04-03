@@ -1,0 +1,36 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Bjarne Koll <lynxplay101@gmail.com>
+Date: Sun, 19 Feb 2023 16:14:28 +0100
+Subject: [PATCH] Optimize spigot event bus
+
+This patch contains a lot of small optimizations to the spigot event bus
+to improve its speed as much as possible, allowing for a large amount of
+events to be published by the server without impacting the overall
+performance too much.
+
+diff --git a/src/main/java/io/papermc/paper/plugin/manager/PaperEventManager.java b/src/main/java/io/papermc/paper/plugin/manager/PaperEventManager.java
+index 7ce9ebba8ce304d1f3f21d4f15ee5f3560d7700b..40226500e36b3b545003ed2c27bc6a096e7f4079 100644
+--- a/src/main/java/io/papermc/paper/plugin/manager/PaperEventManager.java
++++ b/src/main/java/io/papermc/paper/plugin/manager/PaperEventManager.java
+@@ -36,11 +36,17 @@ class PaperEventManager {
+ 
+     // SimplePluginManager
+     public void callEvent(@NotNull Event event) {
+-        if (event.isAsynchronous() && this.server.isPrimaryThread()) {
+-            throw new IllegalStateException(event.getEventName() + " may only be triggered asynchronously.");
+-        } else if (!event.isAsynchronous() && !this.server.isPrimaryThread() && !this.server.isStopping()) {
+-            throw new IllegalStateException(event.getEventName() + " may only be triggered synchronously.");
++        // KTP start - Optimise spigot event bus
++        if (event.asynchronous() != net.kyori.adventure.util.TriState.NOT_SET) {
++            final boolean onPrimaryThread = this.server.isPrimaryThread();
++            final boolean isAsync = event.isAsynchronous();
++            if (isAsync && onPrimaryThread) {
++                throw new IllegalStateException(event.getEventName() + " may only be triggered asynchronously.");
++            } else if (!isAsync && !onPrimaryThread && !this.server.isStopping()) {
++                throw new IllegalStateException(event.getEventName() + " may only be triggered synchronously.");
++            }
+         }
++        // KTP stop - Optimise spigot event bus
+ 
+         HandlerList handlers = event.getHandlers();
+         RegisteredListener[] listeners = handlers.getRegisteredListeners();
