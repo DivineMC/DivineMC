@@ -1,0 +1,27 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Sat, 8 Apr 2023 01:22:35 +0300
+Subject: [PATCH] lithium: collections.goals
+
+
+diff --git a/src/main/java/net/minecraft/world/entity/ai/goal/GoalSelector.java b/src/main/java/net/minecraft/world/entity/ai/goal/GoalSelector.java
+index 02978315bc2b828cc603ce7478408f3f82c249c2..d8ee71cb3afc0f63669d26c4160f7cd7ed2fd453 100644
+--- a/src/main/java/net/minecraft/world/entity/ai/goal/GoalSelector.java
++++ b/src/main/java/net/minecraft/world/entity/ai/goal/GoalSelector.java
+@@ -13,6 +13,7 @@ import java.util.function.Supplier;
+ import java.util.stream.Stream;
+ import net.minecraft.util.profiling.ProfilerFiller;
+ import org.slf4j.Logger;
++import it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet;
+ 
+ public class GoalSelector {
+     private static final Logger LOGGER = LogUtils.getLogger();
+@@ -28,7 +29,7 @@ public class GoalSelector {
+         }
+     };
+     private final Map<Goal.Flag, WrappedGoal> lockedFlags = new EnumMap<>(Goal.Flag.class);
+-    private final Set<WrappedGoal> availableGoals = Sets.newLinkedHashSet();
++    private final Set<WrappedGoal> availableGoals = new ObjectLinkedOpenHashSet<>(); // DivineMC - lithium: collections.goals
+     private final Supplier<ProfilerFiller> profiler;
+     private final EnumSet<Goal.Flag> disabledFlags = EnumSet.noneOf(Goal.Flag.class); // Paper unused, but dummy to prevent plugins from crashing as hard. Theyll need to support paper in a special case if this is super important, but really doesn't seem like it would be.
+     private final com.destroystokyo.paper.util.set.OptimizedSmallEnumSet<net.minecraft.world.entity.ai.goal.Goal.Flag> goalTypes = new com.destroystokyo.paper.util.set.OptimizedSmallEnumSet<>(Goal.Flag.class); // Paper - remove streams from pathfindergoalselector

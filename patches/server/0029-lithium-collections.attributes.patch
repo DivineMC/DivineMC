@@ -1,0 +1,37 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Sat, 8 Apr 2023 01:40:11 +0300
+Subject: [PATCH] lithium: collections.attributes
+
+
+diff --git a/src/main/java/net/minecraft/world/entity/ai/attributes/AttributeMap.java b/src/main/java/net/minecraft/world/entity/ai/attributes/AttributeMap.java
+index 210a0bee1227e4671909dd553ab22027cfc868fb..083621765f9936df869ec1f90133198cf882e7fa 100644
+--- a/src/main/java/net/minecraft/world/entity/ai/attributes/AttributeMap.java
++++ b/src/main/java/net/minecraft/world/entity/ai/attributes/AttributeMap.java
+@@ -1,8 +1,6 @@
+ package net.minecraft.world.entity.ai.attributes;
+ 
+-import com.google.common.collect.Maps;
+ import com.google.common.collect.Multimap;
+-import com.google.common.collect.Sets;
+ import com.mojang.logging.LogUtils;
+ import java.util.Collection;
+ import java.util.Map;
+@@ -17,11 +15,15 @@ import net.minecraft.nbt.CompoundTag;
+ import net.minecraft.nbt.ListTag;
+ import net.minecraft.resources.ResourceLocation;
+ import org.slf4j.Logger;
++import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
++import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
+ 
+ public class AttributeMap {
+     private static final Logger LOGGER = LogUtils.getLogger();
+-    private final Map<Attribute, AttributeInstance> attributes = Maps.newHashMap();
+-    private final Set<AttributeInstance> dirtyAttributes = Sets.newHashSet();
++    // DivineMC start - lithium: collections.attributes
++    private final Map<Attribute, AttributeInstance> attributes = new Reference2ReferenceOpenHashMap<>(0);
++    private final Set<AttributeInstance> dirtyAttributes = new ReferenceOpenHashSet<>(0);
++    // DivineMC end
+     private final AttributeSupplier supplier;
+     private final java.util.function.Function<Attribute, AttributeInstance> createInstance; // Pufferfish
+     private final net.minecraft.world.entity.LivingEntity entity; // Purpur
