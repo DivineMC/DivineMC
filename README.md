@@ -2,7 +2,7 @@
 
 <div align="center">
   <h1>DivineMC</h1>
-  <h3>Fork of Purpur compatible with Spigot plugins, offering best performance for your server.</h3>
+  <h3>Fork of Purpur compatible with Spigot plugins, offering the best performance for your server.</h3>
   <br>
   
   [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/DivineMC/DivineMC/build.yml?logo=GoogleAnalytics&logoColor=ffffff&style=for-the-badge)](https://github.com/DivineMC/DivineMC/actions)
