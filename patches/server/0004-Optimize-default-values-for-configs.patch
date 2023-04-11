@@ -5,7 +5,7 @@ Subject: [PATCH] Optimize default values for configs
 
 
 diff --git a/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java b/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
-index 62b2a3a44929b80b813bc24a33cd1f5049fecbb2..27370498849a10977f86e478f10b40a535de39a4 100644
+index 47e77541e558e18758ae0fcc2aa4e47261e928b6..00b61ee9ea84e270df52af68e622a1c42dec3c54 100644
 --- a/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
 +++ b/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
 @@ -211,7 +211,7 @@ public class PufferfishConfig {
@@ -18,19 +18,19 @@ index 62b2a3a44929b80b813bc24a33cd1f5049fecbb2..27370498849a10977f86e478f10b40a5
  
          setComment("projectile", "Optimizes projectile settings");
 diff --git a/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java b/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
-index 6bf14183a3fcd2b3d166752ce33240d2ff1ffa7c..26ff05055d8e9df6a9d88e5a8160f9060dcded38 100644
+index 8d442c5a498ecf288a0cc0c54889c6e2fda849ce..fc60346bc7db6fba62dfa38bbc3d7d1280e7a892 100644
 --- a/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
 +++ b/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
-@@ -55,7 +55,7 @@ public class GlobalConfiguration extends ConfigurationPart {
+@@ -52,7 +52,7 @@ public class GlobalConfiguration extends ConfigurationPart {
+     public class Timings extends ConfigurationPart.Post {
          public boolean enabled = true;
-         public boolean reallyEnabled = false;
          public boolean verbose = true;
 -        public String url = "https://timings.aikar.co/";
 +        public String url = "https://timin.gs/"; // DivineMC - optimize default values for configs
          public boolean serverNamePrivacy = false;
          public List<String> hiddenConfigEntries = List.of(
              "database",
-@@ -291,9 +291,9 @@ public class GlobalConfiguration extends ConfigurationPart {
+@@ -280,9 +280,9 @@ public class GlobalConfiguration extends ConfigurationPart {
          public boolean fixEntityPositionDesync = true;
          public boolean loadPermissionsYmlBeforePlugins = true;
          @Constraints.Min(4)

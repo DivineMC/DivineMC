@@ -5,7 +5,7 @@ Subject: [PATCH] lithium: collections.gamerules
 
 
 diff --git a/src/main/java/net/minecraft/world/level/GameRules.java b/src/main/java/net/minecraft/world/level/GameRules.java
-index 29d1f78dbc8410f9292f409b17705acde55979df..6310b0e2daedddd5b1e9d983d43baa4653e22344 100644
+index 6fa00d9239546aa82b9e92e25a33103868084c38..d91f1c58d8176036737ed2ad7914d27c3d684d6c 100644
 --- a/src/main/java/net/minecraft/world/level/GameRules.java
 +++ b/src/main/java/net/minecraft/world/level/GameRules.java
 @@ -27,6 +27,7 @@ import net.minecraft.network.protocol.game.ClientboundGameEventPacket;
@@ -23,5 +23,5 @@ index 29d1f78dbc8410f9292f409b17705acde55979df..6310b0e2daedddd5b1e9d983d43baa46
 -        this.rules = rules;
 +        this.rules = new Object2ObjectOpenHashMap<>(rules); // DivineMC - lithium: collections.gamerules
  
-         // Pufferfish start
+         // Paper start
          int arraySize = rules.keySet().stream().mapToInt(key -> key.gameRuleIndex).max().orElse(-1) + 1;
