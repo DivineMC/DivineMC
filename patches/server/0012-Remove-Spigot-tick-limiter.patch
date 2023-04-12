@@ -1,0 +1,76 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Fri, 31 Mar 2023 23:05:12 +0300
+Subject: [PATCH] Remove Spigot tick limiter
+
+Original code by Titaniumtown, modified by NONPLAYT
+You can find the original code on https://gitlab.com/Titaniumtown/JettPack
+
+diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
+index e39b3c7a67de82dd5165f9276f374cd89ecf96c9..4bacba49a3e462e21b25f388293f255406ffb9b5 100644
+--- a/src/main/java/net/minecraft/world/level/Level.java
++++ b/src/main/java/net/minecraft/world/level/Level.java
+@@ -183,8 +183,6 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+     public final gq.bxteam.divinemc.configuration.DivineWorldConfig divinemcConfig; // DivineMC
+     public final co.aikar.timings.WorldTimingsHandler timings; // Paper
+     public static BlockPos lastPhysicsProblem; // Spigot
+-    private org.spigotmc.TickLimiter entityLimiter;
+-    private org.spigotmc.TickLimiter tileLimiter;
+     private int tileTickPosition;
+     public final Map<Explosion.CacheKey, Float> explosionDensityCache = new HashMap<>(); // Paper - Optimize explosions
+     public java.util.ArrayDeque<net.minecraft.world.level.block.RedstoneTorchBlock.Toggle> redstoneUpdateInfos; // Paper - Move from Map in BlockRedstoneTorch to here
+@@ -426,8 +424,6 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+         // CraftBukkit end
+         timings = new co.aikar.timings.WorldTimingsHandler(this); // Paper - code below can generate new world and access timings
+         this.keepSpawnInMemory = this.paperConfig().spawn.keepSpawnLoaded; // Paper
+-        this.entityLimiter = new org.spigotmc.TickLimiter(spigotConfig.entityMaxTickTime);
+-        this.tileLimiter = new org.spigotmc.TickLimiter(spigotConfig.tileMaxTickTime);
+         this.chunkPacketBlockController = this.paperConfig().anticheat.antiXray.enabled ? new com.destroystokyo.paper.antixray.ChunkPacketBlockControllerAntiXray(this, executor) : com.destroystokyo.paper.antixray.ChunkPacketBlockController.NO_OPERATION_INSTANCE; // Paper - Anti-Xray
+     }
+ 
+diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
+index 69fb6ac082bb7b77051c5824923a7c1ae222dd73..30b82d352726072f6ae144e1ab8e9bfb434a4774 100644
+--- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
++++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
+@@ -442,6 +442,7 @@ public class SpigotWorldConfig
+         this.hangingTickFrequency = this.getInt( "hanging-tick-frequency", 200 ); // DivineMC - optimize default values for configs
+     }
+ 
++    /* DivineMC - remove tick limiter
+     public int tileMaxTickTime;
+     public int entityMaxTickTime;
+     private void maxTickTimes()
+@@ -450,6 +451,7 @@ public class SpigotWorldConfig
+         this.entityMaxTickTime = this.getInt("max-tick-time.entity", 50);
+         this.log("Tile Max Tick Time: " + this.tileMaxTickTime + "ms Entity max Tick Time: " + this.entityMaxTickTime + "ms");
+     }
++    */
+ 
+     public int thunderChance;
+     private void thunderChance()
+diff --git a/src/main/java/org/spigotmc/TickLimiter.java b/src/main/java/org/spigotmc/TickLimiter.java
+deleted file mode 100644
+index 4074538ea6090bf99d8ab04b1e98c2832a0e9a98..0000000000000000000000000000000000000000
+--- a/src/main/java/org/spigotmc/TickLimiter.java
++++ /dev/null
+@@ -1,20 +0,0 @@
+-package org.spigotmc;
+-
+-public class TickLimiter {
+-
+-    private final int maxTime;
+-    private long startTime;
+-
+-    public TickLimiter(int maxtime) {
+-        this.maxTime = maxtime;
+-    }
+-
+-    public void initTick() {
+-        this.startTime = System.currentTimeMillis();
+-    }
+-
+-    public boolean shouldContinue() {
+-        long remaining = System.currentTimeMillis() - this.startTime;
+-        return remaining < this.maxTime;
+-    }
+-}

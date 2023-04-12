@@ -1,0 +1,31 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Mon, 27 Mar 2023 13:16:41 +0300
+Subject: [PATCH] Accept EULA
+
+
+diff --git a/src/main/java/net/minecraft/server/Main.java b/src/main/java/net/minecraft/server/Main.java
+index c6fa6bcd66d61359124a8426b919493c6ec43f06..a1d2ff316f052adc831408c8bc8667bfe3e63180 100644
+--- a/src/main/java/net/minecraft/server/Main.java
++++ b/src/main/java/net/minecraft/server/Main.java
+@@ -165,6 +165,20 @@ public class Main {
+                 System.err.println( "If you do not agree to the above EULA please stop your server and remove this flag immediately." );
+             }
+             // Spigot End
++
++            // DivineMC start - Accept EULA by default
++            if (!eula.hasAgreedToEULA()) {
++                Main.LOGGER.warn("Automatically accepting Mojang's EULA. Please, stop using this Software immediately if you do not agree with this.");
++                Main.LOGGER.warn("Note: this is a persistent change and will be stored in eula.txt from now on.");
++                try (java.io.OutputStream outputStream = java.nio.file.Files.newOutputStream(path1)) {
++                    var properties = new java.util.Properties();
++                    properties.setProperty("eula", "true");
++                    properties.store(outputStream, null);
++                }
++                eulaAgreed = true;
++            }
++            // DivineMC end
++
+             if (!eula.hasAgreedToEULA() && !eulaAgreed) { // Spigot
+                 Main.LOGGER.info("You need to agree to the EULA in order to run the server. Go to eula.txt for more info.");
+                 return;

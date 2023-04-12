@@ -1,0 +1,52 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Sat, 8 Apr 2023 23:45:11 +0300
+Subject: [PATCH] lithium: ai.raid
+
+This patch is based on the following mixin:
+"me/jellysquid/mods/lithium/mixin/ai/raid/RaidMixin.java"
+By: Angeline <jellysquid3@users.noreply.github.com>
+As part of: Lithium (https://github.com/CaffeineMC/lithium-fabric)
+Licensed under: LGPL-3.0 (https://www.gnu.org/licenses/lgpl-3.0.html)
+
+diff --git a/src/main/java/net/minecraft/world/entity/raid/Raid.java b/src/main/java/net/minecraft/world/entity/raid/Raid.java
+index 879c3bb661e24b9682b654def57c2800f4f8ca92..99f0b75ac2b1a8ac5fe8c525c72235847e6aa27f 100644
+--- a/src/main/java/net/minecraft/world/entity/raid/Raid.java
++++ b/src/main/java/net/minecraft/world/entity/raid/Raid.java
+@@ -107,6 +107,7 @@ public class Raid {
+     private Raid.RaidStatus status;
+     private int celebrationTicks;
+     private Optional<BlockPos> waveSpawnPos;
++    private boolean isBarDirty; // DivineMC - lithium: ai.raid
+ 
+     public Raid(int id, ServerLevel world, BlockPos pos) {
+         this.raidEvent = new ServerBossEvent(Raid.RAID_NAME_COMPONENT, BossEvent.BossBarColor.RED, BossEvent.BossBarOverlay.NOTCHED_10);
+@@ -271,6 +272,12 @@ public class Raid {
+ 
+     public void tick() {
+         if (!this.isStopped()) {
++            // DivineMC start - lithium: ai.raid
++            if (this.isBarDirty) {
++                this.updateBossbarInternal();
++                this.isBarDirty = false;
++            }
++            // DivineMC end
+             if (this.status == Raid.RaidStatus.ONGOING) {
+                 boolean flag = this.active;
+ 
+@@ -637,9 +644,15 @@ public class Raid {
+ 
+     }
+ 
++    // DivineMC start - lithium: ai.raid
+     public void updateBossbar() {
++        this.isBarDirty = true;
++    }
++
++    private void updateBossbarInternal() {
+         this.raidEvent.setProgress(Mth.clamp(this.getHealthOfLivingRaiders() / this.totalHealth, 0.0F, 1.0F));
+     }
++    // DivineMC end
+ 
+     public float getHealthOfLivingRaiders() {
+         float f = 0.0F;

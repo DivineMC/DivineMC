@@ -1,0 +1,35 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Owen1212055 <23108066+Owen1212055@users.noreply.github.com>
+Date: Sat, 11 Dec 2021 12:18:42 -0500
+Subject: [PATCH] Paper PR - Add Movement Direction API
+
+
+diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
+index 7ef5980f7321662aa7034a74c2f6926846425db9..d26fb49a39880d650a82b59925d40b8d09fbc84b 100644
+--- a/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
++++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
+@@ -980,6 +980,24 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
+         throw new UnsupportedOperationException("Cannot set the hurt direction on a non player");
+     }
+ 
++    // Paper start - Movement Direction API
++    @Override
++    public float getSidewaysMotion() {
++        return this.getHandle().xxa;
++    }
++
++    @Override
++    public float getUpwardsMotion() {
++        return this.getHandle().yya;
++    }
++
++    @Override
++    public float getForwardMotion() {
++        return this.getHandle().zza;
++    }
++    // Paper end - Movement Direction API
++
++
+     public static MobType fromBukkitEntityCategory(EntityCategory entityCategory) {
+         switch (entityCategory) {
+             case NONE:

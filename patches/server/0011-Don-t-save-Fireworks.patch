@@ -1,0 +1,22 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Fri, 31 Mar 2023 22:47:12 +0300
+Subject: [PATCH] Don't save Fireworks
+
+
+diff --git a/src/main/java/net/minecraft/world/entity/projectile/FireworkRocketEntity.java b/src/main/java/net/minecraft/world/entity/projectile/FireworkRocketEntity.java
+index fca27f98989bf106060ba08196255fe32f850df5..d76c9090a1cd860cc73735a86beb637e2378df47 100644
+--- a/src/main/java/net/minecraft/world/entity/projectile/FireworkRocketEntity.java
++++ b/src/main/java/net/minecraft/world/entity/projectile/FireworkRocketEntity.java
+@@ -357,4 +357,11 @@ public class FireworkRocketEntity extends Projectile implements ItemSupplier {
+     public boolean isAttackable() {
+         return false;
+     }
++
++    // DivineMC start - Don't save Fireworks
++    @Override
++    public boolean shouldBeSaved() {
++        return false;
++    }
++    // DivineMC end
+ }

@@ -1,0 +1,115 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Wed, 12 Apr 2023 00:45:28 +0300
+Subject: [PATCH] Replace shape full block cache with hashtable
+
+This patch is based on the following mixins and classes:
+* "me/jellysquid/mods/lithium/common/util/collections/Object2BooleanCacheTable.java"
+* "me/jellysquid/mods/lithium/mixin/shapes/blockstate_cache/BlockMixin.java"
+
+diff --git a/src/main/java/me/jellysquid/mods/lithium/common/util/collections/Object2BooleanCacheTable.java b/src/main/java/me/jellysquid/mods/lithium/common/util/collections/Object2BooleanCacheTable.java
+new file mode 100644
+index 0000000000000000000000000000000000000000..0a6ab285cb870cfff7cc6a3115353457903965cd
+--- /dev/null
++++ b/src/main/java/me/jellysquid/mods/lithium/common/util/collections/Object2BooleanCacheTable.java
+@@ -0,0 +1,60 @@
++package me.jellysquid.mods.lithium.common.util.collections;
++
++import it.unimi.dsi.fastutil.HashCommon;
++import net.minecraft.util.Mth;
++
++import java.util.function.Predicate;
++
++/**
++ * A lossy hashtable implementation that stores a mapping between an object and a boolean.
++ * <p>
++ * Any hash collisions will result in an overwrite: this is safe because the correct value can always be recomputed,
++ * given that the given operator is deterministic.
++ * <p>
++ * This implementation is safe to use from multiple threads
++ */
++public final class Object2BooleanCacheTable<T> {
++
++    private final int mask;
++    private final Node<T>[] nodes;
++    private final Predicate<T> operator;
++
++    @SuppressWarnings("unchecked")
++    public Object2BooleanCacheTable(int capacity, Predicate<T> operator) {
++        int capacity1 = Mth.smallestEncompassingPowerOfTwo(capacity);
++        this.mask = capacity1 - 1;
++        this.nodes = (Node<T>[]) new Node[capacity1];
++        this.operator = operator;
++    }
++
++    private static <T> int hash(T key) {
++        return HashCommon.mix(key.hashCode());
++    }
++
++    public boolean get(T key) {
++        int idx = hash(key) & this.mask;
++
++        Node<T> node = this.nodes[idx];
++        if (node != null && key.equals(node.key)) {
++            return node.value;
++        }
++
++        boolean test = this.operator.test(key);
++        this.nodes[idx] = new Node<>(key, test);
++
++        return test;
++    }
++
++    static class Node<T> {
++
++        final T key;
++        final boolean value;
++
++        Node(T key, boolean value) {
++            this.key = key;
++            this.value = value;
++        }
++
++    }
++
++}
+\ No newline at end of file
+diff --git a/src/main/java/net/minecraft/world/level/block/Block.java b/src/main/java/net/minecraft/world/level/block/Block.java
+index cc4a2bafc319fb54e8d1168cba85746c5dfafbc2..39121b8450c645f3ec003751f0716a9b102a7e5b 100644
+--- a/src/main/java/net/minecraft/world/level/block/Block.java
++++ b/src/main/java/net/minecraft/world/level/block/Block.java
+@@ -62,6 +62,7 @@ import net.minecraft.world.phys.shapes.BooleanOp;
+ import net.minecraft.world.phys.shapes.Shapes;
+ import net.minecraft.world.phys.shapes.VoxelShape;
+ import org.slf4j.Logger;
++import me.jellysquid.mods.lithium.common.util.collections.Object2BooleanCacheTable;
+ 
+ // Purpur start
+ import net.minecraft.nbt.CompoundTag;
+@@ -75,11 +76,12 @@ public class Block extends BlockBehaviour implements ItemLike {
+     private static final Logger LOGGER = LogUtils.getLogger();
+     private final Holder.Reference<Block> builtInRegistryHolder;
+     public static final IdMapper<BlockState> BLOCK_STATE_REGISTRY = new IdMapper<>();
+-    private static final LoadingCache<VoxelShape, Boolean> SHAPE_FULL_BLOCK_CACHE = CacheBuilder.newBuilder().maximumSize(512L).weakKeys().build(new CacheLoader<VoxelShape, Boolean>() {
+-        public Boolean load(VoxelShape voxelshape) {
+-            return !Shapes.joinIsNotEmpty(Shapes.block(), voxelshape, BooleanOp.NOT_SAME);
+-        }
+-    });
++    // DivineMC start - Replace shape full block cache with hashtable
++    private static final Object2BooleanCacheTable<VoxelShape> SHAPE_FULL_BLOCK_CACHE = new Object2BooleanCacheTable<>(
++            1536,
++            shape -> !Shapes.joinIsNotEmpty(Shapes.block(), shape, BooleanOp.NOT_SAME)
++    );
++    // DivineMC end
+     public static final int UPDATE_NEIGHBORS = 1;
+     public static final int UPDATE_CLIENTS = 2;
+     public static final int UPDATE_INVISIBLE = 4;
+@@ -290,7 +292,7 @@ public class Block extends BlockBehaviour implements ItemLike {
+     }
+ 
+     public static boolean isShapeFullBlock(VoxelShape shape) {
+-        return (Boolean) Block.SHAPE_FULL_BLOCK_CACHE.getUnchecked(shape);
++        return Block.SHAPE_FULL_BLOCK_CACHE.get(shape); // DivineMC end - Replace shape full block cache with hashtable
+     }
+ 
+     public boolean propagatesSkylightDown(BlockState state, BlockGetter world, BlockPos pos) {

@@ -1,64 +1,46 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
-Date: Sun, 8 Jan 2023 09:57:55 +0300
+Date: Mon, 27 Mar 2023 13:16:41 +0300
 Subject: [PATCH] Divine Configuration
 
+This is modified config file by PurpurMC
 
-diff --git a/src/main/java/co/aikar/timings/TimingsExport.java b/src/main/java/co/aikar/timings/TimingsExport.java
-index 2cc44fbf8e5bd436b6d4e19f6c06b351e750cb31..d432f5e58508da9691861fa0f057a30be562697b 100644
---- a/src/main/java/co/aikar/timings/TimingsExport.java
-+++ b/src/main/java/co/aikar/timings/TimingsExport.java
-@@ -242,7 +242,8 @@ public class TimingsExport extends Thread {
-             pair("spigot", mapAsJSON(Bukkit.spigot().getSpigotConfig(), null)),
-             pair("bukkit", mapAsJSON(Bukkit.spigot().getBukkitConfig(), null)),
-             pair("paper", mapAsJSON(Bukkit.spigot().getPaperConfig(), null)), // Pufferfish
--            pair("pufferfish", mapAsJSON(gg.pufferfish.pufferfish.PufferfishConfig.getConfigCopy(), null)) // Pufferfish
-+            pair("pufferfish", mapAsJSON(gg.pufferfish.pufferfish.PufferfishConfig.getConfigCopy(), null)), // Pufferfish // DivineMC
-+            pair("divinemc", mapAsJSON(gq.bxteam.divinemc.DivineConfig.getConfigCopy(), null)) // DivineMC
-         ));
- 
-         new TimingsExport(listeners, parent, history).start();
 diff --git a/src/main/java/gq/bxteam/divinemc/DivineCommand.java b/src/main/java/gq/bxteam/divinemc/DivineCommand.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..8bdd69d8712ac160b8dba2750b920f27231b3893
+index 0000000000000000000000000000000000000000..6ab4a0ae2a0f63e4dfdb36a561ccda2ad183caab
 --- /dev/null
 +++ b/src/main/java/gq/bxteam/divinemc/DivineCommand.java
-@@ -0,0 +1,68 @@
+@@ -0,0 +1,66 @@
 +package gq.bxteam.divinemc;
 +
-+import java.io.IOException;
-+import java.util.Collections;
-+import java.util.List;
-+import java.util.stream.Collectors;
-+import java.util.stream.Stream;
-+import net.kyori.adventure.text.Component;
-+import net.kyori.adventure.text.format.NamedTextColor;
-+import net.md_5.bungee.api.ChatColor;
 +import net.minecraft.server.MinecraftServer;
-+import org.bukkit.Bukkit;
++import net.minecraft.server.level.ServerLevel;
++import gq.bxteam.divinemc.configuration.DivineConfig;
++import org.bukkit.ChatColor;
 +import org.bukkit.Location;
 +import org.bukkit.command.Command;
 +import org.bukkit.command.CommandSender;
 +
-+public class DivineCommand extends Command {
++import java.io.File;
++import java.util.Collections;
++import java.util.List;
++import java.util.stream.Collectors;
++import java.util.stream.Stream;
 +
-+    public DivineCommand() {
-+        super("divinemc");
++public class DivineCommand extends Command {
++    public DivineCommand(String name) {
++        super(name);
 +        this.description = "DivineMC related commands";
 +        this.usageMessage = "/divinemc [reload | version]";
 +        this.setPermission("bukkit.command.divinemc");
-+    }
-+
-+    public static void init() {
-+        MinecraftServer.getServer().server.getCommandMap().register("divinemc", "DivineMC", new DivineCommand());
 +    }
 +
 +    @Override
 +    public List<String> tabComplete(CommandSender sender, String alias, String[] args, Location location) throws IllegalArgumentException {
 +        if (args.length == 1) {
 +            return Stream.of("reload", "version")
-+              .filter(arg -> arg.startsWith(args[0].toLowerCase()))
-+              .collect(Collectors.toList());
++                    .filter(arg -> arg.startsWith(args[0].toLowerCase()))
++                    .collect(Collectors.toList());
 +        }
 +        return Collections.emptyList();
 +    }
@@ -66,184 +48,399 @@ index 0000000000000000000000000000000000000000..8bdd69d8712ac160b8dba2750b920f27
 +    @Override
 +    public boolean execute(CommandSender sender, String commandLabel, String[] args) {
 +        if (!testPermission(sender)) return true;
-+        String prefix = ChatColor.of("#12fff6") + "" + ChatColor.BOLD + "DivineMC » " + ChatColor.of("#e8f9f9");
 +
 +        if (args.length != 1) {
-+            sender.sendMessage(prefix + "Usage: " + usageMessage);
-+            args = new String[]{"version"};
++            sender.sendMessage(ChatColor.RED + "Usage: " + usageMessage);
++            return false;
 +        }
 +
 +        if (args[0].equalsIgnoreCase("reload")) {
++            Command.broadcastCommandMessage(sender, ChatColor.RED + "Please note that this command is not supported and may cause issues.");
++            Command.broadcastCommandMessage(sender, ChatColor.RED + "If you encounter any issues please use the /stop command to restart your server.");
++
 +            MinecraftServer console = MinecraftServer.getServer();
-+            try {
-+                DivineConfig.load();
-+            } catch (IOException e) {
-+                sender.sendMessage(Component.text("Failed to reload.", NamedTextColor.RED));
-+                e.printStackTrace();
-+                return true;
++            DivineConfig.init((File) console.options.valueOf("divinemc-settings"));
++            for (ServerLevel level : console.getAllLevels()) {
++                level.divinemcConfig.init();
++                level.resetBreedingCooldowns();
 +            }
 +            console.server.reloadCount++;
 +
-+            Command.broadcastCommandMessage(sender, prefix + "DivineMC configuration has been reloaded.");
++            Command.broadcastCommandMessage(sender, ChatColor.GREEN + "DivineMC config reload complete.");
 +        } else if (args[0].equalsIgnoreCase("version")) {
-+            Command.broadcastCommandMessage(sender, prefix + "This server is running " + Bukkit.getName() + " version " + Bukkit.getVersion() + " (Implementing API version " + Bukkit.getBukkitVersion() + ")");
++            Command verCmd = org.bukkit.Bukkit.getServer().getCommandMap().getCommand("version");
++            if (verCmd != null) {
++                return verCmd.execute(sender, commandLabel, new String[0]);
++            }
 +        }
 +
 +        return true;
 +    }
 +}
-\ No newline at end of file
-diff --git a/src/main/java/gq/bxteam/divinemc/DivineConfig.java b/src/main/java/gq/bxteam/divinemc/DivineConfig.java
+diff --git a/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..541acfc832fe4caa13b5fb46bc455fc6a7294af8
+index 0000000000000000000000000000000000000000..0a8baeb94ae553c4759b065eafd9e242153cf991
 --- /dev/null
-+++ b/src/main/java/gq/bxteam/divinemc/DivineConfig.java
-@@ -0,0 +1,134 @@
-+package gq.bxteam.divinemc;
++++ b/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java
+@@ -0,0 +1,155 @@
++package gq.bxteam.divinemc.configuration;
++
++import com.google.common.base.Throwables;
++import com.google.common.collect.ImmutableMap;
++import gq.bxteam.divinemc.DivineCommand;
++import net.minecraft.server.MinecraftServer;
++import net.minecraft.world.level.block.Blocks;
++import org.bukkit.Bukkit;
++import org.bukkit.command.Command;
++import org.bukkit.configuration.ConfigurationSection;
++import org.bukkit.configuration.InvalidConfigurationException;
++import org.bukkit.configuration.file.YamlConfiguration;
 +
 +import java.io.File;
 +import java.io.IOException;
++import java.lang.reflect.InvocationTargetException;
 +import java.lang.reflect.Method;
 +import java.lang.reflect.Modifier;
++import java.util.HashMap;
 +import java.util.List;
-+import net.minecraft.server.MinecraftServer;
-+import org.apache.logging.log4j.Level;
-+import org.bukkit.configuration.ConfigurationSection;
-+import org.bukkit.configuration.MemoryConfiguration;
-+import org.jetbrains.annotations.Nullable;
-+import org.simpleyaml.configuration.comments.CommentType;
-+import org.simpleyaml.configuration.file.YamlFile;
-+import org.simpleyaml.exceptions.InvalidConfigurationException;
++import java.util.Map;
++import java.util.logging.Level;
 +
++@SuppressWarnings("unused")
 +public class DivineConfig {
++    private static final String HEADER = "This is the main configuration file for DivineMC.\n"
++            + "If you need help with the configuration or have any questions related to DivineMC,\n"
++            + "join us in our Discord server.\n"
++            + "\n"
++            + "Discord: https://discord.gg/p7cxhw7E2M \n"
++            + "Docs: https://divinemc.bxteam.gq/docs \n"
++            + "New builds: https://github.com/DivineMC/DivineMC/releases/latest";
++    private static File CONFIG_FILE;
++    public static YamlConfiguration config;
 +
-+    private static final YamlFile config = new YamlFile();
-+    private static int updates = 0;
++    private static Map<String, Command> commands;
 +
-+    private static ConfigurationSection convertToBukkit(org.simpleyaml.configuration.ConfigurationSection section) {
-+        ConfigurationSection newSection = new MemoryConfiguration();
-+        for (String key : section.getKeys(false)) {
-+            if (section.isConfigurationSection(key)) {
-+                newSection.set(key, convertToBukkit(section.getConfigurationSection(key)));
-+            } else {
-+                newSection.set(key, section.get(key));
-+            }
++    public static int version;
++    static boolean verbose;
++
++    public static void init(File configFile) {
++        CONFIG_FILE = configFile;
++        config = new YamlConfiguration();
++        try {
++            config.load(CONFIG_FILE);
++        } catch (IOException ignore) {
++        } catch (InvalidConfigurationException ex) {
++            Bukkit.getLogger().log(Level.SEVERE, "Could not load divinemc.yml, please correct your syntax errors", ex);
++            throw Throwables.propagate(ex);
 +        }
-+        return newSection;
++        config.options().header(HEADER);
++        config.options().copyDefaults(true);
++        verbose = getBoolean("verbose", false);
++
++        commands = new HashMap<>();
++        commands.put("divinemc", new DivineCommand("divinemc"));
++
++        version = getInt("config-version", 2);
++        set("config-version", 2);
++
++        readConfig(DivineConfig.class, null);
++
++        Blocks.rebuildCache();
 +    }
 +
-+    public static ConfigurationSection getConfigCopy() {
-+        return convertToBukkit(config);
-+    }
-+
-+    public static int getUpdates() {
-+        return updates;
-+    }
-+
-+    public static void load() throws IOException {
-+        File configFile = new File("divinemc.yml");
-+
-+        if (configFile.exists()) {
-+            try {
-+                config.load(configFile);
-+            } catch (InvalidConfigurationException e) {
-+                throw new IOException(e);
-+            }
++    protected static void log(String s) {
++        if (verbose) {
++            log(Level.INFO, s);
 +        }
++    }
 +
-+        getString("info.version", "1.0");
-+        setComment("info",
-+                "DivineMC Configuration",
-+                "Join our Discord at https://discord.gg/p7cxhw7E2M",
-+                "Download new builds at https://github.com/DivineMC/DivineMC/releases/latest");
++    protected static void log(Level level, String s) {
++        Bukkit.getLogger().log(level, s);
++    }
 +
-+        for (Method method : DivineConfig.class.getDeclaredMethods()) {
-+            if (Modifier.isStatic(method.getModifiers()) && Modifier.isPrivate(method.getModifiers()) && method.getParameterCount() == 0 &&
-+                    method.getReturnType() == Void.TYPE && !method.getName().startsWith("lambda")) {
-+                method.setAccessible(true);
-+                try {
-+                    method.invoke(null);
-+                } catch (Throwable t) {
-+                    MinecraftServer.LOGGER.warn("Failed to load configuration option from " + method.getName(), t);
++    public static void registerCommands() {
++        for (Map.Entry<String, Command> entry : commands.entrySet()) {
++            MinecraftServer.getServer().server.getCommandMap().register(entry.getKey(), "DivineMC", entry.getValue());
++        }
++    }
++
++    static void readConfig(Class<?> clazz, Object instance) {
++        for (Method method : clazz.getDeclaredMethods()) {
++            if (Modifier.isPrivate(method.getModifiers())) {
++                if (method.getParameterTypes().length == 0 && method.getReturnType() == Void.TYPE) {
++                    try {
++                        method.setAccessible(true);
++                        method.invoke(instance);
++                    } catch (InvocationTargetException ex) {
++                        throw Throwables.propagate(ex.getCause());
++                    } catch (Exception ex) {
++                        Bukkit.getLogger().log(Level.SEVERE, "Error invoking " + method, ex);
++                    }
 +                }
 +            }
 +        }
 +
-+        updates++;
-+
-+        config.save(configFile);
-+    }
-+
-+    private static void setComment(String key, String... comment) {
-+        if (config.contains(key)) {
-+            config.setComment(key, String.join("\n", comment), CommentType.BLOCK);
++        try {
++            config.save(CONFIG_FILE);
++        } catch (IOException ex) {
++            Bukkit.getLogger().log(Level.SEVERE, "Could not save " + CONFIG_FILE, ex);
 +        }
 +    }
 +
-+    private static void ensureDefault(String key, Object defaultValue, String... comment) {
-+        if (!config.contains(key)) {
-+            config.set(key, defaultValue);
-+            config.setComment(key, String.join("\n", comment), CommentType.BLOCK);
++    private static void set(String path, Object val) {
++        config.addDefault(path, val);
++        config.set(path, val);
++    }
++
++    private static String getString(String path, String def) {
++        config.addDefault(path, def);
++        return config.getString(path, config.getString(path));
++    }
++
++    private static boolean getBoolean(String path, boolean def) {
++        config.addDefault(path, def);
++        return config.getBoolean(path, config.getBoolean(path));
++    }
++
++    private static double getDouble(String path, double def) {
++        config.addDefault(path, def);
++        return config.getDouble(path, config.getDouble(path));
++    }
++
++    private static int getInt(String path, int def) {
++        config.addDefault(path, def);
++        return config.getInt(path, config.getInt(path));
++    }
++
++    private static <T> List getList(String path, T def) {
++        config.addDefault(path, def);
++        return config.getList(path, config.getList(path));
++    }
++
++    static Map<String, Object> getMap(String path, Map<String, Object> def) {
++        if (def != null && config.getConfigurationSection(path) == null) {
++            config.addDefault(path, def);
++            return def;
++        }
++        return toMap(config.getConfigurationSection(path));
++    }
++
++    private static Map<String, Object> toMap(ConfigurationSection section) {
++        ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
++        if (section != null) {
++            for (String key : section.getKeys(false)) {
++                Object obj = section.get(key);
++                if (obj != null) {
++                    builder.put(key, obj instanceof ConfigurationSection val ? toMap(val) : obj);
++                }
++            }
++        }
++        return builder.build();
++    }
++}
+\ No newline at end of file
+diff --git a/src/main/java/gq/bxteam/divinemc/configuration/DivineWorldConfig.java b/src/main/java/gq/bxteam/divinemc/configuration/DivineWorldConfig.java
+new file mode 100644
+index 0000000000000000000000000000000000000000..5d16d2250bae9c982a0af9ad2580a63532b140f7
+--- /dev/null
++++ b/src/main/java/gq/bxteam/divinemc/configuration/DivineWorldConfig.java
+@@ -0,0 +1,80 @@
++package gq.bxteam.divinemc.configuration;
++
++import org.apache.commons.lang.BooleanUtils;
++import org.bukkit.World;
++import org.bukkit.configuration.ConfigurationSection;
++
++import java.util.List;
++import java.util.Map;
++import java.util.function.Predicate;
++
++import static gq.bxteam.divinemc.configuration.DivineConfig.log;
++
++@SuppressWarnings("unused")
++public class DivineWorldConfig {
++
++    private final String worldName;
++    private final World.Environment environment;
++
++    public DivineWorldConfig(String worldName, World.Environment environment) {
++        this.worldName = worldName;
++        this.environment = environment;
++        init();
++    }
++
++    public void init() {
++        log("-------- World Settings For [" + worldName + "] --------");
++        DivineConfig.readConfig(DivineWorldConfig.class, this);
++    }
++
++    private void set(String path, Object val) {
++        DivineConfig.config.addDefault("world-settings.default." + path, val);
++        DivineConfig.config.set("world-settings.default." + path, val);
++        if (DivineConfig.config.get("world-settings." + worldName + "." + path) != null) {
++            DivineConfig.config.addDefault("world-settings." + worldName + "." + path, val);
++            DivineConfig.config.set("world-settings." + worldName + "." + path, val);
 +        }
 +    }
 +
-+    private static boolean getBoolean(String key, boolean defaultValue, String... comment) {
-+        return getBoolean(key, null, defaultValue, comment);
++    private ConfigurationSection getConfigurationSection(String path) {
++        ConfigurationSection section = DivineConfig.config.getConfigurationSection("world-settings." + worldName + "." + path);
++        return section != null ? section : DivineConfig.config.getConfigurationSection("world-settings.default." + path);
 +    }
 +
-+    private static boolean getBoolean(String key, @Nullable String oldKey, boolean defaultValue, String... comment) {
-+        ensureDefault(key, defaultValue, comment);
-+        return config.getBoolean(key, defaultValue);
++    private String getString(String path, String def) {
++        DivineConfig.config.addDefault("world-settings.default." + path, def);
++        return DivineConfig.config.getString("world-settings." + worldName + "." + path, DivineConfig.config.getString("world-settings.default." + path));
 +    }
 +
-+    private static int getInt(String key, int defaultValue, String... comment) {
-+        return getInt(key, null, defaultValue, comment);
++    private boolean getBoolean(String path, boolean def) {
++        DivineConfig.config.addDefault("world-settings.default." + path, def);
++        return DivineConfig.config.getBoolean("world-settings." + worldName + "." + path, DivineConfig.config.getBoolean("world-settings.default." + path));
 +    }
 +
-+    private static int getInt(String key, @Nullable String oldKey, int defaultValue, String... comment) {
-+        ensureDefault(key, defaultValue, comment);
-+        return config.getInt(key, defaultValue);
++    private boolean getBoolean(String path, Predicate<Boolean> predicate) {
++        String val = getString(path, "default").toLowerCase();
++        Boolean bool = BooleanUtils.toBooleanObject(val, "true", "false", "default");
++        return predicate.test(bool);
 +    }
 +
-+    private static double getDouble(String key, double defaultValue, String... comment) {
-+        return getDouble(key, null, defaultValue, comment);
++    private double getDouble(String path, double def) {
++        DivineConfig.config.addDefault("world-settings.default." + path, def);
++        return DivineConfig.config.getDouble("world-settings." + worldName + "." + path, DivineConfig.config.getDouble("world-settings.default." + path));
 +    }
 +
-+    private static double getDouble(String key, @Nullable String oldKey, double defaultValue, String... comment) {
-+        ensureDefault(key, defaultValue, comment);
-+        return config.getDouble(key, defaultValue);
++    private int getInt(String path, int def) {
++        DivineConfig.config.addDefault("world-settings.default." + path, def);
++        return DivineConfig.config.getInt("world-settings." + worldName + "." + path, DivineConfig.config.getInt("world-settings.default." + path));
 +    }
 +
-+    private static String getString(String key, String defaultValue, String... comment) {
-+        return getOldString(key, null, defaultValue, comment);
++    private <T> List<?> getList(String path, T def) {
++        DivineConfig.config.addDefault("world-settings.default." + path, def);
++        return DivineConfig.config.getList("world-settings." + worldName + "." + path, DivineConfig.config.getList("world-settings.default." + path));
 +    }
 +
-+    private static String getOldString(String key, @Nullable String oldKey, String defaultValue, String... comment) {
-+        ensureDefault(key, defaultValue, comment);
-+        return config.getString(key, defaultValue);
++    private Map<String, Object> getMap(String path, Map<String, Object> def) {
++        final Map<String, Object> fallback = DivineConfig.getMap("world-settings.default." + path, def);
++        final Map<String, Object> value = DivineConfig.getMap("world-settings." + worldName + "." + path, null);
++        return value.isEmpty() ? fallback : value;
 +    }
-+
-+    private static List<String> getStringList(String key, List<String> defaultValue, String... comment) {
-+        return getStringList(key, null, defaultValue, comment);
-+    }
-+
-+    private static List<String> getStringList(String key, @Nullable String oldKey, List<String> defaultValue, String... comment) {
-+        ensureDefault(key, defaultValue, comment);
-+        return config.getStringList(key);
-+    }
-+
 +}
 \ No newline at end of file
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 673fb3955291407be37dc78be4eec9bf2018128b..f7934ce8a62404d7eaee2d334317d894e7c9ad05 100644
+index 582467e3419c23446b20d3076fbfce22115250a8..6a12c93b730838a06af7ac8801433a394064e2bc 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-@@ -223,6 +223,8 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
-         // Paper end
+@@ -233,6 +233,15 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+         gg.pufferfish.pufferfish.PufferfishConfig.pufferfishFile = (java.io.File) options.valueOf("pufferfish-settings"); // Purpur
          gg.pufferfish.pufferfish.PufferfishConfig.load(); // Pufferfish
          gg.pufferfish.pufferfish.PufferfishCommand.init(); // Pufferfish
-+		 gq.bxteam.divinemc.DivineConfig.load(); // DivineMC 
-+		 gq.bxteam.divinemc.DivineCommand.init(); // DivineMC
++        // DivineMC start
++        try {
++            gq.bxteam.divinemc.configuration.DivineConfig.init((java.io.File) options.valueOf("divinemc-settings"));
++        } catch (Exception e) {
++            DedicatedServer.LOGGER.error("Unable to load server configuration", e);
++            return false;
++        }
++        gq.bxteam.divinemc.configuration.DivineConfig.registerCommands();
++        // DivineMC end
  
          this.setPvpAllowed(dedicatedserverproperties.pvp);
          this.setFlightAllowed(dedicatedserverproperties.allowFlight);
+diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
+index b8001bca2a33ec1e60566948a651400418a6e9e7..e39b3c7a67de82dd5165f9276f374cd89ecf96c9 100644
+--- a/src/main/java/net/minecraft/world/level/Level.java
++++ b/src/main/java/net/minecraft/world/level/Level.java
+@@ -15,6 +15,8 @@ import java.util.function.Consumer;
+ import java.util.function.Predicate;
+ import java.util.function.Supplier;
+ import javax.annotation.Nullable;
++
++import gq.bxteam.divinemc.configuration.DivineWorldConfig;
+ import net.minecraft.CrashReport;
+ import net.minecraft.CrashReportCategory;
+ import net.minecraft.ReportedException;
+@@ -178,6 +180,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+ 
+     public final com.destroystokyo.paper.antixray.ChunkPacketBlockController chunkPacketBlockController; // Paper - Anti-Xray
+     public final org.purpurmc.purpur.PurpurWorldConfig purpurConfig; // Purpur
++    public final gq.bxteam.divinemc.configuration.DivineWorldConfig divinemcConfig; // DivineMC
+     public final co.aikar.timings.WorldTimingsHandler timings; // Paper
+     public static BlockPos lastPhysicsProblem; // Spigot
+     private org.spigotmc.TickLimiter entityLimiter;
+@@ -333,6 +336,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+         this.spigotConfig = new org.spigotmc.SpigotWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName()); // Spigot
+         this.paperConfig = paperWorldConfigCreator.apply(this.spigotConfig); // Paper
+         this.purpurConfig = new org.purpurmc.purpur.PurpurWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName(), env); // Purpur
++        this.divinemcConfig = new DivineWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName(), env); // DivineMC
+         this.playerBreedingCooldowns = this.getNewBreedingCooldownCache(); // Purpur
+         this.generator = gen;
+         this.world = new CraftWorld((ServerLevel) this, gen, biomeProvider, env);
+diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
+index 0a7dbd25be18be8b5b2ab495a0c624e018089115..321e7216c479c77edf508c2096d127e95e8d109c 100644
+--- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
++++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
+@@ -15,6 +15,7 @@ import com.mojang.brigadier.tree.LiteralCommandNode;
+ import com.mojang.datafixers.util.Pair;
+ import com.mojang.serialization.DynamicOps;
+ import com.mojang.serialization.Lifecycle;
++import gq.bxteam.divinemc.configuration.DivineConfig;
+ import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
+ import java.awt.image.BufferedImage;
+ import java.io.ByteArrayOutputStream;
+@@ -971,6 +972,7 @@ public final class CraftServer implements Server {
+         org.spigotmc.SpigotConfig.init((File) console.options.valueOf("spigot-settings")); // Spigot
+         this.console.paperConfigurations.reloadConfigs(this.console);
+         org.purpurmc.purpur.PurpurConfig.init((File) console.options.valueOf("purpur-settings")); // Purpur
++        gq.bxteam.divinemc.configuration.DivineConfig.init((File) console.options.valueOf("divinemc-settings")); // DivineMC
+         for (ServerLevel world : this.console.getAllLevels()) {
+             // world.serverLevelData.setDifficulty(config.difficulty); // Paper - per level difficulty
+             world.setSpawnSettings(world.serverLevelData.getDifficulty() != Difficulty.PEACEFUL && config.spawnMonsters, config.spawnAnimals); // Paper - per level difficulty (from MinecraftServer#setDifficulty(ServerLevel, Difficulty, boolean))
+@@ -987,6 +989,7 @@ public final class CraftServer implements Server {
+             }
+             world.spigotConfig.init(); // Spigot
+             world.purpurConfig.init(); // Purpur
++            world.divinemcConfig.init(); // DivineMC
+         }
+ 
+         Plugin[] pluginClone = pluginManager.getPlugins().clone(); // Paper
+@@ -1003,6 +1006,7 @@ public final class CraftServer implements Server {
+         org.spigotmc.SpigotConfig.registerCommands(); // Spigot
+         io.papermc.paper.command.PaperCommands.registerCommands(this.console); // Paper
+         org.purpurmc.purpur.PurpurConfig.registerCommands(); // Purpur
++        gq.bxteam.divinemc.configuration.DivineConfig.registerCommands(); // DivineMC
+         this.overrideAllCommandBlockCommands = this.commandsConfiguration.getStringList("command-block-overrides").contains("*");
+         this.ignoreVanillaPermissions = this.commandsConfiguration.getBoolean("ignore-vanilla-permissions");
+ 
+@@ -2828,6 +2832,13 @@ public final class CraftServer implements Server {
+         }
+         // Purpur end
+ 
++        // DivineMC start
++        @Override
++        public YamlConfiguration getDivineConfig() {
++            return DivineConfig.config;
++        }
++        // DivineMC end
++
+         @Override
+         public void restart() {
+             org.spigotmc.RestartCommand.restart();
+diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
+index ab05f4151e6ec7404a85ddb3a141ed39d9ed86d7..525c1458043392359c0cc720eebf7638c459119e 100644
+--- a/src/main/java/org/bukkit/craftbukkit/Main.java
++++ b/src/main/java/org/bukkit/craftbukkit/Main.java
+@@ -187,6 +187,14 @@ public class Main {
+                         .describedAs("Yml file");
+                 // Purpur end
+ 
++                // DivineMC start
++                acceptsAll(asList("divinemc", "divinemc-settings"), "File for divinemc settings")
++                        .withRequiredArg()
++                        .ofType(File.class)
++                        .defaultsTo(new File("divinemc.yml"))
++                        .describedAs("Yml file");
++                // DivineMC end
++
+                 // Paper start
+                 acceptsAll(asList("server-name"), "Name of the server")
+                         .withRequiredArg()
