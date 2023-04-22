@@ -197,6 +197,19 @@ index 0000000000000000000000000000000000000000..9cf193e49ce67f6f334129dcc2dc1f1b
 +    }
 +}
 \ No newline at end of file
+diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
+index 861afc3e8fed9884d4efb0b9548cfc2df9c27adc..4f301b0b2010086b9ec478d784cf2c89f180c4bc 100644
+--- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
++++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
+@@ -256,7 +256,7 @@ import javax.annotation.Nullable; // Paper
+ import javax.annotation.Nonnull; // Paper
+ 
+ public final class CraftServer implements Server {
+-    private final String serverName = "Purpur"; // Paper // Pufferfish // Purpur
++    private final String serverName = "DivineMC"; // Paper // Pufferfish // Purpur // DivineMC
+     private final String serverVersion;
+     private final String bukkitVersion = Versioning.getBukkitVersion();
+     private final Logger logger = Logger.getLogger("Minecraft");
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
 index 1dd7f923dd6adb41eafc3ea0c063e3aae6670124..bd21dd728b6d47d354aeb879b083394e186d6a5c 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
