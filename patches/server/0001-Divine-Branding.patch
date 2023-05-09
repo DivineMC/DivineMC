@@ -40,6 +40,91 @@ index 8cde30544e14f8fc2dac32966ae3c21f8cf3a551..ad62e0b7deb141d22be4f19ea30f6144
  
                  metrics.addCustomChart(new Metrics.SimplePie("minecraft_version", () -> {
                      String minecraftVersion = Bukkit.getVersion();
+diff --git a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java b/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
+index 462a6eed350fd660ddaf25d567bb6e97b77d0b2b..56c7c9e486ed17f18ebb1a4b59e9e8aa31d8b380 100644
+--- a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
++++ b/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
+@@ -20,21 +20,21 @@ import java.util.stream.StreamSupport;
+ public class PaperVersionFetcher implements VersionFetcher {
+     private static final java.util.regex.Pattern VER_PATTERN = java.util.regex.Pattern.compile("^([0-9\\.]*)\\-.*R"); // R is an anchor, will always give '-R' at end
+     // Purpur start
+-    private static final String DOWNLOAD_PAGE = "https://purpurmc.org/downloads";
++    private static final String DOWNLOAD_PAGE = "https://divinemc.bxteam.gq/#download"; // DivineMC
+     private static int distance = -2; public int distance() { return distance; }
+     // Purpur end
+     private static @Nullable String mcVer;
+ 
+     @Override
+     public long getCacheTime() {
+-        return 720000;
++        return 600000; // DivineMC - Decrease cache time to 10 minutes
+     }
+ 
+     @Nonnull
+     @Override
+     public Component getVersionMessage(@Nonnull String serverVersion) {
+-        String[] parts = serverVersion.substring("git-Purpur-".length()).split("[-\\s]"); // Purpur
+-        final Component updateMessage = getUpdateStatusMessage("PurpurMC/Purpur", "ver/" + getMinecraftVersion(), parts[0]); // Purpur
++        String[] parts = serverVersion.substring("git-DivineMC-".length()).split("[-\\s]"); // DivineMC
++        final Component updateMessage = getUpdateStatusMessage("DivineMC/DivineMC", "ver/" + getMinecraftVersion(), parts[0]); // DivineMC
+         final Component history = getHistory();
+ 
+         return history != null ? Component.join(net.kyori.adventure.text.JoinConfiguration.separator(Component.newline()), history, updateMessage) : updateMessage; // Purpur
+@@ -47,7 +47,7 @@ public class PaperVersionFetcher implements VersionFetcher {
+                 String result = matcher.group();
+                 mcVer = result.substring(0, result.length() - 2); // strip 'R' anchor and trailing '-'
+             } else {
+-                org.bukkit.Bukkit.getLogger().warning("Unable to match version to pattern! Report to Purpur!"); // Purpur
++                org.bukkit.Bukkit.getLogger().warning("Unable to match version to pattern! Report to DivineMC!"); // DivineMC
+                 org.bukkit.Bukkit.getLogger().warning("Pattern: " + VER_PATTERN.toString());
+                 org.bukkit.Bukkit.getLogger().warning("Version: " + org.bukkit.Bukkit.getBukkitVersion());
+             }
+@@ -57,14 +57,14 @@ public class PaperVersionFetcher implements VersionFetcher {
+     }
+ 
+     private static Component getUpdateStatusMessage(@Nonnull String repo, @Nonnull String branch, @Nonnull String versionInfo) {
+-        //int distance; // Purpur - use field
++        // DivineMC start - Branding
+         try {
+-            int jenkinsBuild = Integer.parseInt(versionInfo);
+-            distance = fetchDistanceFromSiteApi(jenkinsBuild, getMinecraftVersion());
+-        } catch (NumberFormatException ignored) {
+             versionInfo = versionInfo.replace("\"", "");
+             distance = fetchDistanceFromGitHub(repo, branch, versionInfo);
++        } catch (Exception ex) {
++            org.bukkit.Bukkit.getLogger().warning("Error obtaining version information! Report to DivineMC!");
+         }
++        // DivineMC end
+ 
+         switch (distance) {
+             case -1:
+@@ -83,26 +83,6 @@ public class PaperVersionFetcher implements VersionFetcher {
+         }
+     }
+ 
+-    private static int fetchDistanceFromSiteApi(int jenkinsBuild, @Nullable String siteApiVersion) {
+-        if (siteApiVersion == null) { return -1; }
+-        try {
+-            try (BufferedReader reader = Resources.asCharSource(
+-                new URL("https://api.purpurmc.org/v2/purpur/" + siteApiVersion), // Purpur
+-                Charsets.UTF_8
+-            ).openBufferedStream()) {
+-                JsonObject json = new Gson().fromJson(reader, JsonObject.class);
+-                int latest = json.getAsJsonObject("builds").getAsJsonPrimitive("latest").getAsInt(); // Purpur
+-                return latest - jenkinsBuild;
+-            } catch (JsonSyntaxException ex) {
+-                ex.printStackTrace();
+-                return -1;
+-            }
+-        } catch (IOException e) {
+-            e.printStackTrace();
+-            return -1;
+-        }
+-    }
+-
+     // Contributed by Techcable <Techcable@outlook.com> in GH-65
+     private static int fetchDistanceFromGitHub(@Nonnull String repo, @Nonnull String branch, @Nonnull String hash) {
+         try {
 diff --git a/src/main/java/com/destroystokyo/paper/console/PaperConsole.java b/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
 index 3cb56595822799926a8141e60a42f5d1edfc6de5..05478a1ea04ec0396bc8c97090edef4a2aced2a9 100644
 --- a/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
@@ -66,90 +151,6 @@ index 861afc3e8fed9884d4efb0b9548cfc2df9c27adc..4f301b0b2010086b9ec478d784cf2c89
      private final String serverVersion;
      private final String bukkitVersion = Versioning.getBukkitVersion();
      private final Logger logger = Logger.getLogger("Minecraft");
-diff --git a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java b/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
---- a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java	(revision f72a62c1ae15e812efcc6535cf5a8d4ebdd434ec)
-+++ b/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java	(date 1683632294150)
-@@ -20,21 +20,21 @@
- public class PaperVersionFetcher implements VersionFetcher {
-     private static final java.util.regex.Pattern VER_PATTERN = java.util.regex.Pattern.compile("^([0-9\\.]*)\\-.*R"); // R is an anchor, will always give '-R' at end
-     // Purpur start
--    private static final String DOWNLOAD_PAGE = "https://purpurmc.org/downloads";
-+    private static final String DOWNLOAD_PAGE = "https://divinemc.bxteam.gq/#download"; // DivineMC
-     private static int distance = -2; public int distance() { return distance; }
-     // Purpur end
-     private static @Nullable String mcVer;
-
-     @Override
-     public long getCacheTime() {
--        return 720000;
-+        return 600000; // DivineMC - Decrease cache time to 10 minutes
-     }
-
-     @Nonnull
-     @Override
-     public Component getVersionMessage(@Nonnull String serverVersion) {
--        String[] parts = serverVersion.substring("git-Purpur-".length()).split("[-\\s]"); // Purpur
--        final Component updateMessage = getUpdateStatusMessage("PurpurMC/Purpur", "ver/" + getMinecraftVersion(), parts[0]); // Purpur
-+        String[] parts = serverVersion.substring("git-DivineMC-".length()).split("[-\\s]"); // DivineMC
-+        final Component updateMessage = getUpdateStatusMessage("DivineMC/DivineMC", "ver/" + getMinecraftVersion(), parts[0]); // DivineMC
-         final Component history = getHistory();
-
-         return history != null ? Component.join(net.kyori.adventure.text.JoinConfiguration.separator(Component.newline()), history, updateMessage) : updateMessage; // Purpur
-@@ -47,7 +47,7 @@
-                 String result = matcher.group();
-                 mcVer = result.substring(0, result.length() - 2); // strip 'R' anchor and trailing '-'
-             } else {
--                org.bukkit.Bukkit.getLogger().warning("Unable to match version to pattern! Report to Purpur!"); // Purpur
-+                org.bukkit.Bukkit.getLogger().warning("Unable to match version to pattern! Report to DivineMC!"); // DivineMC
-                 org.bukkit.Bukkit.getLogger().warning("Pattern: " + VER_PATTERN.toString());
-                 org.bukkit.Bukkit.getLogger().warning("Version: " + org.bukkit.Bukkit.getBukkitVersion());
-             }
-@@ -57,14 +57,14 @@
-     }
-
-     private static Component getUpdateStatusMessage(@Nonnull String repo, @Nonnull String branch, @Nonnull String versionInfo) {
--        //int distance; // Purpur - use field
-+        // DivineMC start - Branding
-         try {
--            int jenkinsBuild = Integer.parseInt(versionInfo);
--            distance = fetchDistanceFromSiteApi(jenkinsBuild, getMinecraftVersion());
--        } catch (NumberFormatException ignored) {
-             versionInfo = versionInfo.replace("\"", "");
-             distance = fetchDistanceFromGitHub(repo, branch, versionInfo);
-+        } catch (Exception ex) {
-+            org.bukkit.Bukkit.getLogger().warning("Error obtaining version information! Report to DivineMC!");
-         }
-+        // DivineMC end
-
-         switch (distance) {
-             case -1:
-@@ -83,26 +83,6 @@
-         }
-     }
-
--    private static int fetchDistanceFromSiteApi(int jenkinsBuild, @Nullable String siteApiVersion) {
--        if (siteApiVersion == null) { return -1; }
--        try {
--            try (BufferedReader reader = Resources.asCharSource(
--                new URL("https://api.purpurmc.org/v2/purpur/" + siteApiVersion), // Purpur
--                Charsets.UTF_8
--            ).openBufferedStream()) {
--                JsonObject json = new Gson().fromJson(reader, JsonObject.class);
--                int latest = json.getAsJsonObject("builds").getAsJsonPrimitive("latest").getAsInt(); // Purpur
--                return latest - jenkinsBuild;
--            } catch (JsonSyntaxException ex) {
--                ex.printStackTrace();
--                return -1;
--            }
--        } catch (IOException e) {
--            e.printStackTrace();
--            return -1;
--        }
--    }
--
-     // Contributed by Techcable <Techcable@outlook.com> in GH-65
-     private static int fetchDistanceFromGitHub(@Nonnull String repo, @Nonnull String branch, @Nonnull String hash) {
-         try {
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java b/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
 index 99597258e8e88cd9e2c901c4ac3ff7faeeabee2b..627ceea9fa0fccd3e466eb34d59e760be30a69a8 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
@@ -164,7 +165,7 @@ index 99597258e8e88cd9e2c901c4ac3ff7faeeabee2b..627ceea9fa0fccd3e466eb34d59e760b
  
          if (stream != null) {
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-index 0bcbe1f07ff8e552d2abd6e432af5710005acc04..cfcf5334a801b8ba90d3a1f55d3e3ede49c4befc 100644
+index ad7d3b71cf2f2e20794345c590e161d41b78b2d5..780e817ea27f519d6c7de61699d59bf422e8c1ae 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 @@ -227,7 +227,7 @@ public class PurpurConfig {
