@@ -5,10 +5,10 @@ Subject: [PATCH] Rework Spigot Deprecations
 
 
 diff --git a/src/main/java/org/bukkit/OfflinePlayer.java b/src/main/java/org/bukkit/OfflinePlayer.java
-index 3578ab0c3a413d56bc39af43b5d3201d20d7d13a..29ac48445c3b6d14b1b549d856c350df6712ccac 100644
+index df642a55003517040be795b44a8bf107dd88810b..09ae729cfdcc60c3315e3d87422e92db8c482fe5 100644
 --- a/src/main/java/org/bukkit/OfflinePlayer.java
 +++ b/src/main/java/org/bukkit/OfflinePlayer.java
-@@ -160,9 +160,11 @@ public interface OfflinePlayer extends ServerOperator, AnimalTamer, Configuratio
+@@ -165,9 +165,11 @@ public interface OfflinePlayer extends ServerOperator, AnimalTamer, Configuratio
       * UTC.
       *
       * @return Date of last log-in for this player, or 0
@@ -59,10 +59,10 @@ index fc4d3bcd9b16097086fef7975274d825b65adb10..e485975dbb6973d2b21259c4e4d5d751
      void resetMaxHealth();
  }
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index 43cef54d355c8a1b6a8cd6be89a6a805e9f88566..457facce52256c42c3c249ec7f4b3ed4f0269618 100644
+index 838f32eb3397d847071f54648dbac02c35d621cf..93279bcd93e17f2460782b0da09745242a2c45c0 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -279,14 +279,15 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -280,14 +280,15 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       * Returns true if the entity is supported by a block.
       *
       * This value is a state updated by the client after each movement.

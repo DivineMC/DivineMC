@@ -50,10 +50,10 @@ index 6b0bdc266109cdfb874f08bf74323603921d2260..a355470f6b0e8286a178ad279ad93bca
 +}
 \ No newline at end of file
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 33d4c1af86382cc3343d5db42283b27f69f52374..9679cce1a836add4aee343087370a2fc4d2d132e 100644
+index c27e455321951e76e4818fec0e64301f5620dbf6..1a90a7d91288b9a8ab3539785de2616a6f24aa48 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
-@@ -302,11 +302,13 @@ public abstract class PlayerList {
+@@ -304,11 +304,13 @@ public abstract class PlayerList {
          Component joinMessage = ichatmutablecomponent; // Paper - Adventure
  
          playerconnection.teleport(player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot());

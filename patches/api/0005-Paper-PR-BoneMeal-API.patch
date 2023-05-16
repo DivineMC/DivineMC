@@ -5,10 +5,10 @@ Subject: [PATCH] Paper PR - BoneMeal API
 
 
 diff --git a/src/main/java/org/bukkit/World.java b/src/main/java/org/bukkit/World.java
-index cf8b93aa5787e96f54e2ffe2a0f157b0e53e2c5c..5bbab861056ff3277f2778c3cb2eb9367cdab012 100644
+index 4561ca02052d774bc1424f7044c34f7affd415fc..7f668a21f3e92d7f98f1bc82d84fdf76be5308f1 100644
 --- a/src/main/java/org/bukkit/World.java
 +++ b/src/main/java/org/bukkit/World.java
-@@ -4157,4 +4157,20 @@ public interface World extends RegionAccessor, WorldInfo, PluginMessageRecipient
+@@ -4112,4 +4112,20 @@ public interface World extends RegionAccessor, WorldInfo, PluginMessageRecipient
              }
          }
      }
