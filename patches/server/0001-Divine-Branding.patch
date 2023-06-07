@@ -139,10 +139,10 @@ index 3cb56595822799926a8141e60a42f5d1edfc6de5..05478a1ea04ec0396bc8c97090edef4a
                  .completer(new ConsoleCommandCompleter(this.server))
                  .option(LineReader.Option.COMPLETE_IN_WORD, true);
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 3f80b16c8d69f284a26b16cf2513a955005bf458..6482d743281eddde167a5a1b2f6d680c6d9916ba 100644
+index 3310828edcabd2c24e3200dcb89d4e8ebd82cf16..969830ca6ea861d0c140f12547955b93d3bb80cf 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -259,7 +259,7 @@ import javax.annotation.Nullable; // Paper
+@@ -262,7 +262,7 @@ import javax.annotation.Nullable; // Paper
  import javax.annotation.Nonnull; // Paper
  
  public final class CraftServer implements Server {
@@ -165,10 +165,10 @@ index 99597258e8e88cd9e2c901c4ac3ff7faeeabee2b..627ceea9fa0fccd3e466eb34d59e760b
  
          if (stream != null) {
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-index 62ad4c6ad417e11e9152f74636b2ff0d187d0799..0dfd997fea4154896f5a3a04cdfd2d9ab706004f 100644
+index be8b44daa0141151c973917a774aa07721647ed1..0b2a5dc43ccba7d223cbdfd3f1dc539a6dab0444 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-@@ -227,7 +227,7 @@ public class PurpurConfig {
+@@ -229,7 +229,7 @@ public class PurpurConfig {
          deathMessageOnlyBroadcastToAffectedPlayer = getBoolean("settings.broadcasts.death.only-broadcast-to-affected-player", deathMessageOnlyBroadcastToAffectedPlayer);
      }
  
