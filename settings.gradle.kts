@@ -11,7 +11,7 @@ pluginManagement {
 rootProject.name = "DivineMC"
 
 for (name in listOf("DivineMC-API", "DivineMC-Server")) {
-    val projName = name.toLowerCase(Locale.ENGLISH)
+    val projName = name.lowercase(Locale.ENGLISH)
     include(projName)
     findProject(":$projName")!!.projectDir = file(name)
 }

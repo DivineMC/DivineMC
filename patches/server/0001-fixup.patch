@@ -1,0 +1,986 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <kidzania177@gmail.com>
+Date: Thu, 8 Jun 2023 22:11:45 +0300
+Subject: [PATCH] fixup
+
+
+diff --git a/build.gradle.kts b/build.gradle.kts
+index bc71323234b69a07ac84703c04734711ca0dd113..277fce4e1e9c60010dbe295d6636277da4d3606b 100644
+--- a/build.gradle.kts
++++ b/build.gradle.kts
+@@ -7,8 +7,13 @@ plugins {
+ }
+ 
+ dependencies {
++<<<<<<< HEAD
+     implementation(project(":paper-api"))
+     implementation(project(":paper-mojangapi"))
++=======
++    implementation(project(":divinemc-api")) // DivineMC
++    implementation("io.papermc.paper:paper-mojangapi:1.19.4-R0.1-SNAPSHOT") // Purpur
++>>>>>>> Divine Branding
+     // Paper start
+     implementation("org.jline:jline-terminal-jansi:3.21.0")
+     implementation("net.minecrell:terminalconsoleappender:1.3.0")
+@@ -56,7 +61,11 @@ tasks.jar {
+         attributes(
+             "Main-Class" to "org.bukkit.craftbukkit.Main",
+             "Implementation-Title" to "CraftBukkit",
++<<<<<<< HEAD
+             "Implementation-Version" to "git-Paper-$implementationVersion",
++=======
++            "Implementation-Version" to "git-DivineMC-$implementationVersion", // DivineMC
++>>>>>>> Divine Branding
+             "Implementation-Vendor" to date, // Paper
+             "Specification-Title" to "Bukkit",
+             "Specification-Version" to project.version,
+diff --git a/src/main/java/com/destroystokyo/paper/Metrics.java b/src/main/java/com/destroystokyo/paper/Metrics.java
+index 4b002e8b75d117b726b0de274a76d3596fce015b..323c2fbc83ffbb691b1f719c6c6971774622d1a8 100644
+--- a/src/main/java/com/destroystokyo/paper/Metrics.java
++++ b/src/main/java/com/destroystokyo/paper/Metrics.java
+@@ -593,7 +593,7 @@ public class Metrics {
+             boolean logFailedRequests = config.getBoolean("logFailedRequests", false);
+             // Only start Metrics, if it's enabled in the config
+             if (config.getBoolean("enabled", true)) {
+-                Metrics metrics = new Metrics("Paper", serverUUID, logFailedRequests, Bukkit.getLogger());
++                Metrics metrics = new Metrics("DivineMC", serverUUID, logFailedRequests, Bukkit.getLogger()); // DivineMC
+ 
+                 metrics.addCustomChart(new Metrics.SimplePie("minecraft_version", () -> {
+                     String minecraftVersion = Bukkit.getVersion();
+diff --git a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java b/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
+index 9d687da5bdf398bb3f6c84cdf1249a7213d09f2e..74a60152a9b1d76946b74de37615c0156cf17c17 100644
+--- a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
++++ b/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
+@@ -19,23 +19,25 @@ import java.util.stream.StreamSupport;
+ 
+ public class PaperVersionFetcher implements VersionFetcher {
+     private static final java.util.regex.Pattern VER_PATTERN = java.util.regex.Pattern.compile("^([0-9\\.]*)\\-.*R"); // R is an anchor, will always give '-R' at end
+-    private static final String GITHUB_BRANCH_NAME = "master";
+-    private static final String DOWNLOAD_PAGE = "https://papermc.io/downloads/paper";
++    // DivineMC start
++    private static final String DOWNLOAD_PAGE = "https://divinemc.bxteam.gq/#download"; // DivineMC
++    private static int distance = -2; public int distance() { return distance; }
++    // DivineMC end
+     private static @Nullable String mcVer;
+ 
+     @Override
+     public long getCacheTime() {
+-        return 720000;
++        return 600000; // DivineMC - Decrease cache time to 10 minutes
+     }
+ 
+     @Nonnull
+     @Override
+     public Component getVersionMessage(@Nonnull String serverVersion) {
+-        String[] parts = serverVersion.substring("git-Paper-".length()).split("[-\\s]");
+-        final Component updateMessage = getUpdateStatusMessage("PaperMC/Paper", GITHUB_BRANCH_NAME, parts[0]);
++        String[] parts = serverVersion.substring("git-DivineMC-".length()).split("[-\\s]"); // DivineMC
++        final Component updateMessage = getUpdateStatusMessage("DivineMC/DivineMC", "ver/" + getMinecraftVersion(), parts[0]); // DivineMC
+         final Component history = getHistory();
+ 
+-        return history != null ? TextComponent.ofChildren(updateMessage, Component.newline(), history) : updateMessage;
++        return history != null ? Component.textOfChildren(updateMessage, Component.newline(), history) : updateMessage;
+     }
+ 
+     private static @Nullable String getMinecraftVersion() {
+@@ -45,7 +47,7 @@ public class PaperVersionFetcher implements VersionFetcher {
+                 String result = matcher.group();
+                 mcVer = result.substring(0, result.length() - 2); // strip 'R' anchor and trailing '-'
+             } else {
+-                org.bukkit.Bukkit.getLogger().warning("Unable to match version to pattern! Report to PaperMC!");
++                org.bukkit.Bukkit.getLogger().warning("Unable to match version to pattern! Report to DivineMC!"); // DivineMC
+                 org.bukkit.Bukkit.getLogger().warning("Pattern: " + VER_PATTERN.toString());
+                 org.bukkit.Bukkit.getLogger().warning("Version: " + org.bukkit.Bukkit.getBukkitVersion());
+             }
+@@ -55,14 +57,14 @@ public class PaperVersionFetcher implements VersionFetcher {
+     }
+ 
+     private static Component getUpdateStatusMessage(@Nonnull String repo, @Nonnull String branch, @Nonnull String versionInfo) {
+-        int distance;
++        // DivineMC start - Branding
+         try {
+-            int jenkinsBuild = Integer.parseInt(versionInfo);
+-            distance = fetchDistanceFromSiteApi(jenkinsBuild, getMinecraftVersion());
+-        } catch (NumberFormatException ignored) {
+             versionInfo = versionInfo.replace("\"", "");
+             distance = fetchDistanceFromGitHub(repo, branch, versionInfo);
++        } catch (Exception ex) {
++            org.bukkit.Bukkit.getLogger().warning("Error obtaining version information! Report to DivineMC!");
+         }
++        // DivineMC end
+ 
+         switch (distance) {
+             case -1:
+@@ -81,30 +83,6 @@ public class PaperVersionFetcher implements VersionFetcher {
+         }
+     }
+ 
+-    private static int fetchDistanceFromSiteApi(int jenkinsBuild, @Nullable String siteApiVersion) {
+-        if (siteApiVersion == null) { return -1; }
+-        try {
+-            try (BufferedReader reader = Resources.asCharSource(
+-                new URL("https://api.papermc.io/v2/projects/paper/versions/" + siteApiVersion),
+-                Charsets.UTF_8
+-            ).openBufferedStream()) {
+-                JsonObject json = new Gson().fromJson(reader, JsonObject.class);
+-                JsonArray builds = json.getAsJsonArray("builds");
+-                int latest = StreamSupport.stream(builds.spliterator(), false)
+-                    .mapToInt(e -> e.getAsInt())
+-                    .max()
+-                    .getAsInt();
+-                return latest - jenkinsBuild;
+-            } catch (JsonSyntaxException ex) {
+-                ex.printStackTrace();
+-                return -1;
+-            }
+-        } catch (IOException e) {
+-            e.printStackTrace();
+-            return -1;
+-        }
+-    }
+-
+     // Contributed by Techcable <Techcable@outlook.com> in GH-65
+     private static int fetchDistanceFromGitHub(@Nonnull String repo, @Nonnull String branch, @Nonnull String hash) {
+         try {
+diff --git a/src/main/java/com/destroystokyo/paper/console/PaperConsole.java b/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
+index a4070b59e261f0f1ac4beec47b11492f4724bf27..450d76f0e7ec20bdaa1f2680cdeefe4c8b1d3686 100644
+--- a/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
++++ b/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
+@@ -17,7 +17,7 @@ public final class PaperConsole extends SimpleTerminalConsole {
+     @Override
+     protected LineReader buildReader(LineReaderBuilder builder) {
+         return super.buildReader(builder
+-                .appName("Paper")
++                .appName("DivineMC") // DivineMC
+                 .variable(LineReader.HISTORY_FILE, java.nio.file.Paths.get(".console_history"))
+                 .completer(new ConsoleCommandCompleter(this.server))
+         );
+diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
+index 5a01f8475829cd3e398a095da50bc01c5dcd092b..eb8b9de8460cb0f3e5aa2b010160b042520076ac 100644
+--- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
++++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
+@@ -262,7 +262,7 @@ import javax.annotation.Nullable; // Paper
+ import javax.annotation.Nonnull; // Paper
+ 
+ public final class CraftServer implements Server {
+-    private final String serverName = "Paper"; // Paper
++    private final String serverName = "DivineMC"; // DivineMC
+     private final String serverVersion;
+     private final String bukkitVersion = Versioning.getBukkitVersion();
+     private final Logger logger = Logger.getLogger("Minecraft");
+diff --git a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java b/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
+index 774556a62eb240da42e84db4502e2ed43495be17..ed645b12e913252d147fe2404e42a65a33108254 100644
+--- a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
++++ b/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
+@@ -10,8 +10,7 @@ import org.bukkit.Bukkit;
+ public final class Versioning {
+     public static String getBukkitVersion() {
+         String result = "Unknown-Version";
+-
+-        InputStream stream = Bukkit.class.getClassLoader().getResourceAsStream("META-INF/maven/io.papermc.paper/paper-api/pom.properties");
++        InputStream stream = Bukkit.class.getClassLoader().getResourceAsStream("META-INF/maven/gq.bxteam.divinemc/divinemc-api/pom.properties"); // DivineMC
+         Properties properties = new Properties();
+ 
+         if (stream != null) {
+diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
+new file mode 100644
+index 0000000000000000000000000000000000000000..0b2a5dc43ccba7d223cbdfd3f1dc539a6dab0444
+--- /dev/null
++++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
+@@ -0,0 +1,638 @@
++package org.purpurmc.purpur;
++
++import com.google.common.base.Throwables;
++import com.google.common.collect.ImmutableMap;
++import com.mojang.datafixers.util.Pair;
++import net.kyori.adventure.bossbar.BossBar;
++import net.kyori.adventure.text.minimessage.MiniMessage;
++import net.minecraft.core.registries.BuiltInRegistries;
++import net.minecraft.resources.ResourceLocation;
++import net.minecraft.server.MinecraftServer;
++import net.minecraft.world.effect.MobEffect;
++import net.minecraft.world.effect.MobEffectInstance;
++import net.minecraft.world.entity.EntityDimensions;
++import net.minecraft.world.entity.EntityType;
++import net.minecraft.world.food.FoodProperties;
++import net.minecraft.world.food.Foods;
++import net.minecraft.world.item.enchantment.Enchantment;
++import net.minecraft.world.level.block.Block;
++import net.minecraft.world.level.block.Blocks;
++import org.bukkit.Bukkit;
++import org.bukkit.command.Command;
++import org.bukkit.configuration.ConfigurationSection;
++import org.bukkit.configuration.InvalidConfigurationException;
++import org.bukkit.configuration.file.YamlConfiguration;
++import org.purpurmc.purpur.command.PurpurCommand;
++import org.purpurmc.purpur.task.TPSBarTask;
++
++import java.io.File;
++import java.io.IOException;
++import java.lang.reflect.InvocationTargetException;
++import java.lang.reflect.Method;
++import java.lang.reflect.Modifier;
++import java.util.ArrayList;
++import java.util.Collections;
++import java.util.HashMap;
++import java.util.HashSet;
++import java.util.List;
++import java.util.Map;
++import java.util.Set;
++import java.util.logging.Level;
++
++@SuppressWarnings("unused")
++public class PurpurConfig {
++    private static final String HEADER = "This is the main configuration file for Purpur.\n"
++            + "As you can see, there's tons to configure. Some options may impact gameplay, so use\n"
++            + "with caution, and make sure you know what each option does before configuring.\n"
++            + "\n"
++            + "If you need help with the configuration or have any questions related to Purpur,\n"
++            + "join us in our Discord guild.\n"
++            + "\n"
++            + "Website: https://purpurmc.org \n"
++            + "Docs: https://purpurmc.org/docs \n";
++    private static File CONFIG_FILE;
++    public static YamlConfiguration config;
++
++    private static Map<String, Command> commands;
++
++    public static int version;
++    static boolean verbose;
++
++    public static void init(File configFile) {
++        CONFIG_FILE = configFile;
++        config = new YamlConfiguration();
++        try {
++            config.load(CONFIG_FILE);
++        } catch (IOException ignore) {
++        } catch (InvalidConfigurationException ex) {
++            Bukkit.getLogger().log(Level.SEVERE, "Could not load purpur.yml, please correct your syntax errors", ex);
++            throw Throwables.propagate(ex);
++        }
++        config.options().header(HEADER);
++        config.options().copyDefaults(true);
++        verbose = getBoolean("verbose", false);
++
++        commands = new HashMap<>();
++        commands.put("purpur", new PurpurCommand("purpur"));
++
++        version = getInt("config-version", 32);
++        set("config-version", 32);
++
++        readConfig(PurpurConfig.class, null);
++
++        Blocks.rebuildCache();
++    }
++
++    protected static void log(String s) {
++        if (verbose) {
++            log(Level.INFO, s);
++        }
++    }
++
++    protected static void log(Level level, String s) {
++        Bukkit.getLogger().log(level, s);
++    }
++
++    public static void registerCommands() {
++        for (Map.Entry<String, Command> entry : commands.entrySet()) {
++            MinecraftServer.getServer().server.getCommandMap().register(entry.getKey(), "Purpur", entry.getValue());
++        }
++    }
++
++    static void readConfig(Class<?> clazz, Object instance) {
++        for (Method method : clazz.getDeclaredMethods()) {
++            if (Modifier.isPrivate(method.getModifiers())) {
++                if (method.getParameterTypes().length == 0 && method.getReturnType() == Void.TYPE) {
++                    try {
++                        method.setAccessible(true);
++                        method.invoke(instance);
++                    } catch (InvocationTargetException ex) {
++                        throw Throwables.propagate(ex.getCause());
++                    } catch (Exception ex) {
++                        Bukkit.getLogger().log(Level.SEVERE, "Error invoking " + method, ex);
++                    }
++                }
++            }
++        }
++
++        try {
++            config.save(CONFIG_FILE);
++        } catch (IOException ex) {
++            Bukkit.getLogger().log(Level.SEVERE, "Could not save " + CONFIG_FILE, ex);
++        }
++    }
++
++    private static void set(String path, Object val) {
++        config.addDefault(path, val);
++        config.set(path, val);
++    }
++
++    private static String getString(String path, String def) {
++        config.addDefault(path, def);
++        return config.getString(path, config.getString(path));
++    }
++
++    private static boolean getBoolean(String path, boolean def) {
++        config.addDefault(path, def);
++        return config.getBoolean(path, config.getBoolean(path));
++    }
++
++    private static double getDouble(String path, double def) {
++        config.addDefault(path, def);
++        return config.getDouble(path, config.getDouble(path));
++    }
++
++    private static int getInt(String path, int def) {
++        config.addDefault(path, def);
++        return config.getInt(path, config.getInt(path));
++    }
++
++    private static <T> List getList(String path, T def) {
++        config.addDefault(path, def);
++        return config.getList(path, config.getList(path));
++    }
++
++    static Map<String, Object> getMap(String path, Map<String, Object> def) {
++        if (def != null && config.getConfigurationSection(path) == null) {
++            config.addDefault(path, def);
++            return def;
++        }
++        return toMap(config.getConfigurationSection(path));
++    }
++
++    private static Map<String, Object> toMap(ConfigurationSection section) {
++        ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
++        if (section != null) {
++            for (String key : section.getKeys(false)) {
++                Object obj = section.get(key);
++                if (obj != null) {
++                    builder.put(key, obj instanceof ConfigurationSection val ? toMap(val) : obj);
++                }
++            }
++        }
++        return builder.build();
++    }
++
++    public static String cannotRideMob = "<red>You cannot mount that mob";
++    public static String afkBroadcastAway = "<yellow><italic>%s is now AFK";
++    public static String afkBroadcastBack = "<yellow><italic>%s is no longer AFK";
++    public static boolean afkBroadcastUseDisplayName = false;
++    public static String afkTabListPrefix = "[AFK] ";
++    public static String afkTabListSuffix = "";
++    public static String creditsCommandOutput = "<green>%s has been shown the end credits";
++    public static String demoCommandOutput = "<green>%s has been shown the demo screen";
++    public static String pingCommandOutput = "<green>%s's ping is %sms";
++    public static String ramCommandOutput = "<green>Ram Usage: <used>/<xmx> (<percent>)";
++    public static String rambarCommandOutput = "<green>Rambar toggled <onoff> for <target>";
++    public static String tpsbarCommandOutput = "<green>Tpsbar toggled <onoff> for <target>";
++    public static String dontRunWithScissors = "<red><italic>Don't run with scissors!";
++    public static String uptimeCommandOutput = "<green>Server uptime is <uptime>";
++    public static String unverifiedUsername = "default";
++    public static String sleepSkippingNight = "default";
++    public static String sleepingPlayersPercent = "default";
++    private static void messages() {
++        cannotRideMob = getString("settings.messages.cannot-ride-mob", cannotRideMob);
++        afkBroadcastAway = getString("settings.messages.afk-broadcast-away", afkBroadcastAway);
++        afkBroadcastBack = getString("settings.messages.afk-broadcast-back", afkBroadcastBack);
++        afkBroadcastUseDisplayName = getBoolean("settings.messages.afk-broadcast-use-display-name", afkBroadcastUseDisplayName);
++        afkTabListPrefix = MiniMessage.miniMessage().serialize(MiniMessage.miniMessage().deserialize(getString("settings.messages.afk-tab-list-prefix", afkTabListPrefix)));
++        afkTabListSuffix = MiniMessage.miniMessage().serialize(MiniMessage.miniMessage().deserialize(getString("settings.messages.afk-tab-list-suffix", afkTabListSuffix)));
++        creditsCommandOutput = getString("settings.messages.credits-command-output", creditsCommandOutput);
++        demoCommandOutput = getString("settings.messages.demo-command-output", demoCommandOutput);
++        pingCommandOutput = getString("settings.messages.ping-command-output", pingCommandOutput);
++        ramCommandOutput = getString("settings.messages.ram-command-output", ramCommandOutput);
++        rambarCommandOutput = getString("settings.messages.rambar-command-output", rambarCommandOutput);
++        tpsbarCommandOutput = getString("settings.messages.tpsbar-command-output", tpsbarCommandOutput);
++        dontRunWithScissors = getString("settings.messages.dont-run-with-scissors", dontRunWithScissors);
++        uptimeCommandOutput = getString("settings.messages.uptime-command-output", uptimeCommandOutput);
++        unverifiedUsername = getString("settings.messages.unverified-username", unverifiedUsername);
++        sleepSkippingNight = getString("settings.messages.sleep-skipping-night", sleepSkippingNight);
++        sleepingPlayersPercent = getString("settings.messages.sleeping-players-percent", sleepingPlayersPercent);
++    }
++
++    public static String deathMsgRunWithScissors = "<player> slipped and fell on their shears";
++    public static String deathMsgStonecutter = "<player> has sawed themself in half";
++    private static void deathMessages() {
++        deathMsgRunWithScissors = getString("settings.messages.death-message.run-with-scissors", deathMsgRunWithScissors);
++        deathMsgStonecutter = getString("settings.messages.death-message.stonecutter", deathMsgStonecutter);
++    }
++
++    public static boolean advancementOnlyBroadcastToAffectedPlayer = false;
++    public static boolean deathMessageOnlyBroadcastToAffectedPlayer = false;
++    private static void broadcastSettings() {
++        if (version < 13) {
++            boolean oldValue = getBoolean("settings.advancement.only-broadcast-to-affected-player", false);
++            set("settings.broadcasts.advancement.only-broadcast-to-affected-player", oldValue);
++            set("settings.advancement.only-broadcast-to-affected-player", null);
++        }
++        advancementOnlyBroadcastToAffectedPlayer  = getBoolean("settings.broadcasts.advancement.only-broadcast-to-affected-player", advancementOnlyBroadcastToAffectedPlayer);
++        deathMessageOnlyBroadcastToAffectedPlayer = getBoolean("settings.broadcasts.death.only-broadcast-to-affected-player", deathMessageOnlyBroadcastToAffectedPlayer);
++    }
++
++    public static String serverModName = "DivineMC"; // DivineMC
++    private static void serverModName() {
++        serverModName = getString("settings.server-mod-name", serverModName);
++    }
++
++    public static double laggingThreshold = 19.0D;
++    private static void tickLoopSettings() {
++        laggingThreshold = getDouble("settings.lagging-threshold", laggingThreshold);
++    }
++
++    public static boolean useAlternateKeepAlive = false;
++    private static void useAlternateKeepAlive() {
++        useAlternateKeepAlive = getBoolean("settings.use-alternate-keepalive", useAlternateKeepAlive);
++    }
++
++    public static boolean disableGiveCommandDrops = false;
++    private static void disableGiveCommandDrops() {
++        disableGiveCommandDrops = getBoolean("settings.disable-give-dropping", disableGiveCommandDrops);
++    }
++
++    public static String commandRamBarTitle = "<gray>Ram<yellow>:</yellow> <used>/<xmx> (<percent>)";
++    public static BossBar.Overlay commandRamBarProgressOverlay = BossBar.Overlay.NOTCHED_20;
++    public static BossBar.Color commandRamBarProgressColorGood = BossBar.Color.GREEN;
++    public static BossBar.Color commandRamBarProgressColorMedium = BossBar.Color.YELLOW;
++    public static BossBar.Color commandRamBarProgressColorLow = BossBar.Color.RED;
++    public static String commandRamBarTextColorGood = "<gradient:#55ff55:#00aa00><text></gradient>";
++    public static String commandRamBarTextColorMedium = "<gradient:#ffff55:#ffaa00><text></gradient>";
++    public static String commandRamBarTextColorLow = "<gradient:#ff5555:#aa0000><text></gradient>";
++    public static int commandRamBarTickInterval = 20;
++    public static String commandTPSBarTitle = "<gray>TPS<yellow>:</yellow> <tps> MSPT<yellow>:</yellow> <mspt> Ping<yellow>:</yellow> <ping>ms";
++    public static BossBar.Overlay commandTPSBarProgressOverlay = BossBar.Overlay.NOTCHED_20;
++    public static TPSBarTask.FillMode commandTPSBarProgressFillMode = TPSBarTask.FillMode.MSPT;
++    public static BossBar.Color commandTPSBarProgressColorGood = BossBar.Color.GREEN;
++    public static BossBar.Color commandTPSBarProgressColorMedium = BossBar.Color.YELLOW;
++    public static BossBar.Color commandTPSBarProgressColorLow = BossBar.Color.RED;
++    public static String commandTPSBarTextColorGood = "<gradient:#55ff55:#00aa00><text></gradient>";
++    public static String commandTPSBarTextColorMedium = "<gradient:#ffff55:#ffaa00><text></gradient>";
++    public static String commandTPSBarTextColorLow = "<gradient:#ff5555:#aa0000><text></gradient>";
++    public static int commandTPSBarTickInterval = 20;
++    public static String commandCompassBarTitle = "S  \u00B7  \u25C8  \u00B7  \u25C8  \u00B7  \u25C8  \u00B7  SW  \u00B7  \u25C8  \u00B7  \u25C8  \u00B7  \u25C8  \u00B7  W  \u00B7  \u25C8  \u00B7  \u25C8  \u00B7  \u25C8  \u00B7  NW  \u00B7  \u25C8  \u00B7  \u25C8  \u00B7  \u25C8  \u00B7  N  \u00B7  \u25C8  \u00B7  \u25C8  \u00B7  \u25C8  \u00B7  NE  \u00B7  \u25C8  \u00B7  \u25C8  \u00B7  \u25C8  \u00B7  E  \u00B7  \u25C8  \u00B7  \u25C8  \u00B7  \u25C8  \u00B7  SE  \u00B7  \u25C8  \u00B7  \u25C8  \u00B7  \u25C8  \u00B7  S  \u00B7  \u25C8  \u00B7  \u25C8  \u00B7  \u25C8  \u00B7  SW  \u00B7  \u25C8  \u00B7  \u25C8  \u00B7  \u25C8  \u00B7  W  \u00B7  \u25C8  \u00B7  \u25C8  \u00B7  \u25C8  \u00B7  NW  \u00B7  \u25C8  \u00B7  \u25C8  \u00B7  \u25C8  \u00B7  N  \u00B7  \u25C8  \u00B7  \u25C8  \u00B7  \u25C8  \u00B7  NE  \u00B7  \u25C8  \u00B7  \u25C8  \u00B7  \u25C8  \u00B7  E  \u00B7  \u25C8  \u00B7  \u25C8  \u00B7  \u25C8  \u00B7  SE  \u00B7  \u25C8  \u00B7  \u25C8  \u00B7  \u25C8  \u00B7  ";
++    public static BossBar.Overlay commandCompassBarProgressOverlay = BossBar.Overlay.PROGRESS;
++    public static BossBar.Color commandCompassBarProgressColor = BossBar.Color.BLUE;
++    public static float commandCompassBarProgressPercent = 1.0F;
++    public static int commandCompassBarTickInterval = 5;
++    public static boolean commandGamemodeRequiresPermission = false;
++    public static boolean hideHiddenPlayersFromEntitySelector = false;
++    public static String uptimeFormat = "<days><hours><minutes><seconds>";
++    public static String uptimeDay = "%02d day, ";
++    public static String uptimeDays = "%02d days, ";
++    public static String uptimeHour = "%02d hour, ";
++    public static String uptimeHours = "%02d hours, ";
++    public static String uptimeMinute = "%02d minute, and ";
++    public static String uptimeMinutes = "%02d minutes, and ";
++    public static String uptimeSecond = "%02d second";
++    public static String uptimeSeconds = "%02d seconds";
++    private static void commandSettings() {
++        commandRamBarTitle = getString("settings.command.rambar.title", commandRamBarTitle);
++        commandRamBarProgressOverlay = BossBar.Overlay.valueOf(getString("settings.command.rambar.overlay", commandRamBarProgressOverlay.name()));
++        commandRamBarProgressColorGood = BossBar.Color.valueOf(getString("settings.command.rambar.progress-color.good", commandRamBarProgressColorGood.name()));
++        commandRamBarProgressColorMedium = BossBar.Color.valueOf(getString("settings.command.rambar.progress-color.medium", commandRamBarProgressColorMedium.name()));
++        commandRamBarProgressColorLow = BossBar.Color.valueOf(getString("settings.command.rambar.progress-color.low", commandRamBarProgressColorLow.name()));
++        commandRamBarTextColorGood = getString("settings.command.rambar.text-color.good", commandRamBarTextColorGood);
++        commandRamBarTextColorMedium = getString("settings.command.rambar.text-color.medium", commandRamBarTextColorMedium);
++        commandRamBarTextColorLow = getString("settings.command.rambar.text-color.low", commandRamBarTextColorLow);
++        commandRamBarTickInterval = getInt("settings.command.rambar.tick-interval", commandRamBarTickInterval);
++
++        commandTPSBarTitle = getString("settings.command.tpsbar.title", commandTPSBarTitle);
++        commandTPSBarProgressOverlay = BossBar.Overlay.valueOf(getString("settings.command.tpsbar.overlay", commandTPSBarProgressOverlay.name()));
++        commandTPSBarProgressFillMode = TPSBarTask.FillMode.valueOf(getString("settings.command.tpsbar.fill-mode", commandTPSBarProgressFillMode.name()));
++        commandTPSBarProgressColorGood = BossBar.Color.valueOf(getString("settings.command.tpsbar.progress-color.good", commandTPSBarProgressColorGood.name()));
++        commandTPSBarProgressColorMedium = BossBar.Color.valueOf(getString("settings.command.tpsbar.progress-color.medium", commandTPSBarProgressColorMedium.name()));
++        commandTPSBarProgressColorLow = BossBar.Color.valueOf(getString("settings.command.tpsbar.progress-color.low", commandTPSBarProgressColorLow.name()));
++        commandTPSBarTextColorGood = getString("settings.command.tpsbar.text-color.good", commandTPSBarTextColorGood);
++        commandTPSBarTextColorMedium = getString("settings.command.tpsbar.text-color.medium", commandTPSBarTextColorMedium);
++        commandTPSBarTextColorLow = getString("settings.command.tpsbar.text-color.low", commandTPSBarTextColorLow);
++        commandTPSBarTickInterval = getInt("settings.command.tpsbar.tick-interval", commandTPSBarTickInterval);
++
++        commandCompassBarTitle = getString("settings.command.compass.title", commandCompassBarTitle);
++        commandCompassBarProgressOverlay = BossBar.Overlay.valueOf(getString("settings.command.compass.overlay", commandCompassBarProgressOverlay.name()));
++        commandCompassBarProgressColor = BossBar.Color.valueOf(getString("settings.command.compass.progress-color", commandCompassBarProgressColor.name()));
++        commandCompassBarProgressPercent = (float) getDouble("settings.command.compass.percent", commandCompassBarProgressPercent);
++        commandCompassBarTickInterval = getInt("settings.command.compass.tick-interval", commandCompassBarTickInterval);
++
++        commandGamemodeRequiresPermission = getBoolean("settings.command.gamemode.requires-specific-permission", commandGamemodeRequiresPermission);
++        hideHiddenPlayersFromEntitySelector = getBoolean("settings.command.hide-hidden-players-from-entity-selector", hideHiddenPlayersFromEntitySelector);
++        uptimeFormat = getString("settings.command.uptime.format", uptimeFormat);
++        uptimeDay = getString("settings.command.uptime.day", uptimeDay);
++        uptimeDays = getString("settings.command.uptime.days", uptimeDays);
++        uptimeHour = getString("settings.command.uptime.hour", uptimeHour);
++        uptimeHours = getString("settings.command.uptime.hours", uptimeHours);
++        uptimeMinute = getString("settings.command.uptime.minute", uptimeMinute);
++        uptimeMinutes = getString("settings.command.uptime.minutes", uptimeMinutes);
++        uptimeSecond = getString("settings.command.uptime.second", uptimeSecond);
++        uptimeSeconds = getString("settings.command.uptime.seconds", uptimeSeconds);
++    }
++
++    public static int barrelRows = 3;
++    public static boolean enderChestSixRows = false;
++    public static boolean enderChestPermissionRows = false;
++    public static boolean cryingObsidianValidForPortalFrame = false;
++    public static int beeInsideBeeHive = 3;
++    public static boolean anvilCumulativeCost = true;
++    public static int lightningRodRange = 128;
++    public static Set<Enchantment> grindstoneIgnoredEnchants = new HashSet<>();
++    public static boolean grindstoneRemoveAttributes = false;
++    public static boolean grindstoneRemoveDisplay = false;
++    public static int caveVinesMaxGrowthAge = 25;
++    public static int kelpMaxGrowthAge = 25;
++    public static int twistingVinesMaxGrowthAge = 25;
++    public static int weepingVinesMaxGrowthAge = 25;
++    private static void blockSettings() {
++        if (version < 3) {
++            boolean oldValue = getBoolean("settings.barrel.packed-barrels", true);
++            set("settings.blocks.barrel.six-rows", oldValue);
++            set("settings.packed-barrels", null);
++            oldValue = getBoolean("settings.large-ender-chests", true);
++            set("settings.blocks.ender_chest.six-rows", oldValue);
++            set("settings.large-ender-chests", null);
++        }
++        if (version < 20) {
++            boolean oldValue = getBoolean("settings.blocks.barrel.six-rows", false);
++            set("settings.blocks.barrel.rows", oldValue ? 6 : 3);
++            set("settings.blocks.barrel.six-rows", null);
++        }
++        barrelRows = getInt("settings.blocks.barrel.rows", barrelRows);
++        if (barrelRows < 1 || barrelRows > 6) {
++            Bukkit.getLogger().severe("settings.blocks.barrel.rows must be 1-6, resetting to default");
++            barrelRows = 3;
++        }
++        org.bukkit.event.inventory.InventoryType.BARREL.setDefaultSize(switch (barrelRows) {
++            case 6 -> 54;
++            case 5 -> 45;
++            case 4 -> 36;
++            case 2 -> 18;
++            case 1 -> 9;
++            default -> 27;
++        });
++        enderChestSixRows = getBoolean("settings.blocks.ender_chest.six-rows", enderChestSixRows);
++        org.bukkit.event.inventory.InventoryType.ENDER_CHEST.setDefaultSize(enderChestSixRows ? 54 : 27);
++        enderChestPermissionRows = getBoolean("settings.blocks.ender_chest.use-permissions-for-rows", enderChestPermissionRows);
++        cryingObsidianValidForPortalFrame = getBoolean("settings.blocks.crying_obsidian.valid-for-portal-frame", cryingObsidianValidForPortalFrame);
++        beeInsideBeeHive = getInt("settings.blocks.beehive.max-bees-inside", beeInsideBeeHive);
++        anvilCumulativeCost = getBoolean("settings.blocks.anvil.cumulative-cost", anvilCumulativeCost);
++        lightningRodRange = getInt("settings.blocks.lightning_rod.range", lightningRodRange);
++        ArrayList<String> defaultCurses = new ArrayList<>(){{
++            add("minecraft:binding_curse");
++            add("minecraft:vanishing_curse");
++        }};
++        if (version < 24 && !getBoolean("settings.blocks.grindstone.ignore-curses", true)) {
++            defaultCurses.clear();
++        }
++        getList("settings.blocks.grindstone.ignored-enchants", defaultCurses).forEach(key -> {
++            Enchantment enchantment = BuiltInRegistries.ENCHANTMENT.get(new ResourceLocation(key.toString()));
++            grindstoneIgnoredEnchants.add(enchantment);
++        });
++        grindstoneRemoveAttributes = getBoolean("settings.blocks.grindstone.remove-attributes", grindstoneRemoveAttributes);
++        grindstoneRemoveDisplay = getBoolean("settings.blocks.grindstone.remove-name-and-lore", grindstoneRemoveDisplay);
++        caveVinesMaxGrowthAge = getInt("settings.blocks.cave_vines.max-growth-age", caveVinesMaxGrowthAge);
++        if (caveVinesMaxGrowthAge > 25) {
++            caveVinesMaxGrowthAge = 25;
++            log(Level.WARNING, "blocks.cave_vines.max-growth-age is set to above maximum allowed value of 25");
++            log(Level.WARNING, "Using value of 25 to prevent issues");
++        }
++        kelpMaxGrowthAge = getInt("settings.blocks.kelp.max-growth-age", kelpMaxGrowthAge);
++        if (kelpMaxGrowthAge > 25) {
++            kelpMaxGrowthAge = 25;
++            log(Level.WARNING, "blocks.kelp.max-growth-age is set to above maximum allowed value of 25");
++            log(Level.WARNING, "Using value of 25 to prevent issues");
++        }
++        twistingVinesMaxGrowthAge = getInt("settings.blocks.twisting_vines.max-growth-age", twistingVinesMaxGrowthAge);
++        if (twistingVinesMaxGrowthAge > 25) {
++            twistingVinesMaxGrowthAge = 25;
++            log(Level.WARNING, "blocks.twisting_vines.max-growth-age is set to above maximum allowed value of 25");
++            log(Level.WARNING, "Using value of 25 to prevent issues");
++        }
++        weepingVinesMaxGrowthAge = getInt("settings.blocks.weeping_vines.max-growth-age", weepingVinesMaxGrowthAge);
++        if (weepingVinesMaxGrowthAge > 25) {
++            weepingVinesMaxGrowthAge = 25;
++            log(Level.WARNING, "blocks.weeping_vines.max-growth-age is set to above maximum allowed value of 25");
++            log(Level.WARNING, "Using value of 25 to prevent issues");
++        }
++    }
++
++    public static boolean allowInfinityMending = false;
++    public static boolean allowCrossbowInfinity = false;
++    public static boolean allowShearsLooting = false;
++    public static boolean allowTransparentBlocksInEnchantmentBox = false;
++    public static boolean allowUnsafeEnchants = false;
++    public static boolean allowInapplicableEnchants = true;
++    public static boolean allowIncompatibleEnchants = true;
++    public static boolean allowHigherEnchantsLevels = true;
++    public static boolean allowUnsafeEnchantCommand = false;
++    public static boolean clampEnchantLevels = true;
++    private static void enchantmentSettings() {
++        if (version < 5) {
++            boolean oldValue = getBoolean("settings.enchantment.allow-infinite-and-mending-together", false);
++            set("settings.enchantment.allow-infinity-and-mending-together", oldValue);
++            set("settings.enchantment.allow-infinite-and-mending-together", null);
++        }
++        if (version < 30) {
++            boolean oldValue = getBoolean("settings.enchantment.allow-unsafe-enchants", false);
++            set("settings.enchantment.anvil.allow-unsafe-enchants", oldValue);
++            set("settings.enchantment.anvil.allow-inapplicable-enchants", true);
++            set("settings.enchantment.anvil.allow-incompatible-enchants", true);
++            set("settings.enchantment.anvil.allow-higher-enchants-levels", true);
++            set("settings.enchantment.allow-unsafe-enchants", null);
++        }
++        allowInfinityMending = getBoolean("settings.enchantment.allow-infinity-and-mending-together", allowInfinityMending);
++        allowCrossbowInfinity = getBoolean("settings.enchantment.allow-infinity-on-crossbow", allowCrossbowInfinity);
++        allowShearsLooting = getBoolean("settings.enchantment.allow-looting-on-shears", allowShearsLooting);
++        allowTransparentBlocksInEnchantmentBox = getBoolean("settings.enchantment.allow-transparent-blocks-in-enchantment-box", allowTransparentBlocksInEnchantmentBox);
++        allowUnsafeEnchants = getBoolean("settings.enchantment.anvil.allow-unsafe-enchants", allowUnsafeEnchants);
++        allowInapplicableEnchants = getBoolean("settings.enchantment.anvil.allow-inapplicable-enchants", allowInapplicableEnchants);
++        allowIncompatibleEnchants = getBoolean("settings.enchantment.anvil.allow-incompatible-enchants", allowIncompatibleEnchants);
++        allowHigherEnchantsLevels = getBoolean("settings.enchantment.anvil.allow-higher-enchants-levels", allowHigherEnchantsLevels);
++        allowUnsafeEnchantCommand = getBoolean("settings.enchantment.allow-unsafe-enchant-command", allowUnsafeEnchants); // allowUnsafeEnchants as default for backwards compatability
++        clampEnchantLevels = getBoolean("settings.enchantment.clamp-levels", clampEnchantLevels);
++    }
++
++    public static boolean endermanShortHeight = false;
++    private static void entitySettings() {
++        endermanShortHeight = getBoolean("settings.entity.enderman.short-height", endermanShortHeight);
++        if (endermanShortHeight) EntityType.ENDERMAN.setDimensions(EntityDimensions.scalable(0.6F, 1.9F));
++    }
++
++    public static boolean allowWaterPlacementInTheEnd = true;
++    private static void allowWaterPlacementInEnd() {
++        allowWaterPlacementInTheEnd = getBoolean("settings.allow-water-placement-in-the-end", allowWaterPlacementInTheEnd);
++    }
++
++    public static boolean disableMushroomBlockUpdates = false;
++    public static boolean disableNoteBlockUpdates = false;
++    public static boolean disableChorusPlantUpdates = false;
++    private static void blockUpdatesSettings() {
++        disableMushroomBlockUpdates = getBoolean("settings.blocks.disable-mushroom-updates", disableMushroomBlockUpdates);
++        disableNoteBlockUpdates = getBoolean("settings.blocks.disable-note-block-updates", disableNoteBlockUpdates);
++        disableChorusPlantUpdates = getBoolean("settings.blocks.disable-chorus-plant-updates", disableChorusPlantUpdates);
++    }
++
++    public static boolean loggerSuppressInitLegacyMaterialError = false;
++    public static boolean loggerSuppressIgnoredAdvancementWarnings = false;
++    public static boolean loggerSuppressUnrecognizedRecipeErrors = false;
++    public static boolean loggerSuppressSetBlockFarChunk = false;
++    public static boolean loggerSuppressLibraryLoader = false;
++    private static void loggerSettings() {
++        loggerSuppressInitLegacyMaterialError = getBoolean("settings.logger.suppress-init-legacy-material-errors", loggerSuppressInitLegacyMaterialError);
++        loggerSuppressIgnoredAdvancementWarnings = getBoolean("settings.logger.suppress-ignored-advancement-warnings", loggerSuppressIgnoredAdvancementWarnings);
++        loggerSuppressUnrecognizedRecipeErrors = getBoolean("settings.logger.suppress-unrecognized-recipe-errors", loggerSuppressUnrecognizedRecipeErrors);
++        loggerSuppressSetBlockFarChunk = getBoolean("settings.logger.suppress-setblock-in-far-chunk-errors", loggerSuppressSetBlockFarChunk);
++        loggerSuppressLibraryLoader = getBoolean("settings.logger.suppress-library-loader", loggerSuppressLibraryLoader);
++        org.bukkit.plugin.java.JavaPluginLoader.SuppressLibraryLoaderLogger = loggerSuppressLibraryLoader;
++    }
++
++    public static boolean tpsCatchup = true;
++    private static void tpsCatchup() {
++        tpsCatchup = getBoolean("settings.tps-catchup", tpsCatchup);
++    }
++
++    public static boolean useUPnP = false;
++    public static boolean maxJoinsPerSecond = false;
++    public static boolean kickForOutOfOrderChat = true;
++    private static void networkSettings() {
++        useUPnP = getBoolean("settings.network.upnp-port-forwarding", useUPnP);
++        maxJoinsPerSecond = getBoolean("settings.network.max-joins-per-second", maxJoinsPerSecond);
++        kickForOutOfOrderChat = getBoolean("settings.network.kick-for-out-of-order-chat", kickForOutOfOrderChat);
++    }
++
++    public static java.util.regex.Pattern usernameValidCharactersPattern;
++    private static void usernameValidationSettings() {
++        String defaultPattern = "^[a-zA-Z0-9_.]*$";
++        String setPattern = getString("settings.username-valid-characters", defaultPattern);
++        usernameValidCharactersPattern = java.util.regex.Pattern.compile(setPattern == null || setPattern.isBlank() ? defaultPattern : setPattern);
++    }
++
++    private static void foodSettings() {
++        ConfigurationSection properties = config.getConfigurationSection("settings.food-properties");
++        if (properties == null) {
++            config.addDefault("settings.food-properties", new HashMap<>());
++            return;
++        }
++        properties.getKeys(false).forEach(foodKey -> {
++            FoodProperties food = Foods.ALL_PROPERTIES.get(foodKey);
++            if (food == null) {
++                PurpurConfig.log(Level.SEVERE, "Invalid food property: " + foodKey);
++                return;
++            }
++            FoodProperties foodDefaults = Foods.DEFAULT_PROPERTIES.get(foodKey);
++            food.setNutrition(properties.getInt(foodKey + ".nutrition", foodDefaults.getNutrition()));
++            food.setSaturationModifier((float) properties.getDouble(foodKey + ".saturation-modifier", foodDefaults.getSaturationModifier()));
++            food.setIsMeat(properties.getBoolean(foodKey + ".is-meat", foodDefaults.isMeat()));
++            food.setCanAlwaysEat(properties.getBoolean(foodKey + ".can-always-eat", foodDefaults.canAlwaysEat()));
++            food.setFastFood(properties.getBoolean(foodKey + ".fast-food", foodDefaults.isFastFood()));
++            ConfigurationSection effects = properties.getConfigurationSection(foodKey + ".effects");
++            if (effects != null) {
++                Map<String, Object> effectDefaults = new HashMap<>();
++                foodDefaults.getEffects().forEach(pair -> {
++                    effectDefaults.put("chance", pair.getSecond());
++                    MobEffectInstance effect = pair.getFirst();
++                    effectDefaults.put("duration", effect.getDuration());
++                    effectDefaults.put("amplifier", effect.getAmplifier());
++                    effectDefaults.put("ambient", effect.isAmbient());
++                    effectDefaults.put("visible", effect.isVisible());
++                    effectDefaults.put("show-icon", effect.showIcon());
++                });
++                effects.getKeys(false).forEach(effectKey -> {
++                    MobEffect effect = BuiltInRegistries.MOB_EFFECT.get(new ResourceLocation(effectKey));
++                    if (effect == null) {
++                        PurpurConfig.log(Level.SEVERE, "Invalid food property effect for " + foodKey + ": " + effectKey);
++                        return;
++                    }
++                    food.getEffects().removeIf(pair -> pair.getFirst().getEffect() == effect);
++                    float chance = (float) effects.getDouble(effectKey + ".chance", ((Float) effectDefaults.get("chance")).doubleValue());
++                    int duration = effects.getInt(effectKey + ".duration", (int) effectDefaults.get("duration"));
++                    if (chance <= 0.0F || duration < 0) {
++                        return;
++                    }
++                    int amplifier = effects.getInt(effectKey + ".amplifier", (int) effectDefaults.get("amplifier"));
++                    boolean ambient = effects.getBoolean(effectKey + ".ambient", (boolean) effectDefaults.get("ambient"));
++                    boolean visible = effects.getBoolean(effectKey + ".visible", (boolean) effectDefaults.get("visible"));
++                    boolean showIcon = effects.getBoolean(effectKey + ".show-icon", (boolean) effectDefaults.get("show-icon"));
++                    food.getEffects().add(Pair.of(new MobEffectInstance(effect, duration, amplifier, ambient, visible, showIcon), chance));
++                });
++            }
++        });
++    }
++
++    public static boolean fixNetworkSerializedItemsInCreative = false;
++    private static void fixNetworkSerializedCreativeItems() {
++        fixNetworkSerializedItemsInCreative = getBoolean("settings.fix-network-serialized-items-in-creative", fixNetworkSerializedItemsInCreative);
++    }
++
++    public static boolean fixProjectileLootingTransfer = false;
++    private static void fixProjectileLootingTransfer() {
++        fixProjectileLootingTransfer = getBoolean("settings.fix-projectile-looting-transfer", fixProjectileLootingTransfer);
++    }
++
++    public static boolean clampAttributes = true;
++    private static void clampAttributes() {
++        clampAttributes = getBoolean("settings.clamp-attributes", clampAttributes);
++    }
++
++    public static boolean limitArmor = true;
++    private static void limitArmor() {
++        limitArmor = getBoolean("settings.limit-armor", limitArmor);
++    }
++
++    private static void blastResistanceSettings() {
++        getMap("settings.blast-resistance-overrides", Collections.emptyMap()).forEach((blockId, value) -> {
++            Block block = BuiltInRegistries.BLOCK.get(new ResourceLocation(blockId));
++            if (block == Blocks.AIR) {
++                log(Level.SEVERE, "Invalid block for `settings.blast-resistance-overrides`: " + blockId);
++                return;
++            }
++            if (!(value instanceof Number blastResistance)) {
++                log(Level.SEVERE, "Invalid blast resistance for `settings.blast-resistance-overrides." + blockId + "`: " + value);
++                return;
++            }
++            block.explosionResistance = blastResistance.floatValue();
++        });
++    }
++    private static void blockFallMultiplierSettings() {
++        getMap("settings.block-fall-multipliers", Map.ofEntries(
++                Map.entry("minecraft:hay_block", Map.of("damage", 0.2F)),
++                Map.entry("minecraft:white_bed", Map.of("distance", 0.5F)),
++                Map.entry("minecraft:light_gray_bed", Map.of("distance", 0.5F)),
++                Map.entry("minecraft:gray_bed", Map.of("distance", 0.5F)),
++                Map.entry("minecraft:black_bed", Map.of("distance", 0.5F)),
++                Map.entry("minecraft:brown_bed", Map.of("distance", 0.5F)),
++                Map.entry("minecraft:pink_bed", Map.of("distance", 0.5F)),
++                Map.entry("minecraft:red_bed", Map.of("distance", 0.5F)),
++                Map.entry("minecraft:orange_bed", Map.of("distance", 0.5F)),
++                Map.entry("minecraft:yellow_bed", Map.of("distance", 0.5F)),
++                Map.entry("minecraft:green_bed", Map.of("distance", 0.5F)),
++                Map.entry("minecraft:lime_bed", Map.of("distance", 0.5F)),
++                Map.entry("minecraft:cyan_bed", Map.of("distance", 0.5F)),
++                Map.entry("minecraft:light_blue_bed", Map.of("distance", 0.5F)),
++                Map.entry("minecraft:blue_bed", Map.of("distance", 0.5F)),
++                Map.entry("minecraft:purple_bed", Map.of("distance", 0.5F)),
++                Map.entry("minecraft:magenta_bed", Map.of("distance", 0.5F))
++        )).forEach((blockId, value) -> {
++            Block block = BuiltInRegistries.BLOCK.get(new ResourceLocation(blockId));
++            if (block == Blocks.AIR) {
++                log(Level.SEVERE, "Invalid block for `settings.block-fall-multipliers`: " + blockId);
++                return;
++            }
++            if (!(value instanceof Map<?, ?> map)) {
++                log(Level.SEVERE, "Invalid fall multiplier for `settings.block-fall-multipliers." + blockId + "`: " + value
++                        + ", expected a map with keys `damage` and `distance` to floats.");
++                return;
++            }
++            Object rawFallDamageMultiplier = map.get("damage");
++            if (rawFallDamageMultiplier == null) rawFallDamageMultiplier = 1F;
++            if (!(rawFallDamageMultiplier instanceof Number fallDamageMultiplier)) {
++                log(Level.SEVERE, "Invalid multiplier for `settings.block-fall-multipliers." + blockId + ".damage`: " + map.get("damage"));
++                return;
++            }
++            Object rawFallDistanceMultiplier = map.get("distance");
++            if (rawFallDistanceMultiplier == null) rawFallDistanceMultiplier = 1F;
++            if (!(rawFallDistanceMultiplier instanceof Number fallDistanceMultiplier)) {
++                log(Level.SEVERE, "Invalid multiplier for `settings.block-fall-multipliers." + blockId + ".distance`: " + map.get("distance"));
++                return;
++            }
++            block.fallDamageMultiplier = fallDamageMultiplier.floatValue();
++            block.fallDistanceMultiplier = fallDistanceMultiplier.floatValue();
++        });
++    }
++}
+diff --git a/src/main/java/org/spigotmc/WatchdogThread.java b/src/main/java/org/spigotmc/WatchdogThread.java
+index 571d80ca3e85fc108137b317ed1033ca4714718e..5a2dbf914f153315a2d89e4009931f56df594c0b 100644
+--- a/src/main/java/org/spigotmc/WatchdogThread.java
++++ b/src/main/java/org/spigotmc/WatchdogThread.java
+@@ -113,7 +113,7 @@ public class WatchdogThread extends Thread
+                 // Paper end
+                 } else
+                 {
+-                    log.log(Level.SEVERE, "--- DO NOT REPORT THIS TO PAPER - THIS IS NOT A BUG OR A CRASH  - " + Bukkit.getServer().getVersion() + " ---");
++                    log.log(Level.SEVERE, "--- DO NOT REPORT THIS TO DIVINEMC - THIS IS NOT A BUG OR A CRASH  - " + Bukkit.getServer().getVersion() + " ---"); // DivineMC
+                     log.log(Level.SEVERE, "The server has not responded for " + (currentTime - lastTick) / 1000 + " seconds! Creating thread dump");
+                 }
+                 // Paper end - Different message for short timeout
+@@ -132,7 +132,7 @@ public class WatchdogThread extends Thread
+                     WatchdogThread.dumpThread( thread, log );
+                 }
+                 } else {
+-                    log.log(Level.SEVERE, "--- DO NOT REPORT THIS TO PAPER - THIS IS NOT A BUG OR A CRASH ---");
++                    log.log(Level.SEVERE, "--- DO NOT REPORT THIS TO DIVINEMC - THIS IS NOT A BUG OR A CRASH ---"); // Purpur // DivineMC
+                 }
+ 
+                 log.log( Level.SEVERE, "------------------------------" );
+diff --git a/src/main/resources/logo.png b/src/main/resources/logo.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..f54753531b3bf2e8b5377f342465e727c7da98f2
+GIT binary patch
+literal 6677
+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
+DA-Nv<
+
+literal 0
+HcmV?d00001
+
