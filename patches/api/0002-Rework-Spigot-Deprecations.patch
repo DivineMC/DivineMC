@@ -59,7 +59,7 @@ index fc4d3bcd9b16097086fef7975274d825b65adb10..e485975dbb6973d2b21259c4e4d5d751
      void resetMaxHealth();
  }
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index dc437885404ae147a06cac653e519a4674a9a951..373e6e1d06971439b0ff403e5eabc37dfddc81e1 100644
+index 482c7893ecd14f189ae4fa2d5a0f4c96f4a85137..de4fe49abe3dba096e63247cbba92a58c5486aee 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
 @@ -281,14 +281,15 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM

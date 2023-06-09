@@ -6,19 +6,19 @@ Subject: [PATCH] Divine Branding
 Patch contains branding changes for DivineMC
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 9c01005751c0088f560f96401cdfdebbbda4e7ec..562c33d27e000df8ccc55e1e4a8efbd94ce5df97 100644
+index b6a2b75ea9efea89e09a6fd0fce14722fbf6134e..ebd0711542055536b4ffb6dba478bd6f6c3c165f 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -7,7 +7,7 @@ plugins {
  }
  
  dependencies {
--    implementation(project(":purpur-api")) // Purpur
-+    implementation(project(":divinemc-api")) // DivineMC
-     implementation("io.papermc.paper:paper-mojangapi:1.19.4-R0.1-SNAPSHOT") // Purpur
+-    implementation(project(":purpur-api")) // Pufferfish // Purpur
++    implementation(project(":divinemc-api")) // Pufferfish // Purpur // DivineMC
+     implementation("io.papermc.paper:paper-mojangapi:${project.version}") // Purpur
      // Paper start
      implementation("org.jline:jline-terminal-jansi:3.21.0")
-@@ -81,7 +81,7 @@ tasks.jar {
+@@ -66,7 +66,7 @@ tasks.jar {
          attributes(
              "Main-Class" to "org.bukkit.craftbukkit.Main",
              "Implementation-Title" to "CraftBukkit",
@@ -139,7 +139,7 @@ index 3cb56595822799926a8141e60a42f5d1edfc6de5..05478a1ea04ec0396bc8c97090edef4a
                  .completer(new ConsoleCommandCompleter(this.server))
                  .option(LineReader.Option.COMPLETE_IN_WORD, true);
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 3310828edcabd2c24e3200dcb89d4e8ebd82cf16..969830ca6ea861d0c140f12547955b93d3bb80cf 100644
+index 06ded97822e9a51bf6aea377e59013a0717664e3..c7194ad0f93161ced583b9c8baa33d6bdbe07637 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -262,7 +262,7 @@ import javax.annotation.Nullable; // Paper
@@ -178,7 +178,7 @@ index be8b44daa0141151c973917a774aa07721647ed1..0b2a5dc43ccba7d223cbdfd3f1dc539a
          serverModName = getString("settings.server-mod-name", serverModName);
      }
 diff --git a/src/main/java/org/spigotmc/WatchdogThread.java b/src/main/java/org/spigotmc/WatchdogThread.java
-index a810bfd3b8d6bd4d8f2ef8797e4281ae4fe8a67f..9d2e47bcc1aa258a1797a6816c0ac59524cd7af3 100644
+index 0801dea155048ac5383295f4fef9bd597b678535..fb9bb334924ff2456862b47693b595594dcfe806 100644
 --- a/src/main/java/org/spigotmc/WatchdogThread.java
 +++ b/src/main/java/org/spigotmc/WatchdogThread.java
 @@ -185,7 +185,7 @@ public final class WatchdogThread extends io.papermc.paper.util.TickThread // Pa

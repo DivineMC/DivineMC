@@ -5,7 +5,7 @@ Subject: [PATCH] Fix MC-98160 and MC-105103
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/vehicle/Boat.java b/src/main/java/net/minecraft/world/entity/vehicle/Boat.java
-index 06421017e3a7a0511c253e2ad4a028b0c156c9a8..d3f722d13eb7a47d10dd77017d0918a9e55e390a 100644
+index a941b00f0e4b667925ca68cc706245b05478ad77..8f7666f3c33eaf2bee0d68cc4ef1cfab09dea08a 100644
 --- a/src/main/java/net/minecraft/world/entity/vehicle/Boat.java
 +++ b/src/main/java/net/minecraft/world/entity/vehicle/Boat.java
 @@ -907,7 +907,7 @@ public class Boat extends Entity implements VariantHolder<Boat.Type> {
