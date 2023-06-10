@@ -6,7 +6,7 @@ Subject: [PATCH] Fix MC-110386
 See https://bugs.mojang.com/browse/MC-110386
 
 diff --git a/src/main/java/net/minecraft/world/entity/ai/goal/target/HurtByTargetGoal.java b/src/main/java/net/minecraft/world/entity/ai/goal/target/HurtByTargetGoal.java
-index 39ea15c7577af186d93d4ad9a48034d746a86fc8..51724ad62cf218531bb7e08e3055963f79f1f9c6 100644
+index 80ef4b6649da3049f21624926fa38595d76c5da5..3b7424fe3baa2d7d55d34fe7a0ebdbe11862805f 100644
 --- a/src/main/java/net/minecraft/world/entity/ai/goal/target/HurtByTargetGoal.java
 +++ b/src/main/java/net/minecraft/world/entity/ai/goal/target/HurtByTargetGoal.java
 @@ -114,6 +114,7 @@ public class HurtByTargetGoal extends TargetGoal {

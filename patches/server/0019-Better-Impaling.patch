@@ -1,16 +1,16 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
-Date: Tue, 4 Apr 2023 22:30:19 +0300
+Date: Sat, 10 Jun 2023 13:22:43 +0300
 Subject: [PATCH] Better Impaling
 
 
 diff --git a/src/main/java/gq/bxteam/divinemc/configuration/DivineWorldConfig.java b/src/main/java/gq/bxteam/divinemc/configuration/DivineWorldConfig.java
-index 9eede8eb7fefc414f3a1207cd3ca2b33deb5ea13..ee19959e3401ac1e4cf859114f927d2521e48fd0 100644
+index ca344da743a7503795bdaeff0a1b14e0721f5092..55e9c680e31ef8dd0ede05e8b33a705e268338bc 100644
 --- a/src/main/java/gq/bxteam/divinemc/configuration/DivineWorldConfig.java
 +++ b/src/main/java/gq/bxteam/divinemc/configuration/DivineWorldConfig.java
-@@ -84,4 +84,9 @@ public class DivineWorldConfig {
-         dontEjectPlayerFromBoatUnderwater = getBoolean("gameplay-mechanics.boat.dont-eject-players-from-boat-underwater", dontEjectPlayerFromBoatUnderwater);
-         alwaysAllowToEnterTheBoat = getBoolean("gameplay-mechanics.boat.always-allow-to-enter-the-boat", alwaysAllowToEnterTheBoat);
+@@ -89,4 +89,9 @@ public class DivineWorldConfig {
+     private void despawnShulkerBulletsOnOwnerDeath() {
+         despawnShulkerBulletsOnOwnerDeath = getBoolean("gameplay-mechanics.mob.shulker.despawn-bullets-on-player-death", despawnShulkerBulletsOnOwnerDeath);
      }
 +
 +    public boolean enableBetterImpaling = true;
@@ -20,15 +20,15 @@ index 9eede8eb7fefc414f3a1207cd3ca2b33deb5ea13..ee19959e3401ac1e4cf859114f927d25
  }
 \ No newline at end of file
 diff --git a/src/main/java/net/minecraft/world/entity/Mob.java b/src/main/java/net/minecraft/world/entity/Mob.java
-index 8e2274f7dce34e0997356205cf96e46f8d41cca1..9775895f9d3d254422645449cfca097a89c8692d 100644
+index 3162c27ee305f5280a326b953288c846d0b6cae0..73833f073e6ed25a1db6633ad82137619d265234 100644
 --- a/src/main/java/net/minecraft/world/entity/Mob.java
 +++ b/src/main/java/net/minecraft/world/entity/Mob.java
-@@ -1686,6 +1686,15 @@ public abstract class Mob extends LivingEntity implements Targeting {
+@@ -1682,6 +1682,15 @@ public abstract class Mob extends LivingEntity implements Targeting {
  
          if (target instanceof LivingEntity) {
              f += EnchantmentHelper.getDamageBonus(this.getMainHandItem(), ((LivingEntity) target).getMobType());
 +            // DivineMC start - Better Impaling
-+            if (this.level.divinemcConfig.enableBetterImpaling) {
++            if (this.level().divinemcConfig.enableBetterImpaling) {
 +                if (((LivingEntity) target).getMobType() != net.minecraft.world.entity.MobType.WATER && target.isInWaterRainOrBubble()) {
 +                    int impalingLevel = EnchantmentHelper.getItemEnchantmentLevel(net.minecraft.world.item.enchantment.Enchantments.IMPALING, getMainHandItem());
 +                    if (impalingLevel > 0)
@@ -40,27 +40,26 @@ index 8e2274f7dce34e0997356205cf96e46f8d41cca1..9775895f9d3d254422645449cfca097a
          }
  
 diff --git a/src/main/java/net/minecraft/world/entity/player/Player.java b/src/main/java/net/minecraft/world/entity/player/Player.java
-index d055cfc257cc7282170ba67c848af3e6c5f2ec1f..71c22dfc5d6b86b812a6b2be1cd7fe2338471734 100644
+index 9f5153580f96f643240a8817a74a47b22e2a85cc..8eabfbabb2b588bd6b7eed92b017b5dbb0672ce5 100644
 --- a/src/main/java/net/minecraft/world/entity/player/Player.java
 +++ b/src/main/java/net/minecraft/world/entity/player/Player.java
-@@ -1295,6 +1295,15 @@ public abstract class Player extends LivingEntity {
+@@ -1295,6 +1295,14 @@ public abstract class Player extends LivingEntity {
  
                  if (target instanceof LivingEntity) {
                      f1 = EnchantmentHelper.getDamageBonus(this.getMainHandItem(), ((LivingEntity) target).getMobType());
 +                    // DivineMC start - Better Impaling
-+                    if (this.level.divinemcConfig.enableBetterImpaling) {
++                    if (this.level().divinemcConfig.enableBetterImpaling) {
 +                        if (((LivingEntity) target).getMobType() != MobType.WATER && target.isInWaterRainOrBubble()) {
 +                            int impalingLevel = EnchantmentHelper.getItemEnchantmentLevel(net.minecraft.world.item.enchantment.Enchantments.IMPALING, getMainHandItem());
 +                            if (impalingLevel > 0)
 +                                f += net.minecraft.world.item.enchantment.Enchantments.IMPALING.getDamageBonus(impalingLevel, MobType.WATER);
 +                        }
-+                    }
 +                    // DivineMC end
                  } else {
                      f1 = EnchantmentHelper.getDamageBonus(this.getMainHandItem(), MobType.UNDEFINED);
                  }
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/ThrownTrident.java b/src/main/java/net/minecraft/world/entity/projectile/ThrownTrident.java
-index fb10fc5a5aa3b6d6220694041778bfd39ffa1cb8..af3bb7c2dbc6d3558f064c4a8c7b202802210754 100644
+index 0ea182962d6647629fc98c9e7406f7b7ce012c5e..c7209c1decdd8a1c787b986c3db410042f0b60e1 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/ThrownTrident.java
 +++ b/src/main/java/net/minecraft/world/entity/projectile/ThrownTrident.java
 @@ -134,6 +134,15 @@ public class ThrownTrident extends AbstractArrow {
@@ -68,7 +67,7 @@ index fb10fc5a5aa3b6d6220694041778bfd39ffa1cb8..af3bb7c2dbc6d3558f064c4a8c7b2028
  
              f += EnchantmentHelper.getDamageBonus(this.tridentItem, entityliving.getMobType());
 +            // DivineMC start - Better Impaling
-+            if (this.level.divinemcConfig.enableBetterImpaling) {
++            if (this.level().divinemcConfig.enableBetterImpaling) {
 +                if (entityliving.getMobType() != net.minecraft.world.entity.MobType.WATER && entityliving.isInWaterRainOrBubble()) {
 +                    int impalingLevel = EnchantmentHelper.getItemEnchantmentLevel(net.minecraft.world.item.enchantment.Enchantments.IMPALING, tridentItem);
 +                    if (impalingLevel > 0)

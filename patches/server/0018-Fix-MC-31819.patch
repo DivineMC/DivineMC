@@ -1,25 +1,22 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
-Date: Sat, 8 Apr 2023 01:13:16 +0300
+Date: Sat, 10 Jun 2023 13:17:01 +0300
 Subject: [PATCH] Fix MC-31819
 
-The food saturation value is depleted on peaceful, even though the displayed hunger bar never goes down.
-Hunger (or any related value, including saturation) should not go down on peaceful.
-Original bug on Mojira: https://bugs.mojang.com/browse/MC-31819
 
 diff --git a/src/main/java/net/minecraft/world/entity/player/Player.java b/src/main/java/net/minecraft/world/entity/player/Player.java
-index 71c22dfc5d6b86b812a6b2be1cd7fe2338471734..61a69dff027875afae4d54c52a098de05e64d19a 100644
+index d00035e31cf4773a418d1cc6a6018d08e6b558f0..9f5153580f96f643240a8817a74a47b22e2a85cc 100644
 --- a/src/main/java/net/minecraft/world/entity/player/Player.java
 +++ b/src/main/java/net/minecraft/world/entity/player/Player.java
-@@ -1951,6 +1951,11 @@ public abstract class Player extends LivingEntity {
+@@ -1968,6 +1968,11 @@ public abstract class Player extends LivingEntity {
      }
  
      public void causeFoodExhaustion(float f, EntityExhaustionEvent.ExhaustionReason reason) {
 +        // DivineMC start - Fix MC-31819
-+        if (this.level.getDifficulty() == Difficulty.PEACEFUL) {
++        if (this.level().getDifficulty() == Difficulty.PEACEFUL) {
 +            return;
 +        }
 +        // DivineMC end
          // CraftBukkit end
          if (!this.abilities.invulnerable) {
-             if (!this.level.isClientSide) {
+             if (!this.level().isClientSide) {

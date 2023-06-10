@@ -1,16 +1,16 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
-Date: Tue, 4 Apr 2023 22:40:31 +0300
+Date: Sat, 10 Jun 2023 13:12:59 +0300
 Subject: [PATCH] Despawn shulker bullets on owner death
 
 
 diff --git a/src/main/java/gq/bxteam/divinemc/configuration/DivineWorldConfig.java b/src/main/java/gq/bxteam/divinemc/configuration/DivineWorldConfig.java
-index ee19959e3401ac1e4cf859114f927d2521e48fd0..7328d7daa1e411ce492ffedc4e22162b0a4b2253 100644
+index 9eede8eb7fefc414f3a1207cd3ca2b33deb5ea13..ca344da743a7503795bdaeff0a1b14e0721f5092 100644
 --- a/src/main/java/gq/bxteam/divinemc/configuration/DivineWorldConfig.java
 +++ b/src/main/java/gq/bxteam/divinemc/configuration/DivineWorldConfig.java
-@@ -89,4 +89,9 @@ public class DivineWorldConfig {
-     private void enableBetterImpaling() {
-         enableBetterImpaling = getBoolean("gameplay-mechanics.tools.trident.better-impaling", enableBetterImpaling);
+@@ -84,4 +84,9 @@ public class DivineWorldConfig {
+         dontEjectPlayerFromBoatUnderwater = getBoolean("gameplay-mechanics.boat.dont-eject-players-from-boat-underwater", dontEjectPlayerFromBoatUnderwater);
+         alwaysAllowToEnterTheBoat = getBoolean("gameplay-mechanics.boat.always-allow-to-enter-the-boat", alwaysAllowToEnterTheBoat);
      }
 +
 +    public boolean despawnShulkerBulletsOnOwnerDeath = true;
@@ -20,15 +20,15 @@ index ee19959e3401ac1e4cf859114f927d2521e48fd0..7328d7daa1e411ce492ffedc4e22162b
  }
 \ No newline at end of file
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/ShulkerBullet.java b/src/main/java/net/minecraft/world/entity/projectile/ShulkerBullet.java
-index 113ab29ba7adbb40f61eb0cfbda23ada7ef1305d..0f2bc9f977895c5d75b8dd6f625e49472b2d3ce7 100644
+index a38c02af71e0eca2d727342b31a2118d107cfb63..aef2cd823e6672395e365673cc83d2c39819d4ae 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/ShulkerBullet.java
 +++ b/src/main/java/net/minecraft/world/entity/projectile/ShulkerBullet.java
 @@ -218,6 +218,17 @@ public class ShulkerBullet extends Projectile {
          Vec3 vec3d;
  
-         if (!this.level.isClientSide) {
+         if (!this.level().isClientSide) {
 +            // DivineMC start - despawn shulker bullets on owner death
-+            if (this.level.divinemcConfig.despawnShulkerBulletsOnOwnerDeath) {
++            if (this.level().divinemcConfig.despawnShulkerBulletsOnOwnerDeath) {
 +                if (!isInvulnerable()) {
 +                    var owner = getOwner();
 +                    if (owner == null || !owner.isAlive()) {
@@ -39,5 +39,5 @@ index 113ab29ba7adbb40f61eb0cfbda23ada7ef1305d..0f2bc9f977895c5d75b8dd6f625e4947
 +            }
 +            // DivineMC end
              if (this.finalTarget == null && this.targetId != null) {
-                 this.finalTarget = ((ServerLevel) this.level).getEntity(this.targetId);
+                 this.finalTarget = ((ServerLevel) this.level()).getEntity(this.targetId);
                  if (this.finalTarget == null) {
