@@ -5,7 +5,7 @@ Subject: [PATCH] Allow any username
 
 
 diff --git a/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java
-index abf8ddccce6ec9d893038d1fafdca617ce0eae4d..2744315c62f99b48cb689dd90fdfffac405b1bcc 100644
+index cdf83dc33915632e29291c59eb1841991c03e8a0..512afaa97e89e3beb92cf2ebc46248eddd22cf5c 100644
 --- a/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java
 +++ b/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java
 @@ -157,4 +157,9 @@ public class DivineConfig {

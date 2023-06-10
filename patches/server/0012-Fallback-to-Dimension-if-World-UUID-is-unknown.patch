@@ -5,7 +5,7 @@ Subject: [PATCH] Fallback to Dimension if World UUID is unknown
 
 
 diff --git a/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java
-index 0a8baeb94ae553c4759b065eafd9e242153cf991..abf8ddccce6ec9d893038d1fafdca617ce0eae4d 100644
+index 9e802fbe8e5f1a3c24cb6bc9254c72a2a0c3fde1..cdf83dc33915632e29291c59eb1841991c03e8a0 100644
 --- a/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java
 +++ b/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java
 @@ -152,4 +152,9 @@ public class DivineConfig {
