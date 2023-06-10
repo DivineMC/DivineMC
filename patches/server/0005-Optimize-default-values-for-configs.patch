@@ -4,21 +4,8 @@ Date: Mon, 27 Mar 2023 13:16:41 +0300
 Subject: [PATCH] Optimize default values for configs
 
 
-diff --git a/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java b/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
-index 47e77541e558e18758ae0fcc2aa4e47261e928b6..00b61ee9ea84e270df52af68e622a1c42dec3c54 100644
---- a/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
-+++ b/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
-@@ -211,7 +211,7 @@ public class PufferfishConfig {
-     public static int maxProjectileLoadsPerTick;
-     public static int maxProjectileLoadsPerProjectile;
-     private static void projectileLoading() {
--        maxProjectileLoadsPerTick = getInt("projectile.max-loads-per-tick", 10, "Controls how many chunks are allowed", "to be sync loaded by projectiles in a tick.");
-+        maxProjectileLoadsPerTick = getInt("projectile.max-loads-per-tick", 8, "Controls how many chunks are allowed", "to be sync loaded by projectiles in a tick.");
-         maxProjectileLoadsPerProjectile = getInt("projectile.max-loads-per-projectile", 10, "Controls how many chunks a projectile", "can load in its lifetime before it gets", "automatically removed.");
- 
-         setComment("projectile", "Optimizes projectile settings");
 diff --git a/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java b/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
-index 8d442c5a498ecf288a0cc0c54889c6e2fda849ce..fc60346bc7db6fba62dfa38bbc3d7d1280e7a892 100644
+index 77d05f7efdcdceef681a75692c208075d873d368..3b5d2fb24c6b463a4bd9d677ceae7dc44334ec36 100644
 --- a/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
 +++ b/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
 @@ -52,7 +52,7 @@ public class GlobalConfiguration extends ConfigurationPart {
@@ -30,7 +17,7 @@ index 8d442c5a498ecf288a0cc0c54889c6e2fda849ce..fc60346bc7db6fba62dfa38bbc3d7d12
          public boolean serverNamePrivacy = false;
          public List<String> hiddenConfigEntries = List.of(
              "database",
-@@ -280,9 +280,9 @@ public class GlobalConfiguration extends ConfigurationPart {
+@@ -265,9 +265,9 @@ public class GlobalConfiguration extends ConfigurationPart {
          public boolean fixEntityPositionDesync = true;
          public boolean loadPermissionsYmlBeforePlugins = true;
          @Constraints.Min(4)
@@ -219,10 +206,10 @@ index a33de97340f14219291c4175e9194914cdf441db..aab773b96b274e2c0dd83ec08f90baf1
          public float maxLeashDistance = 10f;
          public boolean disableSprintInterruptionOnAttack = false;
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-index bbfafb1400721251dfd2cac4dd8a31be2d682d4b..e863d524dd1f47332a294ebea604752b33cf2a16 100644
+index 5638290c72e0daeddfa79fd55e87334fa7d86f72..8ac05dbfd5417d06d00bb528b63dcd7a0d66b35d 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-@@ -148,14 +148,14 @@ public class SpigotWorldConfig
+@@ -150,14 +150,14 @@ public class SpigotWorldConfig
      public double itemMerge;
      private void itemMerge()
      {
@@ -239,7 +226,7 @@ index bbfafb1400721251dfd2cac4dd8a31be2d682d4b..e863d524dd1f47332a294ebea604752b
          this.log( "Experience Merge Radius: " + this.expMerge );
      }
  
-@@ -194,7 +194,7 @@ public class SpigotWorldConfig
+@@ -196,7 +196,7 @@ public class SpigotWorldConfig
      public byte mobSpawnRange;
      private void mobSpawnRange()
      {
@@ -248,7 +235,7 @@ index bbfafb1400721251dfd2cac4dd8a31be2d682d4b..e863d524dd1f47332a294ebea604752b
          this.log( "Mob Spawn Range: " + this.mobSpawnRange );
      }
  
-@@ -205,14 +205,14 @@ public class SpigotWorldConfig
+@@ -207,14 +207,14 @@ public class SpigotWorldConfig
          this.log( "Item Despawn Rate: " + this.itemDespawnRate );
      }
  
@@ -268,7 +255,7 @@ index bbfafb1400721251dfd2cac4dd8a31be2d682d4b..e863d524dd1f47332a294ebea604752b
      public int wakeUpInactiveAnimals = 4;
      public int wakeUpInactiveAnimalsEvery = 60*20;
      public int wakeUpInactiveAnimalsFor = 5*20;
-@@ -229,7 +229,7 @@ public class SpigotWorldConfig
+@@ -231,7 +231,7 @@ public class SpigotWorldConfig
      public int villagersWorkImmunityFor = 20;
      public boolean villagersActiveForPanic = true;
      // Paper end
@@ -277,7 +264,7 @@ index bbfafb1400721251dfd2cac4dd8a31be2d682d4b..e863d524dd1f47332a294ebea604752b
      public boolean ignoreSpectatorActivation = false;
      private void activationRange()
      {
-@@ -297,7 +297,7 @@ public class SpigotWorldConfig
+@@ -299,7 +299,7 @@ public class SpigotWorldConfig
          {
              this.set( "ticks-per.hopper-check", 1 );
          }
@@ -286,7 +273,7 @@ index bbfafb1400721251dfd2cac4dd8a31be2d682d4b..e863d524dd1f47332a294ebea604752b
          this.hopperAmount = this.getInt( "hopper-amount", 1 );
          this.hopperCanLoadChunks = this.getBoolean( "hopper-can-load-chunks", false );
          this.log( "Hopper Transfer: " + this.hopperTransfer + " Hopper Check: " + this.hopperCheck + " Hopper Amount: " + this.hopperAmount + " Hopper Can Load Chunks: " + this.hopperCanLoadChunks );
-@@ -307,7 +307,7 @@ public class SpigotWorldConfig
+@@ -309,7 +309,7 @@ public class SpigotWorldConfig
      public int tridentDespawnRate;
      private void arrowDespawnRate()
      {
@@ -295,7 +282,7 @@ index bbfafb1400721251dfd2cac4dd8a31be2d682d4b..e863d524dd1f47332a294ebea604752b
          this.tridentDespawnRate = this.getInt( "trident-despawn-rate", this.arrowDespawnRate );
          this.log( "Arrow Despawn Rate: " + this.arrowDespawnRate + " Trident Respawn Rate:" + this.tridentDespawnRate );
      }
-@@ -322,14 +322,14 @@ public class SpigotWorldConfig
+@@ -324,14 +324,14 @@ public class SpigotWorldConfig
      public boolean nerfSpawnerMobs;
      private void nerfSpawnerMobs()
      {
@@ -312,7 +299,7 @@ index bbfafb1400721251dfd2cac4dd8a31be2d682d4b..e863d524dd1f47332a294ebea604752b
          this.log( "Allow Zombie Pigmen to spawn from portal blocks: " + this.enableZombiePigmenPortalSpawns );
      }
  
-@@ -443,7 +443,7 @@ public class SpigotWorldConfig
+@@ -445,7 +445,7 @@ public class SpigotWorldConfig
      public int hangingTickFrequency;
      private void hangingTickFrequency()
      {

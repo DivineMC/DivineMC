@@ -1,11 +1,11 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
-Date: Fri, 31 Mar 2023 00:39:40 +0300
+Date: Sat, 10 Jun 2023 14:06:58 +0300
 Subject: [PATCH] Add missing purpur config options
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java b/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java
-index 379d168eb4ba958622398efa79fa43d5340ca0f2..19598cb05f005087181d814f445c4847f8e5045e 100644
+index 379d168eb4ba958622398efa79fa43d5340ca0f2..05b2470b22cc4fab4f331890c53ed3dd6b871241 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java
 @@ -153,6 +153,23 @@ public class Allay extends PathfinderMob implements InventoryCarrier, VibrationS
@@ -15,17 +15,17 @@ index 379d168eb4ba958622398efa79fa43d5340ca0f2..19598cb05f005087181d814f445c4847
 +    // DivineMC start - Add missing purpur config options
 +    @Override
 +    public boolean isSensitiveToWater() {
-+        return level.purpurConfig.allayTakeDamageFromWater;
++        return level().purpurConfig.allayTakeDamageFromWater;
 +    }
 +
 +    @Override
 +    public boolean isAlwaysExperienceDropper() {
-+        return level.purpurConfig.allayAlwaysDropExp;
++        return level().purpurConfig.allayAlwaysDropExp;
 +    }
 +
 +    @Override
 +    public void initAttributes() {
-+        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(level.purpurConfig.allayMaxHealth);
++        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(level().purpurConfig.allayMaxHealth);
 +    }
 +    // DivineMC end
 +
@@ -33,7 +33,7 @@ index 379d168eb4ba958622398efa79fa43d5340ca0f2..19598cb05f005087181d814f445c4847
      protected Brain.Provider<Allay> brainProvider() {
          return Brain.provider(Allay.MEMORY_TYPES, Allay.SENSOR_TYPES);
 diff --git a/src/main/java/net/minecraft/world/entity/animal/camel/Camel.java b/src/main/java/net/minecraft/world/entity/animal/camel/Camel.java
-index 42c571c154ebdd24fabc5354618e6be064d17f05..0667f9aab5b9815df18f7e67909408435e69166b 100644
+index 42c571c154ebdd24fabc5354618e6be064d17f05..f17691a3d697b4979c00d17bbc75f93f3584b906 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/camel/Camel.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/camel/Camel.java
 @@ -91,6 +91,23 @@ public class Camel extends AbstractHorse implements PlayerRideableJumping, Rider
@@ -43,17 +43,17 @@ index 42c571c154ebdd24fabc5354618e6be064d17f05..0667f9aab5b9815df18f7e6790940843
 +    // DivineMC start - Add missing purpur config options
 +    @Override
 +    public boolean dismountsUnderwater() {
-+        return level.purpurConfig.useDismountsUnderwaterTag ? super.dismountsUnderwater() : !level.purpurConfig.camelRidableInWater;
++        return level().purpurConfig.useDismountsUnderwaterTag ? super.dismountsUnderwater() : !level().purpurConfig.camelRidableInWater;
 +    }
 +
 +    @Override
 +    public boolean isSensitiveToWater() {
-+        return level.purpurConfig.camelTakeDamageFromWater;
++        return level().purpurConfig.camelTakeDamageFromWater;
 +    }
 +
 +    @Override
 +    public boolean isAlwaysExperienceDropper() {
-+        return level.purpurConfig.camelAlwaysDropExp;
++        return level().purpurConfig.camelAlwaysDropExp;
 +    }
 +    // DivineMC end
 +
@@ -61,36 +61,35 @@ index 42c571c154ebdd24fabc5354618e6be064d17f05..0667f9aab5b9815df18f7e6790940843
      public void addAdditionalSaveData(CompoundTag nbt) {
          super.addAdditionalSaveData(nbt);
 diff --git a/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java b/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java
-index 21f0554ae9281ddd088cf36c79bb005e18473a7f..eef8dd833c9b31ae7775e64c840ee3414fe8bda0 100644
+index 21f0554ae9281ddd088cf36c79bb005e18473a7f..0f3a62eb63ef647eeccf5377d7478a50f09deaca 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java
-@@ -140,6 +140,24 @@ public class Frog extends Animal implements VariantHolder<FrogVariant> {
+@@ -140,6 +140,23 @@ public class Frog extends Animal implements VariantHolder<FrogVariant> {
          return this.level().purpurConfig.frogBreedingTicks;
      }
  
 +    // DivineMC start - Add missing purpur config options
 +    @Override
 +    public boolean isSensitiveToWater() {
-+        return level.purpurConfig.frogTakeDamageFromWater;
++        return level().purpurConfig.frogTakeDamageFromWater;
 +    }
 +
 +    @Override
 +    public boolean isAlwaysExperienceDropper() {
-+        return level.purpurConfig.frogAlwaysDropExp;
++        return level().purpurConfig.frogAlwaysDropExp;
 +    }
 +
 +    @Override
 +    public void initAttributes() {
-+        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(level.purpurConfig.frogMaxHealth);
++        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(level().purpurConfig.frogMaxHealth);
 +    }
 +    // DivineMC end
-+
 +
      @Override
      protected Brain.Provider<Frog> brainProvider() {
          return Brain.provider(MEMORY_TYPES, SENSOR_TYPES);
 diff --git a/src/main/java/net/minecraft/world/entity/animal/frog/Tadpole.java b/src/main/java/net/minecraft/world/entity/animal/frog/Tadpole.java
-index 9db4817cf503c361a6bcb9a4174d8c4319c664b2..4bf236268cfaf09ab46cdeb59187701ea978c409 100644
+index 9db4817cf503c361a6bcb9a4174d8c4319c664b2..dc4b4614bb10fb5020273ee3ea79dd31a075db19 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/frog/Tadpole.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/frog/Tadpole.java
 @@ -89,6 +89,23 @@ public class Tadpole extends AbstractFish {
@@ -100,17 +99,17 @@ index 9db4817cf503c361a6bcb9a4174d8c4319c664b2..4bf236268cfaf09ab46cdeb59187701e
 +    // DivineMC start - Add missing purpur config options
 +    @Override
 +    public boolean isSensitiveToWater() {
-+        return level.purpurConfig.tadpoleTakeDamageFromWater;
++        return level().purpurConfig.tadpoleTakeDamageFromWater;
 +    }
 +
 +    @Override
 +    public boolean isAlwaysExperienceDropper() {
-+        return level.purpurConfig.tadpoleAlwaysDropExp;
++        return level().purpurConfig.tadpoleAlwaysDropExp;
 +    }
 +
 +    @Override
 +    public void initAttributes() {
-+        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(level.purpurConfig.tadpoleMaxHealth);
++        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(level().purpurConfig.tadpoleMaxHealth);
 +    }
 +    // DivineMC end
 +
@@ -118,7 +117,7 @@ index 9db4817cf503c361a6bcb9a4174d8c4319c664b2..4bf236268cfaf09ab46cdeb59187701e
      protected PathNavigation createNavigation(Level world) {
          return new WaterBoundPathNavigation(this, world);
 diff --git a/src/main/java/net/minecraft/world/entity/animal/sniffer/Sniffer.java b/src/main/java/net/minecraft/world/entity/animal/sniffer/Sniffer.java
-index 14df8a4e0c1a1dcfbbd2f4fdfd865bd77bb02325..ca8806db9f50733661ae677e04865e2b63877433 100644
+index 14df8a4e0c1a1dcfbbd2f4fdfd865bd77bb02325..2b565804c447a49e37544afb7ed297da927cdad6 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/sniffer/Sniffer.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/sniffer/Sniffer.java
 @@ -117,6 +117,18 @@ public class Sniffer extends Animal {
@@ -128,12 +127,12 @@ index 14df8a4e0c1a1dcfbbd2f4fdfd865bd77bb02325..ca8806db9f50733661ae677e04865e2b
 +    // DivineMC start - Add missing purpur config options
 +    @Override
 +    public boolean isSensitiveToWater() {
-+        return level.purpurConfig.snifferTakeDamageFromWater;
++        return level().purpurConfig.snifferTakeDamageFromWater;
 +    }
 +
 +    @Override
 +    public boolean isAlwaysExperienceDropper() {
-+        return level.purpurConfig.snifferAlwaysDropExp;
++        return level().purpurConfig.snifferAlwaysDropExp;
 +    }
 +    // DivineMC end
 +
@@ -141,7 +140,7 @@ index 14df8a4e0c1a1dcfbbd2f4fdfd865bd77bb02325..ca8806db9f50733661ae677e04865e2b
      @Override
      protected void defineSynchedData() {
 diff --git a/src/main/java/net/minecraft/world/entity/monster/warden/Warden.java b/src/main/java/net/minecraft/world/entity/monster/warden/Warden.java
-index 22553da189370405f6f97ceff5e66596e1e12f5f..deaf6650a12e72b8f2e55fdac98fda5ad5ee6086 100644
+index 22553da189370405f6f97ceff5e66596e1e12f5f..5734c201d73bec9e500edf3e1b60428c68602335 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/warden/Warden.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/warden/Warden.java
 @@ -147,6 +147,23 @@ public class Warden extends Monster implements VibrationSystem {
@@ -151,17 +150,17 @@ index 22553da189370405f6f97ceff5e66596e1e12f5f..deaf6650a12e72b8f2e55fdac98fda5a
 +    // DivineMC start - Add missing purpur config options
 +    @Override
 +    public boolean isSensitiveToWater() {
-+        return level.purpurConfig.wardenTakeDamageFromWater;
++        return level().purpurConfig.wardenTakeDamageFromWater;
 +    }
 +
 +    @Override
 +    public boolean isAlwaysExperienceDropper() {
-+        return level.purpurConfig.wardenAlwaysDropExp;
++        return level().purpurConfig.wardenAlwaysDropExp;
 +    }
 +
 +    @Override
 +    public void initAttributes() {
-+        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(level.purpurConfig.wardenMaxHealth);
++        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(level().purpurConfig.wardenMaxHealth);
 +    }
 +    // DivineMC end
 +
@@ -169,18 +168,20 @@ index 22553da189370405f6f97ceff5e66596e1e12f5f..deaf6650a12e72b8f2e55fdac98fda5a
      public Packet<ClientGamePacketListener> getAddEntityPacket() {
          return new ClientboundAddEntityPacket(this, this.hasPose(Pose.EMERGING) ? 1 : 0);
 diff --git a/src/main/java/net/minecraft/world/entity/vehicle/ChestBoat.java b/src/main/java/net/minecraft/world/entity/vehicle/ChestBoat.java
-index e88c39d405fc7068db64ad34a03dec8d559e749e..6ce94d66ca7f323714bb758d899fb7dea4d937de 100644
+index e88c39d405fc7068db64ad34a03dec8d559e749e..dcc470d7a0fd2cf814857e782fcee5394a7147c7 100644
 --- a/src/main/java/net/minecraft/world/entity/vehicle/ChestBoat.java
 +++ b/src/main/java/net/minecraft/world/entity/vehicle/ChestBoat.java
-@@ -29,6 +29,7 @@ import org.bukkit.Location;
- import org.bukkit.craftbukkit.entity.CraftHumanEntity;
+@@ -30,6 +30,9 @@ import org.bukkit.craftbukkit.entity.CraftHumanEntity;
  import org.bukkit.entity.HumanEntity;
  import org.bukkit.inventory.InventoryHolder;
-+import org.purpurmc.purpur.PurpurConfig;
  // CraftBukkit end
++// DivineMC start
++import org.purpurmc.purpur.PurpurConfig;
++// DivineMC end
  
  public class ChestBoat extends Boat implements HasCustomInventoryScreen, ContainerEntity {
-@@ -41,7 +42,7 @@ public class ChestBoat extends Boat implements HasCustomInventoryScreen, Contain
+ 
+@@ -41,7 +44,7 @@ public class ChestBoat extends Boat implements HasCustomInventoryScreen, Contain
  
      public ChestBoat(EntityType<? extends Boat> type, Level world) {
          super(type, world);
@@ -189,17 +190,8 @@ index e88c39d405fc7068db64ad34a03dec8d559e749e..6ce94d66ca7f323714bb758d899fb7de
      }
  
      public ChestBoat(Level world, double d0, double d1, double d2) {
-@@ -160,7 +161,7 @@ public class ChestBoat extends Boat implements HasCustomInventoryScreen, Contain
- 
-     @Override
-     public int getContainerSize() {
--        return 27;
-+        return PurpurConfig.chestBoatRows * 9; // DivineMC start - Add missing purpur config options
-     }
- 
-     @Override
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-index 0b2a5dc43ccba7d223cbdfd3f1dc539a6dab0444..01e10034ad8cd91d30c4c3dc7b372617ad6b785e 100644
+index 0b2a5dc43ccba7d223cbdfd3f1dc539a6dab0444..2e70a973d2914335a48f561956c16cfde87aff55 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 @@ -326,6 +326,7 @@ public class PurpurConfig {
@@ -210,16 +202,8 @@ index 0b2a5dc43ccba7d223cbdfd3f1dc539a6dab0444..01e10034ad8cd91d30c4c3dc7b372617
      public static boolean enderChestSixRows = false;
      public static boolean enderChestPermissionRows = false;
      public static boolean cryingObsidianValidForPortalFrame = false;
-@@ -366,6 +367,7 @@ public class PurpurConfig {
-             case 1 -> 9;
-             default -> 27;
-         });
-+        chestBoatRows = getInt("settings.blocks.chest_boat.rows", chestBoatRows); // DivineMC - Add missing purpur config options
-         enderChestSixRows = getBoolean("settings.blocks.ender_chest.six-rows", enderChestSixRows);
-         org.bukkit.event.inventory.InventoryType.ENDER_CHEST.setDefaultSize(enderChestSixRows ? 54 : 27);
-         enderChestPermissionRows = getBoolean("settings.blocks.ender_chest.use-permissions-for-rows", enderChestPermissionRows);
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
-index f9c46c7a840dd73f4736dff4b34f4bd1c6e4c7ac..d4fdf9eeb1d224168a90ec26a9048ff399892071 100644
+index f9c46c7a840dd73f4736dff4b34f4bd1c6e4c7ac..4fc0c0e8394e46404a46cde745e871fdc8d808bd 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 @@ -1096,7 +1096,17 @@ public class PurpurWorldConfig {
@@ -240,7 +224,7 @@ index f9c46c7a840dd73f4736dff4b34f4bd1c6e4c7ac..d4fdf9eeb1d224168a90ec26a9048ff3
          allayRidable = getBoolean("mobs.allay.ridable", allayRidable);
          allayRidableInWater = getBoolean("mobs.allay.ridable-in-water", allayRidableInWater);
          allayControllable = getBoolean("mobs.allay.controllable", allayControllable);
-@@ -1214,7 +1224,18 @@ public class PurpurWorldConfig {
+@@ -1214,7 +1224,17 @@ public class PurpurWorldConfig {
      public double camelJumpStrengthMax = 0.42D;
      public double camelMovementSpeedMin = 0.09D;
      public double camelMovementSpeedMax = 0.09D;
@@ -249,7 +233,6 @@ index f9c46c7a840dd73f4736dff4b34f4bd1c6e4c7ac..d4fdf9eeb1d224168a90ec26a9048ff3
 +    public boolean camelTakeDamageFromWater = false;
 +    public boolean camelAlwaysDropExp = false;
 +    // DivineMC end
-+
      private void camelSettings() {
 +        // DivineMC start - Add missing purpur config options
 +        camelRidableInWater = getBoolean("mobs.camel.ridable-in-water", camelRidableInWater);
@@ -259,7 +242,7 @@ index f9c46c7a840dd73f4736dff4b34f4bd1c6e4c7ac..d4fdf9eeb1d224168a90ec26a9048ff3
          camelMaxHealthMin = getDouble("mobs.camel.attributes.max_health.min", camelMaxHealthMin);
          camelMaxHealthMax = getDouble("mobs.camel.attributes.max_health.max", camelMaxHealthMax);
          camelJumpStrengthMin = getDouble("mobs.camel.attributes.jump_strength.min", camelJumpStrengthMin);
-@@ -1641,7 +1662,18 @@ public class PurpurWorldConfig {
+@@ -1641,7 +1661,17 @@ public class PurpurWorldConfig {
      public boolean frogControllable = true;
      public float frogRidableJumpHeight = 0.65F;
      public int frogBreedingTicks = 6000;
@@ -268,7 +251,6 @@ index f9c46c7a840dd73f4736dff4b34f4bd1c6e4c7ac..d4fdf9eeb1d224168a90ec26a9048ff3
 +    public boolean frogTakeDamageFromWater = false;
 +    public boolean frogAlwaysDropExp = false;
 +    // DivineMC end
-+
      private void frogSettings() {
 +        // DivineMC start - Add missing purpur config options
 +        frogMaxHealth = getDouble("mobs.frog.attributes.max_health", frogMaxHealth);
@@ -278,7 +260,7 @@ index f9c46c7a840dd73f4736dff4b34f4bd1c6e4c7ac..d4fdf9eeb1d224168a90ec26a9048ff3
          frogRidable = getBoolean("mobs.frog.ridable", frogRidable);
          frogRidableInWater = getBoolean("mobs.frog.ridable-in-water", frogRidableInWater);
          frogControllable = getBoolean("mobs.frog.controllable", frogControllable);
-@@ -2592,7 +2624,16 @@ public class PurpurWorldConfig {
+@@ -2592,7 +2622,15 @@ public class PurpurWorldConfig {
      public boolean snifferControllable = true;
      public double snifferMaxHealth = 14.0D;
      public int snifferBreedingTicks = 6000;
@@ -286,7 +268,6 @@ index f9c46c7a840dd73f4736dff4b34f4bd1c6e4c7ac..d4fdf9eeb1d224168a90ec26a9048ff3
 +    public boolean snifferTakeDamageFromWater = false;
 +    public boolean snifferAlwaysDropExp = false;
 +    // DivineMC end
-+
      private void snifferSettings() {
 +        // DivineMC start - Add missing purpur config options
 +        snifferTakeDamageFromWater = getBoolean("mobs.sniffer.takes-damage-from-water", snifferTakeDamageFromWater);
@@ -295,7 +276,7 @@ index f9c46c7a840dd73f4736dff4b34f4bd1c6e4c7ac..d4fdf9eeb1d224168a90ec26a9048ff3
          snifferRidable = getBoolean("mobs.sniffer.ridable", snifferRidable);
          snifferRidableInWater = getBoolean("mobs.sniffer.ridable-in-water", snifferRidableInWater);
          snifferControllable = getBoolean("mobs.sniffer.controllable", snifferControllable);
-@@ -2691,7 +2732,18 @@ public class PurpurWorldConfig {
+@@ -2691,7 +2729,17 @@ public class PurpurWorldConfig {
      public boolean tadpoleRidable = false;
      public boolean tadpoleRidableInWater = true;
      public boolean tadpoleControllable = true;
@@ -304,7 +285,6 @@ index f9c46c7a840dd73f4736dff4b34f4bd1c6e4c7ac..d4fdf9eeb1d224168a90ec26a9048ff3
 +    public boolean tadpoleTakeDamageFromWater = false;
 +    public boolean tadpoleAlwaysDropExp = false;
 +    // DivineMC end
-+
      private void tadpoleSettings() {
 +        // DivineMC start - Add missing purpur config options
 +        tadpoleMaxHealth = getDouble("mobs.tadpole.attributes.max_health", tadpoleMaxHealth);
@@ -314,7 +294,7 @@ index f9c46c7a840dd73f4736dff4b34f4bd1c6e4c7ac..d4fdf9eeb1d224168a90ec26a9048ff3
          tadpoleRidable = getBoolean("mobs.tadpole.ridable", tadpoleRidable);
          tadpoleRidableInWater = getBoolean("mobs.tadpole.ridable-in-water", tadpoleRidableInWater);
          tadpoleControllable = getBoolean("mobs.tadpole.controllable", tadpoleControllable);
-@@ -2901,7 +2953,18 @@ public class PurpurWorldConfig {
+@@ -2901,7 +2949,17 @@ public class PurpurWorldConfig {
      public boolean wardenRidable = false;
      public boolean wardenRidableInWater = true;
      public boolean wardenControllable = true;
@@ -323,7 +303,6 @@ index f9c46c7a840dd73f4736dff4b34f4bd1c6e4c7ac..d4fdf9eeb1d224168a90ec26a9048ff3
 +    public boolean wardenTakeDamageFromWater = false;
 +    public boolean wardenAlwaysDropExp = false;
 +    // DivineMC end
-+
      private void wardenSettings() {
 +        // DivineMC start - Add missing purpur config options
 +        wardenMaxHealth = getDouble("mobs.warden.attributes.max_health", wardenMaxHealth);

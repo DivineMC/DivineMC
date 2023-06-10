@@ -29,11 +29,11 @@ index 454ad3442076898dd476d86706f93facae1939af..e34fdd46a0c00a02dd8828140e294fa6
      }
  
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-index 5638290c72e0daeddfa79fd55e87334fa7d86f72..b1ddcb53b77020b43f68e2a5558e05fab207789d 100644
+index 8ac05dbfd5417d06d00bb528b63dcd7a0d66b35d..eeab8eb168e5a518b4301411cf8fa2d496b4a9d1 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
 @@ -448,6 +448,7 @@ public class SpigotWorldConfig
-         this.hangingTickFrequency = this.getInt( "hanging-tick-frequency", 100 );
+         this.hangingTickFrequency = this.getInt( "hanging-tick-frequency", 200 ); // DivineMC - optimize default values for configs
      }
  
 +    /* DivineMC - remove tick limiter
