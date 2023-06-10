@@ -4,8 +4,8 @@ on:
   workflow_dispatch:
 
 env:
-  version: 1.19.4
-  branch: ver/1.19.4
+  version: 1.20
+  branch: ver/1.20
   debug: 'false'
 
 jobs:
