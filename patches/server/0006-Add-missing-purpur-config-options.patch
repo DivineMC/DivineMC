@@ -168,7 +168,7 @@ index 22553da189370405f6f97ceff5e66596e1e12f5f..5734c201d73bec9e500edf3e1b60428c
      public Packet<ClientGamePacketListener> getAddEntityPacket() {
          return new ClientboundAddEntityPacket(this, this.hasPose(Pose.EMERGING) ? 1 : 0);
 diff --git a/src/main/java/net/minecraft/world/entity/vehicle/ChestBoat.java b/src/main/java/net/minecraft/world/entity/vehicle/ChestBoat.java
-index e88c39d405fc7068db64ad34a03dec8d559e749e..dcc470d7a0fd2cf814857e782fcee5394a7147c7 100644
+index e88c39d405fc7068db64ad34a03dec8d559e749e..35f0677a31be938a87314c534d63bc24faec7416 100644
 --- a/src/main/java/net/minecraft/world/entity/vehicle/ChestBoat.java
 +++ b/src/main/java/net/minecraft/world/entity/vehicle/ChestBoat.java
 @@ -30,6 +30,9 @@ import org.bukkit.craftbukkit.entity.CraftHumanEntity;
@@ -190,8 +190,17 @@ index e88c39d405fc7068db64ad34a03dec8d559e749e..dcc470d7a0fd2cf814857e782fcee539
      }
  
      public ChestBoat(Level world, double d0, double d1, double d2) {
+@@ -160,7 +163,7 @@ public class ChestBoat extends Boat implements HasCustomInventoryScreen, Contain
+ 
+     @Override
+     public int getContainerSize() {
+-        return 27;
++        return PurpurConfig.chestBoatRows * 9; // DivineMC - Add missing purpur config options
+     }
+ 
+     @Override
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-index 0b2a5dc43ccba7d223cbdfd3f1dc539a6dab0444..2e70a973d2914335a48f561956c16cfde87aff55 100644
+index 0b2a5dc43ccba7d223cbdfd3f1dc539a6dab0444..01e10034ad8cd91d30c4c3dc7b372617ad6b785e 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 @@ -326,6 +326,7 @@ public class PurpurConfig {
@@ -202,6 +211,14 @@ index 0b2a5dc43ccba7d223cbdfd3f1dc539a6dab0444..2e70a973d2914335a48f561956c16cfd
      public static boolean enderChestSixRows = false;
      public static boolean enderChestPermissionRows = false;
      public static boolean cryingObsidianValidForPortalFrame = false;
+@@ -366,6 +367,7 @@ public class PurpurConfig {
+             case 1 -> 9;
+             default -> 27;
+         });
++        chestBoatRows = getInt("settings.blocks.chest_boat.rows", chestBoatRows); // DivineMC - Add missing purpur config options
+         enderChestSixRows = getBoolean("settings.blocks.ender_chest.six-rows", enderChestSixRows);
+         org.bukkit.event.inventory.InventoryType.ENDER_CHEST.setDefaultSize(enderChestSixRows ? 54 : 27);
+         enderChestPermissionRows = getBoolean("settings.blocks.ender_chest.use-permissions-for-rows", enderChestPermissionRows);
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 index f9c46c7a840dd73f4736dff4b34f4bd1c6e4c7ac..4fc0c0e8394e46404a46cde745e871fdc8d808bd 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
