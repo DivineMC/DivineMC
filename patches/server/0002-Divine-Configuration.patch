@@ -79,7 +79,7 @@ index 0000000000000000000000000000000000000000..6ab4a0ae2a0f63e4dfdb36a561ccda2a
 +}
 diff --git a/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..0a8baeb94ae553c4759b065eafd9e242153cf991
+index 0000000000000000000000000000000000000000..9e802fbe8e5f1a3c24cb6bc9254c72a2a0c3fde1
 --- /dev/null
 +++ b/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java
 @@ -0,0 +1,155 @@
@@ -140,8 +140,8 @@ index 0000000000000000000000000000000000000000..0a8baeb94ae553c4759b065eafd9e242
 +        commands = new HashMap<>();
 +        commands.put("divinemc", new DivineCommand("divinemc"));
 +
-+        version = getInt("config-version", 2);
-+        set("config-version", 2);
++        version = getInt("config-version", 3);
++        set("config-version", 3);
 +
 +        readConfig(DivineConfig.class, null);
 +
