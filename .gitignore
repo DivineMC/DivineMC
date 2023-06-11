@@ -1,7 +1,8 @@
-divinemc-api
-divinemc-server
+# Purpur-API and Purpur-Server changes
+DivineMC-API
+DivineMC-Server
 
-scripts
+# IDE and Gradle things
 build
 .gradle
 run
