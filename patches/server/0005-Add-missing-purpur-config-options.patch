@@ -33,19 +33,14 @@ index 379d168eb4ba958622398efa79fa43d5340ca0f2..05b2470b22cc4fab4f331890c53ed3dd
      protected Brain.Provider<Allay> brainProvider() {
          return Brain.provider(Allay.MEMORY_TYPES, Allay.SENSOR_TYPES);
 diff --git a/src/main/java/net/minecraft/world/entity/animal/camel/Camel.java b/src/main/java/net/minecraft/world/entity/animal/camel/Camel.java
-index 9f19ebfa6392a080672c472e08f755379e9776b4..4a5cb1787559d246afeeca4a08ada37b7466b7d1 100644
+index 9f19ebfa6392a080672c472e08f755379e9776b4..6276ca55dd52a3663f86e6e3708335c8ff1350be 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/camel/Camel.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/camel/Camel.java
-@@ -95,6 +95,23 @@ public class Camel extends AbstractHorse implements PlayerRideableJumping, Rider
+@@ -95,6 +95,18 @@ public class Camel extends AbstractHorse implements PlayerRideableJumping, Rider
      }
      // Purpur end
  
 +    // DivineMC start - Add missing purpur config options
-+    @Override
-+    public boolean dismountsUnderwater() {
-+        return level().purpurConfig.useDismountsUnderwaterTag ? super.dismountsUnderwater() : !level().purpurConfig.camelRidableInWater;
-+    }
-+
 +    @Override
 +    public boolean isSensitiveToWater() {
 +        return level().purpurConfig.camelTakeDamageFromWater;
