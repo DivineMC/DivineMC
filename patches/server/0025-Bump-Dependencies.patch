@@ -5,10 +5,10 @@ Subject: [PATCH] Bump Dependencies
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index d2f1136aa99778887de794803c25a2a33e7a6ba4..45b25816543029e91ac72201c71d72350eacac6c 100644
+index 6b9e1fba27a79a7d07b0564f26ac8a24eb382d70..ad268607c5be6db4751a37f9c916e0af80278350 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
-@@ -22,13 +22,13 @@ dependencies {
+@@ -23,13 +23,13 @@ dependencies {
            all its classes to check if they are plugins.
            Scanning takes about 1-2 seconds so adding this speeds up the server start.
       */
@@ -26,7 +26,7 @@ index d2f1136aa99778887de794803c25a2a33e7a6ba4..45b25816543029e91ac72201c71d7235
      testImplementation("org.mockito:mockito-core:4.9.0") // Paper - switch to mockito
      implementation("org.spongepowered:configurate-yaml:4.1.2") // Paper - config files
      implementation("commons-lang:commons-lang:2.6")
-@@ -37,7 +37,7 @@ dependencies {
+@@ -38,7 +38,7 @@ dependencies {
      runtimeOnly("com.mysql:mysql-connector-j:8.0.33")
      runtimeOnly("com.lmax:disruptor:3.4.4") // Paper
      // Paper start - Use Velocity cipher
@@ -35,7 +35,7 @@ index d2f1136aa99778887de794803c25a2a33e7a6ba4..45b25816543029e91ac72201c71d7235
          isTransitive = false
      }
      // Paper end
-@@ -50,9 +50,9 @@ dependencies {
+@@ -51,9 +51,9 @@ dependencies {
      runtimeOnly("org.apache.maven.resolver:maven-resolver-connector-basic:1.9.10")
      runtimeOnly("org.apache.maven.resolver:maven-resolver-transport-http:1.9.10")
  
