@@ -7,7 +7,7 @@ Original code by Titaniumtown, modified by NONPLAYT
 You can find the original code on https://gitlab.com/Titaniumtown/JettPack
 
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 454ad3442076898dd476d86706f93facae1939af..e34fdd46a0c00a02dd8828140e294fa66ddb1770 100644
+index de4a7223c672953c5d02d222638af7f9dcd602aa..7700383d188835f6ac47c75e084abc3524f1f221 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
 @@ -182,8 +182,6 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
@@ -19,7 +19,7 @@ index 454ad3442076898dd476d86706f93facae1939af..e34fdd46a0c00a02dd8828140e294fa6
      private int tileTickPosition;
      public final Map<Explosion.CacheKey, Float> explosionDensityCache = new HashMap<>(); // Paper - Optimize explosions
      public java.util.ArrayDeque<net.minecraft.world.level.block.RedstoneTorchBlock.Toggle> redstoneUpdateInfos; // Paper - Move from Map in BlockRedstoneTorch to here
-@@ -407,8 +405,6 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+@@ -425,8 +423,6 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
          // CraftBukkit end
          timings = new co.aikar.timings.WorldTimingsHandler(this); // Paper - code below can generate new world and access timings
          this.keepSpawnInMemory = this.paperConfig().spawn.keepSpawnLoaded; // Paper
