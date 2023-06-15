@@ -1,23 +1,23 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
-Date: Sat, 10 Jun 2023 12:16:02 +0300
+Date: Fri, 16 Jun 2023 01:08:36 +0300
 Subject: [PATCH] Divine Branding
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index af58d80d3c031dc00f8ac0e17b6a862b17eab97d..6b9e1fba27a79a7d07b0564f26ac8a24eb382d70 100644
+index 3030116af88d66c376e794b55a4716381fc7552b..69c774a445054838719f00702d61c41f99723059 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -8,7 +8,7 @@ plugins {
  
  dependencies {
      // Purpur start
--    implementation(project(":purpur-api")) // Pufferfish
-+    implementation(project(":divinemc-api")) // Pufferfish // DivineMC
+-    implementation(project(":purpur-api"))
++    implementation(project(":divinemc-api")) // DivineMC
      implementation("io.papermc.paper:paper-mojangapi:${project.version}") {
          exclude("io.papermc.paper", "paper-api")
      }
-@@ -71,7 +71,7 @@ tasks.jar {
+@@ -86,7 +86,7 @@ tasks.jar {
          attributes(
              "Main-Class" to "org.bukkit.craftbukkit.Main",
              "Implementation-Title" to "CraftBukkit",
@@ -138,7 +138,7 @@ index 3cb56595822799926a8141e60a42f5d1edfc6de5..05478a1ea04ec0396bc8c97090edef4a
                  .completer(new ConsoleCommandCompleter(this.server))
                  .option(LineReader.Option.COMPLETE_IN_WORD, true);
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 1dc6ebca645dc129b9ae12a2df68ad60e43ff71f..ccf43d3d4fdb74b713d788f62d6a9b453701f6fb 100644
+index 3f22bdb85465f7b0f0082715fdd524f6905a0344..946f8adfe2138ad917a6a9100b7cf782303a7632 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -261,7 +261,7 @@ import javax.annotation.Nullable; // Paper
