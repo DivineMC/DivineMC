@@ -5,7 +5,7 @@ Subject: [PATCH] Divine Branding
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 3030116af88d66c376e794b55a4716381fc7552b..69c774a445054838719f00702d61c41f99723059 100644
+index a125c0735cf4814b26ce8a96163bf65f74d23900..73b475f589efd2bcb4ed2d514fc5f73330b839f7 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -8,7 +8,7 @@ plugins {
@@ -17,7 +17,7 @@ index 3030116af88d66c376e794b55a4716381fc7552b..69c774a445054838719f00702d61c41f
      implementation("io.papermc.paper:paper-mojangapi:${project.version}") {
          exclude("io.papermc.paper", "paper-api")
      }
-@@ -86,7 +86,7 @@ tasks.jar {
+@@ -87,7 +87,7 @@ tasks.jar {
          attributes(
              "Main-Class" to "org.bukkit.craftbukkit.Main",
              "Implementation-Title" to "CraftBukkit",
@@ -138,7 +138,7 @@ index 3cb56595822799926a8141e60a42f5d1edfc6de5..05478a1ea04ec0396bc8c97090edef4a
                  .completer(new ConsoleCommandCompleter(this.server))
                  .option(LineReader.Option.COMPLETE_IN_WORD, true);
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 3f22bdb85465f7b0f0082715fdd524f6905a0344..946f8adfe2138ad917a6a9100b7cf782303a7632 100644
+index 7a388f0e57bc05634be64b16fa66acdb416ac849..1cb9c46f7fe41fa446e2ce6f641fcab4d9f9cf54 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -261,7 +261,7 @@ import javax.annotation.Nullable; // Paper
