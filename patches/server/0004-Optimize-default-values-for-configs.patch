@@ -206,7 +206,7 @@ index a33de97340f14219291c4175e9194914cdf441db..aab773b96b274e2c0dd83ec08f90baf1
          public float maxLeashDistance = 10f;
          public boolean disableSprintInterruptionOnAttack = false;
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-index 5638290c72e0daeddfa79fd55e87334fa7d86f72..8ac05dbfd5417d06d00bb528b63dcd7a0d66b35d 100644
+index 5b5109e942b18418b3a3a0e2109fe4ef15045fe5..389bcb5e01d66f8e3915e09a49aace5176012191 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
 @@ -150,14 +150,14 @@ public class SpigotWorldConfig
@@ -299,7 +299,7 @@ index 5638290c72e0daeddfa79fd55e87334fa7d86f72..8ac05dbfd5417d06d00bb528b63dcd7a
          this.log( "Allow Zombie Pigmen to spawn from portal blocks: " + this.enableZombiePigmenPortalSpawns );
      }
  
-@@ -445,7 +445,7 @@ public class SpigotWorldConfig
+@@ -447,7 +447,7 @@ public class SpigotWorldConfig
      public int hangingTickFrequency;
      private void hangingTickFrequency()
      {

@@ -7,10 +7,10 @@ Original post on Mojira: https://bugs.mojang.com/browse/MC-2025
 Fix taken from Reddit: https://redd.it/8pgd4q
 
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 11c84dd6eae457771362a5e6788bb459749e4838..9b405865c19742f71b30ea985bcdda9561f44e9c 100644
+index a3654816c007c29a5358d75ee4301502c5a2fadd..317d34c61435a2609977df00699cadd47b84e819 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
-@@ -2476,6 +2476,17 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -2489,6 +2489,17 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
                  nbt.putBoolean("Purpur.FireImmune", immuneToFire);
              }
              // Purpur end
@@ -28,7 +28,7 @@ index 11c84dd6eae457771362a5e6788bb459749e4838..9b405865c19742f71b30ea985bcdda95
              return nbt;
          } catch (Throwable throwable) {
              CrashReport crashreport = CrashReport.forThrowable(throwable, "Saving entity NBT");
-@@ -2553,6 +2564,14 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -2566,6 +2577,14 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
                          this.reapplyPosition();
                      }
  
