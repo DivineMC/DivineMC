@@ -5,7 +5,7 @@ Subject: [PATCH] Bump Dependencies
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 73b475f589efd2bcb4ed2d514fc5f73330b839f7..960ae344ebe3d9a80b87ae63fa8a364e4276152f 100644
+index 4c6248657ea8bd914d33c4ea997522317a681777..f7f4b235d2035013159be9291aa8afb531a83794 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -24,13 +24,13 @@ dependencies {
@@ -35,7 +35,13 @@ index 73b475f589efd2bcb4ed2d514fc5f73330b839f7..960ae344ebe3d9a80b87ae63fa8a364e
          isTransitive = false
      }
      // Paper end
-@@ -59,9 +59,9 @@ dependencies {
+@@ -54,14 +54,14 @@ dependencies {
+ 
+     // Pufferfish start
+     implementation("org.yaml:snakeyaml:1.32")
+-    implementation ("me.carleslc.Simple-YAML:Simple-Yaml:1.8.4") {
++    implementation ("com.github.Carleslc:Simple-YAML:1.8.4") { // DivineMC - fix build issue
+         exclude(group="org.yaml", module="snakeyaml")
      }
      // Pufferfish end
  
