@@ -1,0 +1,62 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Sun, 25 Jun 2023 22:54:47 +0300
+Subject: [PATCH] Fix MC-65198
+
+Original post on Mojira: https://bugs.mojang.com/browse/MC-65198
+
+diff --git a/src/main/java/net/minecraft/world/inventory/ItemCombinerMenu.java b/src/main/java/net/minecraft/world/inventory/ItemCombinerMenu.java
+index 102739c0089ff3f6b3432f954304d43a3dfebc35..d925153b39ac4ddd273f84fb3d6cb071a00c9123 100644
+--- a/src/main/java/net/minecraft/world/inventory/ItemCombinerMenu.java
++++ b/src/main/java/net/minecraft/world/inventory/ItemCombinerMenu.java
+@@ -140,6 +140,7 @@ public abstract class ItemCombinerMenu extends AbstractContainerMenu {
+             ItemStack itemstack1 = slot1.getItem();
+ 
+             itemstack = itemstack1.copy();
++            ItemStack itemStack2 = itemstack.copy();
+             int j = this.getInventorySlotStart();
+             int k = this.getUseRowEnd();
+ 
+@@ -178,7 +179,7 @@ public abstract class ItemCombinerMenu extends AbstractContainerMenu {
+             }
+ 
+             this.activeQuickItem = itemstack; // Purpur
+-            slot1.onTake(player, itemstack1);
++            slot1.onTake(player, itemStack2); // DivineMC - Fix MC-65198
+             this.activeQuickItem = null; // Purpur
+         }
+ 
+diff --git a/src/main/java/net/minecraft/world/inventory/ResultSlot.java b/src/main/java/net/minecraft/world/inventory/ResultSlot.java
+index ddf87ef1979c4ae4f14cd6aa220f9146d5e20909..1ce8f9a84d321a79bdca574feeb8b061f79e46f5 100644
+--- a/src/main/java/net/minecraft/world/inventory/ResultSlot.java
++++ b/src/main/java/net/minecraft/world/inventory/ResultSlot.java
+@@ -45,7 +45,7 @@ public class ResultSlot extends Slot {
+     @Override
+     protected void checkTakeAchievements(ItemStack stack) {
+         if (this.removeCount > 0) {
+-            stack.onCraftedBy(this.player.level(), this.player, this.removeCount);
++            stack.onCraftedBy(this.player.level(), this.player, stack.getCount()); // DivineMC - Fix MC-65198
+         }
+ 
+         Container var3 = this.container;
+diff --git a/src/main/java/net/minecraft/world/inventory/StonecutterMenu.java b/src/main/java/net/minecraft/world/inventory/StonecutterMenu.java
+index 1b1f814770d1a906ed880df578845be2e9a14f46..4a513a537c3dfe446796611794c5b4c67df3bbb0 100644
+--- a/src/main/java/net/minecraft/world/inventory/StonecutterMenu.java
++++ b/src/main/java/net/minecraft/world/inventory/StonecutterMenu.java
+@@ -257,6 +257,7 @@ public class StonecutterMenu extends AbstractContainerMenu {
+             Item item = itemstack1.getItem();
+ 
+             itemstack = itemstack1.copy();
++            ItemStack itemStack2 = itemstack.copy(); // DivineMC - Fix MC-65198
+             if (slot == 1) {
+                 item.onCraftedBy(itemstack1, player.level(), player);
+                 if (!this.moveItemStackTo(itemstack1, 2, 38, true)) {
+@@ -289,7 +290,7 @@ public class StonecutterMenu extends AbstractContainerMenu {
+                 return ItemStack.EMPTY;
+             }
+ 
+-            slot1.onTake(player, itemstack1);
++            slot1.onTake(player, itemStack2); // DivineMC - Fix MC-65198
+             this.broadcastChanges();
+         }
+ 
