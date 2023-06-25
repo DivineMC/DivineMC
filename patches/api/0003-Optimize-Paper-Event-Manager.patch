@@ -1,0 +1,114 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Sun, 25 Jun 2023 13:35:28 +0300
+Subject: [PATCH] Optimize Paper Event Manager
+
+Original project: lynxplay/ktp
+Link: https://github.com/lynxplay/ktp
+Modified by NONPLAYT
+
+diff --git a/src/main/java/org/bukkit/event/Event.java b/src/main/java/org/bukkit/event/Event.java
+index 8ec56cd6b8e0f5c5dd8c7c88b4671e18dcf109d0..d464812eb5e398733b8ea5b09339afa0b555f698 100644
+--- a/src/main/java/org/bukkit/event/Event.java
++++ b/src/main/java/org/bukkit/event/Event.java
+@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
+ 
+ /**
+  * Represents an event.
+- *
++ * <p>
+  * All events require a static method named getHandlerList() which returns the same {@link HandlerList} as {@link #getHandlers()}.
+  *
+  * @see PluginManager#callEvent(Event)
+@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
+  */
+ public abstract class Event {
+     private String name;
+-    private final boolean async;
++    private final net.kyori.adventure.util.TriState async; // DivineMC - Optimize Paper Event Manager
+ 
+     /**
+      * The default constructor is defined for cleaner code. This constructor
+@@ -31,10 +31,20 @@ public abstract class Event {
+      * @param isAsync true indicates the event will fire asynchronously, false
+      *     by default from default constructor
+      */
++    // DivineMC start - Optimize Paper Event Manager
+     public Event(boolean isAsync) {
++        this(net.kyori.adventure.util.TriState.byBoolean(isAsync));
++    }
++
++    public Event(@NotNull final net.kyori.adventure.util.TriState isAsync) {
+         this.async = isAsync;
+     }
+ 
++    public final @NotNull net.kyori.adventure.util.TriState asynchronous() {
++        return this.async;
++    }
++    // DivineMC end
++
+     // Paper start
+     /**
+      * Calls the event and tests if cancelled.
+@@ -70,7 +80,7 @@ public abstract class Event {
+     public abstract HandlerList getHandlers();
+ 
+     /**
+-     * Any custom event that should not by synchronized with other events must
++     * Any custom event that should not be synchronized with other events must
+      * use the specific constructor. These are the caveats of using an
+      * asynchronous event:
+      * <ul>
+@@ -92,7 +102,7 @@ public abstract class Event {
+      * @return false by default, true if the event fires asynchronously
+      */
+     public final boolean isAsynchronous() {
+-        return async;
++        return this.async == net.kyori.adventure.util.TriState.TRUE; // DivineMC - Optimize Paper Event Manager
+     }
+ 
+     public enum Result {
+@@ -113,6 +123,6 @@ public abstract class Event {
+          * take place if possible, even if the server would not normally allow
+          * the action. Some actions may not be allowed.
+          */
+-        ALLOW;
++        ALLOW
+     }
+ }
+diff --git a/src/main/java/org/bukkit/plugin/RegisteredListener.java b/src/main/java/org/bukkit/plugin/RegisteredListener.java
+index 3b3d9642a8d63798dc28f2f8df77f0466451cbff..9c43c51858b20ace8e32eb2d7f5a2fba6a2090e6 100644
+--- a/src/main/java/org/bukkit/plugin/RegisteredListener.java
++++ b/src/main/java/org/bukkit/plugin/RegisteredListener.java
+@@ -62,11 +62,13 @@ public class RegisteredListener {
+      * @throws EventException If an event handler throws an exception.
+      */
+     public void callEvent(@NotNull final Event event) throws EventException {
+-        if (event instanceof Cancellable) {
+-            if (((Cancellable) event).isCancelled() && isIgnoringCancelled()) {
++        // DivineMC start - Optimize Paper Event Manager
++        if (isIgnoringCancelled()) {
++            if (event instanceof Cancellable cancellable && cancellable.isCancelled()) {
+                 return;
+             }
+         }
++        // DivineMC end
+         executor.execute(listener, event);
+     }
+ 
+diff --git a/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java b/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java
+index 7572a0bf6614b02be3cbccc7b86e52ee1b8df621..792b17119ce0dcf930920be3c16176def0db1454 100644
+--- a/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java
++++ b/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java
+@@ -309,4 +309,11 @@ public final class PluginClassLoader extends URLClassLoader implements io.paperm
+     }
+ 
+     // Paper end
++
++    // DivineMC start - Optimize Paper Event Manager
++    @Override
++    public void addURL(final URL url) {
++        super.addURL(url);
++    }
++    // DivineMC end
+ }
