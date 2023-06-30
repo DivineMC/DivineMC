@@ -20,7 +20,7 @@ index cdf83dc33915632e29291c59eb1841991c03e8a0..512afaa97e89e3beb92cf2ebc46248ed
  }
 \ No newline at end of file
 diff --git a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
-index f719f8aafe7c75e2ef8fcb05f556a8d6bd94b9a0..66dd73064e515986bebf57c6d293aa74cef88693 100644
+index 01d5fa265fb2818465b5a71a2e2efeec751a7a05..85d0fbcc74500ccdd66e28c5ddcfc11a500dfab9 100644
 --- a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
 @@ -14,6 +14,8 @@ import java.util.concurrent.atomic.AtomicInteger;
@@ -32,7 +32,7 @@ index f719f8aafe7c75e2ef8fcb05f556a8d6bd94b9a0..66dd73064e515986bebf57c6d293aa74
  import net.minecraft.DefaultUncaughtExceptionHandler;
  import net.minecraft.core.UUIDUtil;
  import net.minecraft.network.Connection;
-@@ -239,7 +241,7 @@ public class ServerLoginPacketListenerImpl implements ServerLoginPacketListener,
+@@ -240,7 +242,7 @@ public class ServerLoginPacketListenerImpl implements ServerLoginPacketListener,
      @Override
      public void handleHello(ServerboundHelloPacket packet) {
          Validate.validState(this.state == ServerLoginPacketListenerImpl.State.HELLO, "Unexpected hello packet", new Object[0]);
