@@ -5,10 +5,10 @@ Subject: [PATCH] Divine Branding
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index a125c0735cf4814b26ce8a96163bf65f74d23900..73b475f589efd2bcb4ed2d514fc5f73330b839f7 100644
+index 240394b1d9dd1449674a299aa73fa155be2d3d82..6f39b026ab819e05e544a4049bd766a5aa73b16a 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
-@@ -8,7 +8,7 @@ plugins {
+@@ -14,7 +14,7 @@ val alsoShade: Configuration by configurations.creating
  
  dependencies {
      // Purpur start
@@ -17,7 +17,7 @@ index a125c0735cf4814b26ce8a96163bf65f74d23900..73b475f589efd2bcb4ed2d514fc5f733
      implementation("io.papermc.paper:paper-mojangapi:${project.version}") {
          exclude("io.papermc.paper", "paper-api")
      }
-@@ -87,7 +87,7 @@ tasks.jar {
+@@ -95,7 +95,7 @@ tasks.jar {
          attributes(
              "Main-Class" to "org.bukkit.craftbukkit.Main",
              "Implementation-Title" to "CraftBukkit",
@@ -138,10 +138,10 @@ index 3cb56595822799926a8141e60a42f5d1edfc6de5..05478a1ea04ec0396bc8c97090edef4a
                  .completer(new ConsoleCommandCompleter(this.server))
                  .option(LineReader.Option.COMPLETE_IN_WORD, true);
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 7a388f0e57bc05634be64b16fa66acdb416ac849..1cb9c46f7fe41fa446e2ce6f641fcab4d9f9cf54 100644
+index 81aee45085a29ceb8e36d7948432e2ca688978c0..f6f60f98cc942b48aaea46f48ad7df7888a1f72e 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -261,7 +261,7 @@ import javax.annotation.Nullable; // Paper
+@@ -264,7 +264,7 @@ import javax.annotation.Nullable; // Paper
  import javax.annotation.Nonnull; // Paper
  
  public final class CraftServer implements Server {
@@ -164,7 +164,7 @@ index 99597258e8e88cd9e2c901c4ac3ff7faeeabee2b..627ceea9fa0fccd3e466eb34d59e760b
  
          if (stream != null) {
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-index 06fa43b469aea15dc64ce1866d08843327a34965..568f34e25e50382d393726e724b6f9d62891aa35 100644
+index b974b59d421cf97bc9547ea75fe4643d89639bc1..cb2cad9d695590a86470fdede78adf5ee0bcf0a7 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 @@ -229,7 +229,7 @@ public class PurpurConfig {

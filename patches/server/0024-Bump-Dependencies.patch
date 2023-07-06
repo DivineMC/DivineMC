@@ -1,21 +1,14 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
-Date: Mon, 26 Jun 2023 07:02:23 +0300
+Date: Thu, 6 Jul 2023 17:03:31 +0300
 Subject: [PATCH] Bump Dependencies
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 8c68259134895f19fa337e47c9a96f4bd5ca1e4a..09d816c16a02cd9eb163eb6aa19ca7c5f1b722fd 100644
+index 6f39b026ab819e05e544a4049bd766a5aa73b16a..6455172a5cd3bf9a7b27831c67249022e535cdba 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
-@@ -24,13 +24,13 @@ dependencies {
-           all its classes to check if they are plugins.
-           Scanning takes about 1-2 seconds so adding this speeds up the server start.
-      */
--    implementation("org.apache.logging.log4j:log4j-core:2.14.1") // Paper - implementation
--    annotationProcessor("org.apache.logging.log4j:log4j-core:2.14.1") // Paper - Needed to generate meta for our Log4j plugins
-+    implementation("org.apache.logging.log4j:log4j-core:2.19.0") // Paper - implementation // DivineMC - bump dependencies
-+    annotationProcessor("org.apache.logging.log4j:log4j-core:2.19.0") // Paper - Needed to generate meta for our Log4j plugins // DivineMC - bump dependencies
+@@ -37,8 +37,8 @@ dependencies {
      implementation("io.netty:netty-codec-haproxy:4.1.87.Final") // Paper - Add support for proxy protocol
      // Paper end
      implementation("org.apache.logging.log4j:log4j-iostreams:2.19.0") // Paper - remove exclusion
@@ -26,7 +19,7 @@ index 8c68259134895f19fa337e47c9a96f4bd5ca1e4a..09d816c16a02cd9eb163eb6aa19ca7c5
      testImplementation("org.mockito:mockito-core:4.9.0") // Paper - switch to mockito
      implementation("org.spongepowered:configurate-yaml:4.1.2") // Paper - config files
      implementation("commons-lang:commons-lang:2.6")
-@@ -39,7 +39,7 @@ dependencies {
+@@ -47,7 +47,7 @@ dependencies {
      runtimeOnly("com.mysql:mysql-connector-j:8.0.33")
      runtimeOnly("com.lmax:disruptor:3.4.4") // Paper
      // Paper start - Use Velocity cipher
@@ -35,7 +28,7 @@ index 8c68259134895f19fa337e47c9a96f4bd5ca1e4a..09d816c16a02cd9eb163eb6aa19ca7c5
          isTransitive = false
      }
      // Paper end
-@@ -59,9 +59,9 @@ dependencies {
+@@ -67,9 +67,9 @@ dependencies {
      }
      // Pufferfish end
  
