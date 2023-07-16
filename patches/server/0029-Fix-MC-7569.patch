@@ -1,0 +1,19 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Sun, 16 Jul 2023 12:21:09 +0300
+Subject: [PATCH] Fix MC-7569
+
+
+diff --git a/src/main/java/net/minecraft/server/rcon/RconConsoleSource.java b/src/main/java/net/minecraft/server/rcon/RconConsoleSource.java
+index 986beb0f2400b9f1d2fc3637574ddd01b1f07b8e..b97cf411c80f76a27ea83bd80d5f457cff67507c 100644
+--- a/src/main/java/net/minecraft/server/rcon/RconConsoleSource.java
++++ b/src/main/java/net/minecraft/server/rcon/RconConsoleSource.java
+@@ -47,7 +47,7 @@ public class RconConsoleSource implements CommandSource {
+ 
+     @Override
+     public void sendSystemMessage(Component message) {
+-        this.buffer.append(message.getString());
++        this.buffer.append(System.lineSeparator());
+     }
+ 
+     @Override
