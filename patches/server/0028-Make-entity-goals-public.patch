@@ -1,0 +1,161 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Sun, 16 Jul 2023 11:37:32 +0300
+Subject: [PATCH] Make entity goals public
+
+
+diff --git a/src/main/java/net/minecraft/world/entity/animal/Bee.java b/src/main/java/net/minecraft/world/entity/animal/Bee.java
+index 6c04c8e7776b2830ac368229da834532e8ce163e..97a65480a9eb1d67b243b39d8aa1d7c184accdf0 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/Bee.java
++++ b/src/main/java/net/minecraft/world/entity/animal/Bee.java
+@@ -767,7 +767,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
+         return pos.closerThan(this.blockPosition(), (double) distance);
+     }
+ 
+-    private class BeePollinateGoal extends Bee.BaseBeeGoal {
++    public class BeePollinateGoal extends Bee.BaseBeeGoal { // DivineMC - private -> public
+ 
+         private static final int MIN_POLLINATION_TICKS = 400;
+         private static final int MIN_FIND_FLOWER_RETRY_COOLDOWN = 20;
+@@ -956,7 +956,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
+         }
+     }
+ 
+-    private class BeeLookControl extends org.purpurmc.purpur.controller.LookControllerWASD { // Purpur
++    public class BeeLookControl extends org.purpurmc.purpur.controller.LookControllerWASD { // Purpur // DivineMC - private -> public
+ 
+         BeeLookControl(Mob entity) {
+             super(entity);
+@@ -992,7 +992,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
+         }
+     }
+ 
+-    private class BeeEnterHiveGoal extends Bee.BaseBeeGoal {
++    public class BeeEnterHiveGoal extends Bee.BaseBeeGoal { // DivineMC - private -> public
+ 
+         BeeEnterHiveGoal() {
+             super();
+@@ -1037,7 +1037,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
+         }
+     }
+ 
+-    private class BeeLocateHiveGoal extends Bee.BaseBeeGoal {
++    public class BeeLocateHiveGoal extends Bee.BaseBeeGoal { // DivineMC - private -> public
+ 
+         BeeLocateHiveGoal() {
+             super();
+@@ -1269,7 +1269,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
+         }
+     }
+ 
+-    private class BeeGrowCropGoal extends Bee.BaseBeeGoal {
++    public class BeeGrowCropGoal extends Bee.BaseBeeGoal { // DivineMC - private -> public
+ 
+         static final int GROW_CHANCE = 30;
+ 
+@@ -1333,7 +1333,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
+         }
+     }
+ 
+-    private class BeeWanderGoal extends Goal {
++    public class BeeWanderGoal extends Goal { // DivineMC - private -> public
+ 
+         private static final int WANDER_THRESHOLD = 22;
+ 
+@@ -1380,7 +1380,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
+         }
+     }
+ 
+-    private class BeeHurtByOtherGoal extends HurtByTargetGoal {
++    public class BeeHurtByOtherGoal extends HurtByTargetGoal { // DivineMC - private -> public
+ 
+         BeeHurtByOtherGoal(Bee entitybee) {
+             super(entitybee);
+@@ -1400,7 +1400,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
+         }
+     }
+ 
+-    private static class BeeBecomeAngryTargetGoal extends NearestAttackableTargetGoal<Player> {
++    public static class BeeBecomeAngryTargetGoal extends NearestAttackableTargetGoal<Player> { // DivineMC - private -> public
+ 
+         BeeBecomeAngryTargetGoal(Bee bee) {
+             // Objects.requireNonNull(entitybee); // CraftBukkit - decompile error
+@@ -1431,7 +1431,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
+         }
+     }
+ 
+-    private abstract class BaseBeeGoal extends Goal {
++    public abstract class BaseBeeGoal extends Goal { // DivineMC - private -> public
+ 
+         BaseBeeGoal() {}
+ 
+diff --git a/src/main/java/net/minecraft/world/entity/animal/Cat.java b/src/main/java/net/minecraft/world/entity/animal/Cat.java
+index 3347b39fa1bc3308aa3b70b4169523885b91a047..1f020ef5a22952bbdfc2af1f7a924c61cac91cca 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/Cat.java
++++ b/src/main/java/net/minecraft/world/entity/animal/Cat.java
+@@ -562,7 +562,7 @@ public class Cat extends TamableAnimal implements VariantHolder<CatVariant> {
+         }
+     }
+ 
+-    private static class CatRelaxOnOwnerGoal extends Goal {
++    public static class CatRelaxOnOwnerGoal extends Goal { // DivineMC - private -> public
+ 
+         private final Cat cat;
+         @Nullable
+@@ -708,7 +708,7 @@ public class Cat extends TamableAnimal implements VariantHolder<CatVariant> {
+         }
+     }
+ 
+-    private static class CatAvoidEntityGoal<T extends LivingEntity> extends AvoidEntityGoal<T> {
++    public static class CatAvoidEntityGoal<T extends LivingEntity> extends AvoidEntityGoal<T> { // DivineMC - private -> public
+ 
+         private final Cat cat;
+ 
+diff --git a/src/main/java/net/minecraft/world/entity/monster/Pillager.java b/src/main/java/net/minecraft/world/entity/monster/Pillager.java
+index 06d52d8b61abc4dbbdc953bfed2e688be377b3cc..a5490068d200ed78ca720ae804a1b26faa4cba7f 100644
+--- a/src/main/java/net/minecraft/world/entity/monster/Pillager.java
++++ b/src/main/java/net/minecraft/world/entity/monster/Pillager.java
+@@ -99,7 +99,7 @@ public class Pillager extends AbstractIllager implements CrossbowAttackMob, Inve
+         super.registerGoals();
+         this.goalSelector.addGoal(0, new FloatGoal(this));
+         this.goalSelector.addGoal(0, new org.purpurmc.purpur.entity.ai.HasRider(this)); // Purpur
+-        this.goalSelector.addGoal(2, new Raider.HoldGroundAttackGoal(this, 10.0F));
++        this.goalSelector.addGoal(2, new HoldGroundAttackGoal(this, 10.0F));
+         this.goalSelector.addGoal(3, new RangedCrossbowAttackGoal<>(this, 1.0D, 8.0F));
+         this.goalSelector.addGoal(8, new RandomStrollGoal(this, 0.6D));
+         this.goalSelector.addGoal(9, new LookAtPlayerGoal(this, Player.class, 15.0F, 1.0F));
+diff --git a/src/main/java/net/minecraft/world/entity/monster/Vindicator.java b/src/main/java/net/minecraft/world/entity/monster/Vindicator.java
+index f1e410b602bf0d5520f8e9340f7b8b9e25ca4d39..998a7b47fded2c4851489400ac4ff455cb2efc14 100644
+--- a/src/main/java/net/minecraft/world/entity/monster/Vindicator.java
++++ b/src/main/java/net/minecraft/world/entity/monster/Vindicator.java
+@@ -97,7 +97,7 @@ public class Vindicator extends AbstractIllager {
+         this.goalSelector.addGoal(0, new org.purpurmc.purpur.entity.ai.HasRider(this)); // Purpur
+         this.goalSelector.addGoal(1, new Vindicator.VindicatorBreakDoorGoal(this));
+         this.goalSelector.addGoal(2, new AbstractIllager.RaiderOpenDoorGoal(this));
+-        this.goalSelector.addGoal(3, new Raider.HoldGroundAttackGoal(this, 10.0F));
++        this.goalSelector.addGoal(3, new HoldGroundAttackGoal(this, 10.0F));
+         this.goalSelector.addGoal(4, new Vindicator.VindicatorMeleeAttackGoal(this));
+         this.targetSelector.addGoal(0, new org.purpurmc.purpur.entity.ai.HasRider(this)); // Purpur
+         this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, Raider.class)).setAlertOthers());
+diff --git a/src/main/java/net/minecraft/world/entity/raid/Raider.java b/src/main/java/net/minecraft/world/entity/raid/Raider.java
+index 822dd4265ce02252afadbc652064450b7dfd7e0d..a0736fdd542c7c21125ed3c31b4ed795926689b2 100644
+--- a/src/main/java/net/minecraft/world/entity/raid/Raider.java
++++ b/src/main/java/net/minecraft/world/entity/raid/Raider.java
+@@ -352,7 +352,7 @@ public abstract class Raider extends PatrollingMonster {
+         }
+     }
+ 
+-    private static class RaiderMoveThroughVillageGoal extends Goal {
++     public class RaiderMoveThroughVillageGoal extends Goal { // DivineMC - private -> public
+ 
+         private final Raider raider;
+         private final double speedModifier;
+@@ -500,7 +500,7 @@ public abstract class Raider extends PatrollingMonster {
+         }
+     }
+ 
+-    protected class HoldGroundAttackGoal extends Goal {
++    public static class HoldGroundAttackGoal extends Goal { // DivineMC - protected -> public static
+ 
+         private final Raider mob;
+         private final float hostileRadiusSqr;
