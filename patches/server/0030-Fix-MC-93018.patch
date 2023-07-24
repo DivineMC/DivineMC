@@ -3,6 +3,7 @@ From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
 Date: Sun, 16 Jul 2023 13:51:26 +0300
 Subject: [PATCH] Fix MC-93018
 
+Original post on Mojira: https://bugs.mojang.com/browse/MC-93018
 
 diff --git a/src/main/java/net/minecraft/world/entity/animal/Wolf.java b/src/main/java/net/minecraft/world/entity/animal/Wolf.java
 index 64bceae4d06b35fcbecb0daca2496ba30e39d995..139550c9aeceaa31c09429e5bff13ddc50ef6827 100644
