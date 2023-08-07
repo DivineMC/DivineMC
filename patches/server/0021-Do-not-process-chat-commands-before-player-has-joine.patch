@@ -5,10 +5,10 @@ Subject: [PATCH] Do not process chat/commands before player has joined
 
 
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 754063cc43d8adca0f70d76d8a75ec820c62cae6..5e423a4577bbd261dc7d05e7a9add4ee4889951a 100644
+index c984c65685d86cca51e6ea9e79878ed2c6fdd071..9e9452bfcace6a70a530b50e550c5ddd4f796dd6 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -2429,6 +2429,8 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -2431,6 +2431,8 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
              this.disconnect(Component.translatable("multiplayer.disconnect.out_of_order_chat"), org.bukkit.event.player.PlayerKickEvent.Cause.OUT_OF_ORDER_CHAT); // Paper - kick event ca
              }); // Paper - push to main
              return Optional.empty();
