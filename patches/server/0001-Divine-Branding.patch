@@ -40,7 +40,7 @@ index 8cde30544e14f8fc2dac32966ae3c21f8cf3a551..ad62e0b7deb141d22be4f19ea30f6144
                  metrics.addCustomChart(new Metrics.SimplePie("minecraft_version", () -> {
                      String minecraftVersion = Bukkit.getVersion();
 diff --git a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java b/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
-index 462a6eed350fd660ddaf25d567bb6e97b77d0b2b..56c7c9e486ed17f18ebb1a4b59e9e8aa31d8b380 100644
+index 462a6eed350fd660ddaf25d567bb6e97b77d0b2b..fb3d33117279df26ddd55005d16f80b6ce273ac3 100644
 --- a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
 +++ b/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
 @@ -20,21 +20,21 @@ import java.util.stream.StreamSupport;
@@ -48,7 +48,7 @@ index 462a6eed350fd660ddaf25d567bb6e97b77d0b2b..56c7c9e486ed17f18ebb1a4b59e9e8aa
      private static final java.util.regex.Pattern VER_PATTERN = java.util.regex.Pattern.compile("^([0-9\\.]*)\\-.*R"); // R is an anchor, will always give '-R' at end
      // Purpur start
 -    private static final String DOWNLOAD_PAGE = "https://purpurmc.org/downloads";
-+    private static final String DOWNLOAD_PAGE = "https://divinemc.bxteam.gq/#download"; // DivineMC
++    private static final String DOWNLOAD_PAGE = "https://github.com/DivineMC/DivineMC/releases/latest"; // DivineMC
      private static int distance = -2; public int distance() { return distance; }
      // Purpur end
      private static @Nullable String mcVer;
@@ -138,7 +138,7 @@ index 3cb56595822799926a8141e60a42f5d1edfc6de5..05478a1ea04ec0396bc8c97090edef4a
                  .completer(new ConsoleCommandCompleter(this.server))
                  .option(LineReader.Option.COMPLETE_IN_WORD, true);
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 60fbac7b09ba7de1127d53ba296ea7b843105b2a..0d7f16c2a789fa63ebb8f02c8f653e68cf73d3cb 100644
+index 0a4dfec98470050a0ec9c3693496751fa78fec81..f5e503702ba5d439efcc93c26740a7e629617590 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -265,7 +265,7 @@ import javax.annotation.Nullable; // Paper
@@ -164,7 +164,7 @@ index 99597258e8e88cd9e2c901c4ac3ff7faeeabee2b..627ceea9fa0fccd3e466eb34d59e760b
  
          if (stream != null) {
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-index b974b59d421cf97bc9547ea75fe4643d89639bc1..cb2cad9d695590a86470fdede78adf5ee0bcf0a7 100644
+index 414f467825fece602fbe7446e349657264d135ed..47e0728bac16a3e0e2c31610c90c4d5a95a4222e 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 @@ -229,7 +229,7 @@ public class PurpurConfig {
