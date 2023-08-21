@@ -377,7 +377,7 @@ index bdb32964524cb2a4398b8d3bedfb03b0cb805b6d..0eb08e6fe7079f2e76bc76d503395971
          this.generator = gen;
          this.world = new CraftWorld((ServerLevel) this, gen, biomeProvider, env);
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 0d7f16c2a789fa63ebb8f02c8f653e68cf73d3cb..dd8cd38517a590fe34bdab378a5fbcde949006ff 100644
+index 7921caca236900b9d1d234d95db5a24cc403d9b2..a8aed082ea5b10792380dc36d9920409edb5dfce 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -15,6 +15,7 @@ import com.mojang.brigadier.tree.LiteralCommandNode;
@@ -412,7 +412,7 @@ index 0d7f16c2a789fa63ebb8f02c8f653e68cf73d3cb..dd8cd38517a590fe34bdab378a5fbcde
          this.overrideAllCommandBlockCommands = this.commandsConfiguration.getStringList("command-block-overrides").contains("*");
          this.ignoreVanillaPermissions = this.commandsConfiguration.getBoolean("ignore-vanilla-permissions");
  
-@@ -2986,6 +2990,13 @@ public final class CraftServer implements Server {
+@@ -3016,6 +3020,13 @@ public final class CraftServer implements Server {
          }
          // Purpur end
  
