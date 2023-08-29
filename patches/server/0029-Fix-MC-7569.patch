@@ -6,10 +6,10 @@ Subject: [PATCH] Fix MC-7569
 Original post on Mojira: https://bugs.mojang.com/browse/MC-7569
 
 diff --git a/src/main/java/net/minecraft/server/rcon/RconConsoleSource.java b/src/main/java/net/minecraft/server/rcon/RconConsoleSource.java
-index 986beb0f2400b9f1d2fc3637574ddd01b1f07b8e..b97cf411c80f76a27ea83bd80d5f457cff67507c 100644
+index a04cf04cb694237ec77b38fc576f0dfc9264a25a..138a4394756ccfe5e9918420527dae70600a9e7b 100644
 --- a/src/main/java/net/minecraft/server/rcon/RconConsoleSource.java
 +++ b/src/main/java/net/minecraft/server/rcon/RconConsoleSource.java
-@@ -47,7 +47,7 @@ public class RconConsoleSource implements CommandSource {
+@@ -55,7 +55,7 @@ public class RconConsoleSource implements CommandSource {
  
      @Override
      public void sendSystemMessage(Component message) {
