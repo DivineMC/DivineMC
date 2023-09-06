@@ -7,13 +7,13 @@ This is fully rewritten reload command. Reloading in Bukkit VERY, VERY UNSTABLE 
 Read this article why reload is VERY UNSAFE in Bukkit: https://madelinemiller.dev/blog/problem-with-reload/
 
 diff --git a/src/main/java/org/bukkit/command/defaults/ReloadCommand.java b/src/main/java/org/bukkit/command/defaults/ReloadCommand.java
-index 3ec32b46264cfff857b50129b5e0fa5584943ec6..6975b442ca0f9f7682d7f860256856ecf18b746d 100644
+index 3ec32b46264cfff857b50129b5e0fa5584943ec6..9cf8ed9c4c42f9469bd06b2eb43b51621a5883c4 100644
 --- a/src/main/java/org/bukkit/command/defaults/ReloadCommand.java
 +++ b/src/main/java/org/bukkit/command/defaults/ReloadCommand.java
-@@ -1,14 +1,14 @@
+@@ -1,60 +1,32 @@
  package org.bukkit.command.defaults;
  
- import java.util.Arrays;
+-import java.util.Arrays;
 -import java.util.Collections;
  import java.util.List;
 -import org.bukkit.Bukkit;
@@ -28,7 +28,14 @@ index 3ec32b46264cfff857b50129b5e0fa5584943ec6..6975b442ca0f9f7682d7f860256856ec
  public class ReloadCommand extends BukkitCommand {
      public ReloadCommand(@NotNull String name) {
          super(name);
-@@ -22,39 +22,12 @@ public class ReloadCommand extends BukkitCommand {
+         this.description = "Reloads the server configuration and plugins";
+         this.usageMessage = "/reload [permissions|commands|confirm]"; // Paper
+         this.setPermission("bukkit.command.reload");
+-        this.setAliases(Arrays.asList("rl"));
++        this.setAliases(List.of("rl"));
+     }
+ 
+     @Override
      public boolean execute(@NotNull CommandSender sender, @NotNull String currentAlias, @NotNull String[] args) { // Paper
          if (!testPermission(sender)) return true;
  

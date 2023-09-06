@@ -327,7 +327,7 @@ index 0000000000000000000000000000000000000000..5d16d2250bae9c982a0af9ad2580a635
 +}
 \ No newline at end of file
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 12124d6fbc0406bb62bd95a0f7bab68afa43377c..6b4b687b114818cdd8bd2c6256d1d9cf1343bb83 100644
+index 0da72241f940bd81a5d122d9d6ac2871f4d834e6..af53310d196020682dd981da98261fb3a72a6690 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -235,6 +235,16 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
@@ -348,7 +348,7 @@ index 12124d6fbc0406bb62bd95a0f7bab68afa43377c..6b4b687b114818cdd8bd2c6256d1d9cf
          this.setFlightAllowed(dedicatedserverproperties.allowFlight);
          this.setMotd(dedicatedserverproperties.motd);
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index bdb32964524cb2a4398b8d3bedfb03b0cb805b6d..0eb08e6fe7079f2e76bc76d503395971d958ea9b 100644
+index 2fa984bef4335f6042a4a0ab0af9af81e52984b7..af556d9355e327fcbe50cb08f99026e7255f485f 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
 @@ -15,6 +15,8 @@ import java.util.function.Consumer;
@@ -377,7 +377,7 @@ index bdb32964524cb2a4398b8d3bedfb03b0cb805b6d..0eb08e6fe7079f2e76bc76d503395971
          this.generator = gen;
          this.world = new CraftWorld((ServerLevel) this, gen, biomeProvider, env);
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 7921caca236900b9d1d234d95db5a24cc403d9b2..a8aed082ea5b10792380dc36d9920409edb5dfce 100644
+index 17af7e23cba6d99fecde12f954c832de71f42947..e08d2d94ca6332bfee1b186eae0e728aee60eb37 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -15,6 +15,7 @@ import com.mojang.brigadier.tree.LiteralCommandNode;
@@ -427,7 +427,7 @@ index 7921caca236900b9d1d234d95db5a24cc403d9b2..a8aed082ea5b10792380dc36d9920409
          public void restart() {
              org.spigotmc.RestartCommand.restart();
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 9a3374a1236164194ef0df43ed639296cbe1c731..0373c0a343e990c1aa993b00b8254b09b3c5f0e3 100644
+index 898e9c968c12b2dc62ee4da11202e5a633ee2203..ff09eef761ca7c0d6a09ce8fcfbdf1ac14ca5956 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -187,6 +187,14 @@ public class Main {

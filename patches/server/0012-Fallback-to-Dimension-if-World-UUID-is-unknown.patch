@@ -20,7 +20,7 @@ index 9e802fbe8e5f1a3c24cb6bc9254c72a2a0c3fde1..cdf83dc33915632e29291c59eb184199
  }
 \ No newline at end of file
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 725149019d69f3350b7235391092b1fbe2cd9dfb..fc67dc67664a207b761ff4d8df0a206bd4a41547 100644
+index e74c12c0421ba03e686804228b574c8dd8bc902c..575eef33d1f9715d55d3e7b46a43a2788ddbe884 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -102,6 +102,7 @@ import net.minecraft.world.scores.PlayerTeam;

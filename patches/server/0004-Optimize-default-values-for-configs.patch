@@ -5,7 +5,7 @@ Subject: [PATCH] Optimize default values for configs
 
 
 diff --git a/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java b/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
-index bff1b41501c040487583a5a279fc7800fc6aedca..f115e59e7bcba491290239775eb2849c11874d2f 100644
+index 3e36958365bc136516bafbaad0c168f7956406f1..b3594f563489e210544cc573cbe1c13d1effe52b 100644
 --- a/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
 +++ b/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
 @@ -211,7 +211,7 @@ public class PufferfishConfig {
@@ -219,7 +219,7 @@ index da7c899fbab162ee197a0593f455ebd9c5286d3c..8f972b42bc952255b5ca03d7dad2e543
          public float maxLeashDistance = 10f;
          public boolean disableSprintInterruptionOnAttack = false;
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-index 5b5109e942b18418b3a3a0e2109fe4ef15045fe5..389bcb5e01d66f8e3915e09a49aace5176012191 100644
+index c19d2bad1d80102543f3cd2718a22cd1942ffbd2..391b756455b536d1fbc4f0701f6e879800d6f05a 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
 @@ -150,14 +150,14 @@ public class SpigotWorldConfig
