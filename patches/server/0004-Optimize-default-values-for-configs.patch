@@ -18,19 +18,25 @@ index 3e36958365bc136516bafbaad0c168f7956406f1..b3594f563489e210544cc573cbe1c13d
  
          setComment("projectile", "Optimizes projectile settings");
 diff --git a/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java b/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
-index 019d3bbd78fb0b06861979d223915fedb6c99442..fef600ada1ad0d3b85cd23a58b1b6cace0183e6a 100644
+index 019d3bbd78fb0b06861979d223915fedb6c99442..d0d5480a406db634062f709f672fefe270be478e 100644
 --- a/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
 +++ b/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
-@@ -91,7 +91,7 @@ public class GlobalConfiguration extends ConfigurationPart {
+@@ -89,9 +89,11 @@ public class GlobalConfiguration extends ConfigurationPart {
+     public Timings timings;
+ 
      public class Timings extends ConfigurationPart.Post {
-         public boolean enabled = true;
-         public boolean verbose = true;
+-        public boolean enabled = true;
+-        public boolean verbose = true;
 -        public String url = "https://timings.aikar.co/";
-+        public String url = "https://timin.gs/"; // DivineMC - optimize default values for configs
++        // DivineMC start - optimize default values for configs - disable default metrics
++        public boolean enabled = false;
++        public boolean verbose = false;
++        public String url = "https://timin.gs/";
++        // DivineMC end
          public boolean serverNamePrivacy = false;
          public List<String> hiddenConfigEntries = List.of(
              "database",
-@@ -311,9 +311,9 @@ public class GlobalConfiguration extends ConfigurationPart {
+@@ -311,9 +313,9 @@ public class GlobalConfiguration extends ConfigurationPart {
          public boolean fixEntityPositionDesync = true;
          public boolean loadPermissionsYmlBeforePlugins = true;
          @Constraints.Min(4)
@@ -218,6 +224,45 @@ index da7c899fbab162ee197a0593f455ebd9c5286d3c..8f972b42bc952255b5ca03d7dad2e543
          public boolean disableEndCredits = false;
          public float maxLeashDistance = 10f;
          public boolean disableSprintInterruptionOnAttack = false;
+diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
+index 1f54e2ec6d73853001642bcf4b355c4a0dd10f6d..d8d19567cf49b41d730a936d46c8e37e5aec2f07 100644
+--- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
++++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
+@@ -241,7 +241,7 @@ public class PurpurConfig {
+         laggingThreshold = getDouble("settings.lagging-threshold", laggingThreshold);
+     }
+ 
+-    public static boolean useAlternateKeepAlive = false;
++    public static boolean useAlternateKeepAlive = true;
+     private static void useAlternateKeepAlive() {
+         useAlternateKeepAlive = getBoolean("settings.use-alternate-keepalive", useAlternateKeepAlive);
+     }
+diff --git a/src/main/java/org/spigotmc/SpigotConfig.java b/src/main/java/org/spigotmc/SpigotConfig.java
+index 455caa1ded6383e62d7010280d39d6febeac00d7..c0b55ece770e7231b2d90d3e17036b7d579b8b50 100644
+--- a/src/main/java/org/spigotmc/SpigotConfig.java
++++ b/src/main/java/org/spigotmc/SpigotConfig.java
+@@ -335,7 +335,7 @@ public class SpigotConfig
+     public static boolean saveUserCacheOnStopOnly;
+     private static void saveUserCacheOnStopOnly()
+     {
+-        SpigotConfig.saveUserCacheOnStopOnly = SpigotConfig.getBoolean( "settings.save-user-cache-on-stop-only", false );
++        SpigotConfig.saveUserCacheOnStopOnly = SpigotConfig.getBoolean( "settings.save-user-cache-on-stop-only", true ); // DivineMC - optimize default values for configs
+     }
+ 
+     public static double movedWronglyThreshold;
+@@ -396,8 +396,10 @@ public class SpigotConfig
+     public static boolean logVillagerDeaths;
+     public static boolean logNamedDeaths;
+     private static void logDeaths() {
+-        SpigotConfig.logVillagerDeaths = SpigotConfig.getBoolean("settings.log-villager-deaths", true);
+-        SpigotConfig.logNamedDeaths = SpigotConfig.getBoolean("settings.log-named-deaths", true);
++        // DivineMC start - optimize default values for configs
++        SpigotConfig.logVillagerDeaths = SpigotConfig.getBoolean("settings.log-villager-deaths", false);
++        SpigotConfig.logNamedDeaths = SpigotConfig.getBoolean("settings.log-named-deaths", false);
++        // DivineMC end
+     }
+ 
+     public static boolean disablePlayerDataSaving;
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
 index c19d2bad1d80102543f3cd2718a22cd1942ffbd2..391b756455b536d1fbc4f0701f6e879800d6f05a 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
