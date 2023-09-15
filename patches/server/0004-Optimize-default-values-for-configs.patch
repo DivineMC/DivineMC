@@ -18,10 +18,10 @@ index 3e36958365bc136516bafbaad0c168f7956406f1..b3594f563489e210544cc573cbe1c13d
  
          setComment("projectile", "Optimizes projectile settings");
 diff --git a/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java b/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
-index 019d3bbd78fb0b06861979d223915fedb6c99442..d0d5480a406db634062f709f672fefe270be478e 100644
+index 3bc7230ca62ebe3426da293e436a962bb0134f85..fd93efca790b75e8300202342c45b845d8e7eb7c 100644
 --- a/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
 +++ b/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
-@@ -89,9 +89,11 @@ public class GlobalConfiguration extends ConfigurationPart {
+@@ -90,9 +90,11 @@ public class GlobalConfiguration extends ConfigurationPart {
      public Timings timings;
  
      public class Timings extends ConfigurationPart.Post {
@@ -36,7 +36,7 @@ index 019d3bbd78fb0b06861979d223915fedb6c99442..d0d5480a406db634062f709f672fefe2
          public boolean serverNamePrivacy = false;
          public List<String> hiddenConfigEntries = List.of(
              "database",
-@@ -311,9 +313,9 @@ public class GlobalConfiguration extends ConfigurationPart {
+@@ -312,9 +314,9 @@ public class GlobalConfiguration extends ConfigurationPart {
          public boolean fixEntityPositionDesync = true;
          public boolean loadPermissionsYmlBeforePlugins = true;
          @Constraints.Min(4)
@@ -47,7 +47,7 @@ index 019d3bbd78fb0b06861979d223915fedb6c99442..d0d5480a406db634062f709f672fefe2
 +        public boolean useAlternativeLuckFormula = true; // DivineMC - optimize default values for configs
          public boolean useDimensionTypeForCustomSpawners = false;
          public boolean strictAdvancementDimensionCheck = false;
-     }
+         public IntOr.Default compressionLevel = IntOr.Default.USE_DEFAULT;
 diff --git a/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java b/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
 index da7c899fbab162ee197a0593f455ebd9c5286d3c..8f972b42bc952255b5ca03d7dad2e543b08af197 100644
 --- a/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
