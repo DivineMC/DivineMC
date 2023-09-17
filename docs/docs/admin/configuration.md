@@ -51,6 +51,10 @@ Global settings affect all worlds on the server as well as the core server funct
 - **default**: true
 - **description**: Enables a feature to allow players to log in with any username
 
+#### do-not-process-chat-commands
+- **default**: true
+- **description**: This function disables chat/commands processing when a player joins the server
+
 ## world-settings
 
 World settings are on a per-world basis. The child-node `default` is used for all worlds that do not have their own specific settings.
