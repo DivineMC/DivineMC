@@ -6,7 +6,7 @@ Subject: [PATCH] Fix MC-7569
 Original post on Mojira: https://bugs.mojang.com/browse/MC-7569
 
 diff --git a/src/main/java/net/minecraft/server/rcon/RconConsoleSource.java b/src/main/java/net/minecraft/server/rcon/RconConsoleSource.java
-index e040eeb4a100b36ab8ed26d33f0989561e8517d0..af66c1aa0f60bfc10b046bd0f441f3ac4aa7a921 100644
+index c323245efdd711ec4299dd0be66d5dad1fbf2b3e..da11b58b1e5e77a3c527f5778cfe10c79bdd88b0 100644
 --- a/src/main/java/net/minecraft/server/rcon/RconConsoleSource.java
 +++ b/src/main/java/net/minecraft/server/rcon/RconConsoleSource.java
 @@ -55,7 +55,7 @@ public class RconConsoleSource implements CommandSource {

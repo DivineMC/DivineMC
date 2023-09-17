@@ -49,7 +49,7 @@ index 3bc7230ca62ebe3426da293e436a962bb0134f85..fd93efca790b75e8300202342c45b845
          public boolean strictAdvancementDimensionCheck = false;
          public IntOr.Default compressionLevel = IntOr.Default.USE_DEFAULT;
 diff --git a/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java b/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
-index da7c899fbab162ee197a0593f455ebd9c5286d3c..8f972b42bc952255b5ca03d7dad2e543b08af197 100644
+index f45afb7e2607617d1239abeca13a9002dd9a3a18..2c544d5c37df05ff609eb07f709c67b751115ef0 100644
 --- a/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
 +++ b/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
 @@ -119,9 +119,9 @@ public class WorldConfiguration extends ConfigurationPart {
@@ -94,7 +94,7 @@ index da7c899fbab162ee197a0593f455ebd9c5286d3c..8f972b42bc952255b5ca03d7dad2e543
              public PillagerPatrols pillagerPatrols;
  
              public class PillagerPatrols extends ConfigurationPart {
-@@ -371,7 +371,7 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -372,7 +372,7 @@ public class WorldConfiguration extends ConfigurationPart {
      public class Environment extends ConfigurationPart {
          public boolean disableThunder = false;
          public boolean disableIceAndSnow = false;
@@ -103,7 +103,7 @@ index da7c899fbab162ee197a0593f455ebd9c5286d3c..8f972b42bc952255b5ca03d7dad2e543
          public boolean disableExplosionKnockback = false;
          public boolean generateFlatBedrock = false;
          public FrostedIce frostedIce;
-@@ -417,7 +417,7 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -418,7 +418,7 @@ public class WorldConfiguration extends ConfigurationPart {
  
      public class Maps extends ConfigurationPart {
          public int itemFrameCursorLimit = 128;
@@ -112,7 +112,7 @@ index da7c899fbab162ee197a0593f455ebd9c5286d3c..8f972b42bc952255b5ca03d7dad2e543
      }
  
      public Fixes fixes;
-@@ -443,7 +443,7 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -444,7 +444,7 @@ public class WorldConfiguration extends ConfigurationPart {
      public class Hopper extends ConfigurationPart {
          public boolean cooldownWhenFull = true;
          public boolean disableMoveEvent = false;
@@ -121,7 +121,7 @@ index da7c899fbab162ee197a0593f455ebd9c5286d3c..8f972b42bc952255b5ca03d7dad2e543
      }
  
      public Collisions collisions;
-@@ -451,9 +451,9 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -452,9 +452,9 @@ public class WorldConfiguration extends ConfigurationPart {
      public class Collisions extends ConfigurationPart {
          public boolean onlyPlayersCollide = false;
          public boolean allowVehicleCollisions = true;
@@ -133,7 +133,7 @@ index da7c899fbab162ee197a0593f455ebd9c5286d3c..8f972b42bc952255b5ca03d7dad2e543
          public boolean allowPlayerCrammingDamage = false;
      }
  
-@@ -461,18 +461,31 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -462,18 +462,31 @@ public class WorldConfiguration extends ConfigurationPart {
  
      public class Chunks extends ConfigurationPart {
          public AutosavePeriod autoSaveInterval = AutosavePeriod.def();
@@ -175,7 +175,7 @@ index da7c899fbab162ee197a0593f455ebd9c5286d3c..8f972b42bc952255b5ca03d7dad2e543
          });
          public boolean flushRegionsOnSave = false;
      }
-@@ -487,11 +500,22 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -488,11 +501,22 @@ public class WorldConfiguration extends ConfigurationPart {
      public TickRates tickRates;
  
      public class TickRates extends ConfigurationPart {
@@ -203,7 +203,7 @@ index da7c899fbab162ee197a0593f455ebd9c5286d3c..8f972b42bc952255b5ca03d7dad2e543
      }
  
      @Setting(FeatureSeedsGeneration.FEATURE_SEEDS_KEY)
-@@ -499,7 +523,7 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -500,7 +524,7 @@ public class WorldConfiguration extends ConfigurationPart {
  
      public class FeatureSeeds extends ConfigurationPart.Post {
          @Setting(FeatureSeedsGeneration.GENERATE_KEY)
@@ -212,7 +212,7 @@ index da7c899fbab162ee197a0593f455ebd9c5286d3c..8f972b42bc952255b5ca03d7dad2e543
          @Setting(FeatureSeedsGeneration.FEATURES_KEY)
          public Reference2LongMap<Holder<ConfiguredFeature<?, ?>>> features = new Reference2LongOpenHashMap<>();
  
-@@ -513,9 +537,9 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -514,9 +538,9 @@ public class WorldConfiguration extends ConfigurationPart {
  
      public class Misc extends ConfigurationPart {
          public int lightQueueSize = 20;
@@ -238,7 +238,7 @@ index 1f54e2ec6d73853001642bcf4b355c4a0dd10f6d..d8d19567cf49b41d730a936d46c8e37e
          useAlternateKeepAlive = getBoolean("settings.use-alternate-keepalive", useAlternateKeepAlive);
      }
 diff --git a/src/main/java/org/spigotmc/SpigotConfig.java b/src/main/java/org/spigotmc/SpigotConfig.java
-index 455caa1ded6383e62d7010280d39d6febeac00d7..c0b55ece770e7231b2d90d3e17036b7d579b8b50 100644
+index 612c3169c3463d702b85975e1db79ae6e47d60d0..2138104c5612aac9bdddd7a4feed0f21d08c8d04 100644
 --- a/src/main/java/org/spigotmc/SpigotConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotConfig.java
 @@ -335,7 +335,7 @@ public class SpigotConfig
@@ -264,7 +264,7 @@ index 455caa1ded6383e62d7010280d39d6febeac00d7..c0b55ece770e7231b2d90d3e17036b7d
  
      public static boolean disablePlayerDataSaving;
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-index c19d2bad1d80102543f3cd2718a22cd1942ffbd2..391b756455b536d1fbc4f0701f6e879800d6f05a 100644
+index 5b5109e942b18418b3a3a0e2109fe4ef15045fe5..389bcb5e01d66f8e3915e09a49aace5176012191 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
 @@ -150,14 +150,14 @@ public class SpigotWorldConfig

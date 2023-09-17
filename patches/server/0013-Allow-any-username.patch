@@ -20,7 +20,7 @@ index cdf83dc33915632e29291c59eb1841991c03e8a0..512afaa97e89e3beb92cf2ebc46248ed
  }
 \ No newline at end of file
 diff --git a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
-index f6b29b1e9e59a2f7d55bf4e20310c13809c53fdd..9eeba98dbeace0b8f73875c6df9f9b1ef3e0e17c 100644
+index 01d5fa265fb2818465b5a71a2e2efeec751a7a05..85d0fbcc74500ccdd66e28c5ddcfc11a500dfab9 100644
 --- a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
 @@ -14,6 +14,8 @@ import java.util.concurrent.atomic.AtomicInteger;

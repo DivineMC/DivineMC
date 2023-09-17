@@ -5,7 +5,7 @@ Subject: [PATCH] Bump Dependencies
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 6f39b026ab819e05e544a4049bd766a5aa73b16a..6455172a5cd3bf9a7b27831c67249022e535cdba 100644
+index 8b450ebbb67416bbb395ed25114e8121b028fd6a..8e3360b7b4606955803d12585dccb5197165575b 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -37,8 +37,8 @@ dependencies {

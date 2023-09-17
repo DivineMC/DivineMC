@@ -5,7 +5,7 @@ Subject: [PATCH] Divine Branding
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 139e2b17b899da6f0147bb8b4412e2e54e817be4..43a14a0d0e545861c7625bc50704a062717c5fde 100644
+index 92118ece03afbe49bbe4dbe8a54c6d434434bd0c..8b450ebbb67416bbb395ed25114e8121b028fd6a 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -14,7 +14,7 @@ val alsoShade: Configuration by configurations.creating
@@ -138,7 +138,7 @@ index 3cb56595822799926a8141e60a42f5d1edfc6de5..05478a1ea04ec0396bc8c97090edef4a
                  .completer(new ConsoleCommandCompleter(this.server))
                  .option(LineReader.Option.COMPLETE_IN_WORD, true);
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 73c2719a6f5410fec8511ba53362f87bb74c9a1a..17af7e23cba6d99fecde12f954c832de71f42947 100644
+index a1a3b66e53e7be6b913302a5da15271f6fdc1639..380cc144d4889917298bdc2ebd691f6478a47470 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -265,7 +265,7 @@ import javax.annotation.Nullable; // Paper
@@ -151,7 +151,7 @@ index 73c2719a6f5410fec8511ba53362f87bb74c9a1a..17af7e23cba6d99fecde12f954c832de
      private final String bukkitVersion = Versioning.getBukkitVersion();
      private final Logger logger = Logger.getLogger("Minecraft");
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java b/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
-index 8cb10fa24bea1ffd3ea3a5f3d471c118a5713257..3a42575a50cf59def579fd7dcfc3cd3865a2ace1 100644
+index 99597258e8e88cd9e2c901c4ac3ff7faeeabee2b..627ceea9fa0fccd3e466eb34d59e760be30a69a8 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
 +++ b/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
 @@ -11,7 +11,7 @@ public final class Versioning {
@@ -177,7 +177,7 @@ index 3633574e112f217b412217dd243a631dc4e9c40c..1f54e2ec6d73853001642bcf4b355c4a
          serverModName = getString("settings.server-mod-name", serverModName);
      }
 diff --git a/src/main/java/org/spigotmc/WatchdogThread.java b/src/main/java/org/spigotmc/WatchdogThread.java
-index 8b1a446c986c4fae8c0ad810f34e231f0e360dbe..f11529ff35eeff916b84010d02c987779f480cf0 100644
+index dbd502761ff6e6efb252bb41376a7ff028c73895..33a6b34564bbf15b82ae81a3321f05388c72950f 100644
 --- a/src/main/java/org/spigotmc/WatchdogThread.java
 +++ b/src/main/java/org/spigotmc/WatchdogThread.java
 @@ -185,7 +185,7 @@ public final class WatchdogThread extends io.papermc.paper.util.TickThread // Pa

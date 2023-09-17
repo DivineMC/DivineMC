@@ -1,0 +1,42 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Mon, 18 Sep 2023 00:35:27 +0300
+Subject: [PATCH] Do not process chat/commands before player has joined
+
+
+diff --git a/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java
+index 50878e4948df45bc2928edbe373be639d133060f..429efd08e218a780d181d24f0522b0e499fadbf3 100644
+--- a/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java
++++ b/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java
+@@ -167,4 +167,9 @@ public class DivineConfig {
+     private static void doOptimizeVarints() {
+         doOptimizeVarints = getBoolean("settings.optimization.optimize-varints", doOptimizeVarints);
+     }
++
++    public static boolean doNotProcessChatCommands = true;
++    private static void  doNotProcessChatCommands() {
++        doNotProcessChatCommands = getBoolean("settings.do-not-process-chat-commands", doNotProcessChatCommands);
++    }
+ }
+\ No newline at end of file
+diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
+index 255b422078880b46dfa6f5140f6c92fef057d09e..0b2b8d6417d72860763aa6f2872280229a89464e 100644
+--- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
++++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
+@@ -5,6 +5,7 @@ import com.google.common.primitives.Floats;
+ import com.mojang.brigadier.ParseResults;
+ import com.mojang.brigadier.StringReader;
+ import com.mojang.logging.LogUtils;
++import gq.bxteam.divinemc.configuration.DivineConfig;
+ import it.unimi.dsi.fastutil.ints.Int2ObjectMap.Entry;
+ import it.unimi.dsi.fastutil.ints.Int2ObjectMaps;
+ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+@@ -2484,6 +2485,8 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+             this.disconnect(Component.translatable("multiplayer.disconnect.out_of_order_chat"), org.bukkit.event.player.PlayerKickEvent.Cause.OUT_OF_ORDER_CHAT); // Paper - kick event causes
+             }); // Paper - push to main
+             return Optional.empty();
++        } else if (player.joining && DivineConfig.doNotProcessChatCommands) { // DivineMC - EMC - do not handle chat messages before they joined
++            return Optional.empty();
+         } else {
+             Optional<LastSeenMessages> optional = this.unpackAndApplyLastSeen(acknowledgment);
+ 

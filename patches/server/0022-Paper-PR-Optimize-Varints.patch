@@ -23,7 +23,7 @@ index 512afaa97e89e3beb92cf2ebc46248eddd22cf5c..50878e4948df45bc2928edbe373be639
  }
 \ No newline at end of file
 diff --git a/src/main/java/net/minecraft/network/FriendlyByteBuf.java b/src/main/java/net/minecraft/network/FriendlyByteBuf.java
-index 622421275a9408908be537f2263a4aa6233d4f88..ef6df345edc72e087cb8e4971d0648d110b58612 100644
+index 1f4b64a5f812376c499c98cb4be62469bd0b7dbe..2b1ae08ec33daedd0148f6731145a1d10a89277c 100644
 --- a/src/main/java/net/minecraft/network/FriendlyByteBuf.java
 +++ b/src/main/java/net/minecraft/network/FriendlyByteBuf.java
 @@ -84,6 +84,8 @@ import org.joml.Vector3f;
