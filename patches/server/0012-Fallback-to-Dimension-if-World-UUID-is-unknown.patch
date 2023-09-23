@@ -20,10 +20,10 @@ index 9e802fbe8e5f1a3c24cb6bc9254c72a2a0c3fde1..cdf83dc33915632e29291c59eb184199
  }
 \ No newline at end of file
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 824f31b68b38f2f8642fb9d59a123cfdaffbb7b2..cff386bef828950dd4e509da80283a51a423dd97 100644
+index 9942ab57f883f79719dff20f666912face27d5c4..72a36cb6decaefe3195520445bbfbcb490c083b3 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
-@@ -102,6 +102,7 @@ import net.minecraft.world.scores.PlayerTeam;
+@@ -103,6 +103,7 @@ import net.minecraft.world.scores.PlayerTeam;
  import net.minecraft.world.scores.Scoreboard; // Paper
  import net.minecraft.world.scores.Team;
  import org.slf4j.Logger;
@@ -31,7 +31,7 @@ index 824f31b68b38f2f8642fb9d59a123cfdaffbb7b2..cff386bef828950dd4e509da80283a51
  
  // CraftBukkit start
  import java.util.stream.Collectors;
-@@ -220,7 +221,14 @@ public abstract class PlayerList {
+@@ -212,7 +213,14 @@ public abstract class PlayerList {
              if (bWorld != null) {
                  resourcekey = ((CraftWorld) bWorld).getHandle().dimension();
              } else {
