@@ -90,10 +90,10 @@ index 6c04c8e7776b2830ac368229da834532e8ce163e..97a65480a9eb1d67b243b39d8aa1d7c1
          BaseBeeGoal() {}
  
 diff --git a/src/main/java/net/minecraft/world/entity/animal/Cat.java b/src/main/java/net/minecraft/world/entity/animal/Cat.java
-index 3347b39fa1bc3308aa3b70b4169523885b91a047..1f020ef5a22952bbdfc2af1f7a924c61cac91cca 100644
+index 6e5b4a50b8d2dddbd7f099426b4866b35bcb798a..2bcd475cca90d356de056f9b8f023d0d6392fe44 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/Cat.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/Cat.java
-@@ -562,7 +562,7 @@ public class Cat extends TamableAnimal implements VariantHolder<CatVariant> {
+@@ -568,7 +568,7 @@ public class Cat extends TamableAnimal implements VariantHolder<CatVariant> {
          }
      }
  
@@ -102,7 +102,7 @@ index 3347b39fa1bc3308aa3b70b4169523885b91a047..1f020ef5a22952bbdfc2af1f7a924c61
  
          private final Cat cat;
          @Nullable
-@@ -708,7 +708,7 @@ public class Cat extends TamableAnimal implements VariantHolder<CatVariant> {
+@@ -714,7 +714,7 @@ public class Cat extends TamableAnimal implements VariantHolder<CatVariant> {
          }
      }
  
@@ -125,7 +125,7 @@ index 06d52d8b61abc4dbbdc953bfed2e688be377b3cc..a5490068d200ed78ca720ae804a1b26f
          this.goalSelector.addGoal(8, new RandomStrollGoal(this, 0.6D));
          this.goalSelector.addGoal(9, new LookAtPlayerGoal(this, Player.class, 15.0F, 1.0F));
 diff --git a/src/main/java/net/minecraft/world/entity/monster/Vindicator.java b/src/main/java/net/minecraft/world/entity/monster/Vindicator.java
-index f1e410b602bf0d5520f8e9340f7b8b9e25ca4d39..998a7b47fded2c4851489400ac4ff455cb2efc14 100644
+index ffe956f200dd0b4148043d0d7f2eac007a9f22b1..a5608ddd34afd96ac166758f5d8ec88ed92d34cd 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/Vindicator.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/Vindicator.java
 @@ -97,7 +97,7 @@ public class Vindicator extends AbstractIllager {
@@ -134,11 +134,11 @@ index f1e410b602bf0d5520f8e9340f7b8b9e25ca4d39..998a7b47fded2c4851489400ac4ff455
          this.goalSelector.addGoal(2, new AbstractIllager.RaiderOpenDoorGoal(this));
 -        this.goalSelector.addGoal(3, new Raider.HoldGroundAttackGoal(this, 10.0F));
 +        this.goalSelector.addGoal(3, new HoldGroundAttackGoal(this, 10.0F));
-         this.goalSelector.addGoal(4, new Vindicator.VindicatorMeleeAttackGoal(this));
+         this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.0D, false));
          this.targetSelector.addGoal(0, new org.purpurmc.purpur.entity.ai.HasRider(this)); // Purpur
          this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, Raider.class)).setAlertOthers());
 diff --git a/src/main/java/net/minecraft/world/entity/raid/Raider.java b/src/main/java/net/minecraft/world/entity/raid/Raider.java
-index 822dd4265ce02252afadbc652064450b7dfd7e0d..a0736fdd542c7c21125ed3c31b4ed795926689b2 100644
+index 300411e88cdaef7e0ce280edbd5f18fa8d004a33..80e0a66abd9cd6ad9135658adb3044f97e0b7ba1 100644
 --- a/src/main/java/net/minecraft/world/entity/raid/Raider.java
 +++ b/src/main/java/net/minecraft/world/entity/raid/Raider.java
 @@ -352,7 +352,7 @@ public abstract class Raider extends PatrollingMonster {

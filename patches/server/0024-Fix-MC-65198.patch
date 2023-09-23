@@ -27,7 +27,7 @@ index a578882b64c581ef4f47fa483a9f2988cfa4c8cf..0660c07e1f360cb5e0a865a6b7574ea1
          }
  
 diff --git a/src/main/java/net/minecraft/world/inventory/ResultSlot.java b/src/main/java/net/minecraft/world/inventory/ResultSlot.java
-index 46d1f768e4dcc2942ee7af81ee2713df10251731..311c3054c4a44043ddc32b1560b9a4d65d494402 100644
+index 2554f7b1d687f83f42d69bf8ab54336ba793e301..10e609ca5c529ab604ef61cff5600d8a9303e3a2 100644
 --- a/src/main/java/net/minecraft/world/inventory/ResultSlot.java
 +++ b/src/main/java/net/minecraft/world/inventory/ResultSlot.java
 @@ -45,7 +45,7 @@ public class ResultSlot extends Slot {
@@ -40,10 +40,10 @@ index 46d1f768e4dcc2942ee7af81ee2713df10251731..311c3054c4a44043ddc32b1560b9a4d6
  
          Container var3 = this.container;
 diff --git a/src/main/java/net/minecraft/world/inventory/StonecutterMenu.java b/src/main/java/net/minecraft/world/inventory/StonecutterMenu.java
-index 9699f97efcfecdc446ca25a6bab42cc484314cbb..6c95f72df1f3b6703c053f894857844abf5767da 100644
+index f8129dcdcae12ed66ec58e8c749fa88ec3cd85d8..c90eed190d059dc5eb923cda39019a754d19ed05 100644
 --- a/src/main/java/net/minecraft/world/inventory/StonecutterMenu.java
 +++ b/src/main/java/net/minecraft/world/inventory/StonecutterMenu.java
-@@ -257,6 +257,7 @@ public class StonecutterMenu extends AbstractContainerMenu {
+@@ -258,6 +258,7 @@ public class StonecutterMenu extends AbstractContainerMenu {
              Item item = itemstack1.getItem();
  
              itemstack = itemstack1.copy();
@@ -51,7 +51,7 @@ index 9699f97efcfecdc446ca25a6bab42cc484314cbb..6c95f72df1f3b6703c053f894857844a
              if (slot == 1) {
                  item.onCraftedBy(itemstack1, player.level(), player);
                  if (!this.moveItemStackTo(itemstack1, 2, 38, true)) {
-@@ -289,7 +290,7 @@ public class StonecutterMenu extends AbstractContainerMenu {
+@@ -290,7 +291,7 @@ public class StonecutterMenu extends AbstractContainerMenu {
                  return ItemStack.EMPTY;
              }
  

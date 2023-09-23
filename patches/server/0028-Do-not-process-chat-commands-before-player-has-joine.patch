@@ -5,12 +5,12 @@ Subject: [PATCH] Do not process chat/commands before player has joined
 
 
 diff --git a/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java
-index 50878e4948df45bc2928edbe373be639d133060f..429efd08e218a780d181d24f0522b0e499fadbf3 100644
+index 512afaa97e89e3beb92cf2ebc46248eddd22cf5c..b8fa8f551c95503be60f990099b2d41296ea91de 100644
 --- a/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java
 +++ b/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java
-@@ -167,4 +167,9 @@ public class DivineConfig {
-     private static void doOptimizeVarints() {
-         doOptimizeVarints = getBoolean("settings.optimization.optimize-varints", doOptimizeVarints);
+@@ -162,4 +162,9 @@ public class DivineConfig {
+     private static void allowAnyUsername() {
+         allowAnyUsername = getBoolean("settings.player.allow-any-username", allowAnyUsername);
      }
 +
 +    public static boolean doNotProcessChatCommands = true;
@@ -20,10 +20,10 @@ index 50878e4948df45bc2928edbe373be639d133060f..429efd08e218a780d181d24f0522b0e4
  }
 \ No newline at end of file
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 255b422078880b46dfa6f5140f6c92fef057d09e..0b2b8d6417d72860763aa6f2872280229a89464e 100644
+index ee9845804d2ad59bdde78e778c28690746877541..29556514d97ac8bd8e4147e1471ba1f6cf63b323 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -5,6 +5,7 @@ import com.google.common.primitives.Floats;
+@@ -6,6 +6,7 @@ import com.mojang.authlib.GameProfile;
  import com.mojang.brigadier.ParseResults;
  import com.mojang.brigadier.StringReader;
  import com.mojang.logging.LogUtils;
@@ -31,7 +31,7 @@ index 255b422078880b46dfa6f5140f6c92fef057d09e..0b2b8d6417d72860763aa6f287228022
  import it.unimi.dsi.fastutil.ints.Int2ObjectMap.Entry;
  import it.unimi.dsi.fastutil.ints.Int2ObjectMaps;
  import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-@@ -2484,6 +2485,8 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -2311,6 +2312,8 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
              this.disconnect(Component.translatable("multiplayer.disconnect.out_of_order_chat"), org.bukkit.event.player.PlayerKickEvent.Cause.OUT_OF_ORDER_CHAT); // Paper - kick event causes
              }); // Paper - push to main
              return Optional.empty();

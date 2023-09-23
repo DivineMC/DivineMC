@@ -10,10 +10,10 @@ As part of: Lithium (https://github.com/CaffeineMC/lithium-fabric)
 Licensed under: LGPL-3.0 (https://www.gnu.org/licenses/lgpl-3.0.html)
 
 diff --git a/src/main/java/net/minecraft/world/entity/raid/Raid.java b/src/main/java/net/minecraft/world/entity/raid/Raid.java
-index f7399737548483905f3b5c08a03876b0da54b714..008d1f12cf05c31f45f7c17970fc5bfb80369e26 100644
+index eaa2943b667967f93f28d9d794d702fdaeb670ec..0e780da8dc230b27eddb01d1fa8bf2d8b5994158 100644
 --- a/src/main/java/net/minecraft/world/entity/raid/Raid.java
 +++ b/src/main/java/net/minecraft/world/entity/raid/Raid.java
-@@ -107,6 +107,7 @@ public class Raid {
+@@ -106,6 +106,7 @@ public class Raid {
      private Raid.RaidStatus status;
      private int celebrationTicks;
      private Optional<BlockPos> waveSpawnPos;
@@ -21,7 +21,7 @@ index f7399737548483905f3b5c08a03876b0da54b714..008d1f12cf05c31f45f7c17970fc5bfb
  
      public Raid(int id, ServerLevel world, BlockPos pos) {
          this.raidEvent = new ServerBossEvent(Raid.RAID_NAME_COMPONENT, BossEvent.BossBarColor.RED, BossEvent.BossBarOverlay.NOTCHED_10);
-@@ -271,6 +272,12 @@ public class Raid {
+@@ -273,6 +274,12 @@ public class Raid {
  
      public void tick() {
          if (!this.isStopped()) {
@@ -34,7 +34,7 @@ index f7399737548483905f3b5c08a03876b0da54b714..008d1f12cf05c31f45f7c17970fc5bfb
              if (this.status == Raid.RaidStatus.ONGOING) {
                  boolean flag = this.active;
  
-@@ -637,9 +644,15 @@ public class Raid {
+@@ -641,9 +648,15 @@ public class Raid {
  
      }
  
