@@ -53,6 +53,7 @@ Here is a list of all the versions of DivineMC:
 
 |      Name       |      Fork Of      |                                      Download                                      |
 | :-------------: | :---------------: | :--------------------------------------------------------------------------------: |
+| DivineMC 1.20.2 |   Purpur 1.20.2   | [Download latest dev build](https://github.com/lynxplay/ktp)
 | DivineMC 1.20.1 |   Purpur 1.20.1   | [Download latest](https://github.com/DivineMC/DivineMC/releases/tag/latest-1.20.1) |
 |  DivineMC 1.20  |    Purpur 1.20    |  [Download latest](https://github.com/DivineMC/DivineMC/releases/tag/latest-1.20)  |
 | DivineMC 1.19.4 |   Purpur 1.19.4   | [Download latest](https://github.com/DivineMC/DivineMC/releases/tag/latest-1.19.4) |
