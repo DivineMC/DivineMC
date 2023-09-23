@@ -5,20 +5,9 @@ Subject: [PATCH] Bump Dependencies
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 8b450ebbb67416bbb395ed25114e8121b028fd6a..8e3360b7b4606955803d12585dccb5197165575b 100644
+index 4cdc840231642ad03fb0db1bfa1282315a02b2de..791b19148c2edae5d900d817ee164aa94a971908 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
-@@ -37,8 +37,8 @@ dependencies {
-     implementation("io.netty:netty-codec-haproxy:4.1.87.Final") // Paper - Add support for proxy protocol
-     // Paper end
-     implementation("org.apache.logging.log4j:log4j-iostreams:2.19.0") // Paper - remove exclusion
--    implementation("org.ow2.asm:asm:9.4")
--    implementation("org.ow2.asm:asm-commons:9.4") // Paper - ASM event executor generation
-+    implementation("org.ow2.asm:asm:9.5") // DivineMC - bump dependencies
-+    implementation("org.ow2.asm:asm-commons:9.5") // Paper - ASM event executor generation // DivineMC - bump dependencies
-     testImplementation("org.mockito:mockito-core:4.9.0") // Paper - switch to mockito
-     implementation("org.spongepowered:configurate-yaml:4.1.2") // Paper - config files
-     implementation("commons-lang:commons-lang:2.6")
 @@ -47,7 +47,7 @@ dependencies {
      runtimeOnly("com.mysql:mysql-connector-j:8.0.33")
      runtimeOnly("com.lmax:disruptor:3.4.4") // Paper

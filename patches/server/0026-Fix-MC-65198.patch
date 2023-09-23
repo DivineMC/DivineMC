@@ -6,10 +6,10 @@ Subject: [PATCH] Fix MC-65198
 Original post on Mojira: https://bugs.mojang.com/browse/MC-65198
 
 diff --git a/src/main/java/net/minecraft/world/inventory/ItemCombinerMenu.java b/src/main/java/net/minecraft/world/inventory/ItemCombinerMenu.java
-index 102739c0089ff3f6b3432f954304d43a3dfebc35..d925153b39ac4ddd273f84fb3d6cb071a00c9123 100644
+index a578882b64c581ef4f47fa483a9f2988cfa4c8cf..0660c07e1f360cb5e0a865a6b7574ea14a327f10 100644
 --- a/src/main/java/net/minecraft/world/inventory/ItemCombinerMenu.java
 +++ b/src/main/java/net/minecraft/world/inventory/ItemCombinerMenu.java
-@@ -140,6 +140,7 @@ public abstract class ItemCombinerMenu extends AbstractContainerMenu {
+@@ -141,6 +141,7 @@ public abstract class ItemCombinerMenu extends AbstractContainerMenu {
              ItemStack itemstack1 = slot1.getItem();
  
              itemstack = itemstack1.copy();
@@ -17,7 +17,7 @@ index 102739c0089ff3f6b3432f954304d43a3dfebc35..d925153b39ac4ddd273f84fb3d6cb071
              int j = this.getInventorySlotStart();
              int k = this.getUseRowEnd();
  
-@@ -178,7 +179,7 @@ public abstract class ItemCombinerMenu extends AbstractContainerMenu {
+@@ -179,7 +180,7 @@ public abstract class ItemCombinerMenu extends AbstractContainerMenu {
              }
  
              this.activeQuickItem = itemstack; // Purpur
@@ -40,7 +40,7 @@ index 46d1f768e4dcc2942ee7af81ee2713df10251731..311c3054c4a44043ddc32b1560b9a4d6
  
          Container var3 = this.container;
 diff --git a/src/main/java/net/minecraft/world/inventory/StonecutterMenu.java b/src/main/java/net/minecraft/world/inventory/StonecutterMenu.java
-index 1b1f814770d1a906ed880df578845be2e9a14f46..4a513a537c3dfe446796611794c5b4c67df3bbb0 100644
+index 9699f97efcfecdc446ca25a6bab42cc484314cbb..6c95f72df1f3b6703c053f894857844abf5767da 100644
 --- a/src/main/java/net/minecraft/world/inventory/StonecutterMenu.java
 +++ b/src/main/java/net/minecraft/world/inventory/StonecutterMenu.java
 @@ -257,6 +257,7 @@ public class StonecutterMenu extends AbstractContainerMenu {
