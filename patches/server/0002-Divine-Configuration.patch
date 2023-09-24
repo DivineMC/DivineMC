@@ -327,7 +327,7 @@ index 0000000000000000000000000000000000000000..5d16d2250bae9c982a0af9ad2580a635
 +}
 \ No newline at end of file
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 6e9061dd6d5fd35d74d02c25a5985ffc5bc8e5ac..d65329d5fee1e204635cd7bcfd1a93c498fd0543 100644
+index e2c74460d149360f01c4d0577054879f2601a58f..567d90930adfdef4949ba011bb24790b7d73c57f 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -232,6 +232,16 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
@@ -348,7 +348,7 @@ index 6e9061dd6d5fd35d74d02c25a5985ffc5bc8e5ac..d65329d5fee1e204635cd7bcfd1a93c4
          this.setFlightAllowed(dedicatedserverproperties.allowFlight);
          this.setMotd(dedicatedserverproperties.motd);
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 7b35238aadcd10a4a246712f252e6254b0070d57..1a0f3acc5ff66e867171b95c520d96efc8fa65aa 100644
+index 4e8738531ea388733c41dbb408eb43c1e3c88fad..985d00ffd5579bbfb5c6798afda30f89cf158e4e 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
 @@ -15,6 +15,8 @@ import java.util.function.Consumer;
@@ -360,15 +360,15 @@ index 7b35238aadcd10a4a246712f252e6254b0070d57..1a0f3acc5ff66e867171b95c520d96ef
  import net.minecraft.CrashReport;
  import net.minecraft.CrashReportCategory;
  import net.minecraft.ReportedException;
-@@ -176,6 +178,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
-     // Paper end
+@@ -177,6 +179,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
  
+     public final com.destroystokyo.paper.antixray.ChunkPacketBlockController chunkPacketBlockController; // Paper - Anti-Xray
      public final org.purpurmc.purpur.PurpurWorldConfig purpurConfig; // Purpur
 +    public final gq.bxteam.divinemc.configuration.DivineWorldConfig divinemcConfig; // DivineMC
      public final co.aikar.timings.WorldTimingsHandler timings; // Paper
      public static BlockPos lastPhysicsProblem; // Spigot
      private org.spigotmc.TickLimiter entityLimiter;
-@@ -257,6 +260,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+@@ -258,6 +261,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
          this.spigotConfig = new org.spigotmc.SpigotWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName()); // Spigot
          this.paperConfig = paperWorldConfigCreator.apply(this.spigotConfig); // Paper
          this.purpurConfig = new org.purpurmc.purpur.PurpurWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName(), env); // Purpur
@@ -377,7 +377,7 @@ index 7b35238aadcd10a4a246712f252e6254b0070d57..1a0f3acc5ff66e867171b95c520d96ef
          this.generator = gen;
          this.world = new CraftWorld((ServerLevel) this, gen, biomeProvider, env);
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 90948176112da593f6896360a4a5d59b3ae9d16f..843ece478bfd198f955b7d877f8dc1d0d0a1ad32 100644
+index 541fb093e2fc6439370d757a7cc70e049e0d7d6f..4c2c49e5f4a47fa1f0c540514a61b3957e958e32 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -15,6 +15,7 @@ import com.mojang.brigadier.tree.LiteralCommandNode;
