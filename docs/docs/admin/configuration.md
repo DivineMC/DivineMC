@@ -8,7 +8,7 @@ This page details the various configuration settings exposed by Bukkit, Spigot a
 
 If you want information on settings in **paper.yml**, **spigot.yml**, **bukkit.yml** and **server.properties** you should see their respective documentation pages.
 
-- [Server Configuration (server.properties)](https://minecraft.fandom.com/wiki/Server.properties)
+- [Server Configuration (server.properties)](https://minecraft.wiki/w/Server.properties)
 
 - [Bukkit Configuration (bukkit.yml)](https://bukkit.fandom.com/wiki/Bukkit.yml)
 
