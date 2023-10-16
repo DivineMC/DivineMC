@@ -327,12 +327,12 @@ index 0000000000000000000000000000000000000000..5d16d2250bae9c982a0af9ad2580a635
 +}
 \ No newline at end of file
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index e2c74460d149360f01c4d0577054879f2601a58f..567d90930adfdef4949ba011bb24790b7d73c57f 100644
+index 21da8b6b0df40b6b88a325ced5d6553ad5912d31..97cc7dd902c343f95206c26d6d8d0c2d4821dd54 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-@@ -232,6 +232,16 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
-         io.papermc.paper.brigadier.PaperBrigadierProviderImpl.INSTANCE.getClass(); // init PaperBrigadierProvider
-         // Paper end
+@@ -235,6 +235,16 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+         gg.pufferfish.pufferfish.PufferfishConfig.load(); // Pufferfish
+         gg.pufferfish.pufferfish.PufferfishCommand.init(); // Pufferfish
  
 +        // DivineMC start
 +        try {
@@ -348,7 +348,7 @@ index e2c74460d149360f01c4d0577054879f2601a58f..567d90930adfdef4949ba011bb24790b
          this.setFlightAllowed(dedicatedserverproperties.allowFlight);
          this.setMotd(dedicatedserverproperties.motd);
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 4e8738531ea388733c41dbb408eb43c1e3c88fad..985d00ffd5579bbfb5c6798afda30f89cf158e4e 100644
+index a90288a86b022b4f9682befcb1478671e861ca41..b83a6a2975a730e69e728e7b1d3ef2f68f2ac590 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
 @@ -15,6 +15,8 @@ import java.util.function.Consumer;
@@ -368,7 +368,7 @@ index 4e8738531ea388733c41dbb408eb43c1e3c88fad..985d00ffd5579bbfb5c6798afda30f89
      public final co.aikar.timings.WorldTimingsHandler timings; // Paper
      public static BlockPos lastPhysicsProblem; // Spigot
      private org.spigotmc.TickLimiter entityLimiter;
-@@ -258,6 +261,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+@@ -260,6 +263,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
          this.spigotConfig = new org.spigotmc.SpigotWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName()); // Spigot
          this.paperConfig = paperWorldConfigCreator.apply(this.spigotConfig); // Paper
          this.purpurConfig = new org.purpurmc.purpur.PurpurWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName(), env); // Purpur
@@ -377,7 +377,7 @@ index 4e8738531ea388733c41dbb408eb43c1e3c88fad..985d00ffd5579bbfb5c6798afda30f89
          this.generator = gen;
          this.world = new CraftWorld((ServerLevel) this, gen, biomeProvider, env);
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 541fb093e2fc6439370d757a7cc70e049e0d7d6f..4c2c49e5f4a47fa1f0c540514a61b3957e958e32 100644
+index 061d4fb0d3c5e38b4bbf8e3f4be8b191fa720f25..775b29a31ebc846931a07a4cb67606f04100644e 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -15,6 +15,7 @@ import com.mojang.brigadier.tree.LiteralCommandNode;
@@ -412,7 +412,7 @@ index 541fb093e2fc6439370d757a7cc70e049e0d7d6f..4c2c49e5f4a47fa1f0c540514a61b395
          this.overrideAllCommandBlockCommands = this.commandsConfiguration.getStringList("command-block-overrides").contains("*");
          this.ignoreVanillaPermissions = this.commandsConfiguration.getBoolean("ignore-vanilla-permissions");
  
-@@ -2993,6 +2997,13 @@ public final class CraftServer implements Server {
+@@ -2998,6 +3002,13 @@ public final class CraftServer implements Server {
          }
          // Purpur end
  
@@ -427,11 +427,11 @@ index 541fb093e2fc6439370d757a7cc70e049e0d7d6f..4c2c49e5f4a47fa1f0c540514a61b395
          public void restart() {
              org.spigotmc.RestartCommand.restart();
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index d0372aa58214019b0b24a84eb8afdec6aec975a6..e2d68be244d53352b06515a84e6740a0b339c424 100644
+index 67c621fdc994b392dc961f79e1e3b97c2977adc4..693579ce7fa7fa6428af95bdf9e2b08ed459be7e 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
-@@ -181,6 +181,14 @@ public class Main {
-                     .describedAs("Yml file");
+@@ -187,6 +187,14 @@ public class Main {
+                         .describedAs("Yml file");
                  // Purpur end
  
 +                // DivineMC start
