@@ -5,7 +5,7 @@ Subject: [PATCH] Fix entity serialization
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 0e192a128c87124956fcec552362ab763bac5e55..c7846eb58611354b9be29ea9a478c076d3f16620 100644
+index 067302709a2291274eeecd1e4e04662b6914da12..8ab1cfdf1a108a968ff81ce6ed08f9bc27ee7cd4 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -2297,15 +2297,6 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
@@ -25,10 +25,10 @@ index 0e192a128c87124956fcec552362ab763bac5e55..c7846eb58611354b9be29ea9a478c076
          return this.isPassenger() ? false : this.saveAsPassenger(nbt);
      }
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
-index 33ea5172bb7fe1018bc39acc16963f4998ac52b2..d4f88fcb3081f30ef1c4f209097f8cea8d8579d5 100644
+index 61f3f9550f0e2e62515502ccc5e7b90178a5db47..285f6e0afdf11fd6195c18638f7367c466bcf8e6 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
 +++ b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
-@@ -488,8 +488,13 @@ public final class CraftMagicNumbers implements UnsafeValues {
+@@ -501,8 +501,13 @@ public final class CraftMagicNumbers implements UnsafeValues {
          Preconditions.checkNotNull(entity, "null cannot be serialized");
          Preconditions.checkArgument(entity instanceof org.bukkit.craftbukkit.entity.CraftEntity, "only CraftEntities can be serialized");
  

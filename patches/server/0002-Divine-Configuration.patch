@@ -327,7 +327,7 @@ index 0000000000000000000000000000000000000000..5d16d2250bae9c982a0af9ad2580a635
 +}
 \ No newline at end of file
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 21da8b6b0df40b6b88a325ced5d6553ad5912d31..97cc7dd902c343f95206c26d6d8d0c2d4821dd54 100644
+index a51306bb36d403ab627cd8b2fc8d8f7a3e6ca918..547c60bdb71ef7641273348b836f2feeab06bd9c 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -235,6 +235,16 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
@@ -348,7 +348,7 @@ index 21da8b6b0df40b6b88a325ced5d6553ad5912d31..97cc7dd902c343f95206c26d6d8d0c2d
          this.setFlightAllowed(dedicatedserverproperties.allowFlight);
          this.setMotd(dedicatedserverproperties.motd);
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index a90288a86b022b4f9682befcb1478671e861ca41..b83a6a2975a730e69e728e7b1d3ef2f68f2ac590 100644
+index 25540a7f5631acd856726cdb44bace9be7dab401..4ed2a063f21ae4bb840e5ec1f84e04221f753ca0 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
 @@ -15,6 +15,8 @@ import java.util.function.Consumer;
@@ -377,7 +377,7 @@ index a90288a86b022b4f9682befcb1478671e861ca41..b83a6a2975a730e69e728e7b1d3ef2f6
          this.generator = gen;
          this.world = new CraftWorld((ServerLevel) this, gen, biomeProvider, env);
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 061d4fb0d3c5e38b4bbf8e3f4be8b191fa720f25..775b29a31ebc846931a07a4cb67606f04100644e 100644
+index 0ac0184c4de16f8a6f2b83dd344e0607a5c6d8f5..b1adcc3a1fc14bd0daa9059d124e533a3b62ef41 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -15,6 +15,7 @@ import com.mojang.brigadier.tree.LiteralCommandNode;
@@ -389,7 +389,7 @@ index 061d4fb0d3c5e38b4bbf8e3f4be8b191fa720f25..775b29a31ebc846931a07a4cb67606f0
  import java.awt.image.BufferedImage;
  import java.io.ByteArrayOutputStream;
 @@ -1054,6 +1055,7 @@ public final class CraftServer implements Server {
-         org.spigotmc.SpigotConfig.init((File) console.options.valueOf("spigot-settings")); // Spigot
+         org.spigotmc.SpigotConfig.init((File) this.console.options.valueOf("spigot-settings")); // Spigot
          this.console.paperConfigurations.reloadConfigs(this.console);
          org.purpurmc.purpur.PurpurConfig.init((File) console.options.valueOf("purpur-settings")); // Purpur
 +        gq.bxteam.divinemc.configuration.DivineConfig.init((File) console.options.valueOf("divinemc-settings")); // DivineMC
@@ -412,7 +412,7 @@ index 061d4fb0d3c5e38b4bbf8e3f4be8b191fa720f25..775b29a31ebc846931a07a4cb67606f0
          this.overrideAllCommandBlockCommands = this.commandsConfiguration.getStringList("command-block-overrides").contains("*");
          this.ignoreVanillaPermissions = this.commandsConfiguration.getBoolean("ignore-vanilla-permissions");
  
-@@ -2998,6 +3002,13 @@ public final class CraftServer implements Server {
+@@ -2999,6 +3003,13 @@ public final class CraftServer implements Server {
          }
          // Purpur end
  
@@ -427,7 +427,7 @@ index 061d4fb0d3c5e38b4bbf8e3f4be8b191fa720f25..775b29a31ebc846931a07a4cb67606f0
          public void restart() {
              org.spigotmc.RestartCommand.restart();
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 67c621fdc994b392dc961f79e1e3b97c2977adc4..693579ce7fa7fa6428af95bdf9e2b08ed459be7e 100644
+index f4bb177984f0c0223dbadf4fc7562040e4f74d6d..eef4a7ec24fd1be69e737c74f1f4267277fad9e1 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -187,6 +187,14 @@ public class Main {
