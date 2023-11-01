@@ -25,10 +25,10 @@ index 067302709a2291274eeecd1e4e04662b6914da12..8ab1cfdf1a108a968ff81ce6ed08f9bc
          return this.isPassenger() ? false : this.saveAsPassenger(nbt);
      }
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
-index 61f3f9550f0e2e62515502ccc5e7b90178a5db47..285f6e0afdf11fd6195c18638f7367c466bcf8e6 100644
+index 1e81801e5701b08feedd840c1e1663ae26507c16..2b5040c15657f73dfad12a97ce61161098832807 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
 +++ b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
-@@ -501,8 +501,13 @@ public final class CraftMagicNumbers implements UnsafeValues {
+@@ -511,8 +511,13 @@ public final class CraftMagicNumbers implements UnsafeValues {
          Preconditions.checkNotNull(entity, "null cannot be serialized");
          Preconditions.checkArgument(entity instanceof org.bukkit.craftbukkit.entity.CraftEntity, "only CraftEntities can be serialized");
  
