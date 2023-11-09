@@ -5,12 +5,12 @@ Subject: [PATCH] Allow any username
 
 
 diff --git a/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java
-index cdf83dc33915632e29291c59eb1841991c03e8a0..512afaa97e89e3beb92cf2ebc46248eddd22cf5c 100644
+index 9e802fbe8e5f1a3c24cb6bc9254c72a2a0c3fde1..426ae4086adc0180e3f3ba06cf6c005476ca891e 100644
 --- a/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java
 +++ b/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java
-@@ -157,4 +157,9 @@ public class DivineConfig {
-     private static void fallbackToDimensionIfWorldUUIDUnknown() {
-         fallbackToDimensionIfWorldUUIDUnknown = getBoolean("settings.fallback-to-dimension-if-world-uuid-unknown", fallbackToDimensionIfWorldUUIDUnknown);
+@@ -152,4 +152,9 @@ public class DivineConfig {
+         }
+         return builder.build();
      }
 +
 +    public static boolean allowAnyUsername = false;
@@ -20,7 +20,7 @@ index cdf83dc33915632e29291c59eb1841991c03e8a0..512afaa97e89e3beb92cf2ebc46248ed
  }
 \ No newline at end of file
 diff --git a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
-index f0bbc48e2df1da42e4bf9f7113451738b986fbbf..85542bba7b145070b69b736519aee7f94a03568a 100644
+index 3dcccca8ede9b203c24ba29b2020a583297b895c..272670750afe2d07e51f2f7589c5718a2c155ed4 100644
 --- a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
 @@ -16,6 +16,8 @@ import java.util.concurrent.atomic.AtomicInteger;

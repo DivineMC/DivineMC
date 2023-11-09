@@ -20,7 +20,7 @@ index 9eede8eb7fefc414f3a1207cd3ca2b33deb5ea13..ca344da743a7503795bdaeff0a1b14e0
  }
 \ No newline at end of file
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/ShulkerBullet.java b/src/main/java/net/minecraft/world/entity/projectile/ShulkerBullet.java
-index a38c02af71e0eca2d727342b31a2118d107cfb63..aef2cd823e6672395e365673cc83d2c39819d4ae 100644
+index da0b7ee796c335875914481a5deda5eef5ddd442..ab1127b384cfd8a39543003b692121cc2ed74b4e 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/ShulkerBullet.java
 +++ b/src/main/java/net/minecraft/world/entity/projectile/ShulkerBullet.java
 @@ -218,6 +218,17 @@ public class ShulkerBullet extends Projectile {

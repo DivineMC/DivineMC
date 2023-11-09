@@ -5,7 +5,7 @@ Subject: [PATCH] Fix MC-31819
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/player/Player.java b/src/main/java/net/minecraft/world/entity/player/Player.java
-index 20c3d3c9d2150574e9b4761dc1bda11cee04862f..7d15ddcf7d2a7bcdd6a7bebfaef21b2b486c7b14 100644
+index 724329ded5d72eb230db392972d30e7ba4e69ceb..85578b0027d1e82936b07cc4b3a635644e2c4dd4 100644
 --- a/src/main/java/net/minecraft/world/entity/player/Player.java
 +++ b/src/main/java/net/minecraft/world/entity/player/Player.java
 @@ -1974,6 +1974,11 @@ public abstract class Player extends LivingEntity {

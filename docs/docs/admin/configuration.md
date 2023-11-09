@@ -46,11 +46,6 @@ Global settings affect all worlds on the server as well as the core server funct
     - **default**: false
     - **description**: Enables a feature to allow players to log in with any username
 
-#### fallback-to-dimension-if-world-uuid-unknown
-
-- **default**: true
-- **description**: Enables a feature to allow players to log in with any username
-
 #### do-not-process-chat-commands
 - **default**: true
 - **description**: This function disables chat/commands processing when a player joins the server

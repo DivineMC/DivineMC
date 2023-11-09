@@ -5,7 +5,7 @@ Subject: [PATCH] Make entity goals public
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/animal/Bee.java b/src/main/java/net/minecraft/world/entity/animal/Bee.java
-index 6c04c8e7776b2830ac368229da834532e8ce163e..97a65480a9eb1d67b243b39d8aa1d7c184accdf0 100644
+index 38a3dcec138d9233a46e5d523bcc6d64bc7fffd0..07afbbf93723fa1f7ea603517534cf630df9ea5c 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/Bee.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/Bee.java
 @@ -767,7 +767,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
