@@ -20,7 +20,7 @@ index 426ae4086adc0180e3f3ba06cf6c005476ca891e..02dc7f154098313ff58a688ac5080457
  }
 \ No newline at end of file
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index bf74dd38b5d495f8d2ac6a2072fd95dbdd2f44e4..3034e1801efd1b855e29dac1e64f7c10d50cada8 100644
+index a7e82f95db5c6c054175192f019072006a3ef31f..e3c1a28e80611aef4673fb7ef46892e6b09418c7 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -6,6 +6,7 @@ import com.mojang.authlib.GameProfile;
@@ -31,7 +31,7 @@ index bf74dd38b5d495f8d2ac6a2072fd95dbdd2f44e4..3034e1801efd1b855e29dac1e64f7c10
  import it.unimi.dsi.fastutil.ints.Int2ObjectMap.Entry;
  import it.unimi.dsi.fastutil.ints.Int2ObjectMaps;
  import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-@@ -2315,6 +2316,8 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
+@@ -2316,6 +2317,8 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
              this.disconnect(Component.translatable("multiplayer.disconnect.out_of_order_chat"), org.bukkit.event.player.PlayerKickEvent.Cause.OUT_OF_ORDER_CHAT); // Paper - kick event causes
              }); // Paper - push to main
              return Optional.empty();
