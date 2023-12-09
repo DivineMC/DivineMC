@@ -22,10 +22,10 @@ index 5d16d2250bae9c982a0af9ad2580a63532b140f7..9eede8eb7fefc414f3a1207cd3ca2b33
  }
 \ No newline at end of file
 diff --git a/src/main/java/net/minecraft/world/entity/vehicle/Boat.java b/src/main/java/net/minecraft/world/entity/vehicle/Boat.java
-index 886a35937bfbb5b46d021fd42f89614f0df5d80f..6a433c616b6d7603f7277719d12519005799126c 100644
+index 26475c2d69537053a041ec9c2f8147842848a8fc..2e03520073af9bad8c629e161ebaf747de5197b6 100644
 --- a/src/main/java/net/minecraft/world/entity/vehicle/Boat.java
 +++ b/src/main/java/net/minecraft/world/entity/vehicle/Boat.java
-@@ -401,7 +401,18 @@ public class Boat extends Entity implements VariantHolder<Boat.Type> {
+@@ -338,7 +338,18 @@ public class Boat extends VehicleEntity implements VariantHolder<Boat.Type> {
          }
  
          if (!this.level().isClientSide && this.outOfControlTicks >= 60.0F) {
@@ -45,7 +45,7 @@ index 886a35937bfbb5b46d021fd42f89614f0df5d80f..6a433c616b6d7603f7277719d1251900
          }
  
          if (this.getHurtTime() > 0) {
-@@ -914,7 +925,13 @@ public class Boat extends Entity implements VariantHolder<Boat.Type> {
+@@ -853,7 +864,13 @@ public class Boat extends VehicleEntity implements VariantHolder<Boat.Type> {
  
      @Override
      public InteractionResult interact(Player player, InteractionHand hand) {
@@ -60,7 +60,7 @@ index 886a35937bfbb5b46d021fd42f89614f0df5d80f..6a433c616b6d7603f7277719d1251900
      }
  
      @Override
-@@ -1010,7 +1027,13 @@ public class Boat extends Entity implements VariantHolder<Boat.Type> {
+@@ -925,7 +942,13 @@ public class Boat extends VehicleEntity implements VariantHolder<Boat.Type> {
  
      @Override
      protected boolean canAddPassenger(Entity passenger) {

@@ -5,12 +5,12 @@ Subject: [PATCH] Do not process chat/commands before player has joined
 
 
 diff --git a/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java
-index 426ae4086adc0180e3f3ba06cf6c005476ca891e..02dc7f154098313ff58a688ac5080457bc108164 100644
+index 9e802fbe8e5f1a3c24cb6bc9254c72a2a0c3fde1..199a49bed6e5d827f8d01212e37f2f1de589bb8c 100644
 --- a/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java
 +++ b/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java
-@@ -157,4 +157,9 @@ public class DivineConfig {
-     private static void allowAnyUsername() {
-         allowAnyUsername = getBoolean("settings.player.allow-any-username", allowAnyUsername);
+@@ -152,4 +152,9 @@ public class DivineConfig {
+         }
+         return builder.build();
      }
 +
 +    public static boolean doNotProcessChatCommands = true;
@@ -20,7 +20,7 @@ index 426ae4086adc0180e3f3ba06cf6c005476ca891e..02dc7f154098313ff58a688ac5080457
  }
 \ No newline at end of file
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index a7e82f95db5c6c054175192f019072006a3ef31f..e3c1a28e80611aef4673fb7ef46892e6b09418c7 100644
+index 6c5f5c19048ec52c088044f2bc34f54b937b1912..416cdf3a28046064b0429c1a2f8418320fb4764a 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -6,6 +6,7 @@ import com.mojang.authlib.GameProfile;
@@ -31,12 +31,12 @@ index a7e82f95db5c6c054175192f019072006a3ef31f..e3c1a28e80611aef4673fb7ef46892e6
  import it.unimi.dsi.fastutil.ints.Int2ObjectMap.Entry;
  import it.unimi.dsi.fastutil.ints.Int2ObjectMaps;
  import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-@@ -2316,6 +2317,8 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
-             this.disconnect(Component.translatable("multiplayer.disconnect.out_of_order_chat"), org.bukkit.event.player.PlayerKickEvent.Cause.OUT_OF_ORDER_CHAT); // Paper - kick event causes
-             }); // Paper - push to main
+@@ -2337,6 +2338,8 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
+         if (this.player.isRemoved() || this.player.getChatVisibility() == ChatVisiblity.HIDDEN) { // CraftBukkit - dead men tell no tales
+             this.send(new ClientboundSystemChatPacket(Component.translatable("chat.disabled.options").withStyle(ChatFormatting.RED), false));
              return Optional.empty();
 +        } else if (player.joining && DivineConfig.doNotProcessChatCommands) { // DivineMC - EMC - do not handle chat messages before they joined
 +            return Optional.empty();
          } else {
-             Optional<LastSeenMessages> optional = this.unpackAndApplyLastSeen(acknowledgment);
- 
+             this.player.resetLastActionTime();
+             return optional;

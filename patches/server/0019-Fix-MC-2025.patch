@@ -7,11 +7,11 @@ Original post on Mojira: https://bugs.mojang.com/browse/MC-2025
 Fix taken from Reddit: https://redd.it/8pgd4q
 
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 24cc1369b6561b8fb99f26253f7ba05be0a5d49b..ae41e6c3f3934d06ee913006cc5341ef87bd1bd9 100644
+index 93cf451254e57a858c874c8c359db68f06fc8f9a..52bb14a442709caf3b2d82a4c5f60a09e705d91c 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
-@@ -2484,6 +2484,17 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
-                 nbt.putBoolean("Purpur.FireImmune", immuneToFire);
+@@ -2495,6 +2495,17 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource, S
+                 nbttagcompound.putBoolean("Purpur.FireImmune", immuneToFire);
              }
              // Purpur end
 +
@@ -22,13 +22,13 @@ index 24cc1369b6561b8fb99f26253f7ba05be0a5d49b..ae41e6c3f3934d06ee913006cc5341ef
 +            for (double coord : new double[]{boundingBox.minX, boundingBox.minY, boundingBox.minZ, boundingBox.maxX, boundingBox.maxY, boundingBox.maxZ}) {
 +                boundingBoxList.add(DoubleTag.valueOf(coord));
 +            }
-+            nbt.put("DivineMC.BoundingBox", boundingBoxList);
++            nbttagcompound.put("DivineMC.BoundingBox", boundingBoxList);
 +            // DivineMC end
 +
-             return nbt;
+             return nbttagcompound;
          } catch (Throwable throwable) {
              CrashReport crashreport = CrashReport.forThrowable(throwable, "Saving entity NBT");
-@@ -2561,6 +2572,14 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -2572,6 +2583,14 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource, S
                          this.reapplyPosition();
                      }
  

@@ -5,7 +5,7 @@ Subject: [PATCH] lithium: collections.gamerules
 
 
 diff --git a/src/main/java/net/minecraft/world/level/GameRules.java b/src/main/java/net/minecraft/world/level/GameRules.java
-index 6639902efb85b4f49f26ba5f90556fb871ef8a0e..42dfcd2e9e794e6b48aec8c34618065d7a740c6c 100644
+index 4f2fa47d094348bb8f86a86e808019ddba56e187..10c023cf56a86f5cc7a545a9e6056237b92c6ab6 100644
 --- a/src/main/java/net/minecraft/world/level/GameRules.java
 +++ b/src/main/java/net/minecraft/world/level/GameRules.java
 @@ -27,6 +27,7 @@ import net.minecraft.network.protocol.game.ClientboundGameEventPacket;
@@ -16,7 +16,7 @@ index 6639902efb85b4f49f26ba5f90556fb871ef8a0e..42dfcd2e9e794e6b48aec8c34618065d
  
  public class GameRules {
  
-@@ -137,7 +138,7 @@ public class GameRules {
+@@ -141,7 +142,7 @@ public class GameRules {
      }
  
      private GameRules(Map<GameRules.Key<?>, GameRules.Value<?>> rules) {

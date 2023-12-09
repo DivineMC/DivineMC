@@ -5,12 +5,12 @@ Subject: [PATCH] Fix chat signing
 
 
 diff --git a/src/main/java/net/minecraft/network/chat/SignedMessageChain.java b/src/main/java/net/minecraft/network/chat/SignedMessageChain.java
-index c0a80824a0307ea673805015119cc834b268f0dc..8ddb1e61237145084f52b74c4419b9cb6b7a8ffa 100644
+index 85a8a687b1568a56e3e646b37ef78b562c1b8a82..ec6f6db1b0a1f0a1ed1016d36238c77a382d5b3a 100644
 --- a/src/main/java/net/minecraft/network/chat/SignedMessageChain.java
 +++ b/src/main/java/net/minecraft/network/chat/SignedMessageChain.java
-@@ -38,15 +38,7 @@ public class SignedMessageChain {
-                 throw new SignedMessageChain.DecodeException(Component.translatable("chat.disabled.expiredProfileKey"), false);
+@@ -43,15 +43,7 @@ public class SignedMessageChain {
              } else {
+                 this.lastTimeStamp = body.timeStamp();
                  PlayerChatMessage playerChatMessage = new PlayerChatMessage(signedMessageLink, signature, body, (Component)null, FilterMask.PASS_THROUGH);
 -                if (!playerChatMessage.verify(signatureValidator)) {
 -                    throw new SignedMessageChain.DecodeException(Component.translatable("multiplayer.disconnect.unsigned_chat"), true, org.bukkit.event.player.PlayerKickEvent.Cause.UNSIGNED_CHAT); // Paper - kick event causes

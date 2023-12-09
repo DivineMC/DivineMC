@@ -27,7 +27,7 @@ index a578882b64c581ef4f47fa483a9f2988cfa4c8cf..0660c07e1f360cb5e0a865a6b7574ea1
          }
  
 diff --git a/src/main/java/net/minecraft/world/inventory/ResultSlot.java b/src/main/java/net/minecraft/world/inventory/ResultSlot.java
-index 2554f7b1d687f83f42d69bf8ab54336ba793e301..10e609ca5c529ab604ef61cff5600d8a9303e3a2 100644
+index 8c97a7269040436cacc65fd182fa8e5f931b6c16..bf0335e1441d99844777eb8aa83db0d6d774aa9d 100644
 --- a/src/main/java/net/minecraft/world/inventory/ResultSlot.java
 +++ b/src/main/java/net/minecraft/world/inventory/ResultSlot.java
 @@ -45,7 +45,7 @@ public class ResultSlot extends Slot {

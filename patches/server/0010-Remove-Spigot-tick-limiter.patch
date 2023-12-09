@@ -7,10 +7,10 @@ Original code by Titaniumtown, modified by NONPLAYT
 You can find the original code on https://gitlab.com/Titaniumtown/JettPack
 
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 4ed2a063f21ae4bb840e5ec1f84e04221f753ca0..96c6195713127f41b4f60f9ed0d99543e3f147d2 100644
+index f96f6b817c9afd05269503e8a4a34ae0c468ee6c..e4a04e972a3b28cafda7dda86c26942a679541e1 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
-@@ -182,8 +182,6 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+@@ -185,8 +185,6 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
      public final gq.bxteam.divinemc.configuration.DivineWorldConfig divinemcConfig; // DivineMC
      public final co.aikar.timings.WorldTimingsHandler timings; // Paper
      public static BlockPos lastPhysicsProblem; // Spigot
@@ -19,7 +19,7 @@ index 4ed2a063f21ae4bb840e5ec1f84e04221f753ca0..96c6195713127f41b4f60f9ed0d99543
      private int tileTickPosition;
      public final Map<Explosion.CacheKey, Float> explosionDensityCache = new HashMap<>(); // Paper - Optimize explosions
      public java.util.ArrayDeque<net.minecraft.world.level.block.RedstoneTorchBlock.Toggle> redstoneUpdateInfos; // Paper - Move from Map in BlockRedstoneTorch to here
-@@ -346,8 +344,6 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+@@ -347,8 +345,6 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
          // CraftBukkit end
          this.timings = new co.aikar.timings.WorldTimingsHandler(this); // Paper - code below can generate new world and access timings
          this.keepSpawnInMemory = this.paperConfig().spawn.keepSpawnLoaded; // Paper
@@ -29,10 +29,10 @@ index 4ed2a063f21ae4bb840e5ec1f84e04221f753ca0..96c6195713127f41b4f60f9ed0d99543
          // Paper start - optimise collisions
          this.minSection = io.papermc.paper.util.WorldUtil.getMinSection(this);
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-index 12358c08e0e90d8d01db25534c6d5c4e726191dc..0bfdd15c71ed2fa866b6d4f201dd87b14e2a2f89 100644
+index f9ba24d32f4170c641e420991e6c358f6bd91be2..8b6de4295172dfa7eb33a20a822923e7a4954812 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-@@ -450,6 +450,7 @@ public class SpigotWorldConfig
+@@ -452,6 +452,7 @@ public class SpigotWorldConfig
          this.hangingTickFrequency = this.getInt( "hanging-tick-frequency", 200 ); // DivineMC - optimize default values for configs
      }
  
@@ -40,7 +40,7 @@ index 12358c08e0e90d8d01db25534c6d5c4e726191dc..0bfdd15c71ed2fa866b6d4f201dd87b1
      public int tileMaxTickTime;
      public int entityMaxTickTime;
      private void maxTickTimes()
-@@ -458,6 +459,7 @@ public class SpigotWorldConfig
+@@ -460,6 +461,7 @@ public class SpigotWorldConfig
          this.entityMaxTickTime = this.getInt("max-tick-time.entity", 50);
          this.log("Tile Max Tick Time: " + this.tileMaxTickTime + "ms Entity max Tick Time: " + this.entityMaxTickTime + "ms");
      }

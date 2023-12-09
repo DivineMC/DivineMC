@@ -244,7 +244,7 @@ index 68602dfb171d47e47fd0710b4324013ef05214d0..7ccad6b35263b595c4d60ded85333d92
  
      public static boolean disablePlayerDataSaving;
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-index f9b8e2bc039f1a37e47f84909c8785f3ef530284..12358c08e0e90d8d01db25534c6d5c4e726191dc 100644
+index 1cf6d4f854d89c515e48e1fb365eb95ff9340765..f9ba24d32f4170c641e420991e6c358f6bd91be2 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
 @@ -150,14 +150,14 @@ public class SpigotWorldConfig
@@ -337,7 +337,7 @@ index f9b8e2bc039f1a37e47f84909c8785f3ef530284..12358c08e0e90d8d01db25534c6d5c4e
          this.log( "Allow Zombie Pigmen to spawn from portal blocks: " + this.enableZombiePigmenPortalSpawns );
      }
  
-@@ -447,7 +447,7 @@ public class SpigotWorldConfig
+@@ -449,7 +449,7 @@ public class SpigotWorldConfig
      public int hangingTickFrequency;
      private void hangingTickFrequency()
      {
