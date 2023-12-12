@@ -3,6 +3,7 @@ From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
 Date: Mon, 3 Apr 2023 23:52:44 +0300
 Subject: [PATCH] Allow any username
 
+Removed due Paper username check in 1.20.4?
 
 diff --git a/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java
 index 9e802fbe8e5f1a3c24cb6bc9254c72a2a0c3fde1..426ae4086adc0180e3f3ba06cf6c005476ca891e 100644
