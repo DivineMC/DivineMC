@@ -31,21 +31,14 @@ jobs:
       - name: Update purpurRef in DivineMC 
         run: |
           cd DivineMC
-          echo "Before sed:"
-          cat gradle.properties
           sed -i "s/\(purpurRef\s*=\s*\).*/\1$PAPER_REF/" gradle.properties
-          echo "After sed:"
-          cat gradle.properties
         env:
           PAPER_REF: ${{ steps.purpurRef.outputs.purpurRef }}
           
       - name: Write to repository
         run: |
           cd DivineMC
-          echo "Current directory: $(pwd)"
-          git status
           git add gradle.properties
-          git status
           git config user.name "HaHaWTH"
           git config user.email 47356322+HaHaWTH@users.noreply.github.com
           git commit -m "Updated Upstream (Purpur)"
