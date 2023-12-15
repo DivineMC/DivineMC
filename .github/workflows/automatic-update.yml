@@ -11,14 +11,14 @@ jobs:
         uses: actions/checkout@v3
         with:
           path: 'DivineMC'
-          token: ${{ secrets.HAHAWTH }}
+          token: ${{ secrets.GITHUB_TOKEN }}
         
       - name: Checkout Purpur Repository
         uses: actions/checkout@v3
         with:
           path: 'Purpur'
           repository: "PurpurMC/Purpur"
-          token: ${{ secrets.HAHAWTH }}
+          token: ${{ secrets.GITHUB_TOKEN }}
       
       - name: Get Purpur Latest Commit Hash
         id: purpurRef
