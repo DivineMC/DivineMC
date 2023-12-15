@@ -1,0 +1,44 @@
+name: Automatically update Purpur commit hash
+on:
+  workflow_dispatch: {}
+  schedule:
+    - cron: "0 0 * * *"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout DivineMC Repository
+        uses: actions/checkout@v3
+        with:
+          path: 'DivineMC'
+          token: ${{ secrets.HAHAWTH }}
+        
+      - name: Checkout Purpur Repository
+        uses: actions/checkout@v3
+        with:
+          path: 'Purpur'
+          repository: "PurpurMC/Purpur"
+          token: ${{ secrets.HAHAWTH }}
+      
+      - name: Get Purpur Latest Commit Hash
+        id: purpurRef
+        run: |
+          ls
+          cd Purpur
+          echo "::set-output name=purpurRef::$(git rev-parse HEAD)"
+          cd ..
+          
+      - name: Update purpurRef in DivineMC 
+        run: |
+          sed -i "s/\purpurRef=.*/purpurRef=$PAPER_REF/" DivineMC/gradle.properties
+        env:
+          PAPER_REF: ${{ steps.purpurRef.outputs.purpurRef }}
+          
+      - name: Write to repository
+        run: |
+          cd DivineMC
+          git add gradle.properties
+          git config user.name "HaHaWTH"
+          git config user.email 47356322+HaHaWTH@users.noreply.github.com
+          git commit -m "Updated Upstream (Purpur)"
+          git push
