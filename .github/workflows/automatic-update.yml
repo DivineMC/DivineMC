@@ -34,18 +34,15 @@ jobs:
           sed -i "s/\(purpurRef\s*=\s*\).*/\1$PAPER_REF/" gradle.properties
         env:
           PAPER_REF: ${{ steps.purpurRef.outputs.purpurRef }}
-      - name: Check for changes
-        run: | 
-          cd DivineMC
-          if git diff --quiet; then
-            echo "No changes to commit."
-            exit 0
-          fi
-      - name: Write to repository
+      - name: Check for changes and Write to repository
         run: |
           cd DivineMC
-          git add gradle.properties
-          git config user.name "HaHaWTH"
-          git config user.email HaHaWTH@users.noreply.github.com
-          git commit -m "Updated Upstream (Purpur)"
-          git push
+          if ! git diff --quiet; then
+            git add gradle.properties
+            git config user.name "HaHaWTH"
+            git config user.email HaHaWTH@users.noreply.github.com
+            git commit -m "Updated Upstream (Purpur)"
+            git push
+          else
+            echo "No changes to commit."
+          fi
