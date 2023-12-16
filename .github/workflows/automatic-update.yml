@@ -34,7 +34,13 @@ jobs:
           sed -i "s/\(purpurRef\s*=\s*\).*/\1$PAPER_REF/" gradle.properties
         env:
           PAPER_REF: ${{ steps.purpurRef.outputs.purpurRef }}
-          
+      - name: Check for changes
+        run: | 
+          cd DivineMC
+          if git diff --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
       - name: Write to repository
         run: |
           cd DivineMC
