@@ -195,7 +195,7 @@ index bc3fe45d12ffc2069a03d1587b7623d31130565a..81aecab9e7d11237a441aa6f92440add
  
      @Override
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-index d8d19567cf49b41d730a936d46c8e37e5aec2f07..64459e4adb50304070b6c9c100ef922779df356d 100644
+index 7d24b3177c41661bbd35d51e7e33dedc2fc69d2c..987f6fcf7b5e4f9144ecee865e19d1354ba5a425 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 @@ -328,6 +328,7 @@ public class PurpurConfig {
@@ -215,10 +215,10 @@ index d8d19567cf49b41d730a936d46c8e37e5aec2f07..64459e4adb50304070b6c9c100ef9227
          org.bukkit.event.inventory.InventoryType.ENDER_CHEST.setDefaultSize(enderChestSixRows ? 54 : 27);
          enderChestPermissionRows = getBoolean("settings.blocks.ender_chest.use-permissions-for-rows", enderChestPermissionRows);
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
-index d24664bc4d373804e373266a189eb6de1e0b261d..1e2d0cc7560f2d077e257eb5b3cd1d5310744c40 100644
+index bbf371428e343cfad0ae118c387fd2342541fe53..6aa4cbd59469fd2e8755ec87f1ab418fafd4316e 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
-@@ -1106,7 +1106,17 @@ public class PurpurWorldConfig {
+@@ -1180,7 +1180,17 @@ public class PurpurWorldConfig {
      public boolean allayRidableInWater = true;
      public boolean allayControllable = true;
      public List<String> allayRespectNBT = new ArrayList<>();
@@ -236,7 +236,7 @@ index d24664bc4d373804e373266a189eb6de1e0b261d..1e2d0cc7560f2d077e257eb5b3cd1d53
          allayRidable = getBoolean("mobs.allay.ridable", allayRidable);
          allayRidableInWater = getBoolean("mobs.allay.ridable-in-water", allayRidableInWater);
          allayControllable = getBoolean("mobs.allay.controllable", allayControllable);
-@@ -1225,7 +1235,15 @@ public class PurpurWorldConfig {
+@@ -1299,7 +1309,15 @@ public class PurpurWorldConfig {
      public double camelMovementSpeedMin = 0.09D;
      public double camelMovementSpeedMax = 0.09D;
      public int camelBreedingTicks = 6000;
@@ -252,7 +252,7 @@ index d24664bc4d373804e373266a189eb6de1e0b261d..1e2d0cc7560f2d077e257eb5b3cd1d53
          camelRidableInWater = getBoolean("mobs.camel.ridable-in-water", camelRidableInWater);
          camelMaxHealthMin = getDouble("mobs.camel.attributes.max_health.min", camelMaxHealthMin);
          camelMaxHealthMax = getDouble("mobs.camel.attributes.max_health.max", camelMaxHealthMax);
-@@ -1653,7 +1671,17 @@ public class PurpurWorldConfig {
+@@ -1727,7 +1745,17 @@ public class PurpurWorldConfig {
      public boolean frogControllable = true;
      public float frogRidableJumpHeight = 0.65F;
      public int frogBreedingTicks = 6000;
@@ -270,7 +270,7 @@ index d24664bc4d373804e373266a189eb6de1e0b261d..1e2d0cc7560f2d077e257eb5b3cd1d53
          frogRidable = getBoolean("mobs.frog.ridable", frogRidable);
          frogRidableInWater = getBoolean("mobs.frog.ridable-in-water", frogRidableInWater);
          frogControllable = getBoolean("mobs.frog.controllable", frogControllable);
-@@ -2608,7 +2636,15 @@ public class PurpurWorldConfig {
+@@ -2682,7 +2710,15 @@ public class PurpurWorldConfig {
      public boolean snifferControllable = true;
      public double snifferMaxHealth = 14.0D;
      public int snifferBreedingTicks = 6000;
@@ -286,7 +286,7 @@ index d24664bc4d373804e373266a189eb6de1e0b261d..1e2d0cc7560f2d077e257eb5b3cd1d53
          snifferRidable = getBoolean("mobs.sniffer.ridable", snifferRidable);
          snifferRidableInWater = getBoolean("mobs.sniffer.ridable-in-water", snifferRidableInWater);
          snifferControllable = getBoolean("mobs.sniffer.controllable", snifferControllable);
-@@ -2707,7 +2743,17 @@ public class PurpurWorldConfig {
+@@ -2781,7 +2817,17 @@ public class PurpurWorldConfig {
      public boolean tadpoleRidable = false;
      public boolean tadpoleRidableInWater = true;
      public boolean tadpoleControllable = true;
@@ -304,7 +304,7 @@ index d24664bc4d373804e373266a189eb6de1e0b261d..1e2d0cc7560f2d077e257eb5b3cd1d53
          tadpoleRidable = getBoolean("mobs.tadpole.ridable", tadpoleRidable);
          tadpoleRidableInWater = getBoolean("mobs.tadpole.ridable-in-water", tadpoleRidableInWater);
          tadpoleControllable = getBoolean("mobs.tadpole.controllable", tadpoleControllable);
-@@ -2917,7 +2963,17 @@ public class PurpurWorldConfig {
+@@ -2991,7 +3037,17 @@ public class PurpurWorldConfig {
      public boolean wardenRidable = false;
      public boolean wardenRidableInWater = true;
      public boolean wardenControllable = true;
