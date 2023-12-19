@@ -377,18 +377,18 @@ index 8e411a60cdd39ba1a365b29a6dbbb468a8ef6736..f96f6b817c9afd05269503e8a4a34ae0
          this.generator = gen;
          this.world = new CraftWorld((ServerLevel) this, gen, biomeProvider, env);
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 06d69272239161363c2d45638920eda541748ca8..6f7f4642223f75063e96c4d3c6e251509ee6a162 100644
+index 181e8cc59984603784917463037a8c633e2027e3..84bd440194969cae24ccef2a0813bd0f4e85d04d 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -16,6 +16,7 @@ import com.mojang.datafixers.util.Pair;
+@@ -14,6 +14,7 @@ import com.mojang.brigadier.tree.CommandNode;
+ import com.mojang.brigadier.tree.LiteralCommandNode;
  import com.mojang.serialization.Dynamic;
- import com.mojang.serialization.DynamicOps;
  import com.mojang.serialization.Lifecycle;
 +import gq.bxteam.divinemc.configuration.DivineConfig;
  import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
  import java.awt.image.BufferedImage;
  import java.io.ByteArrayOutputStream;
-@@ -1051,6 +1052,7 @@ public final class CraftServer implements Server {
+@@ -1052,6 +1053,7 @@ public final class CraftServer implements Server {
          org.spigotmc.SpigotConfig.init((File) this.console.options.valueOf("spigot-settings")); // Spigot
          this.console.paperConfigurations.reloadConfigs(this.console);
          org.purpurmc.purpur.PurpurConfig.init((File) console.options.valueOf("purpur-settings")); // Purpur
@@ -396,7 +396,7 @@ index 06d69272239161363c2d45638920eda541748ca8..6f7f4642223f75063e96c4d3c6e25150
          for (ServerLevel world : this.console.getAllLevels()) {
              // world.serverLevelData.setDifficulty(config.difficulty); // Paper - per level difficulty
              world.setSpawnSettings(world.serverLevelData.getDifficulty() != Difficulty.PEACEFUL && config.spawnMonsters, config.spawnAnimals); // Paper - per level difficulty (from MinecraftServer#setDifficulty(ServerLevel, Difficulty, boolean))
-@@ -1067,6 +1069,7 @@ public final class CraftServer implements Server {
+@@ -1068,6 +1070,7 @@ public final class CraftServer implements Server {
              }
              world.spigotConfig.init(); // Spigot
              world.purpurConfig.init(); // Purpur
@@ -404,7 +404,7 @@ index 06d69272239161363c2d45638920eda541748ca8..6f7f4642223f75063e96c4d3c6e25150
          }
  
          Plugin[] pluginClone = pluginManager.getPlugins().clone(); // Paper
-@@ -1083,6 +1086,7 @@ public final class CraftServer implements Server {
+@@ -1084,6 +1087,7 @@ public final class CraftServer implements Server {
          org.spigotmc.SpigotConfig.registerCommands(); // Spigot
          io.papermc.paper.command.PaperCommands.registerCommands(this.console); // Paper
          org.purpurmc.purpur.PurpurConfig.registerCommands(); // Purpur
@@ -412,7 +412,7 @@ index 06d69272239161363c2d45638920eda541748ca8..6f7f4642223f75063e96c4d3c6e25150
          this.overrideAllCommandBlockCommands = this.commandsConfiguration.getStringList("command-block-overrides").contains("*");
          this.ignoreVanillaPermissions = this.commandsConfiguration.getBoolean("ignore-vanilla-permissions");
  
-@@ -3089,6 +3093,13 @@ public final class CraftServer implements Server {
+@@ -3090,6 +3094,13 @@ public final class CraftServer implements Server {
          }
          // Purpur end
  
@@ -427,7 +427,7 @@ index 06d69272239161363c2d45638920eda541748ca8..6f7f4642223f75063e96c4d3c6e25150
          public void restart() {
              org.spigotmc.RestartCommand.restart();
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index f93c8a4ca38e7d892b6941d3669445789c2fc227..fb42936e42293a4bdd4447a86d0f85027f2026e6 100644
+index cce747b8a2d87d81429dfaf1e0073b1ea4b1a5d2..52c1280a6eae4f71dfe3f6c0657399caf35a8831 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -182,6 +182,14 @@ public class Main {

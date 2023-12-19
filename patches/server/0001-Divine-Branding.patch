@@ -5,7 +5,7 @@ Subject: [PATCH] Divine Branding
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index fb1837bd5d0cb1970a6c236e72654a1c09502c48..8370eebc87f16568c933e9ad93f999542fd1dafd 100644
+index d7951a9b3819ddc1d42e10d40bdf57ae47666d89..170fc1ba1639dc2bc8e85416732cb81f6c0c820c 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -28,7 +28,7 @@ repositories {
@@ -138,10 +138,10 @@ index 3cb56595822799926a8141e60a42f5d1edfc6de5..05478a1ea04ec0396bc8c97090edef4a
                  .completer(new ConsoleCommandCompleter(this.server))
                  .option(LineReader.Option.COMPLETE_IN_WORD, true);
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 1677e737daa272d7669777a75214170a8e9c7d74..06d69272239161363c2d45638920eda541748ca8 100644
+index 796787b28babc5393cfb8f83cb9e77a5cb6114f2..181e8cc59984603784917463037a8c633e2027e3 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -270,7 +270,7 @@ import javax.annotation.Nullable; // Paper
+@@ -264,7 +264,7 @@ import javax.annotation.Nullable; // Paper
  import javax.annotation.Nonnull; // Paper
  
  public final class CraftServer implements Server {
@@ -164,7 +164,7 @@ index fb87620c742ff7912f5e8ccd2a7930dd605576d9..909a4b84d1cfa4a42a28af97be16572b
  
          if (stream != null) {
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-index 3633574e112f217b412217dd243a631dc4e9c40c..1f54e2ec6d73853001642bcf4b355c4a0dd10f6d 100644
+index e9fc2b4661f5275b93db5d3fdf25a8bdc3b38920..e14a5be13af47162c3f03f7d75ecbe10799bc907 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 @@ -231,7 +231,7 @@ public class PurpurConfig {
