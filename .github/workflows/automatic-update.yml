@@ -39,8 +39,7 @@ jobs:
           cd DivineMC
           if ! git diff --quiet; then
             git add gradle.properties
-            git config user.name "Github Actions"
-            git config user.email "no-reply@github.com"
+            git config --global user.email "no-reply@github.com" && git config --global user.name "Github Actions"
             git commit -m "Updated Upstream (Purpur)"
             git push
           else

@@ -5,19 +5,19 @@ Subject: [PATCH] Divine Branding
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index d7951a9b3819ddc1d42e10d40bdf57ae47666d89..170fc1ba1639dc2bc8e85416732cb81f6c0c820c 100644
+index 12f4b3d753b56947e3759888ba3d98fa693c2a3f..c00518b51d3430d9af27b9102d4038952e4837fa 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
-@@ -28,7 +28,7 @@ repositories {
+@@ -14,7 +14,7 @@ val alsoShade: Configuration by configurations.creating
+ 
  dependencies {
-     extraRuntime(platform("net.kyori:adventure-bom:4.15.0-SNAPSHOT"))
      // Purpur start
 -    implementation(project(":purpur-api"))
 +    implementation(project(":divinemc-api")) // DivineMC
      implementation("io.papermc.paper:paper-mojangapi:${project.version}") {
          exclude("io.papermc.paper", "paper-api")
      }
-@@ -92,7 +92,7 @@ tasks.jar {
+@@ -78,7 +78,7 @@ tasks.jar {
          attributes(
              "Main-Class" to "org.bukkit.craftbukkit.Main",
              "Implementation-Title" to "CraftBukkit",
