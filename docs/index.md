@@ -22,9 +22,9 @@ features:
   - icon: 📰
     title: Lithium patches
     details: DivineMC contains Lithium patches that optimizing many areas in game.
-  - icon: 🆕
-    title: New features
-    details: DivineMC contains some PaperMC pull requests patches.
+  - icon: 🏠
+    title: Linear region support
+    details: DivineMC implements Linear region support that 50% smaller than Anvil.
   - icon: 🐛
     title: Bug fixes
     details: DivineMC have patches that fixes bugs for several Minecraft issues.
