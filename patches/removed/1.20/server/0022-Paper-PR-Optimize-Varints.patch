@@ -6,6 +6,7 @@ Subject: [PATCH] Paper PR - Optimize Varints
 Original license: GPLv3
 Original project: https://github.com/PaperMC/Velocity
 Paper pull request: https://github.com/PaperMC/Paper/pull/8418
+UPD: it will be added back as soon as I figure out the minecraft network
 
 diff --git a/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java
 index 512afaa97e89e3beb92cf2ebc46248eddd22cf5c..50878e4948df45bc2928edbe373be639d133060f 100644

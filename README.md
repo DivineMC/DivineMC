@@ -14,7 +14,7 @@
 
 - **DivineMC is a fork of [Purpur](https://github.com/PurpurMC/Purpur)** designed for configurability, new fun and exciting gameplay features.
 - **Contains [Lithium](https://github.com/CaffeineMC/lithium-fabric) patches** that optimizing many areas in game.
-- **Contains** some PaperMC pull requests patches.
+- **Implements** Linear region support.
 - **Bug fixes** for several Minecraft issues.
 - **Plugin compatibility** with Spigot & Paper plugins.
 

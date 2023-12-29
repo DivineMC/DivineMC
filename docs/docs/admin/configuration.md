@@ -35,15 +35,14 @@ Global settings affect all worlds on the server as well as the core server funct
 - **default**: false
 - **description**: Sets whether the server should dump all configuration values to the server log on startup (this maybe not working)
 
-### config-version
-
-- **Do not change this for any reason!** DivineMC uses this internally to help automatically update your config
-
-### settings
-
-#### do-not-process-chat-commands
-- **default**: true
-- **description**: This function disables chat/commands processing when a player joins the server
+### region-format
+ - #### linear
+   - ##### flush-frequency
+     - **default**: 10
+     - **description**: Time in seconds after which chunks will be flushed
+   - ##### flush-max-threads
+     - **default**: 1
+     - **description**: Maximum number of threads for flushing chunks
 
 ## world-settings
 
@@ -51,22 +50,29 @@ World settings are on a per-world basis. The child-node `default` is used for al
 
 For a more clear explanation of the world settings section of the config, feel free to read through Paper's explanation here: https://docs.papermc.io/paper/per-world-configuration
 
+### region-format
+- #### format
+  - **default**: ANVIL
+  - **description**: 2 types available: [ANVIL](https://minecraft.wiki/w/Anvil_file_format) and [LINEAR](https://github.com/xymb-endcrystalme/LinearRegionFileFormatTools?tab=readme-ov-file#linear-region-file-format-for-minecraft)
+- #### linear
+  - ##### compression-level
+    - **default**: 1
+    - **description**: Compression ratio of the region files
+  - ##### crash-on-broken-symlink
+    - **default**: true
+    - **description**: Server crashes if the symlink is broken/damaged
+
 ### gameplay-mechanics
+- #### boat
+    - ##### dont-eject-players-from-boat-underwater
+        - **default**: true
+        - **description**: Players can't be ejected from boat underwater
 
+    - ##### always-allow-to-enter-the-boat
+        - **default**: true
+        - **description**: Player can enter the boat anywhere
 - #### mob
-
   - ##### shulker
     - ##### despawn-bullets-on-player-death
       - **default**: true
       - **description**: If player is dead from shulker - bullets disappering for optimization
-
-- #### boat
-
-  - ##### dont-eject-players-from-boat-underwater
-
-    - **default**: true
-    - **description**: Players can't be ejected from boat underwater
-
-  - ##### always-allow-to-enter-the-boat
-    - **default**: true
-    - **description**: Player can enter the boat anywhere
