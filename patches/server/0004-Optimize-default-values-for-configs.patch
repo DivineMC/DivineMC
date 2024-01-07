@@ -36,7 +36,7 @@ index a6f58b3457b7477015c5c6d969e7d83017dd3fa1..e51f427eadc0c3b60754d0a67bea3892
          public boolean strictAdvancementDimensionCheck = false;
          public IntOr.Default compressionLevel = IntOr.Default.USE_DEFAULT;
 diff --git a/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java b/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
-index 071d3877e386a0c7c4d2f2e8ddd06e0765c49d0d..d4cb765e3093365346c7ce2ab524e102148941f9 100644
+index 385ca2c1022e0985550a5cc2bbff953f1aa33f5c..fce65fd461e0dbeaa93fb4ddbe931a9792b103da 100644
 --- a/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
 +++ b/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
 @@ -151,9 +151,9 @@ public class WorldConfiguration extends ConfigurationPart {
@@ -192,7 +192,7 @@ index 071d3877e386a0c7c4d2f2e8ddd06e0765c49d0d..d4cb765e3093365346c7ce2ab524e102
          @Setting(FeatureSeedsGeneration.FEATURES_KEY)
          public Reference2LongMap<Holder<ConfiguredFeature<?, ?>>> features = new Reference2LongOpenHashMap<>();
  
-@@ -525,9 +540,9 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -532,9 +547,9 @@ public class WorldConfiguration extends ConfigurationPart {
  
      public class Misc extends ConfigurationPart {
          public int lightQueueSize = 20;
@@ -205,7 +205,7 @@ index 071d3877e386a0c7c4d2f2e8ddd06e0765c49d0d..d4cb765e3093365346c7ce2ab524e102
          public float maxLeashDistance = 10f;
          public boolean disableSprintInterruptionOnAttack = false;
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-index 1f54e2ec6d73853001642bcf4b355c4a0dd10f6d..d8d19567cf49b41d730a936d46c8e37e5aec2f07 100644
+index e14a5be13af47162c3f03f7d75ecbe10799bc907..7d24b3177c41661bbd35d51e7e33dedc2fc69d2c 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 @@ -241,7 +241,7 @@ public class PurpurConfig {

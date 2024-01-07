@@ -79,7 +79,7 @@ index 0000000000000000000000000000000000000000..6ab4a0ae2a0f63e4dfdb36a561ccda2a
 +}
 diff --git a/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..9e802fbe8e5f1a3c24cb6bc9254c72a2a0c3fde1
+index 0000000000000000000000000000000000000000..fa7ee2b2778a26d0e466bdc05ade26a5ae0c17f4
 --- /dev/null
 +++ b/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java
 @@ -0,0 +1,155 @@
@@ -238,7 +238,6 @@ index 0000000000000000000000000000000000000000..9e802fbe8e5f1a3c24cb6bc9254c72a2
 +        return builder.build();
 +    }
 +}
-\ No newline at end of file
 diff --git a/src/main/java/gq/bxteam/divinemc/configuration/DivineWorldConfig.java b/src/main/java/gq/bxteam/divinemc/configuration/DivineWorldConfig.java
 new file mode 100644
 index 0000000000000000000000000000000000000000..5d16d2250bae9c982a0af9ad2580a63532b140f7
@@ -348,7 +347,7 @@ index d21260dd1b7305949f063123b427dec1f5a00ae5..e64ac037eeeebd3b14d8652bdea7b05b
          this.setFlightAllowed(dedicatedserverproperties.allowFlight);
          this.setMotd(dedicatedserverproperties.motd);
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 3c7cc1cba00df45296155bdd1430a64a94945f6c..20f760e678b3b9c5d5b2184f5b92f05932fb1256 100644
+index 2b5409e653be7d6b9c0529b512b2f7408b218011..1b318f6c281170cdaafd26a0bff4901e3a153b59 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
 @@ -15,6 +15,8 @@ import java.util.function.Consumer;
@@ -377,7 +376,7 @@ index 3c7cc1cba00df45296155bdd1430a64a94945f6c..20f760e678b3b9c5d5b2184f5b92f059
          this.generator = gen;
          this.world = new CraftWorld((ServerLevel) this, gen, biomeProvider, env);
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 19fca5427c175a1ebcfb6c37c9ce91a51b285c0f..37fc46c9329240f494f41f625db679673c41c537 100644
+index 08808e9d98380792b4d4c944b7b1723a3efb346d..c5c5731a755fe635384aad24c3ac5152e5c8ae74 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -14,6 +14,7 @@ import com.mojang.brigadier.tree.CommandNode;

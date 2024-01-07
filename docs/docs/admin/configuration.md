@@ -35,6 +35,14 @@ Global settings affect all worlds on the server as well as the core server funct
 - **default**: false
 - **description**: Sets whether the server should dump all configuration values to the server log on startup (this maybe not working)
 
+### settings
+ - #### do-not-process-chat-commands
+   - **default**: true
+   - **description**: Commands will not be proceeded while the player is joining the server
+ - #### disable-chat-reports
+   - **default**: false
+   - **description**: Disables chat signing, which was introduced in version 1.19.1 (similar to No Chat Reports mod)
+
 ### region-format
  - #### linear
    - ##### flush-frequency

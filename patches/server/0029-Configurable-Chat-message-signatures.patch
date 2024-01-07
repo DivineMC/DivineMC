@@ -1,0 +1,179 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Sun, 7 Jan 2024 11:56:00 +0300
+Subject: [PATCH] Configurable Chat message signatures
+
+
+diff --git a/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java
+index def6f834d32b97e1065b17657e73d020a873bd14..c58eb66184d3e7fcf722d8871eb212eebed92646 100644
+--- a/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java
++++ b/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java
+@@ -168,4 +168,9 @@ public class DivineConfig {
+         else
+             linearFlushThreads = Math.max(linearFlushThreads, 1);
+     }
++
++    public static boolean chatMessageSignatures = false;
++    private static void chatMessageSignatures() {
++        chatMessageSignatures = getBoolean("settings.disable-chat-reports", chatMessageSignatures);
++    }
+ }
+diff --git a/src/main/java/io/papermc/paper/adventure/ChatProcessor.java b/src/main/java/io/papermc/paper/adventure/ChatProcessor.java
+index e4fd372a1d585887287253a02531cd192929377b..dcc806bcbdcc18f8094b8aa55e8a92a6b12a5f7c 100644
+--- a/src/main/java/io/papermc/paper/adventure/ChatProcessor.java
++++ b/src/main/java/io/papermc/paper/adventure/ChatProcessor.java
+@@ -355,7 +355,7 @@ public final class ChatProcessor {
+ 
+         private void sendToServer(final ChatType.Bound chatType, final @Nullable Function<Audience, net.minecraft.network.chat.Component> msgFunction) {
+             final PlayerChatMessage toConsoleMessage = msgFunction == null ? ChatProcessor.this.message : ChatProcessor.this.message.withUnsignedContent(msgFunction.apply(ChatProcessor.this.server.console));
+-            ChatProcessor.this.server.logChatMessage(toConsoleMessage.decoratedContent(), chatType, ChatProcessor.this.server.getPlayerList().verifyChatTrusted(toConsoleMessage) ? null : "Not Secure");
++            ChatProcessor.this.server.logChatMessage(toConsoleMessage.decoratedContent(), chatType, ChatProcessor.this.server.getPlayerList().verifyChatTrusted(toConsoleMessage) ? null : (gq.bxteam.divinemc.configuration.DivineConfig.chatMessageSignatures ? null : "Not Secure")); // DivineMC - Configurable Chat message signatures
+         }
+     }
+ 
+diff --git a/src/main/java/net/minecraft/network/protocol/game/ServerboundChatCommandPacket.java b/src/main/java/net/minecraft/network/protocol/game/ServerboundChatCommandPacket.java
+index b8c1f3b9afddc87d56541c8af63cffecfcdd2653..fbfd8cf782ec73a0498ccd6ec0b4110de83ffb2d 100644
+--- a/src/main/java/net/minecraft/network/protocol/game/ServerboundChatCommandPacket.java
++++ b/src/main/java/net/minecraft/network/protocol/game/ServerboundChatCommandPacket.java
+@@ -16,7 +16,7 @@ public record ServerboundChatCommandPacket(String command, Instant timeStamp, lo
+         buf.writeUtf(this.command, 256);
+         buf.writeInstant(this.timeStamp);
+         buf.writeLong(this.salt);
+-        this.argumentSignatures.write(buf);
++        if (!gq.bxteam.divinemc.configuration.DivineConfig.chatMessageSignatures) this.argumentSignatures.write(buf); // DivineMC - Configurable Chat message signatures
+         this.lastSeenMessages.write(buf);
+     }
+ 
+diff --git a/src/main/java/net/minecraft/network/protocol/game/ServerboundChatPacket.java b/src/main/java/net/minecraft/network/protocol/game/ServerboundChatPacket.java
+index d1d2fc0c57523c1abf1e8bfec913c78927c3dafc..fa19289a2bbe5e6b72a505e45586a14670bc0c0b 100644
+--- a/src/main/java/net/minecraft/network/protocol/game/ServerboundChatPacket.java
++++ b/src/main/java/net/minecraft/network/protocol/game/ServerboundChatPacket.java
+@@ -17,7 +17,7 @@ public record ServerboundChatPacket(String message, Instant timeStamp, long salt
+         buf.writeUtf(this.message, 256);
+         buf.writeInstant(this.timeStamp);
+         buf.writeLong(this.salt);
+-        buf.writeNullable(this.signature, MessageSignature::write);
++        if (!gq.bxteam.divinemc.configuration.DivineConfig.chatMessageSignatures) buf.writeNullable(this.signature, MessageSignature::write); // DivineMC - Configurable Chat message signatures
+         this.lastSeenMessages.write(buf);
+     }
+ 
+diff --git a/src/main/java/net/minecraft/network/protocol/status/ServerStatus.java b/src/main/java/net/minecraft/network/protocol/status/ServerStatus.java
+index c40979e2fa37acb2f3df493395f3ab6e185345d7..16250b44775b2ccd02e2112600c9f3bab5820a98 100644
+--- a/src/main/java/net/minecraft/network/protocol/status/ServerStatus.java
++++ b/src/main/java/net/minecraft/network/protocol/status/ServerStatus.java
+@@ -17,7 +17,7 @@ import net.minecraft.network.chat.ComponentSerialization;
+ 
+ public record ServerStatus(Component description, Optional<ServerStatus.Players> players, Optional<ServerStatus.Version> version, Optional<ServerStatus.Favicon> favicon, boolean enforcesSecureChat) {
+     public static final Codec<ServerStatus> CODEC = RecordCodecBuilder.create((instance) -> {
+-        return instance.group(ComponentSerialization.CODEC.optionalFieldOf("description", CommonComponents.EMPTY).forGetter(ServerStatus::description), ServerStatus.Players.CODEC.optionalFieldOf("players").forGetter(ServerStatus::players), ServerStatus.Version.CODEC.optionalFieldOf("version").forGetter(ServerStatus::version), ServerStatus.Favicon.CODEC.optionalFieldOf("favicon").forGetter(ServerStatus::favicon), Codec.BOOL.optionalFieldOf("enforcesSecureChat", Boolean.valueOf(false)).forGetter(ServerStatus::enforcesSecureChat)).apply(instance, ServerStatus::new);
++        return gq.bxteam.divinemc.configuration.DivineConfig.chatMessageSignatures ? instance.group(ComponentSerialization.CODEC.optionalFieldOf("description", CommonComponents.EMPTY).forGetter(ServerStatus::description), ServerStatus.Players.CODEC.optionalFieldOf("players").forGetter(ServerStatus::players), ServerStatus.Version.CODEC.optionalFieldOf("version").forGetter(ServerStatus::version), ServerStatus.Favicon.CODEC.optionalFieldOf("favicon").forGetter(ServerStatus::favicon), Codec.BOOL.optionalFieldOf("enforcesSecureChat", Boolean.FALSE).forGetter(x -> true)).apply(instance, ServerStatus::new) : instance.group(ComponentSerialization.CODEC.optionalFieldOf("description", CommonComponents.EMPTY).forGetter(ServerStatus::description), ServerStatus.Players.CODEC.optionalFieldOf("players").forGetter(ServerStatus::players), ServerStatus.Version.CODEC.optionalFieldOf("version").forGetter(ServerStatus::version), ServerStatus.Favicon.CODEC.optionalFieldOf("favicon").forGetter(ServerStatus::favicon), Codec.BOOL.optionalFieldOf("enforcesSecureChat", Boolean.FALSE).forGetter(ServerStatus::enforcesSecureChat)).apply(instance, ServerStatus::new); // DivineMC - Configurable Chat message signatures
+     });
+ 
+     public static record Favicon(byte[] iconBytes) {
+diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
+index e64ac037eeeebd3b14d8652bdea7b05bbd85c7c3..7cf002599cf6a982dc616228eb7a9091c0e92875 100644
+--- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
++++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
+@@ -686,6 +686,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+ 
+     @Override
+     public boolean enforceSecureProfile() {
++        if (gq.bxteam.divinemc.configuration.DivineConfig.chatMessageSignatures) return false; // DivineMC - Configurable Chat message signatures
+         DedicatedServerProperties dedicatedserverproperties = this.getProperties();
+ 
+         // Paper start - fix secure profile with proxy online mode
+diff --git a/src/main/java/net/minecraft/server/level/ServerPlayer.java b/src/main/java/net/minecraft/server/level/ServerPlayer.java
+index 37a3ce5da2cb89675e0180c4ed937e5851cd002b..c73217929e9ae8264052ec4d6d46ac2c84c70725 100644
+--- a/src/main/java/net/minecraft/server/level/ServerPlayer.java
++++ b/src/main/java/net/minecraft/server/level/ServerPlayer.java
+@@ -2258,7 +2258,7 @@ public class ServerPlayer extends Player {
+     }
+ 
+     public void sendServerStatus(ServerStatus metadata) {
+-        this.connection.send(new ClientboundServerDataPacket(metadata.description(), metadata.favicon().map(ServerStatus.Favicon::iconBytes), metadata.enforcesSecureChat()));
++        if (gq.bxteam.divinemc.configuration.DivineConfig.chatMessageSignatures) this.connection.send(new ClientboundServerDataPacket(metadata.description(), metadata.favicon().map(ServerStatus.Favicon::iconBytes), true)); else this.connection.send(new ClientboundServerDataPacket(metadata.description(), metadata.favicon().map(ServerStatus.Favicon::iconBytes), metadata.enforcesSecureChat())); // DivineMC - Configurable Chat message signatures
+     }
+ 
+     @Override
+diff --git a/src/main/java/net/minecraft/server/network/ServerCommonPacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerCommonPacketListenerImpl.java
+index da499e0b21eba40d24d95047e3a9220567d4bae7..af52d6c7f18f0837f4ffce95a310ddeedfe30df9 100644
+--- a/src/main/java/net/minecraft/server/network/ServerCommonPacketListenerImpl.java
++++ b/src/main/java/net/minecraft/server/network/ServerCommonPacketListenerImpl.java
+@@ -4,7 +4,7 @@ import com.mojang.authlib.GameProfile;
+ import com.mojang.logging.LogUtils;
+ import java.util.Objects;
+ import javax.annotation.Nullable;
+-import net.minecraft.ChatFormatting;
++import io.papermc.paper.adventure.PaperAdventure; // DivineMC
+ import net.minecraft.CrashReport;
+ import net.minecraft.CrashReportCategory;
+ import net.minecraft.ReportedException;
+@@ -22,6 +22,7 @@ import net.minecraft.network.protocol.common.ServerboundKeepAlivePacket;
+ import net.minecraft.network.protocol.common.ServerboundPongPacket;
+ import net.minecraft.network.protocol.common.ServerboundResourcePackPacket;
+ import net.minecraft.network.protocol.game.ClientboundSetDefaultSpawnPositionPacket;
++import net.minecraft.network.protocol.game.ClientboundSystemChatPacket; // DivineMC
+ import net.minecraft.resources.ResourceLocation;
+ import net.minecraft.server.MinecraftServer;
+ import net.minecraft.server.level.ClientInformation;
+@@ -34,7 +35,6 @@ import org.slf4j.Logger;
+ import io.netty.buffer.ByteBuf;
+ import java.util.concurrent.ExecutionException;
+ import org.bukkit.craftbukkit.entity.CraftPlayer;
+-import org.bukkit.craftbukkit.util.CraftChatMessage;
+ import org.bukkit.craftbukkit.util.CraftLocation;
+ import org.bukkit.craftbukkit.util.Waitable;
+ import org.bukkit.event.player.PlayerKickEvent;
+@@ -271,10 +271,31 @@ public abstract class ServerCommonPacketListenerImpl implements ServerCommonPack
+     }
+ 
+     public void send(Packet<?> packet) {
++        // DivineMC start - Configurable Chat message signatures
++        if (gq.bxteam.divinemc.configuration.DivineConfig.chatMessageSignatures) {
++            if (packet instanceof net.minecraft.network.protocol.game.ClientboundPlayerChatPacket chat) {
++                packet = new ClientboundSystemChatPacket(PaperAdventure.asAdventure(chat.chatType().resolve(this.player.level().registryAccess())
++                    .get().decorate(chat.unsignedContent() != null ? chat.unsignedContent()
++                        : Component.literal(chat.body().content()))), false);
++
++                this.send(packet);
++                return;
++            }
++        }
++        // DivineMC end
+         this.send(packet, (PacketSendListener) null);
+     }
+ 
+     public void send(Packet<?> packet, @Nullable PacketSendListener callbacks) {
++        // DivineMC start - Configurable Chat message signatures
++        if (gq.bxteam.divinemc.configuration.DivineConfig.chatMessageSignatures) {
++            if (packet instanceof net.minecraft.network.protocol.game.ClientboundPlayerChatPacket chat && callbacks != null) {
++                this.send(chat);
++                return;
++            }
++        }
++        // DivineMC end
++
+         // CraftBukkit start
+         if (packet == null || this.processedDisconnect) { // Spigot
+             return;
+diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
+index a52f0b7d76dc71d176d960fc4f67f0683127112e..39142f0619d20393e043eda61e6a82b0088a1c1e 100644
+--- a/src/main/java/net/minecraft/server/players/PlayerList.java
++++ b/src/main/java/net/minecraft/server/players/PlayerList.java
+@@ -1469,7 +1469,7 @@ public abstract class PlayerList {
+         // Paper end
+         boolean flag = this.verifyChatTrusted(message);
+ 
+-        this.server.logChatMessage((unsignedFunction == null ? message.decoratedContent() : unsignedFunction.apply(this.server.console)), params, flag ? null : "Not Secure"); // Paper
++        this.server.logChatMessage((unsignedFunction == null ? message.decoratedContent() : unsignedFunction.apply(this.server.console)), params, flag ? null : (gq.bxteam.divinemc.configuration.DivineConfig.chatMessageSignatures ? null : "Not Secure")); // Paper // DivineMC - Configurable Chat message signatures
+         OutgoingChatMessage outgoingchatmessage = OutgoingChatMessage.create(message);
+         boolean flag1 = false;
+ 
+@@ -1498,6 +1498,7 @@ public abstract class PlayerList {
+     }
+ 
+     public boolean verifyChatTrusted(PlayerChatMessage message) { // Paper - private -> public
++        if (gq.bxteam.divinemc.configuration.DivineConfig.chatMessageSignatures) return true; // DivineMC - Configurable Chat message signatures
+         return message.hasSignature() && !message.hasExpiredServer(Instant.now());
+     }
+ 

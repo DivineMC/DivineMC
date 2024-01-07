@@ -5,7 +5,7 @@ Subject: [PATCH] Do not process chat/commands before player has joined
 
 
 diff --git a/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java
-index 9e802fbe8e5f1a3c24cb6bc9254c72a2a0c3fde1..199a49bed6e5d827f8d01212e37f2f1de589bb8c 100644
+index fa7ee2b2778a26d0e466bdc05ade26a5ae0c17f4..11dc1af9f8d8ce8c0a855d14a35077f5482ef0e8 100644
 --- a/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java
 +++ b/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java
 @@ -152,4 +152,9 @@ public class DivineConfig {
@@ -18,9 +18,8 @@ index 9e802fbe8e5f1a3c24cb6bc9254c72a2a0c3fde1..199a49bed6e5d827f8d01212e37f2f1d
 +        doNotProcessChatCommands = getBoolean("settings.do-not-process-chat-commands", doNotProcessChatCommands);
 +    }
  }
-\ No newline at end of file
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 819906c465debe02192084968bf3d17d69cdd8c8..b934e57437ae34f4599ddda6eaa90844a1cf403c 100644
+index 68d4ccd7ae5719e66fd3f14e5bfce4675eb73a17..8244d269fcd179b285e5e3a36bff8e58c3806577 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -6,6 +6,7 @@ import com.mojang.authlib.GameProfile;
