@@ -71,7 +71,7 @@ index c40979e2fa37acb2f3df493395f3ab6e185345d7..16250b44775b2ccd02e2112600c9f3ba
  
      public static record Favicon(byte[] iconBytes) {
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index e64ac037eeeebd3b14d8652bdea7b05bbd85c7c3..7cf002599cf6a982dc616228eb7a9091c0e92875 100644
+index eb301cf5e68914980829b1d3c72163ddf337958d..65eee5a4c5dc2cb7175e3c95f08956d1d83d7c12 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -686,6 +686,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
@@ -81,9 +81,9 @@ index e64ac037eeeebd3b14d8652bdea7b05bbd85c7c3..7cf002599cf6a982dc616228eb7a9091
 +        if (gq.bxteam.divinemc.configuration.DivineConfig.chatMessageSignatures) return false; // DivineMC - Configurable Chat message signatures
          DedicatedServerProperties dedicatedserverproperties = this.getProperties();
  
-         // Paper start - fix secure profile with proxy online mode
+         // Paper start - Add setting for proxy online mode status
 diff --git a/src/main/java/net/minecraft/server/level/ServerPlayer.java b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-index 37a3ce5da2cb89675e0180c4ed937e5851cd002b..c73217929e9ae8264052ec4d6d46ac2c84c70725 100644
+index d5a5406284bf764c9f7a31a4ad85bbcda18f4df8..246f6688e94b8ebd1318e75f2f0b91111b044201 100644
 --- a/src/main/java/net/minecraft/server/level/ServerPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/ServerPlayer.java
 @@ -2258,7 +2258,7 @@ public class ServerPlayer extends Player {
@@ -157,7 +157,7 @@ index da499e0b21eba40d24d95047e3a9220567d4bae7..af52d6c7f18f0837f4ffce95a310ddee
          if (packet == null || this.processedDisconnect) { // Spigot
              return;
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index a52f0b7d76dc71d176d960fc4f67f0683127112e..39142f0619d20393e043eda61e6a82b0088a1c1e 100644
+index 92717b7aa7ac94a2b1d11b5ba46522057903f981..b313413463b2c5a65246ca5165e9932eb18285c7 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -1469,7 +1469,7 @@ public abstract class PlayerList {

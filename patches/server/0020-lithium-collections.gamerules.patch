@@ -5,7 +5,7 @@ Subject: [PATCH] lithium: collections.gamerules
 
 
 diff --git a/src/main/java/net/minecraft/world/level/GameRules.java b/src/main/java/net/minecraft/world/level/GameRules.java
-index 4f2fa47d094348bb8f86a86e808019ddba56e187..10c023cf56a86f5cc7a545a9e6056237b92c6ab6 100644
+index a9be16e53a9df34af3495048aa9af7b1a3efea4a..0c360ca01bec47c738ef80d74986599af70373da 100644
 --- a/src/main/java/net/minecraft/world/level/GameRules.java
 +++ b/src/main/java/net/minecraft/world/level/GameRules.java
 @@ -27,6 +27,7 @@ import net.minecraft.network.protocol.game.ClientboundGameEventPacket;
@@ -23,5 +23,5 @@ index 4f2fa47d094348bb8f86a86e808019ddba56e187..10c023cf56a86f5cc7a545a9e6056237
 -        this.rules = rules;
 +        this.rules = new Object2ObjectOpenHashMap<>(rules); // DivineMC - lithium: collections.gamerules
  
-         // Paper start
+         // Paper start - Perf: Use array for gamerule storage
          int arraySize = rules.keySet().stream().mapToInt(key -> key.gameRuleIndex).max().orElse(-1) + 1;

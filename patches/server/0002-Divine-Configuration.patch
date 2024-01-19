@@ -326,7 +326,7 @@ index 0000000000000000000000000000000000000000..5d16d2250bae9c982a0af9ad2580a635
 +}
 \ No newline at end of file
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index d21260dd1b7305949f063123b427dec1f5a00ae5..e64ac037eeeebd3b14d8652bdea7b05bbd85c7c3 100644
+index 7cc19060c24ad191b7dca779a18fbfbb65763189..eb301cf5e68914980829b1d3c72163ddf337958d 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -235,6 +235,16 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
@@ -347,7 +347,7 @@ index d21260dd1b7305949f063123b427dec1f5a00ae5..e64ac037eeeebd3b14d8652bdea7b05b
          this.setFlightAllowed(dedicatedserverproperties.allowFlight);
          this.setMotd(dedicatedserverproperties.motd);
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 2b5409e653be7d6b9c0529b512b2f7408b218011..1b318f6c281170cdaafd26a0bff4901e3a153b59 100644
+index b58402221840a9e72b30a31d884b0fb2d86883fd..bc0590fd38837cf6be67d56e5e00078ce0c6f11b 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
 @@ -15,6 +15,8 @@ import java.util.function.Consumer;
@@ -369,14 +369,14 @@ index 2b5409e653be7d6b9c0529b512b2f7408b218011..1b318f6c281170cdaafd26a0bff4901e
      private org.spigotmc.TickLimiter entityLimiter;
 @@ -263,6 +266,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
          this.spigotConfig = new org.spigotmc.SpigotWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName()); // Spigot
-         this.paperConfig = paperWorldConfigCreator.apply(this.spigotConfig); // Paper
+         this.paperConfig = paperWorldConfigCreator.apply(this.spigotConfig); // Paper - create paper world config
          this.purpurConfig = new org.purpurmc.purpur.PurpurWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName(), env); // Purpur
 +        this.divinemcConfig = new DivineWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName(), env); // DivineMC
          this.playerBreedingCooldowns = this.getNewBreedingCooldownCache(); // Purpur
          this.generator = gen;
          this.world = new CraftWorld((ServerLevel) this, gen, biomeProvider, env);
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 08808e9d98380792b4d4c944b7b1723a3efb346d..c5c5731a755fe635384aad24c3ac5152e5c8ae74 100644
+index ddf481ef8e70a4441e33d26b8acb8f618096c017..ce842043c0f69e4a090f0a170fcffa1f51e1895c 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -14,6 +14,7 @@ import com.mojang.brigadier.tree.CommandNode;
@@ -411,7 +411,7 @@ index 08808e9d98380792b4d4c944b7b1723a3efb346d..c5c5731a755fe635384aad24c3ac5152
          this.overrideAllCommandBlockCommands = this.commandsConfiguration.getStringList("command-block-overrides").contains("*");
          this.ignoreVanillaPermissions = this.commandsConfiguration.getBoolean("ignore-vanilla-permissions");
  
-@@ -3095,6 +3099,13 @@ public final class CraftServer implements Server {
+@@ -3094,6 +3098,13 @@ public final class CraftServer implements Server {
          }
          // Purpur end
  
@@ -426,7 +426,7 @@ index 08808e9d98380792b4d4c944b7b1723a3efb346d..c5c5731a755fe635384aad24c3ac5152
          public void restart() {
              org.spigotmc.RestartCommand.restart();
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index feed5a8042ef329e56fecd8096da08986dbd2032..13113730b2bc6a1d9ff7da278ee4b85372bdc1de 100644
+index c7f8f85ad6cb76413275ebe64385a3ec7051257e..3cf225840194eedeadc40f5b370ff51c7ea0c89a 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -188,6 +188,14 @@ public class Main {

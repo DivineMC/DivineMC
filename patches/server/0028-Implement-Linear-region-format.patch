@@ -5,7 +5,7 @@ Subject: [PATCH] Implement Linear region format
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 4c4a0b04a994bcbf0ddc183e54ad5f802a81a4cc..c8307d1ef3a6490649c7ecefe28db9865c3567a2 100644
+index 7aeb4fa6a8342b81558c657120504848c5e32775..571e01cd7ed706593289427fe71e04d0182ac314 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -36,6 +36,10 @@ dependencies {
@@ -17,8 +17,8 @@ index 4c4a0b04a994bcbf0ddc183e54ad5f802a81a4cc..c8307d1ef3a6490649c7ecefe28db986
 +    implementation("org.lz4:lz4-java:1.8.0")
 +    // DivineMC end
      implementation("org.apache.logging.log4j:log4j-iostreams:2.19.0") // Paper - remove exclusion
-     implementation("org.ow2.asm:asm:9.5")
-     implementation("org.ow2.asm:asm-commons:9.5") // Paper - ASM event executor generation
+     implementation("org.ow2.asm:asm-commons:9.5")
+     implementation("org.spongepowered:configurate-yaml:4.2.0-SNAPSHOT") // Paper - config files
 diff --git a/src/main/java/com/destroystokyo/paper/io/PaperFileIOThread.java b/src/main/java/com/destroystokyo/paper/io/PaperFileIOThread.java
 index f2c27e0ac65be4b75c1d86ef6fd45fdb538d96ac..84ef82da3a18341c1f8bc463360e8ba031299da4 100644
 --- a/src/main/java/com/destroystokyo/paper/io/PaperFileIOThread.java
@@ -706,7 +706,7 @@ index 513833c2ea23df5b079d157bc5cb89d5c9754c0b..b48b7d538132ad3d51d373292e36a8a1
          long expectedChunks = (long)regionFiles.length * (32L * 32L);
  
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index f69976dcba060027c67c2e1b49fa28d3f28f66f0..e10ef28420c755258f7fbe7935f8c8ab0fdcca50 100644
+index 6f94f01da0a2294f6fdc564653dde1fdbf508153..bc85de1adc8404278ac590872015137e8ac1667e 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -887,7 +887,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -728,7 +728,7 @@ index f69976dcba060027c67c2e1b49fa28d3f28f66f0..e10ef28420c755258f7fbe7935f8c8ab
  
          return flag3;
 diff --git a/src/main/java/net/minecraft/server/level/ChunkMap.java b/src/main/java/net/minecraft/server/level/ChunkMap.java
-index 2631c05a3855c71eff3f8cf8d13920430f929a13..b2ccdcc1aba21d0edfed3cd3da7b8ba8dc80cd1e 100644
+index 172c7b94830c13835e48d68a039bd66e7e7622b0..2ed829da2e3bec4d16df8c341bcf9fa65b997bf2 100644
 --- a/src/main/java/net/minecraft/server/level/ChunkMap.java
 +++ b/src/main/java/net/minecraft/server/level/ChunkMap.java
 @@ -1,31 +1,23 @@
@@ -861,7 +861,7 @@ index 2631c05a3855c71eff3f8cf8d13920430f929a13..b2ccdcc1aba21d0edfed3cd3da7b8ba8
          regionFile.setStatus(chunkPos.x, chunkPos.z, ChunkSerializer.getStatus(compound));
      }
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 90000d74cfb009e2cbd7336ae11077d67ef67f7b..34ecc8e5bf5f8443c6046d0b61f60dd6cb521872 100644
+index 1309c9e63095a0484ee0fa119a41c29ef1da3a01..120b97a9bd8f12b4c909fe42bbf3098dc3f11537 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
@@ -938,7 +938,7 @@ index 90000d74cfb009e2cbd7336ae11077d67ef67f7b..34ecc8e5bf5f8443c6046d0b61f60dd6
          // this.entityManager = new PersistentEntitySectionManager<>(Entity.class, new ServerLevel.EntityCallbacks(), entitypersistentstorage, this.entitySliceManager); // Paper // Paper - rewrite chunk system
          StructureTemplateManager structuretemplatemanager = minecraftserver.getStructureManager();
 diff --git a/src/main/java/net/minecraft/util/worldupdate/WorldUpgrader.java b/src/main/java/net/minecraft/util/worldupdate/WorldUpgrader.java
-index f2a7cb6ebed7a4b4019a09af2a025f624f6fe9c9..3ddbded1a5f1dcb82e1309c3741bff09041c807c 100644
+index 47636aad5fa20d1c28d3520beb0729df9b30cf6c..33f22f2c9c80808109539fa595479dafab4a9f07 100644
 --- a/src/main/java/net/minecraft/util/worldupdate/WorldUpgrader.java
 +++ b/src/main/java/net/minecraft/util/worldupdate/WorldUpgrader.java
 @@ -8,6 +8,9 @@ import com.google.common.collect.UnmodifiableIterator;
@@ -1446,7 +1446,7 @@ index 4aac1979cf57300825a999c876fcf24d3170e68e..b81636c1aa5b39e1696fdf30a7e2b270
          this.factory = factory;
          this.fixerUpper = dataFixer;
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-index f6c6cd92e1eff044abefa6ca74477d361f4434ec..e24498294f44877bcf8fc97cea9e3ca1a4f9200d 100644
+index ae01fa8872c138afbd2d3f2b036392c3f47845c1..e586e451a6836f02e06352e5410d0bcc66b1a682 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
 @@ -5,7 +5,7 @@ import com.google.common.base.Predicates;
