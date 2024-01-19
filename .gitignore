@@ -1,6 +1,7 @@
-# Purpur-API and Purpur-Server changes
+# Purpur-API and Purpur-Server changes + paper-api-generator
 DivineMC-API
 DivineMC-Server
+paper-api-generator/*
 
 # IDE and Gradle things
 build
