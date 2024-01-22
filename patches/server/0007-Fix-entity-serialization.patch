@@ -5,10 +5,10 @@ Subject: [PATCH] Fix entity serialization
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 93e558e1cfcdee33abf6f1c57e4cf47c7f53f750..c83c3ceebe2c6fd0d6645a604a8e2a35e6ac3ac0 100644
+index f10933fc78cbb0ead042c1870d93d0447f640896..28a22466a155364816dc70d9d4d94fbaaa8551d1 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
-@@ -2342,15 +2342,6 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource, S
+@@ -2341,15 +2341,6 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource, S
          }
      }
  
@@ -20,12 +20,12 @@ index 93e558e1cfcdee33abf6f1c57e4cf47c7f53f750..c83c3ceebe2c6fd0d6645a604a8e2a35
 -        this.passengers = ImmutableList.copyOf(pass);
 -        return result;
 -    }
--    // Paper end
+-    // Paper end - Entity serialization api
      public boolean save(CompoundTag nbt) {
          return this.isPassenger() ? false : this.saveAsPassenger(nbt);
      }
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
-index 6eeebfaf577263316f3562a8f968310acd616763..af3407902e010b6cfe88751634e2c2fafbc23e04 100644
+index 2331190c476a2bfe3797aa61a4a792a9cc42ff59..0a713160ff0a0708c5bc4d578d265dbf7922dc07 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
 +++ b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
 @@ -508,8 +508,13 @@ public final class CraftMagicNumbers implements UnsafeValues {
