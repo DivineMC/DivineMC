@@ -185,7 +185,7 @@ index 7f07ffab0835d45d4d170fe171d7fa996d5913d9..fde3e7ef352474566e7259555a5f8ffb
                      servergui.runFinalizers();
                  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 679f7874931bf068da800a8e8aa68285971b6996..173a17db3a1ab2582b645077013df91981685755 100644
+index 7db5fb71e8ffdc9291eadceb2682f7f98d1ab37a..2b9dab43a072206a6980bdfbf4f02e7a398758f7 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -264,7 +264,7 @@ import javax.annotation.Nullable; // Paper
@@ -224,10 +224,10 @@ index e9fc2b4661f5275b93db5d3fdf25a8bdc3b38920..e14a5be13af47162c3f03f7d75ecbe10
          serverModName = getString("settings.server-mod-name", serverModName);
      }
 diff --git a/src/main/java/org/spigotmc/WatchdogThread.java b/src/main/java/org/spigotmc/WatchdogThread.java
-index 5fc8cc40ab627eba0b2110c73d31af213a935733..3fbad431abf62022d0b343f251f34d899e87090f 100644
+index f7296691cb4af7814de1520347b307ff209082e4..3de4a2d0e208d093143c68c3084ceb4a94069c7d 100644
 --- a/src/main/java/org/spigotmc/WatchdogThread.java
 +++ b/src/main/java/org/spigotmc/WatchdogThread.java
-@@ -185,7 +185,7 @@ public final class WatchdogThread extends io.papermc.paper.util.TickThread // Pa
+@@ -184,7 +184,7 @@ public final class WatchdogThread extends io.papermc.paper.util.TickThread // Pa
                  // Paper end
                  } else
                  {
@@ -236,7 +236,7 @@ index 5fc8cc40ab627eba0b2110c73d31af213a935733..3fbad431abf62022d0b343f251f34d89
                      log.log(Level.SEVERE, "The server has not responded for " + (currentTime - lastTick) / 1000 + " seconds! Creating thread dump");
                  }
                  // Paper end - Different message for short timeout
-@@ -206,7 +206,7 @@ public final class WatchdogThread extends io.papermc.paper.util.TickThread // Pa
+@@ -205,7 +205,7 @@ public final class WatchdogThread extends io.papermc.paper.util.TickThread // Pa
                      WatchdogThread.dumpThread( thread, log );
                  }
                  } else {
