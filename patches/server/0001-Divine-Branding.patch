@@ -185,7 +185,7 @@ index 7f07ffab0835d45d4d170fe171d7fa996d5913d9..fde3e7ef352474566e7259555a5f8ffb
                      servergui.runFinalizers();
                  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 7db5fb71e8ffdc9291eadceb2682f7f98d1ab37a..2b9dab43a072206a6980bdfbf4f02e7a398758f7 100644
+index 08b622c733e4275e70c984d938f4376dd0416b33..9d93b0e2d9ce9b761f7ed392952d3136cd65596a 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -264,7 +264,7 @@ import javax.annotation.Nullable; // Paper
@@ -198,7 +198,7 @@ index 7db5fb71e8ffdc9291eadceb2682f7f98d1ab37a..2b9dab43a072206a6980bdfbf4f02e7a
      private final String bukkitVersion = Versioning.getBukkitVersion();
      private final Logger logger = Logger.getLogger("Minecraft");
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java b/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
-index 99597258e8e88cd9e2c901c4ac3ff7faeeabee2b..b79b9f27c5cf09dfcf4cb0bdf7a3aa507db2b0c8 100644
+index 99597258e8e88cd9e2c901c4ac3ff7faeeabee2b..7bbbdf2895776f12ebc153dc83f4d53be8f06c7c 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
 +++ b/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
 @@ -11,7 +11,7 @@ public final class Versioning {
@@ -206,7 +206,7 @@ index 99597258e8e88cd9e2c901c4ac3ff7faeeabee2b..b79b9f27c5cf09dfcf4cb0bdf7a3aa50
          String result = "Unknown-Version";
  
 -        InputStream stream = Bukkit.class.getClassLoader().getResourceAsStream("META-INF/maven/org.purpurmc.purpur/purpur-api/pom.properties"); // Pufferfish // Purpur
-+        InputStream stream = Bukkit.class.getClassLoader().getResourceAsStream("META-INF/maven/gq.bxteam.divinemc/divinemc-api/pom.properties"); // Pufferfish // Purpur // DivineMC
++        InputStream stream = Bukkit.class.getClassLoader().getResourceAsStream("META-INF/maven/space.bxteam.divinemc/divinemc-api/pom.properties"); // Pufferfish // Purpur // DivineMC
          Properties properties = new Properties();
  
          if (stream != null) {

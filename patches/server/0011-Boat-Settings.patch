@@ -4,23 +4,6 @@ Date: Sat, 10 Jun 2023 13:01:08 +0300
 Subject: [PATCH] Boat Settings
 
 
-diff --git a/src/main/java/gq/bxteam/divinemc/configuration/DivineWorldConfig.java b/src/main/java/gq/bxteam/divinemc/configuration/DivineWorldConfig.java
-index c74ca3eb638b29f5d981d132ac579d7e1942e244..522703fae0898daa8651a34168bfcc78a3c8cb12 100644
---- a/src/main/java/gq/bxteam/divinemc/configuration/DivineWorldConfig.java
-+++ b/src/main/java/gq/bxteam/divinemc/configuration/DivineWorldConfig.java
-@@ -82,4 +82,11 @@ public class DivineWorldConfig {
-     private void saveFireworks() {
-         saveFireworks = getBoolean("gameplay-mechanics.should-save-fireworks", saveFireworks);
-     }
-+
-+    public boolean dontEjectPlayerFromBoatUnderwater = true;
-+    public boolean alwaysAllowToEnterTheBoat = true;
-+    private void boatFeatures() {
-+        dontEjectPlayerFromBoatUnderwater = getBoolean("gameplay-mechanics.boat.dont-eject-players-from-boat-underwater", dontEjectPlayerFromBoatUnderwater);
-+        alwaysAllowToEnterTheBoat = getBoolean("gameplay-mechanics.boat.always-allow-to-enter-the-boat", alwaysAllowToEnterTheBoat);
-+    }
- }
-\ No newline at end of file
 diff --git a/src/main/java/net/minecraft/world/entity/vehicle/Boat.java b/src/main/java/net/minecraft/world/entity/vehicle/Boat.java
 index 5036941829e4d98adbcfb0354b35244c52fc4472..76ef5000bbd805c40e0c927dc709c20c17d72f79 100644
 --- a/src/main/java/net/minecraft/world/entity/vehicle/Boat.java
@@ -75,3 +58,20 @@ index 5036941829e4d98adbcfb0354b35244c52fc4472..76ef5000bbd805c40e0c927dc709c20c
      }
  
      protected int getMaxPassengers() {
+diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java
+index 38a42589b6b78dc534aef62bb36ba923544dbda2..ffe5929f317906a02b3178e33e83aba77c077d7f 100644
+--- a/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java
++++ b/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java
+@@ -82,4 +82,11 @@ public class DivineWorldConfig {
+     private void saveFireworks() {
+         saveFireworks = getBoolean("gameplay-mechanics.should-save-fireworks", saveFireworks);
+     }
++
++    public boolean dontEjectPlayerFromBoatUnderwater = true;
++    public boolean alwaysAllowToEnterTheBoat = true;
++    private void boatFeatures() {
++        dontEjectPlayerFromBoatUnderwater = getBoolean("gameplay-mechanics.boat.dont-eject-players-from-boat-underwater", dontEjectPlayerFromBoatUnderwater);
++        alwaysAllowToEnterTheBoat = getBoolean("gameplay-mechanics.boat.always-allow-to-enter-the-boat", alwaysAllowToEnterTheBoat);
++    }
+ }
+\ No newline at end of file

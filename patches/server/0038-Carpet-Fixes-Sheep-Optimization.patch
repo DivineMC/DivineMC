@@ -5,10 +5,66 @@ Subject: [PATCH] Carpet-Fixes: Sheep Optimization
 
 Original project: https://github.com/fxmorin/carpet-fixes
 
-diff --git a/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java
-index 9f50b2a3c8a576074d75719e6e2abbd984814d7f..da28482bb10cdeb23a54338354e9c54b661846d7 100644
---- a/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java
-+++ b/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java
+diff --git a/src/main/java/net/minecraft/world/entity/animal/Sheep.java b/src/main/java/net/minecraft/world/entity/animal/Sheep.java
+index 658f7943d275267d3fc556572831cc095259d12e..3f16dd93e2e83ec14ca440c4f7266e973c49d6a0 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/Sheep.java
++++ b/src/main/java/net/minecraft/world/entity/animal/Sheep.java
+@@ -70,6 +70,7 @@ import net.minecraft.world.item.Item;
+ import org.bukkit.craftbukkit.event.CraftEventFactory;
+ import org.bukkit.event.entity.SheepRegrowWoolEvent;
+ import org.bukkit.inventory.InventoryView;
++import space.bxteam.divinemc.util.carpetfixes.ProperDyeMixin;
+ // CraftBukkit end
+ 
+ public class Sheep extends Animal implements Shearable {
+@@ -457,21 +458,30 @@ public class Sheep extends Animal implements Shearable {
+         return super.finalizeSpawn(world, difficulty, spawnReason, entityData, entityNbt);
+     }
+ 
++    // DivineMC start - Carpet-Fixes: Sheep Optimization
+     private DyeColor getOffspringColor(Animal firstParent, Animal secondParent) {
+-        DyeColor enumcolor = ((Sheep) firstParent).getColor();
+-        DyeColor enumcolor1 = ((Sheep) secondParent).getColor();
+-        CraftingContainer inventorycrafting = Sheep.makeContainer(enumcolor, enumcolor1);
+-        Optional<Item> optional = this.level().getRecipeManager().getRecipeFor(RecipeType.CRAFTING, inventorycrafting, this.level()).map((recipeholder) -> { // CraftBukkit - decompile error
+-            return ((CraftingRecipe) recipeholder.value()).assemble(inventorycrafting, this.level().registryAccess());
+-        }).map(ItemStack::getItem);
+-
+-        Objects.requireNonNull(DyeItem.class);
+-        optional = optional.filter(DyeItem.class::isInstance);
+-        Objects.requireNonNull(DyeItem.class);
+-        return (DyeColor) optional.map(DyeItem.class::cast).map(DyeItem::getDyeColor).orElseGet(() -> {
+-            return this.level().random.nextBoolean() ? enumcolor : enumcolor1;
+-        });
++        DyeColor firstColor = ((Sheep) firstParent).getColor();
++        DyeColor secondColor = ((Sheep) secondParent).getColor();
++
++        if (gq.bxteam.divinemc.configuration.DivineConfig.sheepOptimization) {
++            DyeColor col = ProperDyeMixin.properDye(firstColor, secondColor);
++            if (col == null) col = this.level().random.nextBoolean() ? firstColor : secondColor;
++            return col;
++        } else {
++            CraftingContainer inventorycrafting = Sheep.makeContainer(firstColor, secondColor);
++            Optional<Item> optional = this.level().getRecipeManager().getRecipeFor(RecipeType.CRAFTING, inventorycrafting, this.level()).map((recipeholder) -> { // CraftBukkit - decompile error
++                return ((CraftingRecipe) recipeholder.value()).assemble(inventorycrafting, this.level().registryAccess());
++            }).map(ItemStack::getItem);
++
++            Objects.requireNonNull(DyeItem.class);
++            optional = optional.filter(DyeItem.class::isInstance);
++            Objects.requireNonNull(DyeItem.class);
++            return (DyeColor) optional.map(DyeItem.class::cast).map(DyeItem::getDyeColor).orElseGet(() -> {
++                return this.level().random.nextBoolean() ? firstColor : secondColor;
++            });
++        }
+     }
++    // DivineMC end
+ 
+     private static CraftingContainer makeContainer(DyeColor firstColor, DyeColor secondColor) {
+         TransientCraftingContainer transientcraftingcontainer = new TransientCraftingContainer(new AbstractContainerMenu((MenuType) null, -1) {
+diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
+index 1bbaa8b1ca217b37d550e40b3742ac867289d05a..5fd3f43795101e95dce6c54bb917f4f2ae2ed18c 100644
+--- a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
++++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 @@ -176,8 +176,10 @@ public class DivineConfig {
  
      public static boolean recipeManagerOptimization = true;
@@ -20,13 +76,13 @@ index 9f50b2a3c8a576074d75719e6e2abbd984814d7f..da28482bb10cdeb23a54338354e9c54b
 +        sheepOptimization = getBoolean("settings.optimizations.sheep-optimization", sheepOptimization);
      }
  }
-diff --git a/src/main/java/gq/bxteam/divinemc/util/carpetfixes/ProperDyeMixin.java b/src/main/java/gq/bxteam/divinemc/util/carpetfixes/ProperDyeMixin.java
+diff --git a/src/main/java/space/bxteam/divinemc/util/carpetfixes/ProperDyeMixin.java b/src/main/java/space/bxteam/divinemc/util/carpetfixes/ProperDyeMixin.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..87d5a82c5dc3ef4bcbeaf9ef837230269a1670df
+index 0000000000000000000000000000000000000000..6cbcf1580312a9275e41813a26b36e42a2481a2c
 --- /dev/null
-+++ b/src/main/java/gq/bxteam/divinemc/util/carpetfixes/ProperDyeMixin.java
++++ b/src/main/java/space/bxteam/divinemc/util/carpetfixes/ProperDyeMixin.java
 @@ -0,0 +1,46 @@
-+package gq.bxteam.divinemc.util.carpetfixes;
++package space.bxteam.divinemc.util.carpetfixes;
 +
 +import net.minecraft.world.item.DyeColor;
 +
@@ -72,51 +128,3 @@ index 0000000000000000000000000000000000000000..87d5a82c5dc3ef4bcbeaf9ef83723026
 +        return null;
 +    }
 +}
-diff --git a/src/main/java/net/minecraft/world/entity/animal/Sheep.java b/src/main/java/net/minecraft/world/entity/animal/Sheep.java
-index 658f7943d275267d3fc556572831cc095259d12e..768c9fc58af7204c79cb1ea2430a58482045bf6c 100644
---- a/src/main/java/net/minecraft/world/entity/animal/Sheep.java
-+++ b/src/main/java/net/minecraft/world/entity/animal/Sheep.java
-@@ -457,21 +457,30 @@ public class Sheep extends Animal implements Shearable {
-         return super.finalizeSpawn(world, difficulty, spawnReason, entityData, entityNbt);
-     }
- 
-+    // DivineMC start - Carpet-Fixes: Sheep Optimization
-     private DyeColor getOffspringColor(Animal firstParent, Animal secondParent) {
--        DyeColor enumcolor = ((Sheep) firstParent).getColor();
--        DyeColor enumcolor1 = ((Sheep) secondParent).getColor();
--        CraftingContainer inventorycrafting = Sheep.makeContainer(enumcolor, enumcolor1);
--        Optional<Item> optional = this.level().getRecipeManager().getRecipeFor(RecipeType.CRAFTING, inventorycrafting, this.level()).map((recipeholder) -> { // CraftBukkit - decompile error
--            return ((CraftingRecipe) recipeholder.value()).assemble(inventorycrafting, this.level().registryAccess());
--        }).map(ItemStack::getItem);
--
--        Objects.requireNonNull(DyeItem.class);
--        optional = optional.filter(DyeItem.class::isInstance);
--        Objects.requireNonNull(DyeItem.class);
--        return (DyeColor) optional.map(DyeItem.class::cast).map(DyeItem::getDyeColor).orElseGet(() -> {
--            return this.level().random.nextBoolean() ? enumcolor : enumcolor1;
--        });
-+        DyeColor firstColor = ((Sheep) firstParent).getColor();
-+        DyeColor secondColor = ((Sheep) secondParent).getColor();
-+
-+        if (gq.bxteam.divinemc.configuration.DivineConfig.sheepOptimization) {
-+            DyeColor col = gq.bxteam.divinemc.util.carpetfixes.ProperDyeMixin.properDye(firstColor, secondColor);
-+            if (col == null) col = this.level().random.nextBoolean() ? firstColor : secondColor;
-+            return col;
-+        } else {
-+            CraftingContainer inventorycrafting = Sheep.makeContainer(firstColor, secondColor);
-+            Optional<Item> optional = this.level().getRecipeManager().getRecipeFor(RecipeType.CRAFTING, inventorycrafting, this.level()).map((recipeholder) -> { // CraftBukkit - decompile error
-+                return ((CraftingRecipe) recipeholder.value()).assemble(inventorycrafting, this.level().registryAccess());
-+            }).map(ItemStack::getItem);
-+
-+            Objects.requireNonNull(DyeItem.class);
-+            optional = optional.filter(DyeItem.class::isInstance);
-+            Objects.requireNonNull(DyeItem.class);
-+            return (DyeColor) optional.map(DyeItem.class::cast).map(DyeItem::getDyeColor).orElseGet(() -> {
-+                return this.level().random.nextBoolean() ? firstColor : secondColor;
-+            });
-+        }
-     }
-+    // DivineMC end
- 
-     private static CraftingContainer makeContainer(DyeColor firstColor, DyeColor secondColor) {
-         TransientCraftingContainer transientcraftingcontainer = new TransientCraftingContainer(new AbstractContainerMenu((MenuType) null, -1) {

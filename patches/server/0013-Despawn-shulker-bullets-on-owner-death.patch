@@ -4,21 +4,6 @@ Date: Sat, 10 Jun 2023 13:12:59 +0300
 Subject: [PATCH] Despawn shulker bullets on owner death
 
 
-diff --git a/src/main/java/gq/bxteam/divinemc/configuration/DivineWorldConfig.java b/src/main/java/gq/bxteam/divinemc/configuration/DivineWorldConfig.java
-index 522703fae0898daa8651a34168bfcc78a3c8cb12..53ccff176770be0d41469cbd71b9000f5e0cae3e 100644
---- a/src/main/java/gq/bxteam/divinemc/configuration/DivineWorldConfig.java
-+++ b/src/main/java/gq/bxteam/divinemc/configuration/DivineWorldConfig.java
-@@ -89,4 +89,9 @@ public class DivineWorldConfig {
-         dontEjectPlayerFromBoatUnderwater = getBoolean("gameplay-mechanics.boat.dont-eject-players-from-boat-underwater", dontEjectPlayerFromBoatUnderwater);
-         alwaysAllowToEnterTheBoat = getBoolean("gameplay-mechanics.boat.always-allow-to-enter-the-boat", alwaysAllowToEnterTheBoat);
-     }
-+
-+    public boolean despawnShulkerBulletsOnOwnerDeath = true;
-+    private void despawnShulkerBulletsOnOwnerDeath() {
-+        despawnShulkerBulletsOnOwnerDeath = getBoolean("gameplay-mechanics.mob.shulker.despawn-bullets-on-player-death", despawnShulkerBulletsOnOwnerDeath);
-+    }
- }
-\ No newline at end of file
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/ShulkerBullet.java b/src/main/java/net/minecraft/world/entity/projectile/ShulkerBullet.java
 index da0b7ee796c335875914481a5deda5eef5ddd442..ab1127b384cfd8a39543003b692121cc2ed74b4e 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/ShulkerBullet.java
@@ -41,3 +26,18 @@ index da0b7ee796c335875914481a5deda5eef5ddd442..ab1127b384cfd8a39543003b692121cc
              if (this.finalTarget == null && this.targetId != null) {
                  this.finalTarget = ((ServerLevel) this.level()).getEntity(this.targetId);
                  if (this.finalTarget == null) {
+diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java
+index ffe5929f317906a02b3178e33e83aba77c077d7f..2cd7a49e90c70a7f6e5e3861b9846d42d02c70ee 100644
+--- a/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java
++++ b/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java
+@@ -89,4 +89,9 @@ public class DivineWorldConfig {
+         dontEjectPlayerFromBoatUnderwater = getBoolean("gameplay-mechanics.boat.dont-eject-players-from-boat-underwater", dontEjectPlayerFromBoatUnderwater);
+         alwaysAllowToEnterTheBoat = getBoolean("gameplay-mechanics.boat.always-allow-to-enter-the-boat", alwaysAllowToEnterTheBoat);
+     }
++
++    public boolean despawnShulkerBulletsOnOwnerDeath = true;
++    private void despawnShulkerBulletsOnOwnerDeath() {
++        despawnShulkerBulletsOnOwnerDeath = getBoolean("gameplay-mechanics.mob.shulker.despawn-bullets-on-player-death", despawnShulkerBulletsOnOwnerDeath);
++    }
+ }
+\ No newline at end of file

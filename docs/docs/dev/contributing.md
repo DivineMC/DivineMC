@@ -337,7 +337,7 @@ if (!DivineConfig.saveEmptyScoreboardTeams) {
 
 It is often preferred that you use the fully qualified name for the
 configuration class when accessing it, like so:
-`gq.bxteam.divinemc.configuration.DivineConfig.valueHere`.  
+`space.bxteam.divinemc.configuration.DivineConfig.valueHere`.  
 If this is not done, a developer for DivineMC might fix that for you before
 merging, but it's always nice if you make it a habit where you only need 1-2
 lines changed.

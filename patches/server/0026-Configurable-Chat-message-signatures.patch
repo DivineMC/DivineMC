@@ -4,20 +4,6 @@ Date: Sun, 7 Jan 2024 11:56:00 +0300
 Subject: [PATCH] Configurable Chat message signatures
 
 
-diff --git a/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java
-index def6f834d32b97e1065b17657e73d020a873bd14..c58eb66184d3e7fcf722d8871eb212eebed92646 100644
---- a/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java
-+++ b/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java
-@@ -168,4 +168,9 @@ public class DivineConfig {
-         else
-             linearFlushThreads = Math.max(linearFlushThreads, 1);
-     }
-+
-+    public static boolean chatMessageSignatures = false;
-+    private static void chatMessageSignatures() {
-+        chatMessageSignatures = getBoolean("settings.disable-chat-reports", chatMessageSignatures);
-+    }
- }
 diff --git a/src/main/java/io/papermc/paper/adventure/ChatProcessor.java b/src/main/java/io/papermc/paper/adventure/ChatProcessor.java
 index e4fd372a1d585887287253a02531cd192929377b..dcc806bcbdcc18f8094b8aa55e8a92a6b12a5f7c 100644
 --- a/src/main/java/io/papermc/paper/adventure/ChatProcessor.java
@@ -71,10 +57,10 @@ index c40979e2fa37acb2f3df493395f3ab6e185345d7..16250b44775b2ccd02e2112600c9f3ba
  
      public static record Favicon(byte[] iconBytes) {
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 193bb055b6e8d7d2ec166ceadfaf7af6e2c7dc33..f74bbfda4dd86893d77e50903d4942635b564c29 100644
+index 2bb3735d650c5cb379f5a52cb9ae2e7d5df3803d..e6ab27f41d281b9a07bb04f5b2c849253b479216 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-@@ -687,6 +687,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -682,6 +682,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
  
      @Override
      public boolean enforceSecureProfile() {
@@ -177,3 +163,17 @@ index 323391509c2efd49c54d7b36d7aa880c63ae5fd4..5e5a80cfac803e5a6aba3e9eb7d161bc
          return message.hasSignature() && !message.hasExpiredServer(Instant.now());
      }
  
+diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
+index d5ac67927dd2091733eaa096c903874fa4cd9542..4ea8eb876186848f16050b34acc2ab494ea7dcd3 100644
+--- a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
++++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
+@@ -168,4 +168,9 @@ public class DivineConfig {
+         else
+             linearFlushThreads = Math.max(linearFlushThreads, 1);
+     }
++
++    public static boolean chatMessageSignatures = false;
++    private static void chatMessageSignatures() {
++        chatMessageSignatures = getBoolean("settings.disable-chat-reports", chatMessageSignatures);
++    }
+ }

@@ -4,20 +4,6 @@ Date: Mon, 18 Sep 2023 00:35:27 +0300
 Subject: [PATCH] Do not process chat/commands before player has joined
 
 
-diff --git a/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java
-index fa7ee2b2778a26d0e466bdc05ade26a5ae0c17f4..11dc1af9f8d8ce8c0a855d14a35077f5482ef0e8 100644
---- a/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java
-+++ b/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java
-@@ -152,4 +152,9 @@ public class DivineConfig {
-         }
-         return builder.build();
-     }
-+
-+    public static boolean doNotProcessChatCommands = true;
-+    private static void  doNotProcessChatCommands() {
-+        doNotProcessChatCommands = getBoolean("settings.do-not-process-chat-commands", doNotProcessChatCommands);
-+    }
- }
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 index 5b37a0bc513a68e0696362fa53633c125eb1fa8b..8ac338aa5fbd5cc78aaadd3c6f834d1959f00712 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
@@ -39,3 +25,17 @@ index 5b37a0bc513a68e0696362fa53633c125eb1fa8b..8ac338aa5fbd5cc78aaadd3c6f834d19
          } else {
              this.player.resetLastActionTime();
              return optional;
+diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
+index c10403d781d25e4bb9e43d3f064fb1aebde00bfb..ef7983863da3b4febef3da2fab93fe581fbd65af 100644
+--- a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
++++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
+@@ -152,4 +152,9 @@ public class DivineConfig {
+         }
+         return builder.build();
+     }
++
++    public static boolean doNotProcessChatCommands = true;
++    private static void  doNotProcessChatCommands() {
++        doNotProcessChatCommands = getBoolean("settings.do-not-process-chat-commands", doNotProcessChatCommands);
++    }
+ }
