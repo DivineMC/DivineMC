@@ -30,18 +30,16 @@ index 04b98e23eed926d8473cc2464e04a5b9f18f1140..68463f809aea61d818fc428f1c8b8068
  
      }
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java
-index 8ca0c51b901d2bdae8232e7fb7fdd56ada505bcb..c4b41a6a3fd2c3d7ff942fe8754a7333afb2c8ed 100644
+index 02dfe1750f9955a4b1b945e90491bdee13fe2ef5..c4b41a6a3fd2c3d7ff942fe8754a7333afb2c8ed 100644
 --- a/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java
 @@ -115,4 +115,9 @@ public class DivineWorldConfig {
          }
          linearCrashOnBrokenSymlink = getBoolean("region-format.linear.crash-on-broken-symlink", linearCrashOnBrokenSymlink);
      }
--}
-\ No newline at end of file
 +
 +    public boolean suppressErrorsFromDirtyAttributes = true;
 +    private void suppressErrorsFromDirtyAttributes() {
 +        suppressErrorsFromDirtyAttributes = getBoolean("suppress-errors-from-dirty-attributes", suppressErrorsFromDirtyAttributes);
 +    }
-+}
+ }

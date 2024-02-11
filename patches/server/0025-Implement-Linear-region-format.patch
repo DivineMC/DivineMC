@@ -941,7 +941,7 @@ index ef7983863da3b4febef3da2fab93fe581fbd65af..d5ac67927dd2091733eaa096c903874f
 +    }
  }
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java
-index 2cd7a49e90c70a7f6e5e3861b9846d42d02c70ee..8ca0c51b901d2bdae8232e7fb7fdd56ada505bcb 100644
+index 7e62ee9418d5add5b0b4ddb885d3a1745ce799b2..02dfe1750f9955a4b1b945e90491bdee13fe2ef5 100644
 --- a/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java
 @@ -1,5 +1,6 @@
@@ -983,7 +983,6 @@ index 2cd7a49e90c70a7f6e5e3861b9846d42d02c70ee..8ca0c51b901d2bdae8232e7fb7fdd56a
 +        linearCrashOnBrokenSymlink = getBoolean("region-format.linear.crash-on-broken-symlink", linearCrashOnBrokenSymlink);
 +    }
  }
-\ No newline at end of file
 diff --git a/src/main/java/space/bxteam/divinemc/region/AbstractRegionFile.java b/src/main/java/space/bxteam/divinemc/region/AbstractRegionFile.java
 new file mode 100644
 index 0000000000000000000000000000000000000000..b9cdc044a582b1bcb0ee457aba2af1033f76702e

@@ -59,7 +59,7 @@ index 5036941829e4d98adbcfb0354b35244c52fc4472..76ef5000bbd805c40e0c927dc709c20c
  
      protected int getMaxPassengers() {
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java
-index 38a42589b6b78dc534aef62bb36ba923544dbda2..ffe5929f317906a02b3178e33e83aba77c077d7f 100644
+index 243b3d4379f4f6f273222a3611d8a463053d3e70..e1274fe3b0ff369d1f6f229026ced2e03ea335ca 100644
 --- a/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java
 @@ -82,4 +82,11 @@ public class DivineWorldConfig {
@@ -74,4 +74,3 @@ index 38a42589b6b78dc534aef62bb36ba923544dbda2..ffe5929f317906a02b3178e33e83aba7
 +        alwaysAllowToEnterTheBoat = getBoolean("gameplay-mechanics.boat.always-allow-to-enter-the-boat", alwaysAllowToEnterTheBoat);
 +    }
  }
-\ No newline at end of file

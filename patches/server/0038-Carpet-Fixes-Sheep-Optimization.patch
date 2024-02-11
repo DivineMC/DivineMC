@@ -6,7 +6,7 @@ Subject: [PATCH] Carpet-Fixes: Sheep Optimization
 Original project: https://github.com/fxmorin/carpet-fixes
 
 diff --git a/src/main/java/net/minecraft/world/entity/animal/Sheep.java b/src/main/java/net/minecraft/world/entity/animal/Sheep.java
-index 658f7943d275267d3fc556572831cc095259d12e..3f16dd93e2e83ec14ca440c4f7266e973c49d6a0 100644
+index 658f7943d275267d3fc556572831cc095259d12e..5ee9005f65edcfc3e3d20198ec1f69108a6f8205 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/Sheep.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/Sheep.java
 @@ -70,6 +70,7 @@ import net.minecraft.world.item.Item;
@@ -39,7 +39,7 @@ index 658f7943d275267d3fc556572831cc095259d12e..3f16dd93e2e83ec14ca440c4f7266e97
 +        DyeColor firstColor = ((Sheep) firstParent).getColor();
 +        DyeColor secondColor = ((Sheep) secondParent).getColor();
 +
-+        if (gq.bxteam.divinemc.configuration.DivineConfig.sheepOptimization) {
++        if (space.bxteam.divinemc.configuration.DivineConfig.sheepOptimization) {
 +            DyeColor col = ProperDyeMixin.properDye(firstColor, secondColor);
 +            if (col == null) col = this.level().random.nextBoolean() ? firstColor : secondColor;
 +            return col;

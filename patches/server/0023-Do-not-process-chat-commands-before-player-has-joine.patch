@@ -5,14 +5,14 @@ Subject: [PATCH] Do not process chat/commands before player has joined
 
 
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 5b37a0bc513a68e0696362fa53633c125eb1fa8b..8ac338aa5fbd5cc78aaadd3c6f834d1959f00712 100644
+index 5b37a0bc513a68e0696362fa53633c125eb1fa8b..a96c4f89bb45af13bc4126dc90d0f943b5240942 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -6,6 +6,7 @@ import com.mojang.authlib.GameProfile;
  import com.mojang.brigadier.ParseResults;
  import com.mojang.brigadier.StringReader;
  import com.mojang.logging.LogUtils;
-+import gq.bxteam.divinemc.configuration.DivineConfig;
++import space.bxteam.divinemc.configuration.DivineConfig;
  import it.unimi.dsi.fastutil.ints.Int2ObjectMap.Entry;
  import it.unimi.dsi.fastutil.ints.Int2ObjectMaps;
  import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;

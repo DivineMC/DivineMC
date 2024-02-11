@@ -27,7 +27,7 @@ index da0b7ee796c335875914481a5deda5eef5ddd442..ab1127b384cfd8a39543003b692121cc
                  this.finalTarget = ((ServerLevel) this.level()).getEntity(this.targetId);
                  if (this.finalTarget == null) {
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java
-index ffe5929f317906a02b3178e33e83aba77c077d7f..2cd7a49e90c70a7f6e5e3861b9846d42d02c70ee 100644
+index e1274fe3b0ff369d1f6f229026ced2e03ea335ca..7e62ee9418d5add5b0b4ddb885d3a1745ce799b2 100644
 --- a/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java
 @@ -89,4 +89,9 @@ public class DivineWorldConfig {
@@ -40,4 +40,3 @@ index ffe5929f317906a02b3178e33e83aba77c077d7f..2cd7a49e90c70a7f6e5e3861b9846d42
 +        despawnShulkerBulletsOnOwnerDeath = getBoolean("gameplay-mechanics.mob.shulker.despawn-bullets-on-player-death", despawnShulkerBulletsOnOwnerDeath);
 +    }
  }
-\ No newline at end of file

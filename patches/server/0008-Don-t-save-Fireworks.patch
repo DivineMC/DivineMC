@@ -21,7 +21,7 @@ index b2f08889139dc447f7071f1c81456035bf8de31e..3c364f5c4cafba917edb605de017aca2
 +    // DivineMC end
  }
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java
-index fc16ce9039a26e93618bce66bdb0d1cfe8964681..38a42589b6b78dc534aef62bb36ba923544dbda2 100644
+index 3e64e0d2d925f9fca1eb38cc07c20cae785ef39f..243b3d4379f4f6f273222a3611d8a463053d3e70 100644
 --- a/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java
 @@ -77,4 +77,9 @@ public class DivineWorldConfig {
@@ -34,4 +34,3 @@ index fc16ce9039a26e93618bce66bdb0d1cfe8964681..38a42589b6b78dc534aef62bb36ba923
 +        saveFireworks = getBoolean("gameplay-mechanics.should-save-fireworks", saveFireworks);
 +    }
  }
-\ No newline at end of file

@@ -446,7 +446,7 @@ index 0000000000000000000000000000000000000000..c10403d781d25e4bb9e43d3f064fb1ae
 +}
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..fc16ce9039a26e93618bce66bdb0d1cfe8964681
+index 0000000000000000000000000000000000000000..3e64e0d2d925f9fca1eb38cc07c20cae785ef39f
 --- /dev/null
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java
 @@ -0,0 +1,80 @@
@@ -530,4 +530,3 @@ index 0000000000000000000000000000000000000000..fc16ce9039a26e93618bce66bdb0d1cf
 +        return value.isEmpty() ? fallback : value;
 +    }
 +}
-\ No newline at end of file
