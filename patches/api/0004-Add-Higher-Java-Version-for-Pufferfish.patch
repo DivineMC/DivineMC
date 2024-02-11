@@ -5,7 +5,7 @@ Subject: [PATCH] Add Higher Java Version for Pufferfish
 
 
 diff --git a/src/main/java/gg/pufferfish/pufferfish/simd/SIMDChecker.java b/src/main/java/gg/pufferfish/pufferfish/simd/SIMDChecker.java
-index ab5fea0b03224bf249352ce340e94704ff713345..f0c33c55bcbbd93c658179b1b573354fc9480b79 100644
+index ab5fea0b03224bf249352ce340e94704ff713345..d78ecd78f5ebfa4d93ac6e3f5b4c47ec3711dd80 100644
 --- a/src/main/java/gg/pufferfish/pufferfish/simd/SIMDChecker.java
 +++ b/src/main/java/gg/pufferfish/pufferfish/simd/SIMDChecker.java
 @@ -15,7 +15,7 @@ public class SIMDChecker {
@@ -13,7 +13,7 @@ index ab5fea0b03224bf249352ce340e94704ff713345..f0c33c55bcbbd93c658179b1b573354f
  	public static boolean canEnable(Logger logger) {
  		try {
 -			if (SIMDDetection.getJavaVersion() != 17 && SIMDDetection.getJavaVersion() != 18 && SIMDDetection.getJavaVersion() != 19) {
-+			if (SIMDDetection.getJavaVersion() < 17) { // DivineMC - Add Higher Java Version for Pufferfish
++			if (SIMDDetection.getJavaVersion() <= 17) { // DivineMC - Add Higher Java Version for Pufferfish
  				return false;
  			} else {
  				SIMDDetection.testRun = true;

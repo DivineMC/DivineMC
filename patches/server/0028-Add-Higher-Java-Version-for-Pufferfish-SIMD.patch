@@ -5,7 +5,7 @@ Subject: [PATCH] Add Higher Java Version for Pufferfish SIMD
 
 
 diff --git a/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java b/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
-index b4e5fbace85c67e7bd347e6a90514bbc2c132d5e..b098c2fd656e8f86683083b5628eed586ae88ad6 100644
+index 3fea9b69f4cfc94e7f01d4e3ca4ce7506a8e5d5c..4b4b90726fea700c4fd88b1ea2ed3d7804f63337 100644
 --- a/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
 +++ b/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
 @@ -87,7 +87,7 @@ public class PufferfishConfig {
@@ -13,7 +13,7 @@ index b4e5fbace85c67e7bd347e6a90514bbc2c132d5e..b098c2fd656e8f86683083b5628eed58
  		try {
  			SIMDDetection.isEnabled = SIMDDetection.canEnable(PufferfishLogger.LOGGER);
 -			SIMDDetection.versionLimited = SIMDDetection.getJavaVersion() != 17 && SIMDDetection.getJavaVersion() != 18 && SIMDDetection.getJavaVersion() != 19;
-+			SIMDDetection.versionLimited = SIMDDetection.getJavaVersion() < 17; // DivineMC - Add Higher Java Version for Pufferfish SIMD
++			SIMDDetection.versionLimited = SIMDDetection.getJavaVersion() <= 17; // DivineMC - Add Higher Java Version for Pufferfish SIMD
  		} catch (NoClassDefFoundError | Exception ignored) {
  			ignored.printStackTrace();
  		}
