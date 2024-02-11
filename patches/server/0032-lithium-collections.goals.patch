@@ -3,9 +3,11 @@ From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
 Date: Sat, 8 Apr 2023 01:22:35 +0300
 Subject: [PATCH] lithium: collections.goals
 
+Original code by CaffeineMC, licensed under LGPL v3
+You can find the original code on https://github.com/CaffeineMC/lithium-fabric (Yarn mappings)
 
 diff --git a/src/main/java/net/minecraft/world/entity/ai/goal/GoalSelector.java b/src/main/java/net/minecraft/world/entity/ai/goal/GoalSelector.java
-index 8a70bc63e12838f45fa3eade74f2899438715886..93a97455587db28fed1b2fa7ee8063ad08c5120e 100644
+index 02978315bc2b828cc603ce7478408f3f82c249c2..d8ee71cb3afc0f63669d26c4160f7cd7ed2fd453 100644
 --- a/src/main/java/net/minecraft/world/entity/ai/goal/GoalSelector.java
 +++ b/src/main/java/net/minecraft/world/entity/ai/goal/GoalSelector.java
 @@ -13,6 +13,7 @@ import java.util.function.Supplier;

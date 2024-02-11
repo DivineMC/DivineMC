@@ -8,7 +8,7 @@ Link: https://github.com/starlis/empirecraft/blob/master/patches/server/0050-Do-
 This is a permanent change. Some players who have /give perms may abuse this to create lags on server
 
 diff --git a/src/main/java/net/minecraft/server/commands/GiveCommand.java b/src/main/java/net/minecraft/server/commands/GiveCommand.java
-index 0ff3b06a98b2f4514b2d861b92dd70fe678ae86c..b5646fbfb94ba07b8d723ffcf21e7506bc097f3e 100644
+index 599172b994d75484f7c7e0ce6d3d3d771c1c44d0..3a92072ded969bbdfd0c57b665770b5ada47ab39 100644
 --- a/src/main/java/net/minecraft/server/commands/GiveCommand.java
 +++ b/src/main/java/net/minecraft/server/commands/GiveCommand.java
 @@ -57,6 +57,11 @@ public class GiveCommand {

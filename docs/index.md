@@ -17,23 +17,29 @@ hero:
 
 features:
   - icon: 🍴
-    title: Fork of Purpur
-    details: DivineMC is the fork of Purpur compatible with Spigot plugins, offering the best performance for your server.
+    title: Based on Purpur
+    details: Purpur is a fork of Paper with new fun and exciting gameplay features, and performance boost.
   - icon: 📰
-    title: Lithium patches
-    details: DivineMC contains Lithium patches that optimizing many areas in game.
+    title: Popular mods implemented
+    details: Patches from mods such as Lithium, VMP, C2ME and others.
+  - icon: 🐾
+    title: Async Pathfinding
+    details: Makes pathfinding-related work happen asynchronously.
   - icon: 🏠
-    title: Linear region support
-    details: DivineMC implements Linear region support that 50% smaller than Anvil.
+    title: Linear region format 
+    details: Linear region format saves about 50% of disk space in Overworld and Nether and 95% in The End.
+  - icon: 💬
+    title: Configurable chat reports 
+    details: Disallow players from reporting others messages to Mojang.
+  - icon: 😌
+    title: Optimized Default Configuration
+    details: The default configuration files is optimized.
   - icon: 🐛
     title: Bug fixes
-    details: DivineMC have patches that fixes bugs for several Minecraft issues.
-  - icon: 🔌
-    title: Plugin compatibility
-    details: DivineMC have full compatibility with Spigot & Paper plugins.
+    details: Fixed Minecraft bugs that reported on Mojira.
   - icon: 🔃
     title: Always up-to date
-    details: DivineMC always updated to latest version of Purpur
+    details: DivineMC checks for updates from Purpur every day.
 ---
 
 <style>

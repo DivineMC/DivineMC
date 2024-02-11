@@ -1,0 +1,52 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Sat, 13 Jan 2024 18:58:14 +0300
+Subject: [PATCH] Carpet-Fixes: RecipeManager Optimize
+
+Original project: https://github.com/fxmorin/carpet-fixes
+Improves: [Blast]Furnace/Campfire/Smoker/Stonecutter/Crafting/Sheep Color Choosing
+
+diff --git a/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java
+index cc7f95d5460053d2475a62eb087682a2f28840a0..0c5a261bc83ad9b20b06b685914d880b67ff3ea2 100644
+--- a/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java
++++ b/src/main/java/gq/bxteam/divinemc/configuration/DivineConfig.java
+@@ -173,4 +173,9 @@ public class DivineConfig {
+     private static void chatMessageSignatures() {
+         chatMessageSignatures = getBoolean("settings.disable-chat-reports", chatMessageSignatures);
+     }
++
++    public static boolean recipeManagerOptimization = true;
++    private static void optimizations() {
++        recipeManagerOptimization = getBoolean("settings.optimizations.recipe-manager-optimization", recipeManagerOptimization);
++    }
+ }
+diff --git a/src/main/java/net/minecraft/world/item/crafting/RecipeManager.java b/src/main/java/net/minecraft/world/item/crafting/RecipeManager.java
+index b81e1802c8dcc8ebdef96d70088c18379598a66b..d89bb2757c9871d48fdc9e33401bc548dfb66b4e 100644
+--- a/src/main/java/net/minecraft/world/item/crafting/RecipeManager.java
++++ b/src/main/java/net/minecraft/world/item/crafting/RecipeManager.java
+@@ -11,14 +11,9 @@ import com.google.gson.JsonParseException;
+ import com.mojang.datafixers.util.Pair;
+ import com.mojang.logging.LogUtils;
+ import com.mojang.serialization.JsonOps;
+-import java.util.Collection;
+-import java.util.Collections;
+-import java.util.Comparator;
+-import java.util.Iterator;
+-import java.util.List;
+-import java.util.Map;
++
++import java.util.*;
+ import java.util.Map.Entry;
+-import java.util.Optional;
+ import java.util.stream.Collectors;
+ import java.util.stream.Stream;
+ import javax.annotation.Nullable;
+@@ -137,7 +132,7 @@ public class RecipeManager extends SimpleJsonResourceReloadListener {
+     }
+ 
+     public <C extends Container, T extends Recipe<C>> List<RecipeHolder<T>> getAllRecipesFor(RecipeType<T> type) {
+-        return List.copyOf(this.byType(type).values());
++        return gq.bxteam.divinemc.configuration.DivineConfig.recipeManagerOptimization ? new ArrayList<>(this.byType(type).values()) : List.copyOf(this.byType(type).values()); // DivineMC - Carpet-Fixes: RecipeManager Optimize
+     }
+ 
+     public <C extends Container, T extends Recipe<C>> List<RecipeHolder<T>> getRecipesFor(RecipeType<T> type, C inventory, Level world) {

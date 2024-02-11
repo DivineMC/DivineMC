@@ -1,0 +1,28 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Sat, 13 Jan 2024 20:37:54 +0300
+Subject: [PATCH] lithium: entity.fast_elytra_check + entity.fast_hand_swing
+
+Original code by CaffeineMC, licensed under LGPL v3
+You can find the original code on https://github.com/CaffeineMC/lithium-fabric (Yarn mappings)
+
+diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
+index 594826f06fc142e3e1255d3eaef15ced9935e262..70d1481c42322f7307e83b2c7bb10aec663227c9 100644
+--- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
++++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
+@@ -2602,6 +2602,7 @@ public abstract class LivingEntity extends Entity implements Attackable {
+     }
+ 
+     protected void updateSwingTime() {
++        if (!this.swinging && this.swingTime == 0) return; // DivineMC - lithium: entity.fast_hand_swing
+         int i = this.getCurrentSwingDuration();
+ 
+         if (this.swinging) {
+@@ -3633,6 +3634,7 @@ public abstract class LivingEntity extends Entity implements Attackable {
+     }
+ 
+     private void updateFallFlying() {
++        if (!this.isFallFlying()) return; // DivineMC - lithium: entity.fast_elytra_check
+         boolean flag = this.getSharedFlag(7);
+ 
+         if (flag && !this.onGround() && !this.isPassenger() && !this.hasEffect(MobEffects.LEVITATION)) {

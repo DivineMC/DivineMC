@@ -1,0 +1,30 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Sun, 14 Jan 2024 14:50:10 +0300
+Subject: [PATCH] vmp: use linked map for entity trackers for faster iteration
+
+Original code by RelativityMC, licensed under MIT
+You can find the original code on https://github.com/RelativityMC/VMP-fabric (Yarn mappings)
+
+diff --git a/src/main/java/net/minecraft/server/level/ChunkMap.java b/src/main/java/net/minecraft/server/level/ChunkMap.java
+index 6cf36826cf8f5d4a78917d574786b9e94bc7b2d1..eb74495b66bb5c82fd7ae305354565dfd256e6db 100644
+--- a/src/main/java/net/minecraft/server/level/ChunkMap.java
++++ b/src/main/java/net/minecraft/server/level/ChunkMap.java
+@@ -89,6 +89,8 @@ import org.slf4j.Logger;
+ import org.bukkit.craftbukkit.generator.CustomChunkGenerator;
+ // CraftBukkit end
+ 
++import it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap; // DivineMC - vmp: use linked map for entity trackers for faster iteration
++
+ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider {
+ 
+     private static final byte CHUNK_TYPE_REPLACEABLE = -1;
+@@ -233,7 +235,7 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
+         // Paper - rewrite chunk system
+         this.tickingGenerated = new AtomicInteger();
+         this.playerMap = new PlayerMap();
+-        this.entityMap = new Int2ObjectOpenHashMap();
++        this.entityMap = new Int2ObjectLinkedOpenHashMap<>(); // DivineMC - vmp: use linked map for entity trackers for faster iteration
+         this.chunkTypeCache = new Long2ByteOpenHashMap();
+         this.chunkSaveCooldowns = new Long2LongOpenHashMap();
+         this.unloadQueue = Queues.newConcurrentLinkedQueue();

@@ -1,0 +1,28 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Sun, 14 Jan 2024 22:54:49 +0300
+Subject: [PATCH] Improve biome temperature cache
+
+
+diff --git a/src/main/java/net/minecraft/world/level/biome/Biome.java b/src/main/java/net/minecraft/world/level/biome/Biome.java
+index efca73d4de33028cf9df944f36e51b7b50f7a4c5..0062435a0782f05964269452eac560b9426bbc5a 100644
+--- a/src/main/java/net/minecraft/world/level/biome/Biome.java
++++ b/src/main/java/net/minecraft/world/level/biome/Biome.java
+@@ -67,7 +67,7 @@ public final class Biome {
+     private final MobSpawnSettings mobSettings;
+     private final BiomeSpecialEffects specialEffects;
+     // Pufferfish start - use our cache
+-    private final ThreadLocal<gg.airplane.structs.Long2FloatAgingCache> temperatureCache = ThreadLocal.withInitial(() -> {
++    private static final ThreadLocal<gg.airplane.structs.Long2FloatAgingCache> temperatureCache = ThreadLocal.withInitial(() -> { // DivineMC - Improve biome temperature cache
+         return Util.make(() -> {
+             /*
+             Long2FloatLinkedOpenHashMap long2FloatLinkedOpenHashMap = new Long2FloatLinkedOpenHashMap(1024, 0.25F) {
+@@ -125,7 +125,7 @@ public final class Biome {
+     public float getTemperature(BlockPos blockPos) {
+         long l = blockPos.asLong();
+         // Pufferfish start
+-        gg.airplane.structs.Long2FloatAgingCache cache = this.temperatureCache.get();
++        gg.airplane.structs.Long2FloatAgingCache cache = temperatureCache.get(); // DivineMC - Improve biome temperature cache
+         float f = cache.getValue(l);
+         if (!Float.isNaN(f)) {
+             return f;

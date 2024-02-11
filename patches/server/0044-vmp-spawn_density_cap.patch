@@ -1,0 +1,41 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Tue, 16 Jan 2024 20:35:06 +0300
+Subject: [PATCH] vmp: spawn_density_cap
+
+Original code by RelativityMC, licensed under MIT
+You can find the original code on https://github.com/RelativityMC/VMP-fabric (Yarn mappings)
+
+diff --git a/src/main/java/net/minecraft/world/level/LocalMobCapCalculator.java b/src/main/java/net/minecraft/world/level/LocalMobCapCalculator.java
+index 84c766e09898cfc07d6e07e80f4b9aa318050a62..66fe98e671a7e5fe3d3235d050020a92a8ddea8f 100644
+--- a/src/main/java/net/minecraft/world/level/LocalMobCapCalculator.java
++++ b/src/main/java/net/minecraft/world/level/LocalMobCapCalculator.java
+@@ -3,8 +3,6 @@ package net.minecraft.world.level;
+ import com.google.common.collect.Maps;
+ import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
+ import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
+-import it.unimi.dsi.fastutil.objects.Object2IntMap;
+-import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
+ import java.util.List;
+ import java.util.Map;
+ import net.minecraft.server.level.ChunkMap;
+@@ -47,16 +45,14 @@ public class LocalMobCapCalculator {
+     }
+ 
+     static class MobCounts {
+-        private final Object2IntMap<MobCategory> counts = new Object2IntOpenHashMap<>(MobCategory.values().length);
++        private final int[] spawnGroupDensities = new int[MobCategory.values().length]; // DivineMC - vmp: spawn_density_cap
+ 
+         public void add(MobCategory spawnGroup) {
+-            this.counts.computeInt(spawnGroup, (group, density) -> {
+-                return density == null ? 1 : density + 1;
+-            });
++            this.spawnGroupDensities[spawnGroup.ordinal()]++; // DivineMC - vmp: spawn_density_cap
+         }
+ 
+         public boolean canSpawn(MobCategory spawnGroup) {
+-            return this.counts.getOrDefault(spawnGroup, 0) < spawnGroup.getMaxInstancesPerChunk();
++            return this.spawnGroupDensities[spawnGroup.ordinal()] < spawnGroup.getMaxInstancesPerChunk(); // DivineMC - vmp: spawn_density_cap
+         }
+     }
+ }

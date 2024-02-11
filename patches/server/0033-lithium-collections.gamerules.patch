@@ -3,6 +3,8 @@ From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
 Date: Sat, 8 Apr 2023 01:28:01 +0300
 Subject: [PATCH] lithium: collections.gamerules
 
+Original code by CaffeineMC, licensed under LGPL v3
+You can find the original code on https://github.com/CaffeineMC/lithium-fabric (Yarn mappings)
 
 diff --git a/src/main/java/net/minecraft/world/level/GameRules.java b/src/main/java/net/minecraft/world/level/GameRules.java
 index a9be16e53a9df34af3495048aa9af7b1a3efea4a..0c360ca01bec47c738ef80d74986599af70373da 100644

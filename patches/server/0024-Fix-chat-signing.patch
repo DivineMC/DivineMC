@@ -5,7 +5,7 @@ Subject: [PATCH] Fix chat signing
 
 
 diff --git a/src/main/java/net/minecraft/network/chat/SignedMessageChain.java b/src/main/java/net/minecraft/network/chat/SignedMessageChain.java
-index 85a8a687b1568a56e3e646b37ef78b562c1b8a82..ec6f6db1b0a1f0a1ed1016d36238c77a382d5b3a 100644
+index 69971b2c59e541ac4100b84c84e2972de1b44ca9..e9616926d7b2a241c833b3f023818997e2bde570 100644
 --- a/src/main/java/net/minecraft/network/chat/SignedMessageChain.java
 +++ b/src/main/java/net/minecraft/network/chat/SignedMessageChain.java
 @@ -43,15 +43,7 @@ public class SignedMessageChain {

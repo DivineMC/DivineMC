@@ -1,0 +1,28 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Sat, 13 Jan 2024 20:04:54 +0300
+Subject: [PATCH] lithium: collections.attributes
+
+Original code by CaffeineMC, licensed under LGPL v3
+You can find the original code on https://github.com/CaffeineMC/lithium-fabric (Yarn mappings)
+
+diff --git a/src/main/java/net/minecraft/world/entity/ai/attributes/AttributeMap.java b/src/main/java/net/minecraft/world/entity/ai/attributes/AttributeMap.java
+index 6b0855cffb901dbc7dcc5fd44506275206bc9a2d..d3e52ae7c563cf5331ac6ebcffa5daffa5fff7df 100644
+--- a/src/main/java/net/minecraft/world/entity/ai/attributes/AttributeMap.java
++++ b/src/main/java/net/minecraft/world/entity/ai/attributes/AttributeMap.java
+@@ -17,11 +17,13 @@ import net.minecraft.nbt.CompoundTag;
+ import net.minecraft.nbt.ListTag;
+ import net.minecraft.resources.ResourceLocation;
+ import org.slf4j.Logger;
++import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap; // DivineMC
++import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet; // DivineMC
+ 
+ public class AttributeMap {
+     private static final Logger LOGGER = LogUtils.getLogger();
+-    private final Map<Attribute, AttributeInstance> attributes = Maps.newHashMap();
+-    private final Set<AttributeInstance> dirtyAttributes = Sets.newHashSet();
++    private final Map<Attribute, AttributeInstance> attributes = new Reference2ReferenceOpenHashMap<>(0); // DivineMC
++    private final Set<AttributeInstance> dirtyAttributes = new ReferenceOpenHashSet<>(0); // DivineMC
+     private final AttributeSupplier supplier;
+     private final java.util.function.Function<Attribute, AttributeInstance> createInstance; // Pufferfish
+     private final net.minecraft.world.entity.LivingEntity entity; // Purpur
