@@ -28,7 +28,7 @@ DivineMC is a drop in replacement for both CraftBukkit and Spigot, you don't nee
 
 ## Downloading DivineMC
 
-DivineMC provides runnable server jars directly from [releases tab](https://github.com/DivineMC/DivineMC/releases/latest) on GitHub or on home page website [here](https://divinemc.bxteam.gq/#download).
+DivineMC provides runnable server jars directly from [releases tab](https://github.com/DivineMC/DivineMC/releases/latest) on GitHub.
 
 Click on the _DivineMC-paperclip-VERSION-reobf.jar_ to download a runnable paperclip jar.
 
@@ -43,7 +43,7 @@ you have downloaded. (or just rename downloaded jar to server.jar)
 The amount of RAM can be set by changing the numbers in the `-Xms` and `-Xmx` arguments. `--nogui`
 disables Vanilla's GUI, so you don't get double interfaces when using the command line.
 
-For more advanced Java tuning, see [Aikar's Flags](https://divinemc.bxteam.gq/blog/2022/12/30/Aikar-Flags) tutorial on our blog. Or you can read more [advanced Aikar's Flags](https://divinemc.bxteam.gq/blog/2023/01/20/Updated-Aikar-Flags) tutorial on our blog.
+For more advanced Java tuning, see [Aikar's Flags](https://docs.papermc.io/paper/aikars-flags) or read original [here](https://aikar.co/2018/07/02/tuning-the-jvm-g1gc-garbage-collector-flags-for-minecraft/).
 
 ## List of all DivineMC versions
 

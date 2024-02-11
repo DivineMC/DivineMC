@@ -71,10 +71,10 @@ index c40979e2fa37acb2f3df493395f3ab6e185345d7..16250b44775b2ccd02e2112600c9f3ba
  
      public static record Favicon(byte[] iconBytes) {
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 3f29a112c781790577d2857aee18c66ff3593673..320b1d999d5a790156bd3030bf32d76f9e003ced 100644
+index 193bb055b6e8d7d2ec166ceadfaf7af6e2c7dc33..f74bbfda4dd86893d77e50903d4942635b564c29 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-@@ -686,6 +686,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -687,6 +687,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
  
      @Override
      public boolean enforceSecureProfile() {
@@ -83,7 +83,7 @@ index 3f29a112c781790577d2857aee18c66ff3593673..320b1d999d5a790156bd3030bf32d76f
  
          // Paper start - Add setting for proxy online mode status
 diff --git a/src/main/java/net/minecraft/server/level/ServerPlayer.java b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-index 352eb214013111e199fff43ded3a7a617fc90c66..d257c69c383aa70b28b27ba22e775e1307001dfe 100644
+index 36b7686fdfeaab13cb1be9610ddc76fc70f6f6e5..5fbde0fc6263e7fd926c6791838050d956c3284f 100644
 --- a/src/main/java/net/minecraft/server/level/ServerPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/ServerPlayer.java
 @@ -2258,7 +2258,7 @@ public class ServerPlayer extends Player {
@@ -157,7 +157,7 @@ index 02e65b0bd212d46855baee48fab35dc95a88b43f..1a5b7bbe6638daa0876bbee810e9e1ed
          if (packet == null || this.processedDisconnect) { // Spigot
              return;
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index b230739cf929c8f2b51a812fffe54be343ce3e05..8b09af2410b57680be026d84f8b8a85c48e0cde6 100644
+index 323391509c2efd49c54d7b36d7aa880c63ae5fd4..5e5a80cfac803e5a6aba3e9eb7d161bcfcd6ad53 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -1468,7 +1468,7 @@ public abstract class PlayerList {
