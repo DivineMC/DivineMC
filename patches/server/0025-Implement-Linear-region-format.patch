@@ -883,7 +883,7 @@ index 4aac1979cf57300825a999c876fcf24d3170e68e..76d81ecc29cd3483974b2c47048e10f5
          this.factory = factory;
          this.fixerUpper = dataFixer;
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-index 9f2d1e3bc19ef541550e4d088343d10ea641cd23..5a3366fd35d253066a826db595a5d4d7beab458e 100644
+index 69f0c853ed7287c5a93b0a67e266255090e2a9ca..7f7f09e46225e8402a016e0dace034c26dac00bc 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
 @@ -5,7 +5,7 @@ import com.google.common.base.Predicates;
@@ -903,7 +903,7 @@ index 9f2d1e3bc19ef541550e4d088343d10ea641cd23..5a3366fd35d253066a826db595a5d4d7
  import java.util.function.Consumer;
  import java.util.function.Predicate;
  import java.util.stream.Collectors;
-@@ -120,7 +119,6 @@ import org.bukkit.entity.TippedArrow;
+@@ -124,7 +123,6 @@ import org.bukkit.entity.TippedArrow;
  import org.bukkit.entity.Trident;
  import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
  import org.bukkit.event.weather.LightningStrikeEvent;
@@ -911,7 +911,7 @@ index 9f2d1e3bc19ef541550e4d088343d10ea641cd23..5a3366fd35d253066a826db595a5d4d7
  import org.bukkit.event.world.TimeSkipEvent;
  import org.bukkit.generator.BiomeProvider;
  import org.bukkit.generator.BlockPopulator;
-@@ -567,7 +565,7 @@ public class CraftWorld extends CraftRegionAccessor implements World {
+@@ -573,7 +571,7 @@ public class CraftWorld extends CraftRegionAccessor implements World {
                  world.getChunk(x, z); // make sure we're at ticket level 32 or lower
                  return true;
              }

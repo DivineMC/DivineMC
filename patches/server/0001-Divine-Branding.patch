@@ -185,10 +185,10 @@ index 7f07ffab0835d45d4d170fe171d7fa996d5913d9..fde3e7ef352474566e7259555a5f8ffb
                      servergui.runFinalizers();
                  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 08b622c733e4275e70c984d938f4376dd0416b33..9d93b0e2d9ce9b761f7ed392952d3136cd65596a 100644
+index 0a5867b01c1ebf21d9add1d4a2843d15b8e1acb7..1afacdb9fa77564ed55622c248e0579255ed1a07 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -264,7 +264,7 @@ import javax.annotation.Nullable; // Paper
+@@ -266,7 +266,7 @@ import javax.annotation.Nullable; // Paper
  import javax.annotation.Nonnull; // Paper
  
  public final class CraftServer implements Server {

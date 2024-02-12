@@ -5,10 +5,10 @@ Subject: [PATCH] Don't save Fireworks
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/FireworkRocketEntity.java b/src/main/java/net/minecraft/world/entity/projectile/FireworkRocketEntity.java
-index b2f08889139dc447f7071f1c81456035bf8de31e..3c364f5c4cafba917edb605de017aca2445b3d6f 100644
+index 7005b3a26e9b5d79064981a4a41bee21b65a9fc3..1dfe386460d1de7034b4e9416b120f07875261bb 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/FireworkRocketEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/projectile/FireworkRocketEntity.java
-@@ -357,4 +357,11 @@ public class FireworkRocketEntity extends Projectile implements ItemSupplier {
+@@ -352,4 +352,11 @@ public class FireworkRocketEntity extends Projectile implements ItemSupplier {
      public boolean isAttackable() {
          return false;
      }
