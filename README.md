@@ -7,7 +7,7 @@
   
   [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/DivineMC/DivineMC/build.yml?logo=GoogleAnalytics&logoColor=ffffff&style=for-the-badge)](https://github.com/DivineMC/DivineMC/actions)
   [![Discord](https://img.shields.io/discord/931595732752953375?color=5865F2&label=discord&style=for-the-badge)](https://discord.gg/p7cxhw7E2M)
-  [![Download](https://img.shields.io/github/downloads/DivineMC/DivineMC/total?&style=for-the-badge&logoColor=ffffff)](https://github.com/DivineMC/DivineMC/releases/latest)
+  [![Download](https://img.shields.io/github/downloads/DivineMC/DivineMC/total?style=for-the-badge)](https://github.com/DivineMC/DivineMC/releases/latest)
 </div>
 
 ## ⚙️ Features

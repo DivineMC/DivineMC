@@ -5,7 +5,7 @@ Subject: [PATCH] Divine Branding
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 0c92d10f334f82d196e065c0811d0c1f48887377..6964b6235bed4455b85aa69cef0049a769c5daad 100644
+index 6bceca84bd073e25fc9aa19b8b713a2873713696..76faa8e9965d0743fc51eb2d6e6838dd9e85dfba 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -14,7 +14,7 @@ val alsoShade: Configuration by configurations.creating
@@ -17,7 +17,7 @@ index 0c92d10f334f82d196e065c0811d0c1f48887377..6964b6235bed4455b85aa69cef0049a7
      implementation("io.papermc.paper:paper-mojangapi:${project.version}") {
          exclude("io.papermc.paper", "paper-api")
      }
-@@ -92,7 +92,7 @@ tasks.jar {
+@@ -93,7 +93,7 @@ tasks.jar {
          attributes(
              "Main-Class" to "org.bukkit.craftbukkit.Main",
              "Implementation-Title" to "CraftBukkit",
