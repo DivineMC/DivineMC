@@ -5,7 +5,7 @@ Subject: [PATCH] Make entity goals public
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/animal/Bee.java b/src/main/java/net/minecraft/world/entity/animal/Bee.java
-index bdb78cc701543cfe91a6bafd1786fe2ea0bf1ddc..40c31cc3a83a8776d396d5d14fce8c795ab08bd3 100644
+index 997ab942be9f742804041b07d607e7dd6473ba96..aea0b36a52b2e9794daf8043f6a4279e52fec931 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/Bee.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/Bee.java
 @@ -774,7 +774,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
@@ -90,7 +90,7 @@ index bdb78cc701543cfe91a6bafd1786fe2ea0bf1ddc..40c31cc3a83a8776d396d5d14fce8c79
          BaseBeeGoal() {}
  
 diff --git a/src/main/java/net/minecraft/world/entity/animal/Cat.java b/src/main/java/net/minecraft/world/entity/animal/Cat.java
-index 6e5b4a50b8d2dddbd7f099426b4866b35bcb798a..2bcd475cca90d356de056f9b8f023d0d6392fe44 100644
+index 6af5e1dfcfd739e0bc857f648c189151d5a795c8..149ff2637ca70e26cb7a36ae35ed82508183daa7 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/Cat.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/Cat.java
 @@ -568,7 +568,7 @@ public class Cat extends TamableAnimal implements VariantHolder<CatVariant> {
@@ -112,10 +112,10 @@ index 6e5b4a50b8d2dddbd7f099426b4866b35bcb798a..2bcd475cca90d356de056f9b8f023d0d
          private final Cat cat;
  
 diff --git a/src/main/java/net/minecraft/world/entity/monster/Pillager.java b/src/main/java/net/minecraft/world/entity/monster/Pillager.java
-index 06d52d8b61abc4dbbdc953bfed2e688be377b3cc..a5490068d200ed78ca720ae804a1b26faa4cba7f 100644
+index d5becd13774f9a2ead77d58e777ffc9aea10cb60..7c9ed0f28116d4aad6bbabd5d710cd4bbfbd59dd 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/Pillager.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/Pillager.java
-@@ -99,7 +99,7 @@ public class Pillager extends AbstractIllager implements CrossbowAttackMob, Inve
+@@ -103,7 +103,7 @@ public class Pillager extends AbstractIllager implements CrossbowAttackMob, Inve
          super.registerGoals();
          this.goalSelector.addGoal(0, new FloatGoal(this));
          this.goalSelector.addGoal(0, new org.purpurmc.purpur.entity.ai.HasRider(this)); // Purpur
@@ -125,7 +125,7 @@ index 06d52d8b61abc4dbbdc953bfed2e688be377b3cc..a5490068d200ed78ca720ae804a1b26f
          this.goalSelector.addGoal(8, new RandomStrollGoal(this, 0.6D));
          this.goalSelector.addGoal(9, new LookAtPlayerGoal(this, Player.class, 15.0F, 1.0F));
 diff --git a/src/main/java/net/minecraft/world/entity/monster/Vindicator.java b/src/main/java/net/minecraft/world/entity/monster/Vindicator.java
-index ffe956f200dd0b4148043d0d7f2eac007a9f22b1..a5608ddd34afd96ac166758f5d8ec88ed92d34cd 100644
+index ee9d5933f74584452a1b27a392e7d36dac5b9bc9..bda187a54fab35059565219a6aa7c32406dcfe9a 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/Vindicator.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/Vindicator.java
 @@ -97,7 +97,7 @@ public class Vindicator extends AbstractIllager {
@@ -138,10 +138,10 @@ index ffe956f200dd0b4148043d0d7f2eac007a9f22b1..a5608ddd34afd96ac166758f5d8ec88e
          this.targetSelector.addGoal(0, new org.purpurmc.purpur.entity.ai.HasRider(this)); // Purpur
          this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, Raider.class)).setAlertOthers());
 diff --git a/src/main/java/net/minecraft/world/entity/raid/Raider.java b/src/main/java/net/minecraft/world/entity/raid/Raider.java
-index 300411e88cdaef7e0ce280edbd5f18fa8d004a33..80e0a66abd9cd6ad9135658adb3044f97e0b7ba1 100644
+index b3912881892b4f1bca577761083c5da1568c8187..5e8c9177644896d8f9243c3e7ce903fcdc6e9fa2 100644
 --- a/src/main/java/net/minecraft/world/entity/raid/Raider.java
 +++ b/src/main/java/net/minecraft/world/entity/raid/Raider.java
-@@ -352,7 +352,7 @@ public abstract class Raider extends PatrollingMonster {
+@@ -355,7 +355,7 @@ public abstract class Raider extends PatrollingMonster {
          }
      }
  
@@ -150,12 +150,12 @@ index 300411e88cdaef7e0ce280edbd5f18fa8d004a33..80e0a66abd9cd6ad9135658adb3044f9
  
          private final Raider raider;
          private final double speedModifier;
-@@ -500,7 +500,7 @@ public abstract class Raider extends PatrollingMonster {
+@@ -503,7 +503,7 @@ public abstract class Raider extends PatrollingMonster {
          }
      }
  
--    protected class HoldGroundAttackGoal extends Goal {
-+    public static class HoldGroundAttackGoal extends Goal { // DivineMC - protected -> public static
+-    public class HoldGroundAttackGoal extends Goal {
++    public static class HoldGroundAttackGoal extends Goal { // DivineMC - public -> public static
  
          private final Raider mob;
          private final float hostileRadiusSqr;

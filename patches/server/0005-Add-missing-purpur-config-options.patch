@@ -33,7 +33,7 @@ index c783ce59ea766e6c46a3313628b961f27e01ee8b..4f6b6967f7f632752fcc4faac47dca51
      protected Brain.Provider<Allay> brainProvider() {
          return Brain.provider(Allay.MEMORY_TYPES, Allay.SENSOR_TYPES);
 diff --git a/src/main/java/net/minecraft/world/entity/animal/camel/Camel.java b/src/main/java/net/minecraft/world/entity/animal/camel/Camel.java
-index fb50a3f3665cca4bb2e586fbd73c580a5d691f69..264bbd782e503d75e0b3d1c087e875b75ad22490 100644
+index 41773acc8e8e27daa1fe43726939b2d95da92c30..c92ddc7ea45b6044c9206b9196d49fe05b42689d 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/camel/Camel.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/camel/Camel.java
 @@ -97,6 +97,18 @@ public class Camel extends AbstractHorse implements PlayerRideableJumping, Saddl
@@ -84,10 +84,10 @@ index d6340d0a1308bafd3ba176562bf08dcadec02b34..bc991589effff1a0c9bd48a16c7d460b
      protected Brain.Provider<Frog> brainProvider() {
          return Brain.provider(MEMORY_TYPES, SENSOR_TYPES);
 diff --git a/src/main/java/net/minecraft/world/entity/animal/frog/Tadpole.java b/src/main/java/net/minecraft/world/entity/animal/frog/Tadpole.java
-index 14135dac80dec4224715e21cef6556d22e569026..e0e1a29abef0415f0e1a2a65dc15e9c715de148e 100644
+index 2a9c2a69a0589e4e7b7c79d3716376b360a2eba1..b12b79765301782202abfe6b6da2b279a015e927 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/frog/Tadpole.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/frog/Tadpole.java
-@@ -89,6 +89,23 @@ public class Tadpole extends AbstractFish {
+@@ -92,6 +92,23 @@ public class Tadpole extends AbstractFish {
      }
      // Purpur end
  
@@ -163,11 +163,11 @@ index bf7ef72a7d92db8f11789a69583270644de0dac7..1bcdee570baf1499d660d019cf03b66d
      public Packet<ClientGamePacketListener> getAddEntityPacket() {
          return new ClientboundAddEntityPacket(this, this.hasPose(Pose.EMERGING) ? 1 : 0);
 diff --git a/src/main/java/net/minecraft/world/entity/vehicle/ChestBoat.java b/src/main/java/net/minecraft/world/entity/vehicle/ChestBoat.java
-index bc3fe45d12ffc2069a03d1587b7623d31130565a..81aecab9e7d11237a441aa6f92440add9223afe5 100644
+index 58af87b8faf4f8d6bdb111c49a429466acface68..bbadae5873db4b49273b054c1921a401f119fc3a 100644
 --- a/src/main/java/net/minecraft/world/entity/vehicle/ChestBoat.java
 +++ b/src/main/java/net/minecraft/world/entity/vehicle/ChestBoat.java
-@@ -30,6 +30,9 @@ import org.bukkit.craftbukkit.entity.CraftHumanEntity;
- import org.bukkit.entity.HumanEntity;
+@@ -32,6 +32,9 @@ import org.bukkit.entity.HumanEntity;
+ import org.bukkit.event.entity.EntityRemoveEvent;
  import org.bukkit.inventory.InventoryHolder;
  // CraftBukkit end
 +// DivineMC start
@@ -176,7 +176,7 @@ index bc3fe45d12ffc2069a03d1587b7623d31130565a..81aecab9e7d11237a441aa6f92440add
  
  public class ChestBoat extends Boat implements HasCustomInventoryScreen, ContainerEntity {
  
-@@ -41,7 +44,7 @@ public class ChestBoat extends Boat implements HasCustomInventoryScreen, Contain
+@@ -43,7 +46,7 @@ public class ChestBoat extends Boat implements HasCustomInventoryScreen, Contain
  
      public ChestBoat(EntityType<? extends Boat> type, Level world) {
          super(type, world);
@@ -185,7 +185,7 @@ index bc3fe45d12ffc2069a03d1587b7623d31130565a..81aecab9e7d11237a441aa6f92440add
      }
  
      public ChestBoat(Level world, double d0, double d1, double d2) {
-@@ -161,7 +164,7 @@ public class ChestBoat extends Boat implements HasCustomInventoryScreen, Contain
+@@ -170,7 +173,7 @@ public class ChestBoat extends Boat implements HasCustomInventoryScreen, Contain
  
      @Override
      public int getContainerSize() {
@@ -195,7 +195,7 @@ index bc3fe45d12ffc2069a03d1587b7623d31130565a..81aecab9e7d11237a441aa6f92440add
  
      @Override
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-index 7d24b3177c41661bbd35d51e7e33dedc2fc69d2c..987f6fcf7b5e4f9144ecee865e19d1354ba5a425 100644
+index fe4c1659f0ca111db8a6d2d6b06d1783872705d6..80a5df11f57fb39a71461b774f0f5bcf94cd4c5c 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 @@ -328,6 +328,7 @@ public class PurpurConfig {
@@ -215,7 +215,7 @@ index 7d24b3177c41661bbd35d51e7e33dedc2fc69d2c..987f6fcf7b5e4f9144ecee865e19d135
          org.bukkit.event.inventory.InventoryType.ENDER_CHEST.setDefaultSize(enderChestSixRows ? 54 : 27);
          enderChestPermissionRows = getBoolean("settings.blocks.ender_chest.use-permissions-for-rows", enderChestPermissionRows);
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
-index a78173ac1a8a71048bd6dbad84c0163e51cd150f..6d98a94b0a3eab30914c5df2def4e092f1c7921f 100644
+index 65ac86d07aeabb019132e180e5ed6b197e9ccad3..de37ef8ad67708c7557d087f2600d7448b634592 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 @@ -1180,7 +1180,17 @@ public class PurpurWorldConfig {

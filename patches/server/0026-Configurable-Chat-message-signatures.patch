@@ -57,7 +57,7 @@ index c40979e2fa37acb2f3df493395f3ab6e185345d7..826e4a8618db5328ad2df21fd08e5b1c
  
      public static record Favicon(byte[] iconBytes) {
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 2bb3735d650c5cb379f5a52cb9ae2e7d5df3803d..b7edd3581873c20b596f8bca2a2ba2a8b77be3d6 100644
+index 41cffa00d4978f46b47ac6ede2da2a256796a0ba..9fa9a1e1efab58f3133b32517bb04c2ec708816d 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -682,6 +682,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
@@ -143,10 +143,10 @@ index 02e65b0bd212d46855baee48fab35dc95a88b43f..9d9c1bc8bdf55998172bca5edf78d9b8
          if (packet == null || this.processedDisconnect) { // Spigot
              return;
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 323391509c2efd49c54d7b36d7aa880c63ae5fd4..964b6df964fa4f74bef37f2f19683e5d2443e5ab 100644
+index ac1e0c66f167218306504db6037cc1d6509072a0..7784a81f2b861e1f5c9dd7a7885e8be70b89bc8a 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
-@@ -1468,7 +1468,7 @@ public abstract class PlayerList {
+@@ -1469,7 +1469,7 @@ public abstract class PlayerList {
          // Paper end
          boolean flag = this.verifyChatTrusted(message);
  
@@ -155,7 +155,7 @@ index 323391509c2efd49c54d7b36d7aa880c63ae5fd4..964b6df964fa4f74bef37f2f19683e5d
          OutgoingChatMessage outgoingchatmessage = OutgoingChatMessage.create(message);
          boolean flag1 = false;
  
-@@ -1497,6 +1497,7 @@ public abstract class PlayerList {
+@@ -1498,6 +1498,7 @@ public abstract class PlayerList {
      }
  
      public boolean verifyChatTrusted(PlayerChatMessage message) { // Paper - private -> public
