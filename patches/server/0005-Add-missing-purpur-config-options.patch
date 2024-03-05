@@ -215,10 +215,10 @@ index fe4c1659f0ca111db8a6d2d6b06d1783872705d6..80a5df11f57fb39a71461b774f0f5bcf
          org.bukkit.event.inventory.InventoryType.ENDER_CHEST.setDefaultSize(enderChestSixRows ? 54 : 27);
          enderChestPermissionRows = getBoolean("settings.blocks.ender_chest.use-permissions-for-rows", enderChestPermissionRows);
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
-index 65ac86d07aeabb019132e180e5ed6b197e9ccad3..de37ef8ad67708c7557d087f2600d7448b634592 100644
+index 002c9bba93dede25111c653ec1df38316f19421f..2d829f61b66cc3b2ff9e90cac038c67b8620a9c3 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
-@@ -1180,7 +1180,17 @@ public class PurpurWorldConfig {
+@@ -1170,7 +1170,17 @@ public class PurpurWorldConfig {
      public boolean allayRidableInWater = true;
      public boolean allayControllable = true;
      public List<String> allayRespectNBT = new ArrayList<>();
@@ -236,7 +236,7 @@ index 65ac86d07aeabb019132e180e5ed6b197e9ccad3..de37ef8ad67708c7557d087f2600d744
          allayRidable = getBoolean("mobs.allay.ridable", allayRidable);
          allayRidableInWater = getBoolean("mobs.allay.ridable-in-water", allayRidableInWater);
          allayControllable = getBoolean("mobs.allay.controllable", allayControllable);
-@@ -1299,7 +1309,15 @@ public class PurpurWorldConfig {
+@@ -1289,7 +1299,15 @@ public class PurpurWorldConfig {
      public double camelMovementSpeedMin = 0.09D;
      public double camelMovementSpeedMax = 0.09D;
      public int camelBreedingTicks = 6000;
@@ -252,7 +252,7 @@ index 65ac86d07aeabb019132e180e5ed6b197e9ccad3..de37ef8ad67708c7557d087f2600d744
          camelRidableInWater = getBoolean("mobs.camel.ridable-in-water", camelRidableInWater);
          camelMaxHealthMin = getDouble("mobs.camel.attributes.max_health.min", camelMaxHealthMin);
          camelMaxHealthMax = getDouble("mobs.camel.attributes.max_health.max", camelMaxHealthMax);
-@@ -1727,7 +1745,17 @@ public class PurpurWorldConfig {
+@@ -1717,7 +1735,17 @@ public class PurpurWorldConfig {
      public boolean frogControllable = true;
      public float frogRidableJumpHeight = 0.65F;
      public int frogBreedingTicks = 6000;
@@ -270,7 +270,7 @@ index 65ac86d07aeabb019132e180e5ed6b197e9ccad3..de37ef8ad67708c7557d087f2600d744
          frogRidable = getBoolean("mobs.frog.ridable", frogRidable);
          frogRidableInWater = getBoolean("mobs.frog.ridable-in-water", frogRidableInWater);
          frogControllable = getBoolean("mobs.frog.controllable", frogControllable);
-@@ -2678,7 +2706,15 @@ public class PurpurWorldConfig {
+@@ -2668,7 +2696,15 @@ public class PurpurWorldConfig {
      public boolean snifferControllable = true;
      public double snifferMaxHealth = 14.0D;
      public int snifferBreedingTicks = 6000;
@@ -286,7 +286,7 @@ index 65ac86d07aeabb019132e180e5ed6b197e9ccad3..de37ef8ad67708c7557d087f2600d744
          snifferRidable = getBoolean("mobs.sniffer.ridable", snifferRidable);
          snifferRidableInWater = getBoolean("mobs.sniffer.ridable-in-water", snifferRidableInWater);
          snifferControllable = getBoolean("mobs.sniffer.controllable", snifferControllable);
-@@ -2777,7 +2813,17 @@ public class PurpurWorldConfig {
+@@ -2767,7 +2803,17 @@ public class PurpurWorldConfig {
      public boolean tadpoleRidable = false;
      public boolean tadpoleRidableInWater = true;
      public boolean tadpoleControllable = true;
@@ -304,7 +304,7 @@ index 65ac86d07aeabb019132e180e5ed6b197e9ccad3..de37ef8ad67708c7557d087f2600d744
          tadpoleRidable = getBoolean("mobs.tadpole.ridable", tadpoleRidable);
          tadpoleRidableInWater = getBoolean("mobs.tadpole.ridable-in-water", tadpoleRidableInWater);
          tadpoleControllable = getBoolean("mobs.tadpole.controllable", tadpoleControllable);
-@@ -2989,7 +3035,17 @@ public class PurpurWorldConfig {
+@@ -2979,7 +3025,17 @@ public class PurpurWorldConfig {
      public boolean wardenRidable = false;
      public boolean wardenRidableInWater = true;
      public boolean wardenControllable = true;

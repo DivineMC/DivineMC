@@ -6,7 +6,7 @@ Subject: [PATCH] Divine Configuration
 This is modified config file by PurpurMC
 
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 3a57462e7945fd55e00448f6625d287d97cc93ec..94471492d8279daf402633d7a6a7924e4058cff6 100644
+index 5ca6af93362d205438f8321ee2461ae7f8160df1..41cffa00d4978f46b47ac6ede2da2a256796a0ba 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -1,20 +1,15 @@
@@ -61,7 +61,7 @@ index 3a57462e7945fd55e00448f6625d287d97cc93ec..94471492d8279daf402633d7a6a7924e
          this.setFlightAllowed(dedicatedserverproperties.allowFlight);
          this.setMotd(dedicatedserverproperties.motd);
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index bc797f1872f86b59a8aae3e70823249c9b8d8922..d2f483308d4a49fbd349e0008bbcdda23033650a 100644
+index eebe6378de52e780aabfad3c414564349196ec6e..7dc96d5fd30dc17af23157dedab4edb7caa7551e 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
 @@ -10,9 +10,10 @@ import java.util.function.Consumer;
@@ -126,7 +126,7 @@ index bc797f1872f86b59a8aae3e70823249c9b8d8922..d2f483308d4a49fbd349e0008bbcdda2
      public final co.aikar.timings.WorldTimingsHandler timings; // Paper
      public static BlockPos lastPhysicsProblem; // Spigot
      private org.spigotmc.TickLimiter entityLimiter;
-@@ -257,6 +252,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+@@ -266,6 +261,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
          this.spigotConfig = new org.spigotmc.SpigotWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName()); // Spigot
          this.paperConfig = paperWorldConfigCreator.apply(this.spigotConfig); // Paper - create paper world config
          this.purpurConfig = new org.purpurmc.purpur.PurpurWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName(), env); // Purpur
@@ -135,7 +135,7 @@ index bc797f1872f86b59a8aae3e70823249c9b8d8922..d2f483308d4a49fbd349e0008bbcdda2
          this.generator = gen;
          this.world = new CraftWorld((ServerLevel) this, gen, biomeProvider, env);
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 1afacdb9fa77564ed55622c248e0579255ed1a07..37d8ce3bb1678780b99dd2c3a02b608c782687e2 100644
+index 3580f6a555991702956b4dafc8ab9474817c6d94..1e3c4131e9dd155e4a0830d4c3f76f7f93146fff 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -14,6 +14,7 @@ import com.mojang.brigadier.tree.CommandNode;
@@ -178,7 +178,7 @@ index 1afacdb9fa77564ed55622c248e0579255ed1a07..37d8ce3bb1678780b99dd2c3a02b608c
          this.overrideAllCommandBlockCommands = this.commandsConfiguration.getStringList("command-block-overrides").contains("*");
          this.ignoreVanillaPermissions = this.commandsConfiguration.getBoolean("ignore-vanilla-permissions");
  
-@@ -3096,6 +3099,13 @@ public final class CraftServer implements Server {
+@@ -3111,6 +3114,13 @@ public final class CraftServer implements Server {
          }
          // Purpur end
  
