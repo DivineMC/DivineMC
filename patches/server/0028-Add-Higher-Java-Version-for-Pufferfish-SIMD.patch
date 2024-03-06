@@ -5,7 +5,7 @@ Subject: [PATCH] Add Higher Java Version for Pufferfish SIMD
 
 
 diff --git a/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java b/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
-index 3fea9b69f4cfc94e7f01d4e3ca4ce7506a8e5d5c..4b4b90726fea700c4fd88b1ea2ed3d7804f63337 100644
+index 3fea9b69f4cfc94e7f01d4e3ca4ce7506a8e5d5c..5faa0d20b92d3483bd8eb1993da2a28b3416f94f 100644
 --- a/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
 +++ b/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
 @@ -87,7 +87,7 @@ public class PufferfishConfig {
@@ -13,7 +13,16 @@ index 3fea9b69f4cfc94e7f01d4e3ca4ce7506a8e5d5c..4b4b90726fea700c4fd88b1ea2ed3d78
  		try {
  			SIMDDetection.isEnabled = SIMDDetection.canEnable(PufferfishLogger.LOGGER);
 -			SIMDDetection.versionLimited = SIMDDetection.getJavaVersion() != 17 && SIMDDetection.getJavaVersion() != 18 && SIMDDetection.getJavaVersion() != 19;
-+			SIMDDetection.versionLimited = SIMDDetection.getJavaVersion() <= 17; // DivineMC - Add Higher Java Version for Pufferfish SIMD
++			SIMDDetection.versionLimited = SIMDDetection.getJavaVersion() < 17; // DivineMC - Add Higher Java Version for Pufferfish SIMD
  		} catch (NoClassDefFoundError | Exception ignored) {
  			ignored.printStackTrace();
  		}
+@@ -95,7 +95,7 @@ public class PufferfishConfig {
+ 		if (SIMDDetection.isEnabled) {
+ 			PufferfishLogger.LOGGER.info("SIMD operations detected as functional. Will replace some operations with faster versions.");
+ 		} else if (SIMDDetection.versionLimited) {
+-			PufferfishLogger.LOGGER.warning("Will not enable SIMD! These optimizations are only safely supported on Java 17, Java 18, and Java 19.");
++			PufferfishLogger.LOGGER.warning("Will not enable SIMD! These optimizations are only safely supported on Java 17 and higher.");
+ 		} else {
+ 			PufferfishLogger.LOGGER.warning("SIMD operations are available for your server, but are not configured!");
+ 			PufferfishLogger.LOGGER.warning("To enable additional optimizations, add \"--add-modules=jdk.incubator.vector\" to your startup flags, BEFORE the \"-jar\".");
