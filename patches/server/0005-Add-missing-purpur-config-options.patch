@@ -33,10 +33,10 @@ index c783ce59ea766e6c46a3313628b961f27e01ee8b..4f6b6967f7f632752fcc4faac47dca51
      protected Brain.Provider<Allay> brainProvider() {
          return Brain.provider(Allay.MEMORY_TYPES, Allay.SENSOR_TYPES);
 diff --git a/src/main/java/net/minecraft/world/entity/animal/camel/Camel.java b/src/main/java/net/minecraft/world/entity/animal/camel/Camel.java
-index 41773acc8e8e27daa1fe43726939b2d95da92c30..c92ddc7ea45b6044c9206b9196d49fe05b42689d 100644
+index 8616a8c09a21f576a07daaa93ebf64e0f03d0c88..6725e22ef763b3cd374ff38f5f36ad6ef97c8a19 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/camel/Camel.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/camel/Camel.java
-@@ -97,6 +97,18 @@ public class Camel extends AbstractHorse implements PlayerRideableJumping, Saddl
+@@ -99,6 +99,18 @@ public class Camel extends AbstractHorse implements PlayerRideableJumping, Saddl
      }
      // Purpur end
  
