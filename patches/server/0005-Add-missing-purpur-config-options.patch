@@ -56,10 +56,10 @@ index 8616a8c09a21f576a07daaa93ebf64e0f03d0c88..6725e22ef763b3cd374ff38f5f36ad6e
      public void addAdditionalSaveData(CompoundTag nbt) {
          super.addAdditionalSaveData(nbt);
 diff --git a/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java b/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java
-index d6340d0a1308bafd3ba176562bf08dcadec02b34..bc991589effff1a0c9bd48a16c7d460bed3dfd95 100644
+index 37f1d3c656997906cef57d9dbefc226d04fc65fe..8935f17cb02ab8d38e6269608e97e0cb18b0b051 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java
-@@ -142,6 +142,23 @@ public class Frog extends Animal implements VariantHolder<FrogVariant> {
+@@ -167,6 +167,23 @@ public class Frog extends Animal implements VariantHolder<FrogVariant> {
          return this.level().purpurConfig.frogBreedingTicks;
      }
  
@@ -215,7 +215,7 @@ index fe4c1659f0ca111db8a6d2d6b06d1783872705d6..80a5df11f57fb39a71461b774f0f5bcf
          org.bukkit.event.inventory.InventoryType.ENDER_CHEST.setDefaultSize(enderChestSixRows ? 54 : 27);
          enderChestPermissionRows = getBoolean("settings.blocks.ender_chest.use-permissions-for-rows", enderChestPermissionRows);
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
-index 002c9bba93dede25111c653ec1df38316f19421f..2d829f61b66cc3b2ff9e90cac038c67b8620a9c3 100644
+index 7dc82ffccc157a17335f1bc56ab81be3813294f6..41576be4fa6c3302274a4c8f48e84c87fb01c170 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 @@ -1170,7 +1170,17 @@ public class PurpurWorldConfig {
@@ -304,7 +304,7 @@ index 002c9bba93dede25111c653ec1df38316f19421f..2d829f61b66cc3b2ff9e90cac038c67b
          tadpoleRidable = getBoolean("mobs.tadpole.ridable", tadpoleRidable);
          tadpoleRidableInWater = getBoolean("mobs.tadpole.ridable-in-water", tadpoleRidableInWater);
          tadpoleControllable = getBoolean("mobs.tadpole.controllable", tadpoleControllable);
-@@ -2979,7 +3025,17 @@ public class PurpurWorldConfig {
+@@ -2983,7 +3029,17 @@ public class PurpurWorldConfig {
      public boolean wardenRidable = false;
      public boolean wardenRidableInWater = true;
      public boolean wardenControllable = true;

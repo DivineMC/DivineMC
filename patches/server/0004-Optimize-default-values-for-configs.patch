@@ -5,7 +5,7 @@ Subject: [PATCH] Optimize default values for configs
 
 
 diff --git a/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java b/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
-index f2e30d8743a97c0541808dc5c03300c0d881b843..3fca7bc8f6eb3754d97dc4138606ece331f112e1 100644
+index 30fe1c0645a07d663b08c0f988a1ab3a750bf7c4..f8ceb440d402044f3b5e7925981029c893d8c17f 100644
 --- a/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
 +++ b/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
 @@ -96,9 +96,11 @@ public class GlobalConfiguration extends ConfigurationPart {
@@ -23,7 +23,7 @@ index f2e30d8743a97c0541808dc5c03300c0d881b843..3fca7bc8f6eb3754d97dc4138606ece3
          public boolean serverNamePrivacy = false;
          public List<String> hiddenConfigEntries = List.of(
              "database",
-@@ -328,9 +330,9 @@ public class GlobalConfiguration extends ConfigurationPart {
+@@ -330,9 +332,9 @@ public class GlobalConfiguration extends ConfigurationPart {
          public boolean fixEntityPositionDesync = true;
          public boolean loadPermissionsYmlBeforePlugins = true;
          @Constraints.Min(4)

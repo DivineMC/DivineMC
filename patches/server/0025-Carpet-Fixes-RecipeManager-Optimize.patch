@@ -37,10 +37,10 @@ index d87124f5356180a37e581febc6141fdc5f1395a7..4ae4d1203df960c109c1b70d6d710eaa
  
      public <C extends Container, T extends Recipe<C>> List<RecipeHolder<T>> getRecipesFor(RecipeType<T> type, C inventory, Level world) {
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-index 4ea8eb876186848f16050b34acc2ab494ea7dcd3..b706c7cee4fe61774a0485ef52a160d29199e0aa 100644
+index b9223f4778de0c2ed6efed6f8c192cb0212cbda8..6cf0675cf5affb989e75d6a1cbab69f0a3ce1e34 100644
 --- a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-@@ -173,4 +173,9 @@ public class DivineConfig {
+@@ -162,4 +162,9 @@ public class DivineConfig {
      private static void chatMessageSignatures() {
          chatMessageSignatures = getBoolean("settings.disable-chat-reports", chatMessageSignatures);
      }

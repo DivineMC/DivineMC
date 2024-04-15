@@ -5,7 +5,7 @@ Subject: [PATCH] Do not process chat/commands before player has joined
 
 
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index b7803d6753d28f174b8a6e5b31eccfa44b94c6be..45ff1a20630e4d72036cb0c900c06a785b1c3f24 100644
+index 9ba9356260d54ec318f07a8af221e9567ee03b12..28c46673995549a879e222d52abb9a7d2c24d6ed 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -6,6 +6,7 @@ import com.mojang.authlib.GameProfile;

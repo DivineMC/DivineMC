@@ -5,7 +5,7 @@ Subject: [PATCH] Carpet-Fixes: getBiome Optimize
 
 
 diff --git a/src/main/java/net/minecraft/world/level/biome/BiomeManager.java b/src/main/java/net/minecraft/world/level/biome/BiomeManager.java
-index 5695c5116c8a338b2e41aafcb2dc9f2146856970..b7f704cb1db4c1f588c3984d03c1289960675615 100644
+index 48ee643643e1548fa9c23484bf2f88f4ee3f380d..77ba51d9a220fb8faecb733cbd885bb2343c4343 100644
 --- a/src/main/java/net/minecraft/world/level/biome/BiomeManager.java
 +++ b/src/main/java/net/minecraft/world/level/biome/BiomeManager.java
 @@ -14,6 +14,7 @@ public class BiomeManager {
@@ -26,22 +26,22 @@ index 5695c5116c8a338b2e41aafcb2dc9f2146856970..b7f704cb1db4c1f588c3984d03c12899
 -        int l = i >> 2;
 -        int m = j >> 2;
 -        int n = k >> 2;
--        double d = (double)(i & 3) / 4.0D;
--        double e = (double)(j & 3) / 4.0D;
--        double f = (double)(k & 3) / 4.0D;
+-        double d = (i & 3) / 4.0;
+-        double e = (j & 3) / 4.0;
+-        double f = (k & 3) / 4.0;
 -        int o = 0;
 -        double g = Double.POSITIVE_INFINITY;
 -
--        for(int p = 0; p < 8; ++p) {
+-        for (int p = 0; p < 8; p++) {
 -            boolean bl = (p & 4) == 0;
 -            boolean bl2 = (p & 2) == 0;
 -            boolean bl3 = (p & 1) == 0;
 -            int q = bl ? l : l + 1;
 -            int r = bl2 ? m : m + 1;
 -            int s = bl3 ? n : n + 1;
--            double h = bl ? d : d - 1.0D;
--            double t = bl2 ? e : e - 1.0D;
--            double u = bl3 ? f : f - 1.0D;
+-            double h = bl ? d : d - 1.0;
+-            double t = bl2 ? e : e - 1.0;
+-            double u = bl3 ? f : f - 1.0;
 -            double v = getFiddledDistance(this.biomeZoomSeed, q, r, s, h, t, u);
 -            if (g > v) {
 -                o = p;
@@ -114,22 +114,22 @@ index 5695c5116c8a338b2e41aafcb2dc9f2146856970..b7f704cb1db4c1f588c3984d03c12899
 +            int l = i >> 2;
 +            int m = j >> 2;
 +            int n = k >> 2;
-+            double d = (double)(i & 3) / 4.0D;
-+            double e = (double)(j & 3) / 4.0D;
-+            double f = (double)(k & 3) / 4.0D;
++            double d = (i & 3) / 4.0;
++            double e = (j & 3) / 4.0;
++            double f = (k & 3) / 4.0;
 +            int o = 0;
 +            double g = Double.POSITIVE_INFINITY;
 +
-+            for(int p = 0; p < 8; ++p) {
++            for (int p = 0; p < 8; p++) {
 +                boolean bl = (p & 4) == 0;
 +                boolean bl2 = (p & 2) == 0;
 +                boolean bl3 = (p & 1) == 0;
 +                int q = bl ? l : l + 1;
 +                int r = bl2 ? m : m + 1;
 +                int s = bl3 ? n : n + 1;
-+                double h = bl ? d : d - 1.0D;
-+                double t = bl2 ? e : e - 1.0D;
-+                double u = bl3 ? f : f - 1.0D;
++                double h = bl ? d : d - 1.0;
++                double t = bl2 ? e : e - 1.0;
++                double u = bl3 ? f : f - 1.0;
 +                double v = getFiddledDistance(this.biomeZoomSeed, q, r, s, h, t, u);
 +                if (g > v) {
 +                    o = p;
@@ -152,10 +152,10 @@ index 5695c5116c8a338b2e41aafcb2dc9f2146856970..b7f704cb1db4c1f588c3984d03c12899
  
      public Holder<Biome> getNoiseBiomeAtPosition(double x, double y, double z) {
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-index b706c7cee4fe61774a0485ef52a160d29199e0aa..1bbaa8b1ca217b37d550e40b3742ac867289d05a 100644
+index 6cf0675cf5affb989e75d6a1cbab69f0a3ce1e34..50db7431ec4a05a73ba3a5fb04b4c68427628982 100644
 --- a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-@@ -175,7 +175,9 @@ public class DivineConfig {
+@@ -164,7 +164,9 @@ public class DivineConfig {
      }
  
      public static boolean recipeManagerOptimization = true;

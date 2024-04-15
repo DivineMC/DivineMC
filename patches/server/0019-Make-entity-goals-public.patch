@@ -125,18 +125,18 @@ index d5becd13774f9a2ead77d58e777ffc9aea10cb60..7c9ed0f28116d4aad6bbabd5d710cd4b
          this.goalSelector.addGoal(8, new RandomStrollGoal(this, 0.6D));
          this.goalSelector.addGoal(9, new LookAtPlayerGoal(this, Player.class, 15.0F, 1.0F));
 diff --git a/src/main/java/net/minecraft/world/entity/monster/Vindicator.java b/src/main/java/net/minecraft/world/entity/monster/Vindicator.java
-index ee9d5933f74584452a1b27a392e7d36dac5b9bc9..bda187a54fab35059565219a6aa7c32406dcfe9a 100644
+index 960b5e2c290f82501384f79d4653f47bedf926fb..1f382f864209a4c8f654d019b0a5907734d44d0d 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/Vindicator.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/Vindicator.java
-@@ -97,7 +97,7 @@ public class Vindicator extends AbstractIllager {
+@@ -95,7 +95,7 @@ public class Vindicator extends AbstractIllager {
          this.goalSelector.addGoal(0, new org.purpurmc.purpur.entity.ai.HasRider(this)); // Purpur
          this.goalSelector.addGoal(1, new Vindicator.VindicatorBreakDoorGoal(this));
          this.goalSelector.addGoal(2, new AbstractIllager.RaiderOpenDoorGoal(this));
 -        this.goalSelector.addGoal(3, new Raider.HoldGroundAttackGoal(this, 10.0F));
 +        this.goalSelector.addGoal(3, new HoldGroundAttackGoal(this, 10.0F));
-         this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.0D, false));
+         this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.0, false));
          this.targetSelector.addGoal(0, new org.purpurmc.purpur.entity.ai.HasRider(this)); // Purpur
-         this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, Raider.class)).setAlertOthers());
+         this.targetSelector.addGoal(1, new HurtByTargetGoal(this, Raider.class).setAlertOthers());
 diff --git a/src/main/java/net/minecraft/world/entity/raid/Raider.java b/src/main/java/net/minecraft/world/entity/raid/Raider.java
 index b3912881892b4f1bca577761083c5da1568c8187..5e8c9177644896d8f9243c3e7ce903fcdc6e9fa2 100644
 --- a/src/main/java/net/minecraft/world/entity/raid/Raider.java

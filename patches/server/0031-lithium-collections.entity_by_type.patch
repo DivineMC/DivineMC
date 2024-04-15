@@ -7,7 +7,7 @@ Original code by CaffeineMC, licensed under LGPL v3
 You can find the original code on https://github.com/CaffeineMC/lithium-fabric (Yarn mappings)
 
 diff --git a/src/main/java/net/minecraft/util/ClassInstanceMultiMap.java b/src/main/java/net/minecraft/util/ClassInstanceMultiMap.java
-index 50a9f33aa31e9273c7c52d4bb2b02f0f884f7ba5..76a6febcfc3e5ab58dabac01b1d24050b14fcad6 100644
+index ebad17e6ec90a7f385cd38c5ec6c2772798d4562..535359546393de76b86fd4e66fc5d9faebb5c854 100644
 --- a/src/main/java/net/minecraft/util/ClassInstanceMultiMap.java
 +++ b/src/main/java/net/minecraft/util/ClassInstanceMultiMap.java
 @@ -3,7 +3,6 @@ package net.minecraft.util;
@@ -18,9 +18,9 @@ index 50a9f33aa31e9273c7c52d4bb2b02f0f884f7ba5..76a6febcfc3e5ab58dabac01b1d24050
  import java.util.AbstractCollection;
  import java.util.Collection;
  import java.util.Collections;
-@@ -11,9 +10,10 @@ import java.util.Iterator;
- import java.util.List;
+@@ -12,9 +11,10 @@ import java.util.List;
  import java.util.Map;
+ import java.util.Map.Entry;
  import java.util.stream.Collectors;
 +import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap; // DivineMC
  
@@ -30,12 +30,3 @@ index 50a9f33aa31e9273c7c52d4bb2b02f0f884f7ba5..76a6febcfc3e5ab58dabac01b1d24050
      private final Class<T> baseClass;
      private final List<T> allInstances = Lists.newArrayList();
  
-@@ -58,7 +58,7 @@ public class ClassInstanceMultiMap<T> extends AbstractCollection<T> {
-         if (!this.baseClass.isAssignableFrom(type)) {
-             throw new IllegalArgumentException("Don't know how to search for " + type);
-         } else {
--            List<? extends T> list = this.byClass.computeIfAbsent(type, (typeClass) -> {
-+            List list = this.byClass.computeIfAbsent(type, (typeClass) -> { // DivineMC - decompiling fix
-                 return this.allInstances.stream().filter(typeClass::isInstance).collect(Collectors.toList());
-             });
-             return Collections.unmodifiableCollection(list);

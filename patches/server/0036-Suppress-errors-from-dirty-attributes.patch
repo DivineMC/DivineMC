@@ -30,12 +30,12 @@ index 04b98e23eed926d8473cc2464e04a5b9f18f1140..68463f809aea61d818fc428f1c8b8068
  
      }
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java
-index 02dfe1750f9955a4b1b945e90491bdee13fe2ef5..c4b41a6a3fd2c3d7ff942fe8754a7333afb2c8ed 100644
+index 7e62ee9418d5add5b0b4ddb885d3a1745ce799b2..53082033dfb58b8097ac326025472ef64358b890 100644
 --- a/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java
-@@ -115,4 +115,9 @@ public class DivineWorldConfig {
-         }
-         linearCrashOnBrokenSymlink = getBoolean("region-format.linear.crash-on-broken-symlink", linearCrashOnBrokenSymlink);
+@@ -94,4 +94,9 @@ public class DivineWorldConfig {
+     private void despawnShulkerBulletsOnOwnerDeath() {
+         despawnShulkerBulletsOnOwnerDeath = getBoolean("gameplay-mechanics.mob.shulker.despawn-bullets-on-player-death", despawnShulkerBulletsOnOwnerDeath);
      }
 +
 +    public boolean suppressErrorsFromDirtyAttributes = true;

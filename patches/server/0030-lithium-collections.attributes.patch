@@ -7,7 +7,7 @@ Original code by CaffeineMC, licensed under LGPL v3
 You can find the original code on https://github.com/CaffeineMC/lithium-fabric (Yarn mappings)
 
 diff --git a/src/main/java/net/minecraft/world/entity/ai/attributes/AttributeMap.java b/src/main/java/net/minecraft/world/entity/ai/attributes/AttributeMap.java
-index 6b0855cffb901dbc7dcc5fd44506275206bc9a2d..d3e52ae7c563cf5331ac6ebcffa5daffa5fff7df 100644
+index 74d4f017484f13754a1f266625331a4124976afe..ce48d8a8382b78262d20151ba721ca1c99a9e189 100644
 --- a/src/main/java/net/minecraft/world/entity/ai/attributes/AttributeMap.java
 +++ b/src/main/java/net/minecraft/world/entity/ai/attributes/AttributeMap.java
 @@ -17,11 +17,13 @@ import net.minecraft.nbt.CompoundTag;

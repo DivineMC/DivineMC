@@ -7,10 +7,10 @@ Original code by CaffeineMC, licensed under LGPL v3
 You can find the original code on https://github.com/CaffeineMC/lithium-fabric (Yarn mappings)
 
 diff --git a/src/main/java/net/minecraft/world/entity/ai/goal/GoalSelector.java b/src/main/java/net/minecraft/world/entity/ai/goal/GoalSelector.java
-index 02978315bc2b828cc603ce7478408f3f82c249c2..d8ee71cb3afc0f63669d26c4160f7cd7ed2fd453 100644
+index a2cca3d528625d49411a94e2b6ec578fec9b10da..e5c8b62cd431a86d9f1e5e4f1e48adfef81518c8 100644
 --- a/src/main/java/net/minecraft/world/entity/ai/goal/GoalSelector.java
 +++ b/src/main/java/net/minecraft/world/entity/ai/goal/GoalSelector.java
-@@ -13,6 +13,7 @@ import java.util.function.Supplier;
+@@ -14,6 +14,7 @@ import java.util.function.Supplier;
  import java.util.stream.Stream;
  import net.minecraft.util.profiling.ProfilerFiller;
  import org.slf4j.Logger;
@@ -18,7 +18,7 @@ index 02978315bc2b828cc603ce7478408f3f82c249c2..d8ee71cb3afc0f63669d26c4160f7cd7
  
  public class GoalSelector {
      private static final Logger LOGGER = LogUtils.getLogger();
-@@ -28,7 +29,7 @@ public class GoalSelector {
+@@ -29,7 +30,7 @@ public class GoalSelector {
          }
      };
      private final Map<Goal.Flag, WrappedGoal> lockedFlags = new EnumMap<>(Goal.Flag.class);

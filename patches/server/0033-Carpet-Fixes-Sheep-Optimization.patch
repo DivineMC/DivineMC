@@ -62,10 +62,10 @@ index 658f7943d275267d3fc556572831cc095259d12e..5ee9005f65edcfc3e3d20198ec1f6910
      private static CraftingContainer makeContainer(DyeColor firstColor, DyeColor secondColor) {
          TransientCraftingContainer transientcraftingcontainer = new TransientCraftingContainer(new AbstractContainerMenu((MenuType) null, -1) {
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-index 1bbaa8b1ca217b37d550e40b3742ac867289d05a..5fd3f43795101e95dce6c54bb917f4f2ae2ed18c 100644
+index 50db7431ec4a05a73ba3a5fb04b4c68427628982..15e0aa2a82a0be51ef04736ec636932092b34b32 100644
 --- a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-@@ -176,8 +176,10 @@ public class DivineConfig {
+@@ -165,8 +165,10 @@ public class DivineConfig {
  
      public static boolean recipeManagerOptimization = true;
      public static boolean biomeManagerOptimization = true;

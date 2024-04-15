@@ -18,10 +18,10 @@ index e4fd372a1d585887287253a02531cd192929377b..b7eb830ae6ae0d7d8c79dc4ccde9ac73
      }
  
 diff --git a/src/main/java/net/minecraft/network/protocol/game/ServerboundChatCommandPacket.java b/src/main/java/net/minecraft/network/protocol/game/ServerboundChatCommandPacket.java
-index b8c1f3b9afddc87d56541c8af63cffecfcdd2653..37c6a8aee54b8ad093e80e735a0dd481f7697676 100644
+index e62ae57532ddcf12b7ebca77220cb1f3bd603717..70201f97584442b7573a3da7b9a439117aa442ca 100644
 --- a/src/main/java/net/minecraft/network/protocol/game/ServerboundChatCommandPacket.java
 +++ b/src/main/java/net/minecraft/network/protocol/game/ServerboundChatCommandPacket.java
-@@ -16,7 +16,7 @@ public record ServerboundChatCommandPacket(String command, Instant timeStamp, lo
+@@ -18,7 +18,7 @@ public record ServerboundChatCommandPacket(
          buf.writeUtf(this.command, 256);
          buf.writeInstant(this.timeStamp);
          buf.writeLong(this.salt);
@@ -31,10 +31,10 @@ index b8c1f3b9afddc87d56541c8af63cffecfcdd2653..37c6a8aee54b8ad093e80e735a0dd481
      }
  
 diff --git a/src/main/java/net/minecraft/network/protocol/game/ServerboundChatPacket.java b/src/main/java/net/minecraft/network/protocol/game/ServerboundChatPacket.java
-index d1d2fc0c57523c1abf1e8bfec913c78927c3dafc..c1be2300e10a58f9db7ad9197c4aa7eaa6d7e45b 100644
+index 831178218ddfaa1828c00d0662b251d11bb29ff5..10a4a52b13de38791c58f2323dffd320a789b547 100644
 --- a/src/main/java/net/minecraft/network/protocol/game/ServerboundChatPacket.java
 +++ b/src/main/java/net/minecraft/network/protocol/game/ServerboundChatPacket.java
-@@ -17,7 +17,7 @@ public record ServerboundChatPacket(String message, Instant timeStamp, long salt
+@@ -18,7 +18,7 @@ public record ServerboundChatPacket(String message, Instant timeStamp, long salt
          buf.writeUtf(this.message, 256);
          buf.writeInstant(this.timeStamp);
          buf.writeLong(this.salt);
@@ -44,16 +44,37 @@ index d1d2fc0c57523c1abf1e8bfec913c78927c3dafc..c1be2300e10a58f9db7ad9197c4aa7ea
      }
  
 diff --git a/src/main/java/net/minecraft/network/protocol/status/ServerStatus.java b/src/main/java/net/minecraft/network/protocol/status/ServerStatus.java
-index c40979e2fa37acb2f3df493395f3ab6e185345d7..826e4a8618db5328ad2df21fd08e5b1cb02cd465 100644
+index 5ed4a3a30657ab9e748245ad34333b915e870ae2..7b76782d7fc7bebef4248b1847ba6dd8a6c5dc8c 100644
 --- a/src/main/java/net/minecraft/network/protocol/status/ServerStatus.java
 +++ b/src/main/java/net/minecraft/network/protocol/status/ServerStatus.java
-@@ -17,7 +17,7 @@ import net.minecraft.network.chat.ComponentSerialization;
- 
- public record ServerStatus(Component description, Optional<ServerStatus.Players> players, Optional<ServerStatus.Version> version, Optional<ServerStatus.Favicon> favicon, boolean enforcesSecureChat) {
-     public static final Codec<ServerStatus> CODEC = RecordCodecBuilder.create((instance) -> {
--        return instance.group(ComponentSerialization.CODEC.optionalFieldOf("description", CommonComponents.EMPTY).forGetter(ServerStatus::description), ServerStatus.Players.CODEC.optionalFieldOf("players").forGetter(ServerStatus::players), ServerStatus.Version.CODEC.optionalFieldOf("version").forGetter(ServerStatus::version), ServerStatus.Favicon.CODEC.optionalFieldOf("favicon").forGetter(ServerStatus::favicon), Codec.BOOL.optionalFieldOf("enforcesSecureChat", Boolean.valueOf(false)).forGetter(ServerStatus::enforcesSecureChat)).apply(instance, ServerStatus::new);
-+        return space.bxteam.divinemc.configuration.DivineConfig.chatMessageSignatures ? instance.group(ComponentSerialization.CODEC.optionalFieldOf("description", CommonComponents.EMPTY).forGetter(ServerStatus::description), ServerStatus.Players.CODEC.optionalFieldOf("players").forGetter(ServerStatus::players), ServerStatus.Version.CODEC.optionalFieldOf("version").forGetter(ServerStatus::version), ServerStatus.Favicon.CODEC.optionalFieldOf("favicon").forGetter(ServerStatus::favicon), Codec.BOOL.optionalFieldOf("enforcesSecureChat", Boolean.FALSE).forGetter(x -> true)).apply(instance, ServerStatus::new) : instance.group(ComponentSerialization.CODEC.optionalFieldOf("description", CommonComponents.EMPTY).forGetter(ServerStatus::description), ServerStatus.Players.CODEC.optionalFieldOf("players").forGetter(ServerStatus::players), ServerStatus.Version.CODEC.optionalFieldOf("version").forGetter(ServerStatus::version), ServerStatus.Favicon.CODEC.optionalFieldOf("favicon").forGetter(ServerStatus::favicon), Codec.BOOL.optionalFieldOf("enforcesSecureChat", Boolean.FALSE).forGetter(ServerStatus::enforcesSecureChat)).apply(instance, ServerStatus::new); // DivineMC - Configurable Chat message signatures
-     });
+@@ -23,14 +23,21 @@ public record ServerStatus(
+     boolean enforcesSecureChat
+ ) {
+     public static final Codec<ServerStatus> CODEC = RecordCodecBuilder.create(
+-        instance -> instance.group(
+-                    ComponentSerialization.CODEC.optionalFieldOf("description", CommonComponents.EMPTY).forGetter(ServerStatus::description),
+-                    ServerStatus.Players.CODEC.optionalFieldOf("players").forGetter(ServerStatus::players),
+-                    ServerStatus.Version.CODEC.optionalFieldOf("version").forGetter(ServerStatus::version),
+-                    ServerStatus.Favicon.CODEC.optionalFieldOf("favicon").forGetter(ServerStatus::favicon),
+-                    Codec.BOOL.optionalFieldOf("enforcesSecureChat", Boolean.valueOf(false)).forGetter(ServerStatus::enforcesSecureChat)
+-                )
+-                .apply(instance, ServerStatus::new)
++            instance -> space.bxteam.divinemc.configuration.DivineConfig.chatMessageSignatures ? instance.group(
++                            ComponentSerialization.CODEC.optionalFieldOf("description", CommonComponents.EMPTY).forGetter(ServerStatus::description),
++                            ServerStatus.Players.CODEC.optionalFieldOf("players").forGetter(ServerStatus::players),
++                            ServerStatus.Version.CODEC.optionalFieldOf("version").forGetter(ServerStatus::version),
++                            ServerStatus.Favicon.CODEC.optionalFieldOf("favicon").forGetter(ServerStatus::favicon),
++                            Codec.BOOL.optionalFieldOf("enforcesSecureChat", Boolean.FALSE).forGetter(x -> true)
++                    )
++                    .apply(instance, ServerStatus::new) : instance.group(
++                            ComponentSerialization.CODEC.optionalFieldOf("description", CommonComponents.EMPTY).forGetter(ServerStatus::description),
++                            ServerStatus.Players.CODEC.optionalFieldOf("players").forGetter(ServerStatus::players),
++                            ServerStatus.Version.CODEC.optionalFieldOf("version").forGetter(ServerStatus::version),
++                            ServerStatus.Favicon.CODEC.optionalFieldOf("favicon").forGetter(ServerStatus::favicon),
++                            Codec.BOOL.optionalFieldOf("enforcesSecureChat", Boolean.FALSE).forGetter(ServerStatus::enforcesSecureChat)
++                    )
++                    .apply(instance, ServerStatus::new)
+     );
  
      public static record Favicon(byte[] iconBytes) {
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
@@ -69,7 +90,7 @@ index 41cffa00d4978f46b47ac6ede2da2a256796a0ba..9fa9a1e1efab58f3133b32517bb04c2e
  
          // Paper start - Add setting for proxy online mode status
 diff --git a/src/main/java/net/minecraft/server/level/ServerPlayer.java b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-index 36b7686fdfeaab13cb1be9610ddc76fc70f6f6e5..0b25278d87eed5fd334693c3cb3a93d1fe2f8164 100644
+index 305b90d10a499e9731f5178433fb10207e428091..8206429795ec7bf81b9e628ac08ffc591ddd409a 100644
 --- a/src/main/java/net/minecraft/server/level/ServerPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/ServerPlayer.java
 @@ -2258,7 +2258,7 @@ public class ServerPlayer extends Player {
@@ -164,12 +185,12 @@ index ac1e0c66f167218306504db6037cc1d6509072a0..7784a81f2b861e1f5c9dd7a7885e8be7
      }
  
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-index d5ac67927dd2091733eaa096c903874fa4cd9542..4ea8eb876186848f16050b34acc2ab494ea7dcd3 100644
+index ef7983863da3b4febef3da2fab93fe581fbd65af..b9223f4778de0c2ed6efed6f8c192cb0212cbda8 100644
 --- a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-@@ -168,4 +168,9 @@ public class DivineConfig {
-         else
-             linearFlushThreads = Math.max(linearFlushThreads, 1);
+@@ -157,4 +157,9 @@ public class DivineConfig {
+     private static void  doNotProcessChatCommands() {
+         doNotProcessChatCommands = getBoolean("settings.do-not-process-chat-commands", doNotProcessChatCommands);
      }
 +
 +    public static boolean chatMessageSignatures = false;

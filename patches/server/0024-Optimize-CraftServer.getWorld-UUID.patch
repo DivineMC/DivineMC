@@ -6,7 +6,7 @@ Subject: [PATCH] Optimize CraftServer.getWorld(UUID)
 Original code by MultiPaper - https://github.com/MultiPaper/MultiPaper
 
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 37d8ce3bb1678780b99dd2c3a02b608c782687e2..e2e80af743a05f232361630ed9cd28cd797589d5 100644
+index 1e3c4131e9dd155e4a0830d4c3f76f7f93146fff..a59a786049bfe1ca341a6f8833163a01d51535c5 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -265,6 +265,8 @@ import net.md_5.bungee.api.chat.BaseComponent; // Spigot
