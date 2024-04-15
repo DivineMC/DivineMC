@@ -4,7 +4,7 @@ plugins {
     java
     `maven-publish`
     id("com.github.johnrengelman.shadow") version "8.1.1" apply false
-    id("io.papermc.paperweight.patcher") version "1.5.13"
+    id("io.papermc.paperweight.patcher") version "1.5.15"
 }
 
 repositories {
@@ -18,7 +18,7 @@ repositories {
 
 dependencies {
     remapper("net.fabricmc:tiny-remapper:0.10.1:fat")
-    decompiler("net.minecraftforge:forgeflower:2.0.627.2")
+    decompiler("org.vineflower:vineflower:1.11.0-20240412.144930-14")
     paperclip("io.papermc:paperclip:3.0.3")
 }
 
@@ -68,7 +68,7 @@ paperweight {
     serverProject.set(project(":divinemc-server"))
 
     remapRepo.set("https://maven.fabricmc.net/")
-    decompileRepo.set("https://files.minecraftforge.net/maven/")
+    decompileRepo.set("https://s01.oss.sonatype.org/content/repositories/snapshots/")
 
     useStandardUpstream("purpur") {
         url.set(github("PurpurMC", "Purpur"))
