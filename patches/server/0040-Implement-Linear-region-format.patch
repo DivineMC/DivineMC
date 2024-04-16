@@ -362,7 +362,7 @@ index 6cf83502a954cce9c562ec036bfeddb477d38b73..a344a9528289e39322758ac6174c3409
          try (DataInputStream out = new DataInputStream(new java.io.BufferedInputStream(new InflaterInputStream(Files.newInputStream(file))))) {
              return NbtIo.read((java.io.DataInput) out);
 diff --git a/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java b/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
-index fe312b1aef579cb4bf81bdd967cf72ff880d7505..cc8c80edcb1931da0c7efbcd8143d5a327fc2a8c 100644
+index fe312b1aef579cb4bf81bdd967cf72ff880d7505..83a0fddd4cc4f928b604f61b1ec719277c526c9c 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
 @@ -19,11 +19,17 @@ import net.minecraft.world.level.ChunkPos;
@@ -454,7 +454,7 @@ index fe312b1aef579cb4bf81bdd967cf72ff880d7505..cc8c80edcb1931da0c7efbcd8143d5a3
          // Paper end
          long i = ChunkPos.asLong(chunkcoordintpair.getRegionX(), chunkcoordintpair.getRegionZ()); final long regionPos = i; // Paper - OBFHELPER
 -        RegionFile regionfile = (RegionFile) this.regionCache.getAndMoveToFirst(i);
-+        space.bxteam.divinemc.region.AbstractRegionFile regionfile = (RegionFile) this.regionCache.getAndMoveToFirst(i); // DivineMC
++        space.bxteam.divinemc.region.AbstractRegionFile regionfile = this.regionCache.getAndMoveToFirst(i); // DivineMC
  
          if (regionfile != null) {
              // Paper start
@@ -791,10 +791,10 @@ index 0000000000000000000000000000000000000000..c7a2a382e9e5bcfd8b502d43cbcea413
 +}
 diff --git a/src/main/java/space/bxteam/divinemc/region/LinearRegionFile.java b/src/main/java/space/bxteam/divinemc/region/LinearRegionFile.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..ebda2e1078fd70cf120430b1c1f68247fc122e10
+index 0000000000000000000000000000000000000000..cdb82aba7c83b8a1ac844743f0932f46fd51eeac
 --- /dev/null
 +++ b/src/main/java/space/bxteam/divinemc/region/LinearRegionFile.java
-@@ -0,0 +1,316 @@
+@@ -0,0 +1,315 @@
 +package space.bxteam.divinemc.region;
 +
 +import com.github.luben.zstd.ZstdInputStream;
@@ -844,7 +844,6 @@ index 0000000000000000000000000000000000000000..ebda2e1078fd70cf120430b1c1f68247
 +    private AtomicBoolean markedToSave = new AtomicBoolean(false);
 +    public boolean closed = false;
 +    public Path path;
-+
 +
 +    public LinearRegionFile(Path file, int compression) throws IOException {
 +        this.path = file;
