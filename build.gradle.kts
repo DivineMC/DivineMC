@@ -18,7 +18,7 @@ repositories {
 
 dependencies {
     remapper("net.fabricmc:tiny-remapper:0.10.1:fat")
-    decompiler("org.vineflower:vineflower:1.11.0-20240412.144930-14")
+    decompiler("net.minecraftforge:forgeflower:2.0.627.2")
     paperclip("io.papermc:paperclip:3.0.3")
 }
 
@@ -68,7 +68,7 @@ paperweight {
     serverProject.set(project(":divinemc-server"))
 
     remapRepo.set("https://maven.fabricmc.net/")
-    decompileRepo.set("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+    decompileRepo.set("https://files.minecraftforge.net/maven/")
 
     useStandardUpstream("purpur") {
         url.set(github("PurpurMC", "Purpur"))
