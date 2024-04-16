@@ -1,13 +1,13 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
-Date: Sat, 13 Jan 2024 20:29:38 +0300
+Date: Wed, 17 Apr 2024 02:08:02 +0300
 Subject: [PATCH] lithium: precompute shape arrays
 
 Original code by CaffeineMC, licensed under LGPL v3
 You can find the original code on https://github.com/CaffeineMC/lithium-fabric (Yarn mappings)
 
 diff --git a/src/main/java/net/minecraft/core/Direction.java b/src/main/java/net/minecraft/core/Direction.java
-index b805e57d5a67d77d226cd8154e970050e2e8ef4a..c72ea0514baadc8d5fde93ff573d91a9fe7cc04c 100644
+index f0fe2acadac0f57eb06b6aee1940e2c4985e4ca1..d169744ec6708248c79956c144986ecb70157b7c 100644
 --- a/src/main/java/net/minecraft/core/Direction.java
 +++ b/src/main/java/net/minecraft/core/Direction.java
 @@ -39,7 +39,7 @@ public enum Direction implements StringRepresentable {
@@ -15,12 +15,12 @@ index b805e57d5a67d77d226cd8154e970050e2e8ef4a..c72ea0514baadc8d5fde93ff573d91a9
      private final Direction.AxisDirection axisDirection;
      private final Vec3i normal;
 -    private static final Direction[] VALUES = values();
-+    public static final Direction[] VALUES = values(); // DivineMC
-     private static final Direction[] BY_3D_DATA = Arrays.stream(VALUES).sorted(Comparator.comparingInt((direction) -> {
-         return direction.data3d;
-     })).toArray((i) -> {
++    public static final Direction[] VALUES = values(); // DivineMC - lithium: precompute shape arrays
+     private static final Direction[] BY_3D_DATA = Arrays.stream(VALUES)
+         .sorted(Comparator.comparingInt(direction -> direction.data3d))
+         .toArray(Direction[]::new);
 diff --git a/src/main/java/net/minecraft/world/phys/shapes/CubePointRange.java b/src/main/java/net/minecraft/world/phys/shapes/CubePointRange.java
-index a544db042c8d2ecec8d323770552c4f10ca758a6..fc6a8b1cf33427320a60e3f2d9894ed2f0177bf7 100644
+index f20ca2074f627ebd2cc15de2b41a6010f3f6b68c..fc6a8b1cf33427320a60e3f2d9894ed2f0177bf7 100644
 --- a/src/main/java/net/minecraft/world/phys/shapes/CubePointRange.java
 +++ b/src/main/java/net/minecraft/world/phys/shapes/CubePointRange.java
 @@ -4,6 +4,7 @@ import it.unimi.dsi.fastutil.doubles.AbstractDoubleList;
@@ -39,13 +39,13 @@ index a544db042c8d2ecec8d323770552c4f10ca758a6..fc6a8b1cf33427320a60e3f2d9894ed2
      }
  
      public double getDouble(int i) {
--        return (double)i / (double)this.parts;
+-        return (double)i / this.parts;
 +        return i * this.scale; // DivineMC - lithium: precompute shape arrays
      }
  
      public int size() {
 diff --git a/src/main/java/net/minecraft/world/phys/shapes/CubeVoxelShape.java b/src/main/java/net/minecraft/world/phys/shapes/CubeVoxelShape.java
-index 110405e6e70d980d3e09f04d79562b32a7413071..ef6027b0d664d0dfdff80ed023c9f4790d4f0f5a 100644
+index fc751564e02306006cffd90ef29acb27cc77cd0b..4535c8858d028d3941d966b0701bf22363d12991 100644
 --- a/src/main/java/net/minecraft/world/phys/shapes/CubeVoxelShape.java
 +++ b/src/main/java/net/minecraft/world/phys/shapes/CubeVoxelShape.java
 @@ -5,6 +5,8 @@ import net.minecraft.core.Direction;

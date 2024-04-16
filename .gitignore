@@ -13,3 +13,6 @@ run
 node_modules
 docs/.vitepress/cache
 docs/.vitepress/dist
+
+# Other files and folders
+build-data/dev-imports.txt
