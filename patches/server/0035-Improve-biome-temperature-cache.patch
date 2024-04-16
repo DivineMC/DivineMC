@@ -5,7 +5,7 @@ Subject: [PATCH] Improve biome temperature cache
 
 
 diff --git a/src/main/java/net/minecraft/world/level/biome/Biome.java b/src/main/java/net/minecraft/world/level/biome/Biome.java
-index 57f3193ff761cbe45846a02a15d8da9c9e2e87ee..93a7647b19315aa4dc2f0a236fac330de4bed813 100644
+index 42af3888a155f114901a90d4028bafed5789f58f..25e44dbab2d758682ad89ed0038fd0ad055d3097 100644
 --- a/src/main/java/net/minecraft/world/level/biome/Biome.java
 +++ b/src/main/java/net/minecraft/world/level/biome/Biome.java
 @@ -64,7 +64,7 @@ public final class Biome {
@@ -14,9 +14,9 @@ index 57f3193ff761cbe45846a02a15d8da9c9e2e87ee..93a7647b19315aa4dc2f0a236fac330d
      // Pufferfish start - use our cache
 -    private final ThreadLocal<gg.airplane.structs.Long2FloatAgingCache> temperatureCache = ThreadLocal.withInitial(() -> Util.make(() -> {
 +    private static final ThreadLocal<gg.airplane.structs.Long2FloatAgingCache> temperatureCache = ThreadLocal.withInitial(() -> Util.make(() -> {
-         /*
-         Long2FloatLinkedOpenHashMap long2FloatLinkedOpenHashMap = new Long2FloatLinkedOpenHashMap(1024, 0.25F) {
-             protected void rehash(int i) {
+             /*
+             Long2FloatLinkedOpenHashMap long2FloatLinkedOpenHashMap = new Long2FloatLinkedOpenHashMap(1024, 0.25F) {
+                 protected void rehash(int i) {
 @@ -118,7 +118,7 @@ public final class Biome {
      public float getTemperature(BlockPos blockPos) {
          long l = blockPos.asLong();

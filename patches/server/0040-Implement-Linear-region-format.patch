@@ -1,121 +1,96 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
-Date: Thu, 28 Dec 2023 02:39:42 +0300
+Date: Wed, 17 Apr 2024 00:15:20 +0300
 Subject: [PATCH] Implement Linear region format
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 6964b6235bed4455b85aa69cef0049a769c5daad..771ac26bd2ad64ad2861881d6cb223c8cd3a0fc3 100644
+index 62ed501aaadfc9b636dec3c0c7c6b1e2c53e418e..60f809b14aa2ca539f7b5abd93ab5b9827209022 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -36,6 +36,10 @@ dependencies {
      alsoShade(log4jPlugins.output)
      implementation("io.netty:netty-codec-haproxy:4.1.97.Final") // Paper - Add support for proxy protocol
      // Paper end
-+    // DivineMC start - Implement Linear region
-+    implementation("com.github.luben:zstd-jni:1.5.5-11")
++    // DivineMC start - Implement Linear region format
++    implementation("com.github.luben:zstd-jni:1.5.6-2")
 +    implementation("org.lz4:lz4-java:1.8.0")
 +    // DivineMC end
      implementation("org.apache.logging.log4j:log4j-iostreams:2.19.0") // Paper - remove exclusion
-     implementation("org.ow2.asm:asm-commons:9.5")
+     implementation("org.ow2.asm:asm-commons:9.7")
      implementation("org.spongepowered:configurate-yaml:4.2.0-SNAPSHOT") // Paper - config files
 diff --git a/src/main/java/io/papermc/paper/chunk/system/io/RegionFileIOThread.java b/src/main/java/io/papermc/paper/chunk/system/io/RegionFileIOThread.java
-index 2934f0cf0ef09c84739312b00186c2ef0019a165..c193eef4e1d5951f5b4014c07a1cde6db8cfbb24 100644
+index 2934f0cf0ef09c84739312b00186c2ef0019a165..6ff60127e683a79a5f0249257244c2dbb6e37545 100644
 --- a/src/main/java/io/papermc/paper/chunk/system/io/RegionFileIOThread.java
 +++ b/src/main/java/io/papermc/paper/chunk/system/io/RegionFileIOThread.java
-@@ -7,6 +7,7 @@ import ca.spottedleaf.concurrentutil.executor.standard.PrioritisedQueueExecutorT
- import ca.spottedleaf.concurrentutil.executor.standard.PrioritisedThreadedTaskQueue;
- import ca.spottedleaf.concurrentutil.util.ConcurrentUtil;
- import com.mojang.logging.LogUtils;
-+import space.bxteam.divinemc.region.AbstractRegionFile;
- import io.papermc.paper.util.CoordinateUtils;
- import io.papermc.paper.util.TickThread;
- import it.unimi.dsi.fastutil.HashCommon;
-@@ -816,7 +817,7 @@ public final class RegionFileIOThread extends PrioritisedQueueExecutorThread {
+@@ -816,7 +816,7 @@ public final class RegionFileIOThread extends PrioritisedQueueExecutorThread {
                                                 final ChunkDataController taskController) {
          final ChunkPos chunkPos = new ChunkPos(chunkX, chunkZ);
          if (intendingToBlock) {
 -            return taskController.computeForRegionFile(chunkX, chunkZ, true, (final RegionFile file) -> {
-+            return taskController.computeForRegionFile(chunkX, chunkZ, true, (final AbstractRegionFile file) -> { // DivineMC - Implement Linear region
++            return taskController.computeForRegionFile(chunkX, chunkZ, true, (final space.bxteam.divinemc.region.AbstractRegionFile file) -> { // DivineMC - Implement Linear region format
                  if (file == null) { // null if no regionfile exists
                      return Boolean.FALSE;
                  }
-@@ -829,7 +830,7 @@ public final class RegionFileIOThread extends PrioritisedQueueExecutorThread {
+@@ -829,7 +829,7 @@ public final class RegionFileIOThread extends PrioritisedQueueExecutorThread {
                  return Boolean.FALSE;
              } // else: it either exists or is not known, fall back to checking the loaded region file
  
 -            return taskController.computeForRegionFileIfLoaded(chunkX, chunkZ, (final RegionFile file) -> {
-+            return taskController.computeForRegionFileIfLoaded(chunkX, chunkZ, (final AbstractRegionFile file) -> { // DivineMC - Implement Linear region
++            return taskController.computeForRegionFileIfLoaded(chunkX, chunkZ, (final space.bxteam.divinemc.region.AbstractRegionFile file) -> { // DivineMC - Implement Linear region format
                  if (file == null) { // null if not loaded
                      // not sure at this point, let the I/O thread figure it out
                      return Boolean.TRUE;
-@@ -1131,9 +1132,9 @@ public final class RegionFileIOThread extends PrioritisedQueueExecutorThread {
+@@ -1131,9 +1131,9 @@ public final class RegionFileIOThread extends PrioritisedQueueExecutorThread {
              return this.getCache().doesRegionFileNotExistNoIO(new ChunkPos(chunkX, chunkZ));
          }
  
 -        public <T> T computeForRegionFile(final int chunkX, final int chunkZ, final boolean existingOnly, final Function<RegionFile, T> function) {
-+        public <T> T computeForRegionFile(final int chunkX, final int chunkZ, final boolean existingOnly, final Function<AbstractRegionFile, T> function) { // DivineMC - Implement Linear region
++        public <T> T computeForRegionFile(final int chunkX, final int chunkZ, final boolean existingOnly, final Function<space.bxteam.divinemc.region.AbstractRegionFile, T> function) { // DivineMC - Implement Linear region format
              final RegionFileStorage cache = this.getCache();
 -            final RegionFile regionFile;
-+            final AbstractRegionFile regionFile; // DivineMC - Implement Linear region
++            final space.bxteam.divinemc.region.AbstractRegionFile regionFile; // DivineMC - Implement Linear region format
              synchronized (cache) {
                  try {
                      regionFile = cache.getRegionFile(new ChunkPos(chunkX, chunkZ), existingOnly, true);
-@@ -1146,19 +1147,19 @@ public final class RegionFileIOThread extends PrioritisedQueueExecutorThread {
+@@ -1146,19 +1146,19 @@ public final class RegionFileIOThread extends PrioritisedQueueExecutorThread {
                  return function.apply(regionFile);
              } finally {
                  if (regionFile != null) {
 -                    regionFile.fileLock.unlock();
-+                    regionFile.getFileLock().unlock(); // DivineMC - Implement Linear region
++                    regionFile.getFileLock().unlock(); // DivineMC - Implement Linear region format
                  }
              }
          }
  
 -        public <T> T computeForRegionFileIfLoaded(final int chunkX, final int chunkZ, final Function<RegionFile, T> function) {
-+        public <T> T computeForRegionFileIfLoaded(final int chunkX, final int chunkZ, final Function<AbstractRegionFile, T> function) {
++        public <T> T computeForRegionFileIfLoaded(final int chunkX, final int chunkZ, final Function<space.bxteam.divinemc.region.AbstractRegionFile, T> function) { // DivineMC - Implement Linear region format
              final RegionFileStorage cache = this.getCache();
 -            final RegionFile regionFile;
-+            final AbstractRegionFile regionFile;
++            final space.bxteam.divinemc.region.AbstractRegionFile regionFile; // DivineMC - Implement Linear region format
  
              synchronized (cache) {
                  regionFile = cache.getRegionFileIfLoaded(new ChunkPos(chunkX, chunkZ));
                  if (regionFile != null) {
 -                    regionFile.fileLock.lock();
-+                    regionFile.getFileLock().lock(); // DivineMC - Implement Linear region
++                    regionFile.getFileLock().lock(); // DivineMC - Implement Linear region format
                  }
              }
  
-@@ -1166,7 +1167,7 @@ public final class RegionFileIOThread extends PrioritisedQueueExecutorThread {
+@@ -1166,7 +1166,7 @@ public final class RegionFileIOThread extends PrioritisedQueueExecutorThread {
                  return function.apply(regionFile);
              } finally {
                  if (regionFile != null) {
 -                    regionFile.fileLock.unlock();
-+                    regionFile.getFileLock().unlock(); // DivineMC - Implement Linear region
++                    regionFile.getFileLock().unlock(); // DivineMC - Implement Linear region format
                  }
              }
          }
 diff --git a/src/main/java/io/papermc/paper/world/ThreadedWorldUpgrader.java b/src/main/java/io/papermc/paper/world/ThreadedWorldUpgrader.java
-index 9017907c0ec67a37a506f09b7e4499cef7885279..5bf94a8ea13eb3199981a9bcb46efe136ec82b83 100644
+index 9017907c0ec67a37a506f09b7e4499cef7885279..be0a88b20be437ace628b98097c67ca27058a798 100644
 --- a/src/main/java/io/papermc/paper/world/ThreadedWorldUpgrader.java
 +++ b/src/main/java/io/papermc/paper/world/ThreadedWorldUpgrader.java
-@@ -2,22 +2,23 @@ package io.papermc.paper.world;
- 
- import com.mojang.datafixers.DataFixer;
- import com.mojang.serialization.Codec;
-+import space.bxteam.divinemc.region.RegionFileFormat;
- import net.minecraft.SharedConstants;
- import net.minecraft.nbt.CompoundTag;
- import net.minecraft.resources.ResourceKey;
- import net.minecraft.util.worldupdate.WorldUpgrader;
- import net.minecraft.world.level.ChunkPos;
--import net.minecraft.world.level.Level;
- import net.minecraft.world.level.chunk.ChunkGenerator;
- import net.minecraft.world.level.chunk.storage.ChunkStorage;
- import net.minecraft.world.level.chunk.storage.RegionFileStorage;
--import net.minecraft.world.level.dimension.DimensionType;
- import net.minecraft.world.level.dimension.LevelStem;
--import net.minecraft.world.level.levelgen.WorldGenSettings;
- import net.minecraft.world.level.storage.DimensionDataStorage;
+@@ -18,6 +18,9 @@ import net.minecraft.world.level.storage.DimensionDataStorage;
  import net.minecraft.world.level.storage.LevelStorageSource;
  import org.apache.logging.log4j.LogManager;
  import org.apache.logging.log4j.Logger;
@@ -125,25 +100,25 @@ index 9017907c0ec67a37a506f09b7e4499cef7885279..5bf94a8ea13eb3199981a9bcb46efe13
  import java.io.File;
  import java.io.IOException;
  import java.text.DecimalFormat;
-@@ -84,8 +85,15 @@ public class ThreadedWorldUpgrader {
+@@ -84,8 +87,15 @@ public class ThreadedWorldUpgrader {
          LOGGER.info("Found " + regionFiles.length + " regionfiles to convert");
          LOGGER.info("Starting conversion now for world " + this.worldName);
  
-+        // DivineMC start - Implement Linear region
-+        RegionFileFormat formatName = ((CraftWorld) Bukkit.getWorld(worldName)).getHandle().divinemcConfig.regionFormatName;
-+        int linearCompression = ((org.bukkit.craftbukkit.CraftWorld) org.bukkit.Bukkit.getWorld(worldName)).getHandle().divinemcConfig.regionFormatLinearCompressionLevel;
-+        boolean linearCrashOnBrokenSymlink = ((org.bukkit.craftbukkit.CraftWorld) org.bukkit.Bukkit.getWorld(worldName)).getHandle().divinemcConfig.linearCrashOnBrokenSymlink;
++        // DivineMC start - Implement Linear region format
++        space.bxteam.divinemc.region.RegionFileFormat formatName = ((CraftWorld) Bukkit.getWorld(worldName)).getHandle().divinemcConfig.regionFormatName;
++        int linearCompression = ((CraftWorld) Bukkit.getWorld(worldName)).getHandle().divinemcConfig.regionFormatLinearCompressionLevel;
++        boolean linearCrashOnBrokenSymlink = ((CraftWorld) Bukkit.getWorld(worldName)).getHandle().divinemcConfig.linearCrashOnBrokenSymlink;
 +        LOGGER.info("Using format " + formatName + " (" + linearCompression + ")");
 +        // DivineMC end
 +
          final WorldInfo info = new WorldInfo(() -> worldPersistentData,
 -                new ChunkStorage(regionFolder.toPath(), this.dataFixer, false), this.removeCaches, this.dimensionType, this.generatorKey);
-+                new ChunkStorage(formatName, linearCompression, linearCrashOnBrokenSymlink, regionFolder.toPath(), this.dataFixer, false), this.removeCaches, this.dimensionType, this.generatorKey); // DivineMC - Implement Linear region
++                new ChunkStorage(formatName, linearCompression, linearCrashOnBrokenSymlink, regionFolder.toPath(), this.dataFixer, false), this.removeCaches, this.dimensionType, this.generatorKey);
  
          long expectedChunks = (long)regionFiles.length * (32L * 32L);
  
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index b1dd8d66a524254a270a725f5f7a46f28e13b749..cd68584f2f842eea0d932f2baf5dcbd65f03f34a 100644
+index a1876ec72ff38f465662aded3608c588be34ca2d..2689e33c6aeed4c85c5315836b97dc79f7d1bb8c 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -884,7 +884,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -151,7 +126,7 @@ index b1dd8d66a524254a270a725f5f7a46f28e13b749..cd68584f2f842eea0d932f2baf5dcbd6
              worldserver.save((ProgressListener) null, flush, worldserver.noSave && !force, close);
              if (flush) {
 -                MinecraftServer.LOGGER.info("ThreadedAnvilChunkStorage ({}): All chunks are saved", worldserver.getChunkSource().chunkMap.getStorageName());
-+                MinecraftServer.LOGGER.info("ThreadedChunkStorage ({}): All chunks are saved", worldserver.getChunkSource().chunkMap.getStorageName());
++                MinecraftServer.LOGGER.info("ThreadedChunkStorage ({}): All chunks are saved", worldserver.getChunkSource().chunkMap.getStorageName()); // DivineMC - Implement Linear region format
              }
              // Paper end - rewrite chunk system
          }
@@ -160,248 +135,100 @@ index b1dd8d66a524254a270a725f5f7a46f28e13b749..cd68584f2f842eea0d932f2baf5dcbd6
              }
  
 -            MinecraftServer.LOGGER.info("ThreadedAnvilChunkStorage: All dimensions are saved");
-+            MinecraftServer.LOGGER.info("ThreadedChunkStorage: All dimensions are saved"); // DivineMC - Implement Linear region
++            MinecraftServer.LOGGER.info("ThreadedChunkStorage: All dimensions are saved"); // DivineMC - Implement Linear region format
          }
  
          return flag3;
 diff --git a/src/main/java/net/minecraft/server/level/ChunkMap.java b/src/main/java/net/minecraft/server/level/ChunkMap.java
-index 06554a000da1f6ba7360fa907deeead7341b09ea..5e9ec3282fdea8a39328c59c5fe4453f457eee9c 100644
+index e0a52d5b74754a5b30a1fc250b5a2200682b748b..abe8e0dae8ce85c31ccdbb1797ecf2d555062553 100644
 --- a/src/main/java/net/minecraft/server/level/ChunkMap.java
 +++ b/src/main/java/net/minecraft/server/level/ChunkMap.java
-@@ -1,31 +1,23 @@
- package net.minecraft.server.level;
- 
--import co.aikar.timings.Timing; // Paper
- import com.google.common.collect.ImmutableList;
- import com.google.common.collect.ImmutableList.Builder;
- import com.google.common.collect.Iterables;
--import com.google.common.collect.ComparisonChain; // Paper
- import com.google.common.collect.Lists;
- import com.google.common.collect.Queues;
--import com.google.common.collect.Sets;
- import com.google.gson.JsonElement;
- import com.mojang.datafixers.DataFixer;
- import com.mojang.datafixers.util.Either;
- import com.mojang.logging.LogUtils;
- import com.mojang.serialization.DataResult;
- import com.mojang.serialization.JsonOps;
-+import space.bxteam.divinemc.region.AbstractRegionFile;
- import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
- import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
- import it.unimi.dsi.fastutil.longs.Long2ByteMap;
- import it.unimi.dsi.fastutil.longs.Long2ByteOpenHashMap;
- import it.unimi.dsi.fastutil.longs.Long2LongMap;
- import it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap;
--import it.unimi.dsi.fastutil.longs.Long2ObjectLinkedOpenHashMap;
--import it.unimi.dsi.fastutil.longs.Long2ObjectMap.Entry;
--import it.unimi.dsi.fastutil.longs.LongIterator;
--import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
--import it.unimi.dsi.fastutil.longs.LongSet;
--import it.unimi.dsi.fastutil.objects.ObjectBidirectionalIterator;
- import it.unimi.dsi.fastutil.objects.ObjectIterator;
- import java.io.IOException;
- import java.io.Writer;
-@@ -34,7 +26,6 @@ import java.util.ArrayList;
- import java.util.HashMap;
- import java.util.Iterator;
- import java.util.List;
--import java.util.Locale;
- import java.util.Map;
- import java.util.Objects;
- import java.util.Optional;
-@@ -43,7 +34,6 @@ import java.util.Set;
- import java.util.concurrent.CancellationException;
- import java.util.concurrent.CompletableFuture;
- import java.util.concurrent.CompletionException;
--import java.util.concurrent.CompletionStage;
- import java.util.concurrent.Executor;
- import java.util.concurrent.atomic.AtomicInteger;
- import java.util.function.BooleanSupplier;
-@@ -63,15 +53,10 @@ import net.minecraft.core.registries.Registries;
- import net.minecraft.nbt.CompoundTag;
- import net.minecraft.network.protocol.Packet;
- import net.minecraft.network.protocol.game.ClientboundChunksBiomesPacket;
--import net.minecraft.network.protocol.game.ClientboundSetChunkCacheCenterPacket;
- import net.minecraft.server.level.progress.ChunkProgressListener;
- import net.minecraft.server.network.ServerPlayerConnection;
--import net.minecraft.util.CsvOutput;
- import net.minecraft.util.Mth;
--import net.minecraft.util.profiling.ProfilerFiller;
- import net.minecraft.util.thread.BlockableEventLoop;
--import net.minecraft.util.thread.ProcessorHandle;
--import net.minecraft.util.thread.ProcessorMailbox;
- import net.minecraft.world.entity.Entity;
- import net.minecraft.world.entity.EntityType;
- import net.minecraft.world.entity.ai.village.poi.PoiManager;
-@@ -82,7 +67,6 @@ import net.minecraft.world.level.chunk.ChunkAccess;
- import net.minecraft.world.level.chunk.ChunkGenerator;
- import net.minecraft.world.level.chunk.ChunkGeneratorStructureState;
- import net.minecraft.world.level.chunk.ChunkStatus;
--import net.minecraft.world.level.chunk.ImposterProtoChunk;
- import net.minecraft.world.level.chunk.LevelChunk;
- import net.minecraft.world.level.chunk.LightChunkGetter;
- import net.minecraft.world.level.chunk.ProtoChunk;
-@@ -95,12 +79,9 @@ import net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator;
- import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
- import net.minecraft.world.level.levelgen.RandomState;
- import net.minecraft.world.level.levelgen.blending.BlendingData;
--import net.minecraft.world.level.levelgen.structure.StructureStart;
- import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
- import net.minecraft.world.level.storage.DimensionDataStorage;
- import net.minecraft.world.level.storage.LevelStorageSource;
--import net.minecraft.world.phys.Vec3;
--import org.apache.commons.lang3.mutable.MutableBoolean;
- import org.slf4j.Logger;
- 
- // CraftBukkit start
-@@ -247,7 +228,7 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
+@@ -249,7 +249,7 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
      // Paper end - optimise chunk tick iteration
  
      public ChunkMap(ServerLevel world, LevelStorageSource.LevelStorageAccess session, DataFixer dataFixer, StructureTemplateManager structureTemplateManager, Executor executor, BlockableEventLoop<Runnable> mainThreadExecutor, LightChunkGetter chunkProvider, ChunkGenerator chunkGenerator, ChunkProgressListener worldGenerationProgressListener, ChunkStatusUpdateListener chunkStatusChangeListener, Supplier<DimensionDataStorage> persistentStateManagerFactory, int viewDistance, boolean dsync) {
 -        super(session.getDimensionPath(world.dimension()).resolve("region"), dataFixer, dsync);
-+        super(world.getLevel().divinemcConfig.regionFormatName, world.getLevel().divinemcConfig.regionFormatLinearCompressionLevel, world.getLevel().divinemcConfig.linearCrashOnBrokenSymlink, session.getDimensionPath(world.dimension()).resolve("region"), dataFixer, dsync); // DivineMC - Implement Linear region
++        super(world.getLevel().divinemcConfig.regionFormatName, world.getLevel().divinemcConfig.regionFormatLinearCompressionLevel, world.getLevel().divinemcConfig.linearCrashOnBrokenSymlink, session.getDimensionPath(world.dimension()).resolve("region"), dataFixer, dsync); // DivineMC - Implement Linear region format
          // Paper - rewrite chunk system
          this.tickingGenerated = new AtomicInteger();
          this.playerMap = new PlayerMap();
-@@ -292,7 +273,7 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
+@@ -294,7 +294,7 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
          this.lightEngine = new ThreadedLevelLightEngine(chunkProvider, this, this.level.dimensionType().hasSkyLight(), null, null); // Paper - rewrite chunk system
          this.distanceManager = new ChunkMap.ChunkDistanceManager(executor, mainThreadExecutor);
          this.overworldDataStorage = persistentStateManagerFactory;
 -        this.poiManager = new PoiManager(path.resolve("poi"), dataFixer, dsync, iregistrycustom, world);
-+        this.poiManager = new PoiManager(this.level.divinemcConfig.regionFormatName, this.level.divinemcConfig.regionFormatLinearCompressionLevel, this.level.divinemcConfig.linearCrashOnBrokenSymlink, path.resolve("poi"), dataFixer, dsync, iregistrycustom, world); // DivineMC - Implement Linear region
++        this.poiManager = new PoiManager(this.level.divinemcConfig.regionFormatName, this.level.divinemcConfig.regionFormatLinearCompressionLevel, this.level.divinemcConfig.linearCrashOnBrokenSymlink, path.resolve("poi"), dataFixer, dsync, iregistrycustom, world); // DivineMC - Implement Linear region format
          this.setServerViewDistance(viewDistance);
          // Paper start
          this.dataRegionManager = new io.papermc.paper.chunk.SingleThreadChunkRegionManager(this.level, 2, (1.0 / 3.0), 1, 6, "Data", DataRegionData::new, DataRegionSectionData::new);
-@@ -872,13 +853,13 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
+@@ -874,13 +874,13 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
      }
  
      public ChunkStatus getChunkStatusOnDiskIfCached(ChunkPos chunkPos) {
 -        net.minecraft.world.level.chunk.storage.RegionFile regionFile = regionFileCache.getRegionFileIfLoaded(chunkPos);
-+        AbstractRegionFile regionFile = regionFileCache.getRegionFileIfLoaded(chunkPos); // DivineMC - Implement Linear region
++        space.bxteam.divinemc.region.AbstractRegionFile regionFile = regionFileCache.getRegionFileIfLoaded(chunkPos); // DivineMC - Implement Linear region format
  
          return regionFile == null ? null : regionFile.getStatusIfCached(chunkPos.x, chunkPos.z);
      }
  
      public ChunkStatus getChunkStatusOnDisk(ChunkPos chunkPos) throws IOException {
 -        net.minecraft.world.level.chunk.storage.RegionFile regionFile = regionFileCache.getRegionFile(chunkPos, true);
-+        AbstractRegionFile regionFile = regionFileCache.getRegionFile(chunkPos, true); // DivineMC - Implement Linear region
++        space.bxteam.divinemc.region.AbstractRegionFile regionFile = regionFileCache.getRegionFile(chunkPos, true); // DivineMC - Implement Linear region format
  
          if (regionFile == null || !regionFileCache.chunkExists(chunkPos)) {
              return null;
-@@ -896,7 +877,7 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
+@@ -898,7 +898,7 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
      }
  
      public void updateChunkStatusOnDisk(ChunkPos chunkPos, @Nullable CompoundTag compound) throws IOException {
 -        net.minecraft.world.level.chunk.storage.RegionFile regionFile = regionFileCache.getRegionFile(chunkPos, false);
-+        AbstractRegionFile regionFile = regionFileCache.getRegionFile(chunkPos, false); // DivineMC - Implement Linear region
++        space.bxteam.divinemc.region.AbstractRegionFile regionFile = regionFileCache.getRegionFile(chunkPos, false); // DivineMC - Implement Linear region format
  
          regionFile.setStatus(chunkPos.x, chunkPos.z, ChunkSerializer.getStatus(compound));
      }
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 75b3de5c1e26815aa04dba3f09f2ef7807767154..9b91369191b41a9c4383a6e7e30d13cca6b90832 100644
+index 00ac2902be93327c7dd1bf78ee5922d7954f1b26..a4f149b376a60df86d5446e36eefb18430cf2496 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
-@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
- import com.mojang.datafixers.DataFixer;
- import com.mojang.datafixers.util.Pair;
- import com.mojang.logging.LogUtils;
-+import space.bxteam.divinemc.region.RegionFileFormat;
- import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
- import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
- import it.unimi.dsi.fastutil.longs.LongSet;
-@@ -50,7 +51,6 @@ import net.minecraft.core.particles.ParticleOptions;
- import net.minecraft.core.registries.BuiltInRegistries;
- import net.minecraft.core.registries.Registries;
- import net.minecraft.network.chat.Component;
--import net.minecraft.network.chat.MutableComponent;
- import net.minecraft.network.protocol.Packet;
- import net.minecraft.network.protocol.game.ClientboundBlockDestructionPacket;
- import net.minecraft.network.protocol.game.ClientboundBlockEventPacket;
-@@ -78,7 +78,6 @@ import net.minecraft.util.Mth;
- import net.minecraft.util.ProgressListener;
- import net.minecraft.util.RandomSource;
- import net.minecraft.util.Unit;
--import net.minecraft.util.profiling.ProfilerFiller;
- import net.minecraft.util.valueproviders.IntProvider;
- import net.minecraft.util.valueproviders.UniformInt;
- import net.minecraft.world.DifficultyInstance;
-@@ -134,12 +133,10 @@ import net.minecraft.world.level.chunk.storage.EntityStorage;
- import net.minecraft.world.level.dimension.BuiltinDimensionTypes;
- import net.minecraft.world.level.dimension.LevelStem;
- import net.minecraft.world.level.dimension.end.EndDragonFight;
--import net.minecraft.world.level.entity.EntityPersistentStorage;
- import net.minecraft.world.level.entity.EntityTickList;
- import net.minecraft.world.level.entity.EntityTypeTest;
- import net.minecraft.world.level.entity.LevelCallback;
- import net.minecraft.world.level.entity.LevelEntityGetter;
--import net.minecraft.world.level.entity.PersistentEntitySectionManager;
- import net.minecraft.world.level.gameevent.DynamicGameEventListener;
- import net.minecraft.world.level.gameevent.GameEvent;
- import net.minecraft.world.level.gameevent.GameEventDispatcher;
-@@ -170,12 +167,10 @@ import org.bukkit.Location;
- import org.bukkit.WeatherType;
- import org.bukkit.craftbukkit.event.CraftEventFactory;
- import org.bukkit.craftbukkit.generator.CustomWorldChunkManager;
--import org.bukkit.craftbukkit.util.CraftNamespacedKey;
- import org.bukkit.craftbukkit.util.WorldUUID;
- import org.bukkit.event.entity.CreatureSpawnEvent;
- import org.bukkit.event.server.MapInitializeEvent;
- import org.bukkit.event.weather.LightningStrikeEvent;
--import org.bukkit.event.world.GenericGameEvent;
- import org.bukkit.event.world.TimeSkipEvent;
- // CraftBukkit end
- 
-@@ -421,9 +416,11 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -421,8 +421,8 @@ public class ServerLevel extends Level implements WorldGenLevel {
  
      private static final class EntityRegionFileStorage extends net.minecraft.world.level.chunk.storage.RegionFileStorage {
  
 -        public EntityRegionFileStorage(Path directory, boolean dsync) {
 -            super(directory, dsync);
-+        // DivineMC start - Implement Linear region
-+        public EntityRegionFileStorage(RegionFileFormat format, int linearCompression, boolean linearCrashOnBrokenSymlink, Path directory, boolean dsync) { // LinearPurpur
-+            super(format, linearCompression, linearCrashOnBrokenSymlink, directory, dsync);
++        public EntityRegionFileStorage(space.bxteam.divinemc.region.RegionFileFormat format, int linearCompression, boolean linearCrashOnBrokenSymlink, Path directory, boolean dsync) { // DivineMC - Implement Linear region format
++            super(format, linearCompression, linearCrashOnBrokenSymlink, directory, dsync); // DivineMC - Implement Linear region format
          }
-+        // DivineMC end
  
          protected void write(ChunkPos pos, net.minecraft.nbt.CompoundTag nbt) throws IOException {
-             ChunkPos nbtPos = nbt == null ? null : EntityStorage.readChunkPos(nbt);
-@@ -748,7 +745,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -748,7 +748,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
          // CraftBukkit end
          boolean flag2 = minecraftserver.forceSynchronousWrites();
          DataFixer datafixer = minecraftserver.getFixerUpper();
 -        this.entityStorage = new EntityRegionFileStorage(convertable_conversionsession.getDimensionPath(resourcekey).resolve("entities"), flag2); // Paper - rewrite chunk system  //EntityPersistentStorage<Entity> entitypersistentstorage = new EntityStorage(this, convertable_conversionsession.getDimensionPath(resourcekey).resolve("entities"), datafixer, flag2, minecraftserver);
-+        this.entityStorage = new EntityRegionFileStorage(this.getLevel().divinemcConfig.regionFormatName, this.getLevel().divinemcConfig.regionFormatLinearCompressionLevel, this.getLevel().divinemcConfig.linearCrashOnBrokenSymlink, convertable_conversionsession.getDimensionPath(resourcekey).resolve("entities"), flag2); // Paper - rewrite chunk system  //EntityPersistentStorage<Entity> entitypersistentstorage = new EntityStorage(this, convertable_conversionsession.getDimensionPath(resourcekey).resolve("entities"), datafixer, flag2, minecraftserver); // DivineMC - Implement Linear region
++        this.entityStorage = new EntityRegionFileStorage(this.getLevel().divinemcConfig.regionFormatName, this.getLevel().divinemcConfig.regionFormatLinearCompressionLevel, this.getLevel().divinemcConfig.linearCrashOnBrokenSymlink, convertable_conversionsession.getDimensionPath(resourcekey).resolve("entities"), flag2); // Paper - rewrite chunk system  //EntityPersistentStorage<Entity> entitypersistentstorage = new EntityStorage(this, convertable_conversionsession.getDimensionPath(resourcekey).resolve("entities"), datafixer, flag2, minecraftserver); // DivineMC - Implement Linear region format
  
          // this.entityManager = new PersistentEntitySectionManager<>(Entity.class, new ServerLevel.EntityCallbacks(), entitypersistentstorage, this.entitySliceManager); // Paper // Paper - rewrite chunk system
          StructureTemplateManager structuretemplatemanager = minecraftserver.getStructureManager();
 diff --git a/src/main/java/net/minecraft/util/worldupdate/WorldUpgrader.java b/src/main/java/net/minecraft/util/worldupdate/WorldUpgrader.java
-index 77dd632a266f4abed30b87b7909d77857c01e316..49658447050e1134dab828f0e21aec9a219c8ec1 100644
+index 77dd632a266f4abed30b87b7909d77857c01e316..892664f83fe5990cda43a5edf85b463a43e2e244 100644
 --- a/src/main/java/net/minecraft/util/worldupdate/WorldUpgrader.java
 +++ b/src/main/java/net/minecraft/util/worldupdate/WorldUpgrader.java
-@@ -8,6 +8,9 @@ import com.google.common.collect.UnmodifiableIterator;
- import com.google.common.util.concurrent.ThreadFactoryBuilder;
- import com.mojang.datafixers.DataFixer;
- import com.mojang.logging.LogUtils;
-+import space.bxteam.divinemc.region.AbstractRegionFile;
-+import space.bxteam.divinemc.region.AbstractRegionFileFactory;
-+import space.bxteam.divinemc.region.RegionFileFormat;
- import it.unimi.dsi.fastutil.objects.Reference2FloatMap;
- import it.unimi.dsi.fastutil.objects.Reference2FloatMaps;
- import it.unimi.dsi.fastutil.objects.Reference2FloatOpenHashMap;
-@@ -37,7 +40,6 @@ import net.minecraft.world.level.ChunkPos;
- import net.minecraft.world.level.Level;
- import net.minecraft.world.level.chunk.ChunkGenerator;
- import net.minecraft.world.level.chunk.storage.ChunkStorage;
--import net.minecraft.world.level.chunk.storage.RegionFile;
+@@ -41,6 +41,8 @@ import net.minecraft.world.level.chunk.storage.RegionFile;
  import net.minecraft.world.level.dimension.LevelStem;
  import net.minecraft.world.level.storage.DimensionDataStorage;
  import net.minecraft.world.level.storage.LevelStorageSource;
++import org.bukkit.Bukkit;
++import org.bukkit.craftbukkit.CraftWorld;
+ import org.slf4j.Logger;
+ 
+ public class WorldUpgrader {
 @@ -61,7 +63,7 @@ public class WorldUpgrader {
      private volatile int skipped;
      private final Reference2FloatMap<ResourceKey<Level>> progressMap = Reference2FloatMaps.synchronize(new Reference2FloatOpenHashMap());
      private volatile Component status = Component.translatable("optimizeWorld.stage.counting");
 -    public static final Pattern REGEX = Pattern.compile("^r\\.(-?[0-9]+)\\.(-?[0-9]+)\\.mca$");
-+    public static Pattern REGEX = Pattern.compile("^r\\.(-?[0-9]+)\\.(-?[0-9]+)\\.(linear | mca)$"); // DivineMC - Implement Linear region
++    public static Pattern REGEX = Pattern.compile("^r\\.(-?[0-9]+)\\.(-?[0-9]+)\\.(linear | mca)$"); // DivineMC - Implement Linear region format
      private final DimensionDataStorage overworldDataStorage;
  
      public WorldUpgrader(LevelStorageSource.LevelStorageAccess session, DataFixer dataFixer, Registry<LevelStem> dimensionOptionsRegistry, boolean eraseCache) {
@@ -410,9 +237,9 @@ index 77dd632a266f4abed30b87b7909d77857c01e316..49658447050e1134dab828f0e21aec9a
                  Path path = this.levelStorage.getDimensionPath(resourcekey1);
  
 -                builder1.put(resourcekey1, new ChunkStorage(path.resolve("region"), this.dataFixer, true));
-+                // DivineMC start - Implement Linear region
++                // DivineMC start - Implement Linear region format
 +                String worldName = this.levelStorage.getLevelId();
-+                RegionFileFormat formatName = ((org.bukkit.craftbukkit.CraftWorld) org.bukkit.Bukkit.getWorld(worldName)).getHandle().divinemcConfig.regionFormatName;
++                space.bxteam.divinemc.region.RegionFileFormat formatName = ((org.bukkit.craftbukkit.CraftWorld) org.bukkit.Bukkit.getWorld(worldName)).getHandle().divinemcConfig.regionFormatName;
 +                int linearCompression = ((org.bukkit.craftbukkit.CraftWorld) org.bukkit.Bukkit.getWorld(worldName)).getHandle().divinemcConfig.regionFormatLinearCompressionLevel;
 +                boolean linearCrashOnBrokenSymlink = ((org.bukkit.craftbukkit.CraftWorld) org.bukkit.Bukkit.getWorld(worldName)).getHandle().divinemcConfig.linearCrashOnBrokenSymlink;
 +                builder1.put(resourcekey1, new ChunkStorage(formatName, linearCompression, linearCrashOnBrokenSymlink, path.resolve("region"), this.dataFixer, true));
@@ -425,7 +252,7 @@ index 77dd632a266f4abed30b87b7909d77857c01e316..49658447050e1134dab828f0e21aec9a
          File file1 = new File(file, "region");
          File[] afile = file1.listFiles((file2, s) -> {
 -            return s.endsWith(".mca");
-+            return s.endsWith(".mca") || s.endsWith(".linear"); // DivineMC - Implement Linear region
++            return s.endsWith(".mca") || s.endsWith(".linear"); // DivineMC - Implement Linear region format
          });
  
          if (afile == null) {
@@ -434,103 +261,63 @@ index 77dd632a266f4abed30b87b7909d77857c01e316..49658447050e1134dab828f0e21aec9a
  
                      try {
 -                        RegionFile regionfile = new RegionFile(file2.toPath(), file1.toPath(), true);
-+                        // DivineMC start - Implement Linear region
++                        // DivineMC start - Implement Linear region format
 +                        String worldName = this.levelStorage.getLevelId();
-+                        int linearCompression = ((org.bukkit.craftbukkit.CraftWorld) org.bukkit.Bukkit.getWorld(worldName)).getHandle().divinemcConfig.regionFormatLinearCompressionLevel;
-+                        AbstractRegionFile regionfile = AbstractRegionFileFactory.getAbstractRegionFile(linearCompression, file2.toPath(), file1.toPath(), true);
++                        int linearCompression = ((CraftWorld) Bukkit.getWorld(worldName)).getHandle().divinemcConfig.regionFormatLinearCompressionLevel;
++                        space.bxteam.divinemc.region.AbstractRegionFile regionfile = space.bxteam.divinemc.region.AbstractRegionFileFactory.getAbstractRegionFile(linearCompression, file2.toPath(), file1.toPath(), true);
 +                        // DivineMC end
  
                          try {
                              for (int i1 = 0; i1 < 32; ++i1) {
 diff --git a/src/main/java/net/minecraft/world/entity/ai/village/poi/PoiManager.java b/src/main/java/net/minecraft/world/entity/ai/village/poi/PoiManager.java
-index 12a7aaeaa8b4b788b620b1985591c3b93253ccd5..21e0da9ae3329425402debd227c7b183f2914641 100644
+index 1a52a9eee62a8d464e1014dbe5a48905df50d3da..19c72115641f5488f6ab6856beecf22eac06e169 100644
 --- a/src/main/java/net/minecraft/world/entity/ai/village/poi/PoiManager.java
 +++ b/src/main/java/net/minecraft/world/entity/ai/village/poi/PoiManager.java
-@@ -2,10 +2,10 @@ package net.minecraft.world.entity.ai.village.poi;
- 
- import com.mojang.datafixers.DataFixer;
- import com.mojang.datafixers.util.Pair;
-+import space.bxteam.divinemc.region.RegionFileFormat;
- import it.unimi.dsi.fastutil.longs.Long2ByteMap;
- import it.unimi.dsi.fastutil.longs.Long2ByteOpenHashMap;
--import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
--import it.unimi.dsi.fastutil.longs.LongSet;
-+
- import java.nio.file.Path;
- import java.util.Comparator;
- import java.util.List;
-@@ -57,8 +57,10 @@ public class PoiManager extends SectionStorage<PoiSection> {
+@@ -57,8 +57,8 @@ public class PoiManager extends SectionStorage<PoiSection> {
      // Paper end - rewrite chunk system
  
  
 -    public PoiManager(Path path, DataFixer dataFixer, boolean dsync, RegistryAccess registryManager, LevelHeightAccessor world) {
 -        super(path, PoiSection::codec, PoiSection::new, dataFixer, DataFixTypes.POI_CHUNK, dsync, registryManager, world);
-+    // DivineMC start - Implement Linear region
-+    public PoiManager(RegionFileFormat formatName, int linearCompression, boolean linearCrashOnBrokenSymlink, Path path, DataFixer dataFixer, boolean dsync, RegistryAccess registryManager, LevelHeightAccessor world) { // LinearPurpur
-+        super(formatName, linearCompression, linearCrashOnBrokenSymlink, path, PoiSection::codec, PoiSection::new, dataFixer, DataFixTypes.POI_CHUNK, dsync, registryManager, world);
-+    // DivineMC end
++    public PoiManager(space.bxteam.divinemc.region.RegionFileFormat formatName, int linearCompression, boolean linearCrashOnBrokenSymlink, Path path, DataFixer dataFixer, boolean dsync, RegistryAccess registryManager, LevelHeightAccessor world) { // DivineMC - Implement Linear region format
++        super(formatName, linearCompression, linearCrashOnBrokenSymlink, path, PoiSection::codec, PoiSection::new, dataFixer, DataFixTypes.POI_CHUNK, dsync, registryManager, world); // DivineMC - Implement Linear region format
          this.world = (net.minecraft.server.level.ServerLevel)world; // Paper - rewrite chunk system
      }
  
 diff --git a/src/main/java/net/minecraft/world/level/chunk/storage/ChunkStorage.java b/src/main/java/net/minecraft/world/level/chunk/storage/ChunkStorage.java
-index d16d7c2fed89fb1347df7ddd95856e7f08c22e8a..e17106f4c4bc05c3d9072213217a297b0240a084 100644
+index d16d7c2fed89fb1347df7ddd95856e7f08c22e8a..82e816c0d6dd8720363ddf8bc21e4d411e6219ba 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/storage/ChunkStorage.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/storage/ChunkStorage.java
-@@ -8,13 +8,14 @@ import java.util.Optional;
- import java.util.concurrent.CompletableFuture;
- import java.util.function.Supplier;
- import javax.annotation.Nullable;
-+
-+import space.bxteam.divinemc.region.RegionFileFormat;
- import net.minecraft.SharedConstants;
- import net.minecraft.nbt.CompoundTag;
- import net.minecraft.nbt.NbtUtils;
- import net.minecraft.resources.ResourceKey;
- import net.minecraft.server.level.ServerChunkCache;
- import net.minecraft.server.level.ServerLevel;
--import net.minecraft.util.datafix.DataFixTypes;
- import net.minecraft.world.level.ChunkPos;
- import net.minecraft.world.level.LevelAccessor;
- import net.minecraft.world.level.chunk.ChunkGenerator;
-@@ -36,9 +37,9 @@ public class ChunkStorage implements AutoCloseable {
+@@ -36,9 +36,9 @@ public class ChunkStorage implements AutoCloseable {
      @Nullable
      private volatile LegacyStructureDataHandler legacyStructureHandler;
  
 -    public ChunkStorage(Path directory, DataFixer dataFixer, boolean dsync) {
-+    public ChunkStorage(RegionFileFormat format, int linearCompression, boolean linearCrashOnBrokenSymlink, Path directory, DataFixer dataFixer, boolean dsync) { // DivineMC - Implement Linear region
++    public ChunkStorage(space.bxteam.divinemc.region.RegionFileFormat format, int linearCompression, boolean linearCrashOnBrokenSymlink, Path directory, DataFixer dataFixer, boolean dsync) { // DivineMC - Implement Linear region format
          this.fixerUpper = dataFixer;
 -        this.regionFileCache = new RegionFileStorage(directory, dsync, true); // Paper - rewrite chunk system; async chunk IO & Attempt to recalculate regionfile header if it is corrupt
-+        this.regionFileCache = new RegionFileStorage(format, linearCompression, linearCrashOnBrokenSymlink, directory, dsync, true); // Paper - rewrite chunk system; async chunk IO & Attempt to recalculate regionfile header if it is corrupt // DivineMC - Implement Linear region
++        this.regionFileCache = new RegionFileStorage(format, linearCompression, linearCrashOnBrokenSymlink, directory, dsync, true); // DivineMC - Implement Linear region format
      }
  
      public boolean isOldChunkAround(ChunkPos chunkPos, int checkRadius) {
 diff --git a/src/main/java/net/minecraft/world/level/chunk/storage/RegionFile.java b/src/main/java/net/minecraft/world/level/chunk/storage/RegionFile.java
-index 6cf83502a954cce9c562ec036bfeddb477d38b73..80a747ca215592d77fe60d1df2a03f04e47b885e 100644
+index 6cf83502a954cce9c562ec036bfeddb477d38b73..a344a9528289e39322758ac6174c3409357995f9 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/storage/RegionFile.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/storage/RegionFile.java
-@@ -20,13 +20,15 @@ import java.nio.file.StandardCopyOption;
- import java.nio.file.StandardOpenOption;
- import java.util.zip.InflaterInputStream; // Paper
- import javax.annotation.Nullable;
-+
-+import space.bxteam.divinemc.region.AbstractRegionFile;
- import net.minecraft.Util;
- import net.minecraft.nbt.CompoundTag; // Paper
- import net.minecraft.nbt.NbtIo; // Paper
+@@ -26,7 +26,7 @@ import net.minecraft.nbt.NbtIo; // Paper
  import net.minecraft.world.level.ChunkPos;
  import org.slf4j.Logger;
  
 -public class RegionFile implements AutoCloseable {
-+public class RegionFile implements AutoCloseable, AbstractRegionFile { // DivineMC - Implement Linear region
++public class RegionFile implements AutoCloseable, space.bxteam.divinemc.region.AbstractRegionFile { // DivineMC - Implement Linear region format
  
      private static final Logger LOGGER = LogUtils.getLogger();
      private static final int SECTOR_BYTES = 4096;
-@@ -50,7 +52,17 @@ public class RegionFile implements AutoCloseable {
+@@ -50,6 +50,16 @@ public class RegionFile implements AutoCloseable {
      public final java.util.concurrent.locks.ReentrantLock fileLock = new java.util.concurrent.locks.ReentrantLock(); // Paper
      public final Path regionFile; // Paper
  
--    // Paper start - Attempt to recalculate regionfile header if it is corrupt
-+    // DivineMC start - Implement Linear region // Paper - Attempt to recalculate regionfile header if it is corrupt
++    // DivineMC start - Implement Linear region format
 +    public Path getRegionFile() {
 +        return this.regionFile;
 +    }
@@ -540,89 +327,76 @@ index 6cf83502a954cce9c562ec036bfeddb477d38b73..80a747ca215592d77fe60d1df2a03f04
 +    }
 +    // DivineMC end
 +
-+    // Paper start - try to recover from RegionFile header corruption
+     // Paper start - Attempt to recalculate regionfile header if it is corrupt
      private static long roundToSectors(long bytes) {
          long sectors = bytes >>> 12; // 4096 = 2^12
-         long remainingBytes = bytes & 4095;
-@@ -128,7 +140,7 @@ public class RegionFile implements AutoCloseable {
+@@ -128,7 +138,7 @@ public class RegionFile implements AutoCloseable {
      }
  
      // note: only call for CHUNK regionfiles
 -    boolean recalculateHeader() throws IOException {
-+    public boolean recalculateHeader() throws IOException { // DivineMC - Implement Linear region
++    public boolean recalculateHeader() throws IOException { // DivineMC - Implement Linear region format
          if (!this.canRecalcHeader) {
              return false;
          }
-@@ -955,10 +967,11 @@ public class RegionFile implements AutoCloseable {
+@@ -955,10 +965,10 @@ public class RegionFile implements AutoCloseable {
      private static int getChunkIndex(int x, int z) {
          return (x & 31) + (z & 31) * 32;
      }
 -    synchronized boolean isOversized(int x, int z) {
-+    public synchronized boolean isOversized(int x, int z) { // DivineMC - Implement Linear region
++    public synchronized boolean isOversized(int x, int z) { // DivineMC - Implement Linear region format
          return this.oversized[getChunkIndex(x, z)] == 1;
      }
 -    synchronized void setOversized(int x, int z, boolean oversized) throws IOException {
-+
-+    public synchronized void setOversized(int x, int z, boolean oversized) throws IOException { // DivineMC - Implement Linear region
++    public synchronized void setOversized(int x, int z, boolean oversized) throws IOException { // DivineMC - Implement Linear region format
          final int offset = getChunkIndex(x, z);
          boolean previous = this.oversized[offset] == 1;
          this.oversized[offset] = (byte) (oversized ? 1 : 0);
-@@ -997,7 +1010,7 @@ public class RegionFile implements AutoCloseable {
+@@ -997,7 +1007,7 @@ public class RegionFile implements AutoCloseable {
          return this.regionFile.getParent().resolve(this.regionFile.getFileName().toString().replaceAll("\\.mca$", "") + "_oversized_" + x + "_" + z + ".nbt");
      }
  
 -    synchronized CompoundTag getOversizedData(int x, int z) throws IOException {
-+    public synchronized CompoundTag getOversizedData(int x, int z) throws IOException { // DivineMC - Implement Linear region
++    public synchronized CompoundTag getOversizedData(int x, int z) throws IOException { // DivineMC - Implement Linear region format
          Path file = getOversizedFile(x, z);
          try (DataInputStream out = new DataInputStream(new java.io.BufferedInputStream(new InflaterInputStream(Files.newInputStream(file))))) {
              return NbtIo.read((java.io.DataInput) out);
 diff --git a/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java b/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
-index fe312b1aef579cb4bf81bdd967cf72ff880d7505..72c7cdce498fea90e1199bab456df967f8256c29 100644
+index fe312b1aef579cb4bf81bdd967cf72ff880d7505..cc8c80edcb1931da0c7efbcd8143d5a327fc2a8c 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
-@@ -1,5 +1,8 @@
- package net.minecraft.world.level.chunk.storage;
- 
-+import space.bxteam.divinemc.region.AbstractRegionFile;
-+import space.bxteam.divinemc.region.AbstractRegionFileFactory;
-+import space.bxteam.divinemc.region.RegionFileFormat;
- import it.unimi.dsi.fastutil.longs.Long2ObjectLinkedOpenHashMap;
- import it.unimi.dsi.fastutil.objects.ObjectIterator;
- import java.io.DataInput;
-@@ -18,12 +21,17 @@ import net.minecraft.util.ExceptionCollector;
- import net.minecraft.world.level.ChunkPos;
+@@ -19,11 +19,17 @@ import net.minecraft.world.level.ChunkPos;
  
  public class RegionFileStorage implements AutoCloseable {
--
-+    private static final org.slf4j.Logger LOGGER = com.mojang.logging.LogUtils.getLogger(); // DivineMC - Implement Linear region
+ 
++    private static final org.slf4j.Logger LOGGER = com.mojang.logging.LogUtils.getLogger(); // DivineMC - Implement Linear region format
      public static final String ANVIL_EXTENSION = ".mca";
      private static final int MAX_CACHE_SIZE = 256;
 -    public final Long2ObjectLinkedOpenHashMap<RegionFile> regionCache = new Long2ObjectLinkedOpenHashMap();
-+    public final Long2ObjectLinkedOpenHashMap<AbstractRegionFile> regionCache = new Long2ObjectLinkedOpenHashMap(); // DivineMC - Implement Linear region
++    public final Long2ObjectLinkedOpenHashMap<space.bxteam.divinemc.region.AbstractRegionFile> regionCache = new Long2ObjectLinkedOpenHashMap(); // DivineMC - Implement Linear region format
      private final Path folder;
      private final boolean sync;
-+    // DivineMC start - Implement Linear region
-+    public final RegionFileFormat format;
++    // DivineMC start - Per world chunk format
++    public final space.bxteam.divinemc.region.RegionFileFormat format;
 +    public final int linearCompression;
 +    public final boolean linearCrashOnBrokenSymlink;
 +    // DivineMC end
      private final boolean isChunkData; // Paper
  
      // Paper start - cache regionfile does not exist state
-@@ -55,11 +63,17 @@ public class RegionFileStorage implements AutoCloseable {
+@@ -55,11 +61,16 @@ public class RegionFileStorage implements AutoCloseable {
      }
      // Paper end - cache regionfile does not exist state
  
 -    protected RegionFileStorage(Path directory, boolean dsync) { // Paper - protected constructor
-+    protected RegionFileStorage(RegionFileFormat format, int linearCompression, boolean linearCrashOnBrokenSymlink, Path directory, boolean dsync) { // Paper - protected constructor // DivineMC - Implement Linear region
++    protected RegionFileStorage(space.bxteam.divinemc.region.RegionFileFormat format, int linearCompression, boolean linearCrashOnBrokenSymlink, Path directory, boolean dsync) { // Paper - protected constructor // DivineMC - Implement Linear region format
          // Paper start - add isChunkData param
 -        this(directory, dsync, false);
-+        this(format, linearCompression, linearCrashOnBrokenSymlink, directory, dsync, false); // DivineMC - Implement Linear region
++        this(format, linearCompression, linearCrashOnBrokenSymlink, directory, dsync, false);
      }
 -    RegionFileStorage(Path directory, boolean dsync, boolean isChunkData) {
-+
-+    RegionFileStorage(RegionFileFormat format, int linearCompression, boolean linearCrashOnBrokenSymlink, Path directory, boolean dsync, boolean isChunkData) { // DivineMC - Implement Linear region
-+        // DivineMC start - Implement Linear region
++    RegionFileStorage(space.bxteam.divinemc.region.RegionFileFormat format, int linearCompression, boolean linearCrashOnBrokenSymlink, Path directory, boolean dsync, boolean isChunkData) { // DivineMC - Implement Linear region format
++        // DivineMC start - Implement Linear region format
 +        this.format = format;
 +        this.linearCompression = linearCompression;
 +        this.linearCrashOnBrokenSymlink = linearCrashOnBrokenSymlink;
@@ -630,35 +404,35 @@ index fe312b1aef579cb4bf81bdd967cf72ff880d7505..72c7cdce498fea90e1199bab456df967
          this.isChunkData = isChunkData;
          // Paper end - add isChunkData param
          this.folder = directory;
-@@ -70,7 +84,7 @@ public class RegionFileStorage implements AutoCloseable {
+@@ -70,7 +81,7 @@ public class RegionFileStorage implements AutoCloseable {
      @Nullable
      public static ChunkPos getRegionFileCoordinates(Path file) {
          String fileName = file.getFileName().toString();
 -        if (!fileName.startsWith("r.") || !fileName.endsWith(".mca")) {
-+        if (!fileName.startsWith("r.") || !fileName.endsWith(".mca") || !fileName.endsWith(".linear")) { // DivineMC - Implement Linear region
++        if (!fileName.startsWith("r.") || !fileName.endsWith(".mca") || !fileName.endsWith(".linear")) { // DivineMC - Implement Linear region format
              return null;
          }
  
-@@ -89,30 +103,45 @@ public class RegionFileStorage implements AutoCloseable {
+@@ -89,30 +100,44 @@ public class RegionFileStorage implements AutoCloseable {
              return null;
          }
      }
 -    
 -    public synchronized RegionFile getRegionFileIfLoaded(ChunkPos chunkcoordintpair) {
 +
-+    public synchronized AbstractRegionFile getRegionFileIfLoaded(ChunkPos chunkcoordintpair) { // DivineMC - Implement Linear region
++    public synchronized space.bxteam.divinemc.region.AbstractRegionFile getRegionFileIfLoaded(ChunkPos chunkcoordintpair) { // LinearPurpur
          return this.regionCache.getAndMoveToFirst(ChunkPos.asLong(chunkcoordintpair.getRegionX(), chunkcoordintpair.getRegionZ()));
      }
  
      public synchronized boolean chunkExists(ChunkPos pos) throws IOException {
 -        RegionFile regionfile = getRegionFile(pos, true);
-+        AbstractRegionFile regionfile = getRegionFile(pos, true); // DivineMC - Implement Linear region
++        space.bxteam.divinemc.region.AbstractRegionFile regionfile = getRegionFile(pos, true); // DivineMC - Implement Linear region format
  
          return regionfile != null ? regionfile.hasChunk(pos) : false;
      }
  
 -    public synchronized RegionFile getRegionFile(ChunkPos chunkcoordintpair, boolean existingOnly) throws IOException { // CraftBukkit
-+    // DivineMC start - Implement Linear region
++    // DivineMC start - Implement Linear region format
 +    private void guardAgainstBrokenSymlinks(Path path) throws IOException {
 +        if (!linearCrashOnBrokenSymlink) return;
 +        if (!this.format.equals("LINEAR")) return;
@@ -672,32 +446,31 @@ index fe312b1aef579cb4bf81bdd967cf72ff880d7505..72c7cdce498fea90e1199bab456df967
 +    }
 +    // DivineMC end
 +
-+    public synchronized AbstractRegionFile getRegionFile(ChunkPos chunkcoordintpair, boolean existingOnly) throws IOException { // CraftBukkit // DivineMC - Implement Linear region
++    public synchronized space.bxteam.divinemc.region.AbstractRegionFile getRegionFile(ChunkPos chunkcoordintpair, boolean existingOnly) throws IOException { // CraftBukkit // DivineMC
          return this.getRegionFile(chunkcoordintpair, existingOnly, false);
      }
 -    public synchronized RegionFile getRegionFile(ChunkPos chunkcoordintpair, boolean existingOnly, boolean lock) throws IOException {
-+
-+    public synchronized AbstractRegionFile getRegionFile(ChunkPos chunkcoordintpair, boolean existingOnly, boolean lock) throws IOException { // DivineMC - Implement Linear region
++    public synchronized space.bxteam.divinemc.region.AbstractRegionFile getRegionFile(ChunkPos chunkcoordintpair, boolean existingOnly, boolean lock) throws IOException { // DivineMC - Implement Linear region format
          // Paper end
          long i = ChunkPos.asLong(chunkcoordintpair.getRegionX(), chunkcoordintpair.getRegionZ()); final long regionPos = i; // Paper - OBFHELPER
 -        RegionFile regionfile = (RegionFile) this.regionCache.getAndMoveToFirst(i);
-+        AbstractRegionFile regionfile = this.regionCache.getAndMoveToFirst(i); // DivineMC - Implement Linear region
++        space.bxteam.divinemc.region.AbstractRegionFile regionfile = (RegionFile) this.regionCache.getAndMoveToFirst(i); // DivineMC
  
          if (regionfile != null) {
              // Paper start
              if (lock) {
                  // must be in this synchronized block
 -                regionfile.fileLock.lock();
-+                regionfile.getFileLock().lock(); // DivineMC - Implement Linear region
++                regionfile.getFileLock().lock(); // DivineMC
              }
              // Paper end
              return regionfile;
-@@ -123,28 +152,45 @@ public class RegionFileStorage implements AutoCloseable {
+@@ -123,28 +148,45 @@ public class RegionFileStorage implements AutoCloseable {
              }
              // Paper end - cache regionfile does not exist state
              if (this.regionCache.size() >= io.papermc.paper.configuration.GlobalConfiguration.get().misc.regionFileCacheSize) { // Paper - Sanitise RegionFileCache and make configurable
 -                ((RegionFile) this.regionCache.removeLast()).close();
-+                this.regionCache.removeLast().close(); // DivineMC - Implement Linear region
++                this.regionCache.removeLast().close(); // DivineMC
              }
  
              // Paper - only create directory if not existing only - moved down
@@ -707,7 +480,7 @@ index fe312b1aef579cb4bf81bdd967cf72ff880d7505..72c7cdce498fea90e1199bab456df967
 -            if (existingOnly && !java.nio.file.Files.exists(path1)) { // Paper start - cache regionfile does not exist state
 -                this.markNonExisting(regionPos);
 -                return null; // CraftBukkit
-+            // DivineMC start - Implement Linear region
++            // DivineMC start - Implement Linear region format
 +            Path path1;
 +            if (existingOnly) {
 +                Path anvil = path.resolve("r." + j + "." + chunkcoordintpair.getRegionZ() + ".mca");
@@ -719,9 +492,9 @@ index fe312b1aef579cb4bf81bdd967cf72ff880d7505..72c7cdce498fea90e1199bab456df967
 +                    this.markNonExisting(regionPos);
 +                    return null;
 +                }
-+            // DivineMC end
++                // DivineMC end
              } else {
-+                // DivineMC start - Implement Linear region
++                // DivineMC start - Implement Linear region format
 +                String extension = switch (this.format) {
 +                    case LINEAR -> "linear";
 +                    default -> "mca";
@@ -734,32 +507,32 @@ index fe312b1aef579cb4bf81bdd967cf72ff880d7505..72c7cdce498fea90e1199bab456df967
              // Paper end - cache regionfile does not exist state
              FileUtil.createDirectoriesSafe(this.folder); // Paper - only create directory if not existing only - moved from above
 -            RegionFile regionfile1 = new RegionFile(path1, this.folder, this.sync, this.isChunkData); // Paper - allow for chunk regionfiles to regen header
-+            AbstractRegionFile regionfile1 = AbstractRegionFileFactory.getAbstractRegionFile(this.linearCompression, path1, this.folder, this.sync, this.isChunkData); // Paper - allow for chunk regionfiles to regen header // DivineMC - Implement Linear region
++            space.bxteam.divinemc.region.AbstractRegionFile regionfile1 = space.bxteam.divinemc.region.AbstractRegionFileFactory.getAbstractRegionFile(this.linearCompression, path1, this.folder, this.sync, this.isChunkData); // Paper - allow for chunk regionfiles to regen header // DivineMC
  
              this.regionCache.putAndMoveToFirst(i, regionfile1);
              // Paper start
              if (lock) {
                  // must be in this synchronized block
 -                regionfile1.fileLock.lock();
-+                regionfile1.getFileLock().lock(); // DivineMC - Implement Linear region
++                regionfile1.getFileLock().lock(); // DivineMC
              }
              // Paper end
              return regionfile1;
-@@ -156,7 +202,7 @@ public class RegionFileStorage implements AutoCloseable {
+@@ -156,7 +198,7 @@ public class RegionFileStorage implements AutoCloseable {
          org.apache.logging.log4j.LogManager.getLogger().fatal(msg + " (" + file.toString().replaceAll(".+[\\\\/]", "") + " - " + x + "," + z + ") Go clean it up to remove this message. /minecraft:tp " + (x<<4)+" 128 "+(z<<4) + " - DO NOT REPORT THIS TO PAPER - You may ask for help on Discord, but do not file an issue. These error messages can not be removed.");
      }
  
 -    private static CompoundTag readOversizedChunk(RegionFile regionfile, ChunkPos chunkCoordinate) throws IOException {
-+    private static CompoundTag readOversizedChunk(AbstractRegionFile regionfile, ChunkPos chunkCoordinate) throws IOException { // DivineMC - Implement Linear region
++    private static CompoundTag readOversizedChunk(space.bxteam.divinemc.region.AbstractRegionFile regionfile, ChunkPos chunkCoordinate) throws IOException { // DivineMC
          synchronized (regionfile) {
              try (DataInputStream datainputstream = regionfile.getChunkDataInputStream(chunkCoordinate)) {
                  CompoundTag oversizedData = regionfile.getOversizedData(chunkCoordinate.x, chunkCoordinate.z);
-@@ -191,14 +237,15 @@ public class RegionFileStorage implements AutoCloseable {
+@@ -191,14 +233,14 @@ public class RegionFileStorage implements AutoCloseable {
      @Nullable
      public CompoundTag read(ChunkPos pos) throws IOException {
          // CraftBukkit start - SPIGOT-5680: There's no good reason to preemptively create files on read, save that for writing
 -        RegionFile regionfile = this.getRegionFile(pos, true, true); // Paper
-+        AbstractRegionFile regionfile = this.getRegionFile(pos, true, true); // Paper // DivineMC - Implement Linear region
++        space.bxteam.divinemc.region.AbstractRegionFile regionfile = this.getRegionFile(pos, true, true); // Paper // DivineMC
          if (regionfile == null) {
              return null;
          }
@@ -767,166 +540,132 @@ index fe312b1aef579cb4bf81bdd967cf72ff880d7505..72c7cdce498fea90e1199bab456df967
          return this.read(pos, regionfile);
      }
 -    public CompoundTag read(ChunkPos pos, RegionFile regionfile) throws IOException {
-+
-+    public CompoundTag read(ChunkPos pos, AbstractRegionFile regionfile) throws IOException { // DivineMC - Implement Linear region
++    public CompoundTag read(ChunkPos pos, space.bxteam.divinemc.region.AbstractRegionFile regionfile) throws IOException { // DivineMC
          // We add the regionfile parameter to avoid the potential deadlock (on fileLock) if we went back to obtain a regionfile
          // if we decide to re-read
          // Paper end
-@@ -208,7 +255,7 @@ public class RegionFileStorage implements AutoCloseable {
+@@ -208,7 +250,7 @@ public class RegionFileStorage implements AutoCloseable {
  
          // Paper start
          if (regionfile.isOversized(pos.x, pos.z)) {
 -            printOversizedLog("Loading Oversized Chunk!", regionfile.regionFile, pos.x, pos.z);
-+            printOversizedLog("Loading Oversized Chunk!", regionfile.getRegionFile(), pos.x, pos.z); // DivineMC - Implement Linear region
++            printOversizedLog("Loading Oversized Chunk!", regionfile.getRegionFile(), pos.x, pos.z); // DivineMC
              return readOversizedChunk(regionfile, pos);
          }
          // Paper end
-@@ -222,12 +269,12 @@ public class RegionFileStorage implements AutoCloseable {
+@@ -222,12 +264,12 @@ public class RegionFileStorage implements AutoCloseable {
                      if (this.isChunkData) {
                          ChunkPos chunkPos = ChunkSerializer.getChunkCoordinate(nbttagcompound);
                          if (!chunkPos.equals(pos)) {
 -                            net.minecraft.server.MinecraftServer.LOGGER.error("Attempting to read chunk data at " + pos + " but got chunk data for " + chunkPos + " instead! Attempting regionfile recalculation for regionfile " + regionfile.regionFile.toAbsolutePath());
-+                            net.minecraft.server.MinecraftServer.LOGGER.error("Attempting to read chunk data at " + pos + " but got chunk data for " + chunkPos + " instead! Attempting regionfile recalculation for regionfile " + regionfile.getRegionFile().toAbsolutePath()); // DivineMC - Implement Linear region
++                            net.minecraft.server.MinecraftServer.LOGGER.error("Attempting to read chunk data at " + pos + " but got chunk data for " + chunkPos + " instead! Attempting regionfile recalculation for regionfile " + regionfile.getRegionFile().toAbsolutePath()); // DivineMC
                              if (regionfile.recalculateHeader()) {
 -                                regionfile.fileLock.lock(); // otherwise we will unlock twice and only lock once.
-+                                regionfile.getFileLock().lock(); // otherwise we will unlock twice and only lock once. // DivineMC - Implement Linear region
++                                regionfile.getFileLock().lock(); // otherwise we will unlock twice and only lock once. // DivineMC
                                  return this.read(pos, regionfile);
                              }
 -                            net.minecraft.server.MinecraftServer.LOGGER.error("Can't recalculate regionfile header, regenerating chunk " + pos + " for " + regionfile.regionFile.toAbsolutePath());
-+                            net.minecraft.server.MinecraftServer.LOGGER.error("Can't recalculate regionfile header, regenerating chunk " + pos + " for " + regionfile.getRegionFile().toAbsolutePath()); // DivineMC - Implement Linear region
++                            net.minecraft.server.MinecraftServer.LOGGER.error("Can't recalculate regionfile header, regenerating chunk " + pos + " for " + regionfile.getRegionFile().toAbsolutePath()); // DivineMC
                              return null;
                          }
                      }
-@@ -261,13 +308,13 @@ public class RegionFileStorage implements AutoCloseable {
+@@ -261,13 +303,13 @@ public class RegionFileStorage implements AutoCloseable {
  
          return nbttagcompound;
          } finally { // Paper start
 -            regionfile.fileLock.unlock();
-+            regionfile.getFileLock().unlock(); // DivineMC - Implement Linear region
++            regionfile.getFileLock().unlock(); // DivineMC
          } // Paper end
      }
  
      public void scanChunk(ChunkPos chunkPos, StreamTagVisitor scanner) throws IOException {
          // CraftBukkit start - SPIGOT-5680: There's no good reason to preemptively create files on read, save that for writing
 -        RegionFile regionfile = this.getRegionFile(chunkPos, true);
-+        AbstractRegionFile regionfile = this.getRegionFile(chunkPos, true); // DivineMC - Implement Linear region
++        space.bxteam.divinemc.region.AbstractRegionFile regionfile = this.getRegionFile(chunkPos, true); // DivineMC
          if (regionfile == null) {
              return;
          }
-@@ -298,7 +345,7 @@ public class RegionFileStorage implements AutoCloseable {
+@@ -298,7 +340,7 @@ public class RegionFileStorage implements AutoCloseable {
  
      protected void write(ChunkPos pos, @Nullable CompoundTag nbt) throws IOException {
          // Paper start - rewrite chunk system
 -        RegionFile regionfile = this.getRegionFile(pos, nbt == null, true); // CraftBukkit
-+        AbstractRegionFile regionfile = this.getRegionFile(pos, nbt == null, true); // CraftBukkit // DivineMC - Implement Linear region
++        space.bxteam.divinemc.region.AbstractRegionFile regionfile = this.getRegionFile(pos, nbt == null, true); // CraftBukkit // DivineMC
          if (nbt == null && regionfile == null) {
              return;
          }
-@@ -353,7 +400,7 @@ public class RegionFileStorage implements AutoCloseable {
+@@ -353,7 +395,7 @@ public class RegionFileStorage implements AutoCloseable {
          // Paper end - Chunk save reattempt
          // Paper start - rewrite chunk system
          } finally {
 -            regionfile.fileLock.unlock();
-+            regionfile.getFileLock().unlock(); // DivineMC - Implement Linear region
++            regionfile.getFileLock().unlock(); // DivineMC
          }
          // Paper end - rewrite chunk system
      }
-@@ -363,7 +410,7 @@ public class RegionFileStorage implements AutoCloseable {
+@@ -363,7 +405,7 @@ public class RegionFileStorage implements AutoCloseable {
          ObjectIterator objectiterator = this.regionCache.values().iterator();
  
          while (objectiterator.hasNext()) {
 -            RegionFile regionfile = (RegionFile) objectiterator.next();
-+            AbstractRegionFile regionfile = (AbstractRegionFile) objectiterator.next(); // DivineMC - Implement Linear region
++            space.bxteam.divinemc.region.AbstractRegionFile regionfile = (space.bxteam.divinemc.region.AbstractRegionFile) objectiterator.next(); // DivineMC
  
              try {
                  regionfile.close();
-@@ -379,7 +426,7 @@ public class RegionFileStorage implements AutoCloseable {
+@@ -379,7 +421,7 @@ public class RegionFileStorage implements AutoCloseable {
          ObjectIterator objectiterator = this.regionCache.values().iterator();
  
          while (objectiterator.hasNext()) {
 -            RegionFile regionfile = (RegionFile) objectiterator.next();
-+            AbstractRegionFile regionfile = (AbstractRegionFile) objectiterator.next(); // DivineMC - Implement Linear region
++            space.bxteam.divinemc.region.AbstractRegionFile regionfile = (space.bxteam.divinemc.region.AbstractRegionFile) objectiterator.next(); // DivineMC
  
              regionfile.flush();
          }
 diff --git a/src/main/java/net/minecraft/world/level/chunk/storage/SectionStorage.java b/src/main/java/net/minecraft/world/level/chunk/storage/SectionStorage.java
-index 4aac1979cf57300825a999c876fcf24d3170e68e..76d81ecc29cd3483974b2c47048e10f5e74a649d 100644
+index 4ac5024936987c15f927e3148af4bfa57228ad1e..5dda0213057e906284f79f7871325b24d906b460 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/storage/SectionStorage.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/storage/SectionStorage.java
-@@ -9,6 +9,7 @@ import com.mojang.serialization.DataResult;
- import com.mojang.serialization.Dynamic;
- import com.mojang.serialization.DynamicOps;
- import com.mojang.serialization.OptionalDynamic;
-+import space.bxteam.divinemc.region.RegionFileFormat;
- import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
- import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
- import it.unimi.dsi.fastutil.longs.LongLinkedOpenHashSet;
-@@ -17,7 +18,6 @@ import java.nio.file.Path;
- import java.util.Map;
- import java.util.Optional;
- import java.util.concurrent.CompletableFuture;
--import java.util.concurrent.CompletionException;
- import java.util.function.BooleanSupplier;
- import java.util.function.Function;
- import javax.annotation.Nullable;
-@@ -47,8 +47,10 @@ public class SectionStorage<R> extends RegionFileStorage implements AutoCloseabl
-     public final RegistryAccess registryAccess; // Paper - rewrite chunk system
+@@ -48,6 +48,11 @@ public class SectionStorage<R> extends RegionFileStorage implements AutoCloseabl
      protected final LevelHeightAccessor levelHeightAccessor;
  
--    public SectionStorage(Path path, Function<Runnable, Codec<R>> codecFactory, Function<Runnable, R> factory, DataFixer dataFixer, DataFixTypes dataFixTypes, boolean dsync, RegistryAccess dynamicRegistryManager, LevelHeightAccessor world) {
--        super(path, dsync); // Paper - remove mojang I/O thread
-+    // DivineMC start - Implement Linear region
-+    public SectionStorage(RegionFileFormat format, int linearCompression, boolean linearCrashOnBrokenSymlink, Path path, Function<Runnable, Codec<R>> codecFactory, Function<Runnable, R> factory, DataFixer dataFixer, DataFixTypes dataFixTypes, boolean dsync, RegistryAccess dynamicRegistryManager, LevelHeightAccessor world) {
-+        super(format, linearCompression, linearCrashOnBrokenSymlink, path, dsync); // Paper - remove mojang I/O thread
+     public SectionStorage(
++        // DivineMC start - Implement Linear region format
++        space.bxteam.divinemc.region.RegionFileFormat format,
++        int linearCompression,
++        boolean linearCrashOnBrokenSymlink,
 +        // DivineMC end
+         Path path,
+         Function<Runnable, Codec<R>> codecFactory,
+         Function<Runnable, R> factory,
+@@ -57,7 +62,7 @@ public class SectionStorage<R> extends RegionFileStorage implements AutoCloseabl
+         RegistryAccess dynamicRegistryManager,
+         LevelHeightAccessor world
+     ) {
+-        super(path, dsync); // Paper - remove mojang I/O thread
++        super(format, linearCompression, linearCrashOnBrokenSymlink, path, dsync); // Paper - remove mojang I/O thread // DivineMC
          this.codec = codecFactory;
          this.factory = factory;
          this.fixerUpper = dataFixer;
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-index 69f0c853ed7287c5a93b0a67e266255090e2a9ca..7f7f09e46225e8402a016e0dace034c26dac00bc 100644
+index b5222519f646b303ea7f2b914f749df815489937..eb3ef0e7afc1efd68e691de1b14960354d6a4c5b 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-@@ -5,7 +5,7 @@ import com.google.common.base.Predicates;
- import com.google.common.collect.ImmutableList;
- import com.google.common.collect.ImmutableMap;
- import com.mojang.datafixers.util.Pair;
--import it.unimi.dsi.fastutil.longs.Long2ObjectLinkedOpenHashMap;
-+import space.bxteam.divinemc.region.AbstractRegionFile;
- import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
- import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
- import java.io.File;
-@@ -20,7 +20,6 @@ import java.util.Objects;
- import java.util.Random;
- import java.util.Set;
- import java.util.UUID;
--import java.util.concurrent.ExecutionException;
- import java.util.function.Consumer;
- import java.util.function.Predicate;
- import java.util.stream.Collectors;
-@@ -124,7 +123,6 @@ import org.bukkit.entity.TippedArrow;
- import org.bukkit.entity.Trident;
- import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
- import org.bukkit.event.weather.LightningStrikeEvent;
--import org.bukkit.event.world.SpawnChangeEvent;
- import org.bukkit.event.world.TimeSkipEvent;
- import org.bukkit.generator.BiomeProvider;
- import org.bukkit.generator.BlockPopulator;
-@@ -573,7 +571,7 @@ public class CraftWorld extends CraftRegionAccessor implements World {
+@@ -574,7 +574,7 @@ public class CraftWorld extends CraftRegionAccessor implements World {
                  world.getChunk(x, z); // make sure we're at ticket level 32 or lower
                  return true;
              }
 -            net.minecraft.world.level.chunk.storage.RegionFile file;
-+            AbstractRegionFile file; // DivineMC - Implement Linear region
++            space.bxteam.divinemc.region.AbstractRegionFile file;
              try {
                  file = world.getChunkSource().chunkMap.regionFileCache.getRegionFile(chunkPos, false);
              } catch (java.io.IOException ex) {
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-index ef7983863da3b4febef3da2fab93fe581fbd65af..d5ac67927dd2091733eaa096c903874fa4cd9542 100644
+index 15e0aa2a82a0be51ef04736ec636932092b34b32..2ae1e0809c567ced6fd1e2d82d9aac3d0e852351 100644
 --- a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-@@ -157,4 +157,15 @@ public class DivineConfig {
-     private static void  doNotProcessChatCommands() {
-         doNotProcessChatCommands = getBoolean("settings.do-not-process-chat-commands", doNotProcessChatCommands);
+@@ -171,4 +171,15 @@ public class DivineConfig {
+         biomeManagerOptimization = getBoolean("settings.optimizations.biome-manager-optimization", biomeManagerOptimization);
+         sheepOptimization = getBoolean("settings.optimizations.sheep-optimization", sheepOptimization);
      }
 +
 +    public static int linearFlushFrequency = 10;
@@ -941,27 +680,22 @@ index ef7983863da3b4febef3da2fab93fe581fbd65af..d5ac67927dd2091733eaa096c903874f
 +    }
  }
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java
-index 7e62ee9418d5add5b0b4ddb885d3a1745ce799b2..02dfe1750f9955a4b1b945e90491bdee13fe2ef5 100644
+index 53082033dfb58b8097ac326025472ef64358b890..8b65a405a9a1f03c4df78aed5a587fe5eb7fd54a 100644
 --- a/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java
-@@ -1,5 +1,6 @@
- package space.bxteam.divinemc.configuration;
- 
-+import space.bxteam.divinemc.region.RegionFileFormat;
- import org.apache.commons.lang.BooleanUtils;
- import org.bukkit.World;
- import org.bukkit.configuration.ConfigurationSection;
-@@ -7,6 +8,7 @@ import org.bukkit.configuration.ConfigurationSection;
+@@ -7,7 +7,9 @@ import org.bukkit.configuration.ConfigurationSection;
  import java.util.List;
  import java.util.Map;
  import java.util.function.Predicate;
 +import java.util.logging.Level;
  
++import space.bxteam.divinemc.region.RegionFileFormat;
  import static space.bxteam.divinemc.configuration.DivineConfig.log;
  
-@@ -94,4 +96,23 @@ public class DivineWorldConfig {
-     private void despawnShulkerBulletsOnOwnerDeath() {
-         despawnShulkerBulletsOnOwnerDeath = getBoolean("gameplay-mechanics.mob.shulker.despawn-bullets-on-player-death", despawnShulkerBulletsOnOwnerDeath);
+ @SuppressWarnings("unused")
+@@ -99,4 +101,23 @@ public class DivineWorldConfig {
+     private void suppressErrorsFromDirtyAttributes() {
+         suppressErrorsFromDirtyAttributes = getBoolean("suppress-errors-from-dirty-attributes", suppressErrorsFromDirtyAttributes);
      }
 +
 +    public RegionFileFormat regionFormatName = RegionFileFormat.ANVIL;
@@ -970,14 +704,14 @@ index 7e62ee9418d5add5b0b4ddb885d3a1745ce799b2..02dfe1750f9955a4b1b945e90491bdee
 +    private void regionFormatSettings() {
 +        regionFormatName = RegionFileFormat.fromString(getString("region-format.format", regionFormatName.name()));
 +        if (regionFormatName.equals(RegionFileFormat.INVALID)) {
-+            DivineConfig.log(Level.SEVERE, "Unknown region format in purpur.yml: " + regionFormatName);
-+            DivineConfig.log(Level.SEVERE, "Falling back to ANVIL region file format.");
++            log(Level.SEVERE, "Unknown region format in purpur.yml: " + regionFormatName);
++            log(Level.SEVERE, "Falling back to ANVIL region file format.");
 +            regionFormatName = RegionFileFormat.ANVIL;
 +        }
 +        regionFormatLinearCompressionLevel = getInt("region-format.linear.compression-level", regionFormatLinearCompressionLevel);
 +        if (regionFormatLinearCompressionLevel > 23 || regionFormatLinearCompressionLevel < 1) {
-+            DivineConfig.log(Level.SEVERE, "Linear region compression level should be between 1 and 22 in purpur.yml: " + regionFormatLinearCompressionLevel);
-+            DivineConfig.log(Level.SEVERE, "Falling back to compression level 1.");
++            log(Level.SEVERE, "Linear region compression level should be between 1 and 22 in purpur.yml: " + regionFormatLinearCompressionLevel);
++            log(Level.SEVERE, "Falling back to compression level 1.");
 +            regionFormatLinearCompressionLevel = 1;
 +        }
 +        linearCrashOnBrokenSymlink = getBoolean("region-format.linear.crash-on-broken-symlink", linearCrashOnBrokenSymlink);
@@ -1057,10 +791,10 @@ index 0000000000000000000000000000000000000000..c7a2a382e9e5bcfd8b502d43cbcea413
 +}
 diff --git a/src/main/java/space/bxteam/divinemc/region/LinearRegionFile.java b/src/main/java/space/bxteam/divinemc/region/LinearRegionFile.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..f866bf161b94f0118fdd8cf482a7c52c59655c58
+index 0000000000000000000000000000000000000000..ebda2e1078fd70cf120430b1c1f68247fc122e10
 --- /dev/null
 +++ b/src/main/java/space/bxteam/divinemc/region/LinearRegionFile.java
-@@ -0,0 +1,315 @@
+@@ -0,0 +1,316 @@
 +package space.bxteam.divinemc.region;
 +
 +import com.github.luben.zstd.ZstdInputStream;
@@ -1267,6 +1001,7 @@ index 0000000000000000000000000000000000000000..f866bf161b94f0118fdd8cf482a7c52c
 +        Files.move(tempFile.toPath(), this.path, StandardCopyOption.REPLACE_EXISTING);
 +    }
 +
++
 +    public void setStatus(int x, int z, ChunkStatus status) {
 +        this.statuses[getChunkIndex(x, z)] = status;
 +    }
@@ -1378,18 +1113,17 @@ index 0000000000000000000000000000000000000000..f866bf161b94f0118fdd8cf482a7c52c
 +}
 diff --git a/src/main/java/space/bxteam/divinemc/region/LinearRegionFileFlusher.java b/src/main/java/space/bxteam/divinemc/region/LinearRegionFileFlusher.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..87e36a8571722f89f4d6ae9f4f36e010e55f657f
+index 0000000000000000000000000000000000000000..9518704ea9627f943d3a1a53220f9894c7f609a9
 --- /dev/null
 +++ b/src/main/java/space/bxteam/divinemc/region/LinearRegionFileFlusher.java
-@@ -0,0 +1,46 @@
+@@ -0,0 +1,45 @@
 +package space.bxteam.divinemc.region;
 +
 +import com.google.common.util.concurrent.ThreadFactoryBuilder;
 +import java.util.Queue;
 +import java.util.concurrent.*;
-+
-+import space.bxteam.divinemc.configuration.DivineConfig;
 +import org.bukkit.Bukkit;
++import space.bxteam.divinemc.configuration.DivineConfig;
 +
 +public class LinearRegionFileFlusher {
 +    private final Queue<LinearRegionFile> savingQueue = new LinkedBlockingQueue<>();
