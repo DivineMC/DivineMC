@@ -7,7 +7,7 @@ Original code by CaffeineMC, licensed under LGPL v3
 You can find the original code on https://github.com/CaffeineMC/lithium-fabric (Yarn mappings)
 
 diff --git a/src/main/java/net/minecraft/core/Direction.java b/src/main/java/net/minecraft/core/Direction.java
-index f0fe2acadac0f57eb06b6aee1940e2c4985e4ca1..d169744ec6708248c79956c144986ecb70157b7c 100644
+index 84a760fdc50bdafc9150f977e9c5d557a30ee220..8bfe5c8c559d5e68f5b95bea37f63363b343e9b1 100644
 --- a/src/main/java/net/minecraft/core/Direction.java
 +++ b/src/main/java/net/minecraft/core/Direction.java
 @@ -39,7 +39,7 @@ public enum Direction implements StringRepresentable {
@@ -20,7 +20,7 @@ index f0fe2acadac0f57eb06b6aee1940e2c4985e4ca1..d169744ec6708248c79956c144986ecb
          .sorted(Comparator.comparingInt(direction -> direction.data3d))
          .toArray(Direction[]::new);
 diff --git a/src/main/java/net/minecraft/world/phys/shapes/CubePointRange.java b/src/main/java/net/minecraft/world/phys/shapes/CubePointRange.java
-index f20ca2074f627ebd2cc15de2b41a6010f3f6b68c..fc6a8b1cf33427320a60e3f2d9894ed2f0177bf7 100644
+index a544db042c8d2ecec8d323770552c4f10ca758a6..fc6a8b1cf33427320a60e3f2d9894ed2f0177bf7 100644
 --- a/src/main/java/net/minecraft/world/phys/shapes/CubePointRange.java
 +++ b/src/main/java/net/minecraft/world/phys/shapes/CubePointRange.java
 @@ -4,6 +4,7 @@ import it.unimi.dsi.fastutil.doubles.AbstractDoubleList;
@@ -39,13 +39,13 @@ index f20ca2074f627ebd2cc15de2b41a6010f3f6b68c..fc6a8b1cf33427320a60e3f2d9894ed2
      }
  
      public double getDouble(int i) {
--        return (double)i / this.parts;
+-        return (double)i / (double)this.parts;
 +        return i * this.scale; // DivineMC - lithium: precompute shape arrays
      }
  
      public int size() {
 diff --git a/src/main/java/net/minecraft/world/phys/shapes/CubeVoxelShape.java b/src/main/java/net/minecraft/world/phys/shapes/CubeVoxelShape.java
-index fc751564e02306006cffd90ef29acb27cc77cd0b..4535c8858d028d3941d966b0701bf22363d12991 100644
+index b9af1d14c7815c99273bce8165cf384d669c1a75..16bf73856465c10e1ab84c17e7b317ef9081704d 100644
 --- a/src/main/java/net/minecraft/world/phys/shapes/CubeVoxelShape.java
 +++ b/src/main/java/net/minecraft/world/phys/shapes/CubeVoxelShape.java
 @@ -5,6 +5,8 @@ import net.minecraft.core.Direction;

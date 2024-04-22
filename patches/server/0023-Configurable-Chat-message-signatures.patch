@@ -5,10 +5,10 @@ Subject: [PATCH] Configurable Chat message signatures
 
 
 diff --git a/src/main/java/io/papermc/paper/adventure/ChatProcessor.java b/src/main/java/io/papermc/paper/adventure/ChatProcessor.java
-index e4fd372a1d585887287253a02531cd192929377b..b7eb830ae6ae0d7d8c79dc4ccde9ac73177b7c12 100644
+index 1d78e8beacbc93ef2cd6beb418edca843f8a5429..9d389c5a09c090750b1c17b0d162e06e6899a063 100644
 --- a/src/main/java/io/papermc/paper/adventure/ChatProcessor.java
 +++ b/src/main/java/io/papermc/paper/adventure/ChatProcessor.java
-@@ -355,7 +355,7 @@ public final class ChatProcessor {
+@@ -317,7 +317,7 @@ public final class ChatProcessor {
  
          private void sendToServer(final ChatType.Bound chatType, final @Nullable Function<Audience, net.minecraft.network.chat.Component> msgFunction) {
              final PlayerChatMessage toConsoleMessage = msgFunction == null ? ChatProcessor.this.message : ChatProcessor.this.message.withUnsignedContent(msgFunction.apply(ChatProcessor.this.server.console));

@@ -10,7 +10,7 @@ As part of: Lithium (https://github.com/CaffeineMC/lithium-fabric)
 Licensed under: LGPL-3.0 (https://www.gnu.org/licenses/lgpl-3.0.html)
 
 diff --git a/src/main/java/net/minecraft/world/entity/raid/Raid.java b/src/main/java/net/minecraft/world/entity/raid/Raid.java
-index eaa2943b667967f93f28d9d794d702fdaeb670ec..0e780da8dc230b27eddb01d1fa8bf2d8b5994158 100644
+index bf2c23fad919820512ce031cf28a000b249b2876..85f56c79d60fa5b5a269b044c5b3710ef30a827d 100644
 --- a/src/main/java/net/minecraft/world/entity/raid/Raid.java
 +++ b/src/main/java/net/minecraft/world/entity/raid/Raid.java
 @@ -106,6 +106,7 @@ public class Raid {
@@ -18,10 +18,10 @@ index eaa2943b667967f93f28d9d794d702fdaeb670ec..0e780da8dc230b27eddb01d1fa8bf2d8
      private int celebrationTicks;
      private Optional<BlockPos> waveSpawnPos;
 +    private boolean isBarDirty; // DivineMC - lithium: ai.raid
- 
-     public Raid(int id, ServerLevel world, BlockPos pos) {
-         this.raidEvent = new ServerBossEvent(Raid.RAID_NAME_COMPONENT, BossEvent.BossBarColor.RED, BossEvent.BossBarOverlay.NOTCHED_10);
-@@ -273,6 +274,12 @@ public class Raid {
+     // Paper start
+     private static final String PDC_NBT_KEY = "BukkitValues";
+     private static final org.bukkit.craftbukkit.persistence.CraftPersistentDataTypeRegistry PDC_TYPE_REGISTRY = new org.bukkit.craftbukkit.persistence.CraftPersistentDataTypeRegistry();
+@@ -283,6 +284,12 @@ public class Raid {
  
      public void tick() {
          if (!this.isStopped()) {
@@ -34,7 +34,7 @@ index eaa2943b667967f93f28d9d794d702fdaeb670ec..0e780da8dc230b27eddb01d1fa8bf2d8
              if (this.status == Raid.RaidStatus.ONGOING) {
                  boolean flag = this.active;
  
-@@ -641,9 +648,15 @@ public class Raid {
+@@ -651,9 +658,15 @@ public class Raid {
  
      }
  

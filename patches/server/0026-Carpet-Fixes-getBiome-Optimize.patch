@@ -5,7 +5,7 @@ Subject: [PATCH] Carpet-Fixes: getBiome Optimize
 
 
 diff --git a/src/main/java/net/minecraft/world/level/biome/BiomeManager.java b/src/main/java/net/minecraft/world/level/biome/BiomeManager.java
-index 48ee643643e1548fa9c23484bf2f88f4ee3f380d..77ba51d9a220fb8faecb733cbd885bb2343c4343 100644
+index 01352cc83b25eb0e30b7e0ff521fc7c1b3d5155b..c042287e12b5ce814afe8557e4dfa8e8b16b0f5a 100644
 --- a/src/main/java/net/minecraft/world/level/biome/BiomeManager.java
 +++ b/src/main/java/net/minecraft/world/level/biome/BiomeManager.java
 @@ -14,6 +14,7 @@ public class BiomeManager {
@@ -26,9 +26,9 @@ index 48ee643643e1548fa9c23484bf2f88f4ee3f380d..77ba51d9a220fb8faecb733cbd885bb2
 -        int l = i >> 2;
 -        int m = j >> 2;
 -        int n = k >> 2;
--        double d = (i & 3) / 4.0;
--        double e = (j & 3) / 4.0;
--        double f = (k & 3) / 4.0;
+-        double d = (double)(i & 3) / 4.0;
+-        double e = (double)(j & 3) / 4.0;
+-        double f = (double)(k & 3) / 4.0;
 -        int o = 0;
 -        double g = Double.POSITIVE_INFINITY;
 -
@@ -114,9 +114,9 @@ index 48ee643643e1548fa9c23484bf2f88f4ee3f380d..77ba51d9a220fb8faecb733cbd885bb2
 +            int l = i >> 2;
 +            int m = j >> 2;
 +            int n = k >> 2;
-+            double d = (i & 3) / 4.0;
-+            double e = (j & 3) / 4.0;
-+            double f = (k & 3) / 4.0;
++            double d = (double)(i & 3) / 4.0;
++            double e = (double)(j & 3) / 4.0;
++            double f = (double)(k & 3) / 4.0;
 +            int o = 0;
 +            double g = Double.POSITIVE_INFINITY;
 +

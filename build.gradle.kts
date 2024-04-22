@@ -7,6 +7,8 @@ plugins {
     id("io.papermc.paperweight.patcher") version "1.5.15"
 }
 
+val paperMavenPublicUrl = "https://repo.papermc.io/repository/maven-public/"
+
 repositories {
     mavenCentral()
     maven("https://papermc.io/repo/repository/maven-public/") {
@@ -18,7 +20,7 @@ repositories {
 
 dependencies {
     remapper("net.fabricmc:tiny-remapper:0.10.1:fat")
-    decompiler("net.minecraftforge:forgeflower:2.0.627.2")
+    decompiler("org.vineflower:vineflower:1.10.1")
     paperclip("io.papermc:paperclip:3.0.3")
 }
 
@@ -68,7 +70,7 @@ paperweight {
     serverProject.set(project(":divinemc-server"))
 
     remapRepo.set("https://maven.fabricmc.net/")
-    decompileRepo.set("https://files.minecraftforge.net/maven/")
+    decompileRepo.set(paperMavenPublicUrl)
 
     useStandardUpstream("purpur") {
         url.set(github("PurpurMC", "Purpur"))
