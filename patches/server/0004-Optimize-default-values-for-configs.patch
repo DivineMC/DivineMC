@@ -5,7 +5,7 @@ Subject: [PATCH] Optimize default values for configs
 
 
 diff --git a/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java b/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
-index 30fe1c0645a07d663b08c0f988a1ab3a750bf7c4..f8ceb440d402044f3b5e7925981029c893d8c17f 100644
+index 2874bc3001c4e7d9191e47ba512c5a68369c21f1..d02d22b09430b93349d48bcb50d456d23f9b49c7 100644
 --- a/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
 +++ b/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
 @@ -96,9 +96,11 @@ public class GlobalConfiguration extends ConfigurationPart {
@@ -23,7 +23,7 @@ index 30fe1c0645a07d663b08c0f988a1ab3a750bf7c4..f8ceb440d402044f3b5e7925981029c8
          public boolean serverNamePrivacy = false;
          public List<String> hiddenConfigEntries = List.of(
              "database",
-@@ -330,9 +332,9 @@ public class GlobalConfiguration extends ConfigurationPart {
+@@ -328,9 +330,9 @@ public class GlobalConfiguration extends ConfigurationPart {
          public boolean fixEntityPositionDesync = true;
          public boolean loadPermissionsYmlBeforePlugins = true;
          @Constraints.Min(4)
@@ -36,10 +36,10 @@ index 30fe1c0645a07d663b08c0f988a1ab3a750bf7c4..f8ceb440d402044f3b5e7925981029c8
          public boolean strictAdvancementDimensionCheck = false;
          public IntOr.Default compressionLevel = IntOr.Default.USE_DEFAULT;
 diff --git a/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java b/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
-index d3fdf62912d190f8b468b77230a927023c361074..6117022d293c16b3794cc8c828f76be6094dedb4 100644
+index efc91ff91827872c62b8bd060282549ccdcf67dd..2b3075505f09c15cee350b7a7f5e7571600a930a 100644
 --- a/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
 +++ b/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
-@@ -151,9 +151,9 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -150,9 +150,9 @@ public class WorldConfiguration extends ConfigurationPart {
  
          public ArmorStands armorStands;
  
@@ -52,7 +52,7 @@ index d3fdf62912d190f8b468b77230a927023c361074..6117022d293c16b3794cc8c828f76be6
          }
  
          public Markers markers;
-@@ -253,8 +253,8 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -252,8 +252,8 @@ public class WorldConfiguration extends ConfigurationPart {
          public Behavior behavior;
  
          public class Behavior extends ConfigurationPart {
@@ -63,7 +63,7 @@ index d3fdf62912d190f8b468b77230a927023c361074..6117022d293c16b3794cc8c828f76be6
              public int experienceMergeMaxValue = -1;
              public boolean shouldRemoveDragon = false;
              public boolean zombiesTargetTurtleEggs = true;
-@@ -278,7 +278,7 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -277,7 +277,7 @@ public class WorldConfiguration extends ConfigurationPart {
              public int playerInsomniaStartTicks = 72000;
              public int phantomsSpawnAttemptMinSeconds = 60;
              public int phantomsSpawnAttemptMaxSeconds = 119;
@@ -72,7 +72,7 @@ index d3fdf62912d190f8b468b77230a927023c361074..6117022d293c16b3794cc8c828f76be6
              @BelowZeroToEmpty
              public DoubleOr.Default zombieVillagerInfectionChance = DoubleOr.Default.USE_DEFAULT;
              public MobsCanAlwaysPickUpLoot mobsCanAlwaysPickUpLoot;
-@@ -289,7 +289,7 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -288,7 +288,7 @@ public class WorldConfiguration extends ConfigurationPart {
              }
  
              public boolean disablePlayerCrits = false;
@@ -81,7 +81,7 @@ index d3fdf62912d190f8b468b77230a927023c361074..6117022d293c16b3794cc8c828f76be6
              public PillagerPatrols pillagerPatrols;
  
              public class PillagerPatrols extends ConfigurationPart {
-@@ -383,7 +383,7 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -382,7 +382,7 @@ public class WorldConfiguration extends ConfigurationPart {
      public class Environment extends ConfigurationPart {
          public boolean disableThunder = false;
          public boolean disableIceAndSnow = false;
@@ -90,7 +90,7 @@ index d3fdf62912d190f8b468b77230a927023c361074..6117022d293c16b3794cc8c828f76be6
          public boolean disableExplosionKnockback = false;
          public boolean generateFlatBedrock = false;
          public FrostedIce frostedIce;
-@@ -432,7 +432,7 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -428,7 +428,7 @@ public class WorldConfiguration extends ConfigurationPart {
  
      public class Maps extends ConfigurationPart {
          public int itemFrameCursorLimit = 128;
@@ -99,7 +99,7 @@ index d3fdf62912d190f8b468b77230a927023c361074..6117022d293c16b3794cc8c828f76be6
      }
  
      public Fixes fixes;
-@@ -458,7 +458,7 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -454,7 +454,7 @@ public class WorldConfiguration extends ConfigurationPart {
      public class Hopper extends ConfigurationPart {
          public boolean cooldownWhenFull = true;
          public boolean disableMoveEvent = false;
@@ -108,7 +108,7 @@ index d3fdf62912d190f8b468b77230a927023c361074..6117022d293c16b3794cc8c828f76be6
      }
  
      public Collisions collisions;
-@@ -466,9 +466,9 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -462,9 +462,9 @@ public class WorldConfiguration extends ConfigurationPart {
      public class Collisions extends ConfigurationPart {
          public boolean onlyPlayersCollide = false;
          public boolean allowVehicleCollisions = true;
@@ -120,7 +120,7 @@ index d3fdf62912d190f8b468b77230a927023c361074..6117022d293c16b3794cc8c828f76be6
          public boolean allowPlayerCrammingDamage = false;
      }
  
-@@ -476,18 +476,31 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -472,18 +472,31 @@ public class WorldConfiguration extends ConfigurationPart {
  
      public class Chunks extends ConfigurationPart {
          public AutosavePeriod autoSaveInterval = AutosavePeriod.def();
@@ -162,7 +162,7 @@ index d3fdf62912d190f8b468b77230a927023c361074..6117022d293c16b3794cc8c828f76be6
          });
          public boolean flushRegionsOnSave = false;
      }
-@@ -502,13 +515,15 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -498,13 +511,15 @@ public class WorldConfiguration extends ConfigurationPart {
      public TickRates tickRates;
  
      public class TickRates extends ConfigurationPart {
@@ -183,7 +183,7 @@ index d3fdf62912d190f8b468b77230a927023c361074..6117022d293c16b3794cc8c828f76be6
      }
  
      @Setting(FeatureSeedsGeneration.FEATURE_SEEDS_KEY)
-@@ -517,7 +532,7 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -513,7 +528,7 @@ public class WorldConfiguration extends ConfigurationPart {
      public class FeatureSeeds extends ConfigurationPart {
          @SuppressWarnings("unused") // Is used in FeatureSeedsGeneration
          @Setting(FeatureSeedsGeneration.GENERATE_KEY)
@@ -192,7 +192,7 @@ index d3fdf62912d190f8b468b77230a927023c361074..6117022d293c16b3794cc8c828f76be6
          @Setting(FeatureSeedsGeneration.FEATURES_KEY)
          public Reference2LongMap<Holder<ConfiguredFeature<?, ?>>> features = new Reference2LongOpenHashMap<>();
  
-@@ -538,9 +553,9 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -534,9 +549,9 @@ public class WorldConfiguration extends ConfigurationPart {
  
      public class Misc extends ConfigurationPart {
          public int lightQueueSize = 20;
@@ -205,7 +205,7 @@ index d3fdf62912d190f8b468b77230a927023c361074..6117022d293c16b3794cc8c828f76be6
          public float maxLeashDistance = 10f;
          public boolean disableSprintInterruptionOnAttack = false;
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-index 486f69a94f3a5dfd1b13a74fcf780ff8f9ab37ba..fe4c1659f0ca111db8a6d2d6b06d1783872705d6 100644
+index bcdd2bc6ffc91349ac75833bd3928e8ca7de7a0f..a5dec9d6858fc19d6877a8ae93e51dcbccabd635 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 @@ -241,7 +241,7 @@ public class PurpurConfig {
@@ -218,7 +218,7 @@ index 486f69a94f3a5dfd1b13a74fcf780ff8f9ab37ba..fe4c1659f0ca111db8a6d2d6b06d1783
          useAlternateKeepAlive = getBoolean("settings.use-alternate-keepalive", useAlternateKeepAlive);
      }
 diff --git a/src/main/java/org/spigotmc/SpigotConfig.java b/src/main/java/org/spigotmc/SpigotConfig.java
-index 6c260403d91d640da0473a3df56e1c5582459fde..252ff4c68e8c2ce4076ce02b4a89ca8eefddba7f 100644
+index 6c2a3813e7d63d57f07a8fa2edbb9d231221d818..44ef1545f8e5a2d0785c139da48d7086922cf308 100644
 --- a/src/main/java/org/spigotmc/SpigotConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotConfig.java
 @@ -335,7 +335,7 @@ public class SpigotConfig

@@ -5,21 +5,23 @@ Subject: [PATCH] Don't save Fireworks
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/FireworkRocketEntity.java b/src/main/java/net/minecraft/world/entity/projectile/FireworkRocketEntity.java
-index 5b3b59057b962438c6f4fc8a1507342865b3bc11..f09388fa1fb3a84da4678ea46761a55872a03cc8 100644
+index 3df4005b6ddc075e5922c1e96e4ceb21d8b8ea43..aa9b734820b1e240e4ce7a323f6c328eaa563fdc 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/FireworkRocketEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/projectile/FireworkRocketEntity.java
-@@ -355,4 +355,11 @@ public class FireworkRocketEntity extends Projectile implements ItemSupplier {
-     public boolean isAttackable() {
+@@ -345,6 +345,13 @@ public class FireworkRocketEntity extends Projectile implements ItemSupplier {
          return false;
      }
-+
+ 
 +    // DivineMC start - Don't save Fireworks
 +    @Override
 +    public boolean shouldBeSaved() {
 +        return this.level().divinemcConfig.saveFireworks;
 +    }
 +    // DivineMC end
- }
++
+     private static ItemStack getDefaultItem() {
+         return new ItemStack(Items.FIREWORK_ROCKET);
+     }
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java
 index 3e64e0d2d925f9fca1eb38cc07c20cae785ef39f..243b3d4379f4f6f273222a3611d8a463053d3e70 100644
 --- a/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java

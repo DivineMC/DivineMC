@@ -5,7 +5,7 @@ Subject: [PATCH] Fix MC-93826
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/animal/Animal.java b/src/main/java/net/minecraft/world/entity/animal/Animal.java
-index 8773b1072016a3bbf025959e9ab827704ec17fc6..90ae72a1ccf4acbac08bba7a3c453da01d2f57b3 100644
+index 7f90a0d8f65c96844df06b7c4fa3da28a6f51dd1..1dcb6fd2e59f48e7e6ab3a03a5f66c8d538b4f22 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/Animal.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/Animal.java
 @@ -42,6 +42,8 @@ public abstract class Animal extends AgeableMob {

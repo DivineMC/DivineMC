@@ -3,49 +3,22 @@ From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
 Date: Mon, 27 Mar 2023 13:16:41 +0300
 Subject: [PATCH] Divine Configuration
 
-This is modified config file by PurpurMC
 
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 5ca6af93362d205438f8321ee2461ae7f8160df1..41cffa00d4978f46b47ac6ede2da2a256796a0ba 100644
+index 775c5de4f5094260096cef6723dd50dfe2cb0c81..dac7739c495a81fb71dd9e2e7e14e89b23a74938 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-@@ -1,20 +1,15 @@
- package net.minecraft.server.dedicated;
+@@ -56,6 +56,7 @@ import net.minecraft.world.level.GameType;
+ import net.minecraft.world.level.block.entity.SkullBlockEntity;
+ import net.minecraft.world.level.storage.LevelStorageSource;
+ import org.slf4j.Logger;
++import space.bxteam.divinemc.configuration.DivineConfig; // DivineMC
  
--import com.google.common.collect.Lists;
- import com.mojang.authlib.GameProfile;
- import com.mojang.datafixers.DataFixer;
- import com.mojang.logging.LogUtils;
--import java.io.BufferedReader;
-+
- import java.io.BufferedWriter;
- import java.io.IOException;
--import java.io.InputStreamReader;
- import java.net.InetAddress;
- import java.net.Proxy;
--import java.nio.charset.StandardCharsets;
- import java.nio.file.Files;
- import java.nio.file.Path;
--import java.util.Collections;
--import java.util.List;
- import java.util.Locale;
- import java.util.Optional;
- import java.util.function.BooleanSupplier;
-@@ -58,10 +53,10 @@ import org.apache.logging.log4j.Level;
- import org.apache.logging.log4j.LogManager;
- import org.apache.logging.log4j.io.IoBuilder;
- import org.bukkit.command.CommandSender;
--import co.aikar.timings.MinecraftTimings; // Paper
- import org.bukkit.event.server.ServerCommandEvent;
- import org.bukkit.craftbukkit.util.Waitable; // Paper
- import org.bukkit.event.server.RemoteServerCommandEvent;
-+import space.bxteam.divinemc.configuration.DivineConfig;
- // CraftBukkit end
- 
- public class DedicatedServer extends MinecraftServer implements ServerInterface {
-@@ -235,6 +230,16 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
-         gg.pufferfish.pufferfish.PufferfishConfig.load(); // Pufferfish
-         gg.pufferfish.pufferfish.PufferfishCommand.init(); // Pufferfish
+ // CraftBukkit start
+ import net.minecraft.server.WorldLoader;
+@@ -245,6 +246,16 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+         com.destroystokyo.paper.VersionHistoryManager.INSTANCE.getClass(); // Paper - load version history now
+         io.papermc.paper.brigadier.PaperBrigadierProviderImpl.INSTANCE.getClass(); // Paper - init PaperBrigadierProvider
  
 +        // DivineMC start
 +        try {
@@ -61,64 +34,18 @@ index 5ca6af93362d205438f8321ee2461ae7f8160df1..41cffa00d4978f46b47ac6ede2da2a25
          this.setFlightAllowed(dedicatedserverproperties.allowFlight);
          this.setMotd(dedicatedserverproperties.motd);
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index eebe6378de52e780aabfad3c414564349196ec6e..7dc96d5fd30dc17af23157dedab4edb7caa7551e 100644
+index eda2f8cc034cf46293be1be117a60cf8b663c303..6a3c349cb36a0c89747cf4665e7bc272d6c59365 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
-@@ -10,9 +10,10 @@ import java.util.function.Consumer;
- import java.util.function.Predicate;
- import java.util.function.Supplier;
- import javax.annotation.Nullable;
-+
-+import space.bxteam.divinemc.configuration.DivineWorldConfig;
- import net.minecraft.CrashReport;
- import net.minecraft.CrashReportCategory;
--import net.minecraft.ReportedException;
- import net.minecraft.core.BlockPos;
- import net.minecraft.core.Direction;
- import net.minecraft.core.Holder;
-@@ -26,14 +27,12 @@ import net.minecraft.nbt.CompoundTag;
- import net.minecraft.network.protocol.Packet;
- import net.minecraft.resources.ResourceKey;
- import net.minecraft.resources.ResourceLocation;
--import io.papermc.paper.util.MCUtil;
- import net.minecraft.server.MinecraftServer;
- import net.minecraft.server.level.FullChunkStatus;
- import net.minecraft.server.level.ServerLevel;
- import net.minecraft.sounds.SoundEvent;
- import net.minecraft.sounds.SoundEvents;
- import net.minecraft.sounds.SoundSource;
--import net.minecraft.util.AbortableIterationConsumer;
- import net.minecraft.util.Mth;
- import net.minecraft.util.RandomSource;
- import net.minecraft.util.profiling.ProfilerFiller;
-@@ -42,8 +41,6 @@ import net.minecraft.world.TickRateManager;
- import net.minecraft.world.damagesource.DamageSource;
- import net.minecraft.world.damagesource.DamageSources;
- import net.minecraft.world.entity.Entity;
--import net.minecraft.world.entity.boss.EnderDragonPart;
--import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
- import net.minecraft.world.entity.item.ItemEntity;
- import net.minecraft.world.entity.player.Player;
- import net.minecraft.world.item.ItemStack;
-@@ -89,17 +86,14 @@ import net.minecraft.network.protocol.game.ClientboundSetBorderSizePacket;
- import net.minecraft.network.protocol.game.ClientboundSetBorderWarningDelayPacket;
- import net.minecraft.network.protocol.game.ClientboundSetBorderWarningDistancePacket;
- import org.bukkit.Bukkit;
--import org.bukkit.Location;
- import org.bukkit.craftbukkit.CraftServer;
- import org.bukkit.craftbukkit.CraftWorld;
- import org.bukkit.craftbukkit.block.CapturedBlockState;
- import org.bukkit.craftbukkit.block.CraftBlockState;
- import org.bukkit.craftbukkit.block.data.CraftBlockData;
- import org.bukkit.craftbukkit.util.CraftSpawnCategory;
--import org.bukkit.craftbukkit.util.CraftNamespacedKey;
- import org.bukkit.entity.SpawnCategory;
- import org.bukkit.event.block.BlockPhysicsEvent;
--import org.bukkit.event.world.GenericGameEvent;
- // CraftBukkit end
+@@ -81,6 +81,7 @@ import net.minecraft.world.level.storage.WritableLevelData;
+ import net.minecraft.world.phys.AABB;
+ import net.minecraft.world.phys.Vec3;
+ import net.minecraft.world.scores.Scoreboard;
++import space.bxteam.divinemc.configuration.DivineWorldConfig; // DivineMC
  
- public abstract class Level implements LevelAccessor, AutoCloseable {
-@@ -174,6 +168,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+ // CraftBukkit start
+ import java.util.HashMap;
+@@ -171,6 +172,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
  
      public final com.destroystokyo.paper.antixray.ChunkPacketBlockController chunkPacketBlockController; // Paper - Anti-Xray
      public final org.purpurmc.purpur.PurpurWorldConfig purpurConfig; // Purpur
@@ -126,7 +53,7 @@ index eebe6378de52e780aabfad3c414564349196ec6e..7dc96d5fd30dc17af23157dedab4edb7
      public final co.aikar.timings.WorldTimingsHandler timings; // Paper
      public static BlockPos lastPhysicsProblem; // Spigot
      private org.spigotmc.TickLimiter entityLimiter;
-@@ -266,6 +261,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+@@ -261,6 +263,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
          this.spigotConfig = new org.spigotmc.SpigotWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName()); // Spigot
          this.paperConfig = paperWorldConfigCreator.apply(this.spigotConfig); // Paper - create paper world config
          this.purpurConfig = new org.purpurmc.purpur.PurpurWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName(), env); // Purpur
@@ -135,26 +62,19 @@ index eebe6378de52e780aabfad3c414564349196ec6e..7dc96d5fd30dc17af23157dedab4edb7
          this.generator = gen;
          this.world = new CraftWorld((ServerLevel) this, gen, biomeProvider, env);
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 3580f6a555991702956b4dafc8ab9474817c6d94..1e3c4131e9dd155e4a0830d4c3f76f7f93146fff 100644
+index 49188db90fb214d097a349591a5903aa1bc7c931..8d75e43d1c0d8a65ebbf146dcccd23509c236540 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -14,6 +14,7 @@ import com.mojang.brigadier.tree.CommandNode;
- import com.mojang.brigadier.tree.LiteralCommandNode;
- import com.mojang.serialization.Dynamic;
- import com.mojang.serialization.Lifecycle;
-+import space.bxteam.divinemc.configuration.DivineConfig;
- import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
- import java.awt.image.BufferedImage;
- import java.io.ByteArrayOutputStream;
-@@ -245,7 +246,6 @@ import org.bukkit.plugin.PluginManager;
- import org.bukkit.plugin.ServicesManager;
- import org.bukkit.plugin.SimplePluginManager;
- import org.bukkit.plugin.SimpleServicesManager;
--import org.bukkit.plugin.java.JavaPluginLoader;
- import org.bukkit.plugin.messaging.Messenger;
- import org.bukkit.plugin.messaging.StandardMessenger;
- import org.bukkit.potion.Potion;
-@@ -1069,6 +1069,7 @@ public final class CraftServer implements Server {
+@@ -267,6 +267,8 @@ import net.md_5.bungee.api.chat.BaseComponent; // Spigot
+ import javax.annotation.Nullable; // Paper
+ import javax.annotation.Nonnull; // Paper
+ 
++import space.bxteam.divinemc.configuration.DivineConfig; // DivineMC
++
+ public final class CraftServer implements Server {
+     private final String serverName = "DivineMC"; // Paper // Pufferfish // Purpur // DivineMC
+     private final String serverVersion;
+@@ -1069,6 +1071,7 @@ public final class CraftServer implements Server {
          org.spigotmc.SpigotConfig.init((File) this.console.options.valueOf("spigot-settings")); // Spigot
          this.console.paperConfigurations.reloadConfigs(this.console);
          org.purpurmc.purpur.PurpurConfig.init((File) console.options.valueOf("purpur-settings")); // Purpur
@@ -162,7 +82,7 @@ index 3580f6a555991702956b4dafc8ab9474817c6d94..1e3c4131e9dd155e4a0830d4c3f76f7f
          for (ServerLevel world : this.console.getAllLevels()) {
              // world.serverLevelData.setDifficulty(config.difficulty); // Paper - per level difficulty
              world.setSpawnSettings(world.serverLevelData.getDifficulty() != Difficulty.PEACEFUL && config.spawnMonsters, config.spawnAnimals); // Paper - per level difficulty (from MinecraftServer#setDifficulty(ServerLevel, Difficulty, boolean))
-@@ -1085,6 +1086,7 @@ public final class CraftServer implements Server {
+@@ -1085,6 +1088,7 @@ public final class CraftServer implements Server {
              }
              world.spigotConfig.init(); // Spigot
              world.purpurConfig.init(); // Purpur
@@ -170,7 +90,7 @@ index 3580f6a555991702956b4dafc8ab9474817c6d94..1e3c4131e9dd155e4a0830d4c3f76f7f
          }
  
          Plugin[] pluginClone = pluginManager.getPlugins().clone(); // Paper
-@@ -1101,6 +1103,7 @@ public final class CraftServer implements Server {
+@@ -1101,6 +1105,7 @@ public final class CraftServer implements Server {
          org.spigotmc.SpigotConfig.registerCommands(); // Spigot
          io.papermc.paper.command.PaperCommands.registerCommands(this.console); // Paper
          org.purpurmc.purpur.PurpurConfig.registerCommands(); // Purpur
@@ -178,7 +98,7 @@ index 3580f6a555991702956b4dafc8ab9474817c6d94..1e3c4131e9dd155e4a0830d4c3f76f7f
          this.overrideAllCommandBlockCommands = this.commandsConfiguration.getStringList("command-block-overrides").contains("*");
          this.ignoreVanillaPermissions = this.commandsConfiguration.getBoolean("ignore-vanilla-permissions");
  
-@@ -3111,6 +3114,13 @@ public final class CraftServer implements Server {
+@@ -3126,6 +3131,13 @@ public final class CraftServer implements Server {
          }
          // Purpur end
  
@@ -193,11 +113,11 @@ index 3580f6a555991702956b4dafc8ab9474817c6d94..1e3c4131e9dd155e4a0830d4c3f76f7f
          public void restart() {
              org.spigotmc.RestartCommand.restart();
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 146f229b8e8888e2c0256c007c71c675c27e71a5..95da71042ee22db18116860bd9a629ff4b0c81ad 100644
+index a0a7bfe8f5a40b945b83096de1efd650adeb9ee3..248405f9c0290b16a580d16bc3cb824cc9f53bc2 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
-@@ -188,6 +188,14 @@ public class Main {
-                         .describedAs("Yml file");
+@@ -183,6 +183,14 @@ public class Main {
+                     .describedAs("Yml file");
                  // Purpur end
  
 +                // DivineMC start

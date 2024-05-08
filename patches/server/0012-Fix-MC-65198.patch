@@ -6,7 +6,7 @@ Subject: [PATCH] Fix MC-65198
 Original post on Mojira: https://bugs.mojang.com/browse/MC-65198
 
 diff --git a/src/main/java/net/minecraft/world/inventory/ItemCombinerMenu.java b/src/main/java/net/minecraft/world/inventory/ItemCombinerMenu.java
-index 3756de835ea87e3a4fb87cbf77365ffd87957ea9..e5f40f0a8702c98914384e9ffd204da888f39262 100644
+index 7215af6cc91f48b040c23c54536d4aac8d293497..02168ed47fe37e3d8edfc0f19880eb5d9c334502 100644
 --- a/src/main/java/net/minecraft/world/inventory/ItemCombinerMenu.java
 +++ b/src/main/java/net/minecraft/world/inventory/ItemCombinerMenu.java
 @@ -141,6 +141,7 @@ public abstract class ItemCombinerMenu extends AbstractContainerMenu {
@@ -27,7 +27,7 @@ index 3756de835ea87e3a4fb87cbf77365ffd87957ea9..e5f40f0a8702c98914384e9ffd204da8
          }
  
 diff --git a/src/main/java/net/minecraft/world/inventory/ResultSlot.java b/src/main/java/net/minecraft/world/inventory/ResultSlot.java
-index accf752e7615f775483830f81bd0df30e40d3c7f..54f83aaa7aaca680965b7e53fd2d1660896af53e 100644
+index f17ff5988d826c8fad68f6bf7bac1d06edae01ae..7c79527c4d38dfe8e1537091a73ee3ff3650dfd9 100644
 --- a/src/main/java/net/minecraft/world/inventory/ResultSlot.java
 +++ b/src/main/java/net/minecraft/world/inventory/ResultSlot.java
 @@ -45,7 +45,7 @@ public class ResultSlot extends Slot {
