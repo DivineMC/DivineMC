@@ -5,7 +5,7 @@ Subject: [PATCH] Snowball and Egg knockback
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/Snowball.java b/src/main/java/net/minecraft/world/entity/projectile/Snowball.java
-index bb61e1132c28274175215a679befdcfa2496b099..8598b0ea5f4f847fa14ac5c3b32ba010bf909d6e 100644
+index 1b9d0e28e518c501b4b93ae385ddd64aeade97d5..727df038b20bb826a630d3f2c835c7ad7d9d651e 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/Snowball.java
 +++ b/src/main/java/net/minecraft/world/entity/projectile/Snowball.java
 @@ -3,6 +3,7 @@ package net.minecraft.world.entity.projectile;
@@ -51,12 +51,12 @@ index 82bb8004635865f5202578d5a6f520048e7269d5..f1ac568258170d76c242d4083c080ae5
  
      @Override
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java
-index 8b65a405a9a1f03c4df78aed5a587fe5eb7fd54a..7b3e5f1c8d917e42944639795dd260ae8674ab96 100644
+index 7e62ee9418d5add5b0b4ddb885d3a1745ce799b2..242da697c957508c8e75bfd232c44ea34ba3a62a 100644
 --- a/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java
-@@ -120,4 +120,11 @@ public class DivineWorldConfig {
-         }
-         linearCrashOnBrokenSymlink = getBoolean("region-format.linear.crash-on-broken-symlink", linearCrashOnBrokenSymlink);
+@@ -94,4 +94,11 @@ public class DivineWorldConfig {
+     private void despawnShulkerBulletsOnOwnerDeath() {
+         despawnShulkerBulletsOnOwnerDeath = getBoolean("gameplay-mechanics.mob.shulker.despawn-bullets-on-player-death", despawnShulkerBulletsOnOwnerDeath);
      }
 +
 +    public boolean snowballCanKnockback = true;

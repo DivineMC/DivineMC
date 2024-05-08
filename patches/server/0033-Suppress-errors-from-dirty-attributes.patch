@@ -5,7 +5,7 @@ Subject: [PATCH] Suppress errors from dirty attributes
 
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerEntity.java b/src/main/java/net/minecraft/server/level/ServerEntity.java
-index 04b98e23eed926d8473cc2464e04a5b9f18f1140..68463f809aea61d818fc428f1c8b80682b05538b 100644
+index 39e7dcf3c92c9203c190782be401c00c010b8aeb..78ce9687a163255098eb8408dacefa1c9525b636 100644
 --- a/src/main/java/net/minecraft/server/level/ServerEntity.java
 +++ b/src/main/java/net/minecraft/server/level/ServerEntity.java
 @@ -386,7 +386,10 @@ public class ServerEntity {
@@ -30,12 +30,12 @@ index 04b98e23eed926d8473cc2464e04a5b9f18f1140..68463f809aea61d818fc428f1c8b8068
  
      }
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java
-index 7e62ee9418d5add5b0b4ddb885d3a1745ce799b2..53082033dfb58b8097ac326025472ef64358b890 100644
+index 242da697c957508c8e75bfd232c44ea34ba3a62a..d94c51ea18d299dd52b9a8521a9cdc0d95b79356 100644
 --- a/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java
-@@ -94,4 +94,9 @@ public class DivineWorldConfig {
-     private void despawnShulkerBulletsOnOwnerDeath() {
-         despawnShulkerBulletsOnOwnerDeath = getBoolean("gameplay-mechanics.mob.shulker.despawn-bullets-on-player-death", despawnShulkerBulletsOnOwnerDeath);
+@@ -101,4 +101,9 @@ public class DivineWorldConfig {
+         snowballCanKnockback = getBoolean("gameplay-mechanics.projectiles.snowball.knockback", snowballCanKnockback);
+         eggCanKnockback = getBoolean("gameplay-mechanics.projectiles.egg.knockback", eggCanKnockback);
      }
 +
 +    public boolean suppressErrorsFromDirtyAttributes = true;

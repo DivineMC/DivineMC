@@ -5,10 +5,10 @@ Subject: [PATCH] Despawn shulker bullets on owner death
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/ShulkerBullet.java b/src/main/java/net/minecraft/world/entity/projectile/ShulkerBullet.java
-index 1c50c870e59c35a39c83a0f136ee5d3c70268763..51077190b147e58b547c059abf0088715b37fea8 100644
+index 8242d0f292120be6cf3d6dcec2820a35809d83dd..4404b39d0777b314797ef86efdb996464c6200a9 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/ShulkerBullet.java
 +++ b/src/main/java/net/minecraft/world/entity/projectile/ShulkerBullet.java
-@@ -221,6 +221,17 @@ public class ShulkerBullet extends Projectile {
+@@ -225,6 +225,17 @@ public class ShulkerBullet extends Projectile {
          Vec3 vec3d;
  
          if (!this.level().isClientSide) {

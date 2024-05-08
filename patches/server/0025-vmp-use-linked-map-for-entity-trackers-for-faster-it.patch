@@ -7,10 +7,10 @@ Original code by RelativityMC, licensed under MIT
 You can find the original code on https://github.com/RelativityMC/VMP-fabric (Yarn mappings)
 
 diff --git a/src/main/java/net/minecraft/server/level/ChunkMap.java b/src/main/java/net/minecraft/server/level/ChunkMap.java
-index bb412ca874b85d777c0e3565fcefcee15b23182b..e0a52d5b74754a5b30a1fc250b5a2200682b748b 100644
+index 4e6fccec4f5ca14562bf5bae495ac36c14982d85..be8870d01262b37d130d518a500db7117f568950 100644
 --- a/src/main/java/net/minecraft/server/level/ChunkMap.java
 +++ b/src/main/java/net/minecraft/server/level/ChunkMap.java
-@@ -107,6 +107,8 @@ import org.slf4j.Logger;
+@@ -110,6 +110,8 @@ import org.slf4j.Logger;
  import org.bukkit.craftbukkit.generator.CustomChunkGenerator;
  // CraftBukkit end
  
@@ -19,7 +19,7 @@ index bb412ca874b85d777c0e3565fcefcee15b23182b..e0a52d5b74754a5b30a1fc250b5a2200
  public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider {
  
      private static final byte CHUNK_TYPE_REPLACEABLE = -1;
-@@ -251,7 +253,7 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
+@@ -254,7 +256,7 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
          // Paper - rewrite chunk system
          this.tickingGenerated = new AtomicInteger();
          this.playerMap = new PlayerMap();

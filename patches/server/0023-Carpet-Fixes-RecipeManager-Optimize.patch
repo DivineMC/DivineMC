@@ -7,46 +7,46 @@ Original project: https://github.com/fxmorin/carpet-fixes
 Improves: [Blast]Furnace/Campfire/Smoker/Stonecutter/Crafting/Sheep Color Choosing
 
 diff --git a/src/main/java/net/minecraft/world/item/crafting/RecipeManager.java b/src/main/java/net/minecraft/world/item/crafting/RecipeManager.java
-index d87124f5356180a37e581febc6141fdc5f1395a7..4ae4d1203df960c109c1b70d6d710eaa00537008 100644
+index a31326e24cb68472c81cd781c5e3041772712862..6113cf0ff4090e06c40a6f439fde07bf74a34745 100644
 --- a/src/main/java/net/minecraft/world/item/crafting/RecipeManager.java
 +++ b/src/main/java/net/minecraft/world/item/crafting/RecipeManager.java
-@@ -11,14 +11,9 @@ import com.google.gson.JsonParseException;
- import com.mojang.datafixers.util.Pair;
+@@ -12,15 +12,7 @@ import com.google.gson.JsonObject;
+ import com.google.gson.JsonParseException;
  import com.mojang.logging.LogUtils;
  import com.mojang.serialization.JsonOps;
 -import java.util.Collection;
--import java.util.Collections;
 -import java.util.Comparator;
 -import java.util.Iterator;
 -import java.util.List;
 -import java.util.Map;
-+
-+import java.util.*;
- import java.util.Map.Entry;
+-import java.util.Map.Entry;
 -import java.util.Optional;
- import java.util.stream.Collectors;
- import java.util.stream.Stream;
+-import java.util.stream.Collectors;
+-import java.util.stream.Stream;
++import java.util.*;
  import javax.annotation.Nullable;
-@@ -137,7 +132,7 @@ public class RecipeManager extends SimpleJsonResourceReloadListener {
+ import net.minecraft.core.HolderLookup;
+ import net.minecraft.core.NonNullList;
+@@ -132,7 +124,7 @@ public class RecipeManager extends SimpleJsonResourceReloadListener {
      }
  
      public <C extends Container, T extends Recipe<C>> List<RecipeHolder<T>> getAllRecipesFor(RecipeType<T> type) {
--        return List.copyOf(this.byType(type).values());
-+        return space.bxteam.divinemc.configuration.DivineConfig.recipeManagerOptimization ? new ArrayList<>(this.byType(type).values()) : List.copyOf(this.byType(type).values()); // DivineMC - Carpet-Fixes: RecipeManager Optimize
+-        return List.copyOf(this.byType(type));
++        return space.bxteam.divinemc.configuration.DivineConfig.recipeManagerOptimization ? new ArrayList<>(this.byType(type)) : List.copyOf(this.byType(type)); // DivineMC - Carpet-Fixes: RecipeManager Optimize
      }
  
      public <C extends Container, T extends Recipe<C>> List<RecipeHolder<T>> getRecipesFor(RecipeType<T> type, C inventory, Level world) {
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-index b9223f4778de0c2ed6efed6f8c192cb0212cbda8..6cf0675cf5affb989e75d6a1cbab69f0a3ce1e34 100644
+index 73b6c3590dad95cddd9cc1a1cff36492175da232..67ff4450b58c1df2f595a136c53d60bbefa2e8d5 100644
 --- a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-@@ -162,4 +162,9 @@ public class DivineConfig {
-     private static void chatMessageSignatures() {
-         chatMessageSignatures = getBoolean("settings.disable-chat-reports", chatMessageSignatures);
+@@ -154,7 +154,9 @@ public class DivineConfig {
      }
-+
+ 
+     public static boolean biomeManagerOptimization = true;
 +    public static boolean recipeManagerOptimization = true;
-+    private static void optimizations() {
+     private static void optimizations() {
+         biomeManagerOptimization = getBoolean("settings.optimizations.biome-manager-optimization", biomeManagerOptimization);
 +        recipeManagerOptimization = getBoolean("settings.optimizations.recipe-manager-optimization", recipeManagerOptimization);
-+    }
+     }
  }

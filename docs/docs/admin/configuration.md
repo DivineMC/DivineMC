@@ -57,9 +57,6 @@ Global settings affect all worlds on the server as well as the core server funct
     - ###### flush-max-threads
       - **default**: 1
       - **description**: Maximum number of threads for flushing chunks
-- #### do-not-process-chat-commands
-  - **default**: true
-  - **description**: Commands will not be proceeded while the player is joining the server
 - #### optimizations
   - ##### recipe-manager-optimization
     - **default**: true

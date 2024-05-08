@@ -7,7 +7,7 @@ Original code by CaffeineMC, licensed under LGPL v3
 You can find the original code on https://github.com/CaffeineMC/lithium-fabric (Yarn mappings)
 
 diff --git a/src/main/java/net/minecraft/util/ClassInstanceMultiMap.java b/src/main/java/net/minecraft/util/ClassInstanceMultiMap.java
-index ebad17e6ec90a7f385cd38c5ec6c2772798d4562..535359546393de76b86fd4e66fc5d9faebb5c854 100644
+index 038710ba934a9a57815dfe9f414b98223b848385..f631aa8bc724d0fc899783967417c3e01aac3c9c 100644
 --- a/src/main/java/net/minecraft/util/ClassInstanceMultiMap.java
 +++ b/src/main/java/net/minecraft/util/ClassInstanceMultiMap.java
 @@ -3,7 +3,6 @@ package net.minecraft.util;
@@ -21,7 +21,7 @@ index ebad17e6ec90a7f385cd38c5ec6c2772798d4562..535359546393de76b86fd4e66fc5d9fa
 @@ -12,9 +11,10 @@ import java.util.List;
  import java.util.Map;
  import java.util.Map.Entry;
- import java.util.stream.Collectors;
+ import net.minecraft.Util;
 +import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap; // DivineMC
  
  public class ClassInstanceMultiMap<T> extends AbstractCollection<T> {

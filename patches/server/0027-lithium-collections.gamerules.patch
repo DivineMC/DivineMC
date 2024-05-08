@@ -7,10 +7,10 @@ Original code by CaffeineMC, licensed under LGPL v3
 You can find the original code on https://github.com/CaffeineMC/lithium-fabric (Yarn mappings)
 
 diff --git a/src/main/java/net/minecraft/world/level/GameRules.java b/src/main/java/net/minecraft/world/level/GameRules.java
-index 4a340bd1f1859e43bb58e68aee4018fdb4ca7a5a..7f9345b195fe34129b28dd6c486abe9a1582364c 100644
+index 89e327bc3a45879fe68887c7aadb077f31a770eb..bb0fcf15fa49d6b352b11d4cffe4e2c8b0fe5c30 100644
 --- a/src/main/java/net/minecraft/world/level/GameRules.java
 +++ b/src/main/java/net/minecraft/world/level/GameRules.java
-@@ -28,6 +28,7 @@ import net.minecraft.server.MinecraftServer;
+@@ -30,6 +30,7 @@ import net.minecraft.server.MinecraftServer;
  import net.minecraft.server.level.ServerLevel;
  import net.minecraft.server.level.ServerPlayer;
  import org.slf4j.Logger;
@@ -18,7 +18,7 @@ index 4a340bd1f1859e43bb58e68aee4018fdb4ca7a5a..7f9345b195fe34129b28dd6c486abe9a
  
  public class GameRules {
  
-@@ -142,7 +143,7 @@ public class GameRules {
+@@ -149,7 +150,7 @@ public class GameRules {
      }
  
      private GameRules(Map<GameRules.Key<?>, GameRules.Value<?>> rules) {

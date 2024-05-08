@@ -7,10 +7,10 @@ Original code by CaffeineMC, licensed under LGPL v3
 You can find the original code on https://github.com/CaffeineMC/lithium-fabric (Yarn mappings)
 
 diff --git a/src/main/java/net/minecraft/core/Direction.java b/src/main/java/net/minecraft/core/Direction.java
-index 84a760fdc50bdafc9150f977e9c5d557a30ee220..8bfe5c8c559d5e68f5b95bea37f63363b343e9b1 100644
+index ab289a6ca85459e03acb2089c6b9e931caa9c873..377e327432ae2ba7edde7fac807d542f16568e3d 100644
 --- a/src/main/java/net/minecraft/core/Direction.java
 +++ b/src/main/java/net/minecraft/core/Direction.java
-@@ -39,7 +39,7 @@ public enum Direction implements StringRepresentable {
+@@ -46,7 +46,7 @@ public enum Direction implements StringRepresentable {
      private final Direction.Axis axis;
      private final Direction.AxisDirection axisDirection;
      private final Vec3i normal;
