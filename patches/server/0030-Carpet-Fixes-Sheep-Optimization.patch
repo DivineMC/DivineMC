@@ -62,17 +62,16 @@ index 6b1244d3957e7f62c96ffd34692b8916337839fd..994d81bb16040439ecbdf427dfde70d2
      private static CraftingContainer makeContainer(DyeColor firstColor, DyeColor secondColor) {
          TransientCraftingContainer transientcraftingcontainer = new TransientCraftingContainer(new AbstractContainerMenu((MenuType) null, -1) {
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-index 67ff4450b58c1df2f595a136c53d60bbefa2e8d5..13ea61e380ea8d0772107b06008bf86e274e5f91 100644
+index 73b6c3590dad95cddd9cc1a1cff36492175da232..bf550fa360f69b714ac346333c78d7f8de2a71b9 100644
 --- a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-@@ -155,8 +155,10 @@ public class DivineConfig {
+@@ -154,7 +154,9 @@ public class DivineConfig {
+     }
  
      public static boolean biomeManagerOptimization = true;
-     public static boolean recipeManagerOptimization = true;
 +    public static boolean sheepOptimization = true;
      private static void optimizations() {
          biomeManagerOptimization = getBoolean("settings.optimizations.biome-manager-optimization", biomeManagerOptimization);
-         recipeManagerOptimization = getBoolean("settings.optimizations.recipe-manager-optimization", recipeManagerOptimization);
 +        sheepOptimization = getBoolean("settings.optimizations.sheep-optimization", sheepOptimization);
      }
  }
