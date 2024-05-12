@@ -745,6 +745,27 @@ index e1ffd62f4ebceecb9bc5471df3da406cffea0483..5b446e6ac151f99f64f0c442d0b40b5e
      }
  
      private static final ThreadLocal<List<ChunkProgressionTask>> CURRENT_TICKET_UPDATE_SCHEDULING = new ThreadLocal<>();
+diff --git a/src/main/java/io/papermc/paper/command/brigadier/bukkit/BukkitCommandNode.java b/src/main/java/io/papermc/paper/command/brigadier/bukkit/BukkitCommandNode.java
+index 02597f890ac7f2dc12c94c283356b8309638dd17..7b00e6bd50cafd87e63863c186418973b7b6208b 100644
+--- a/src/main/java/io/papermc/paper/command/brigadier/bukkit/BukkitCommandNode.java
++++ b/src/main/java/io/papermc/paper/command/brigadier/bukkit/BukkitCommandNode.java
+@@ -1,6 +1,5 @@
+ package io.papermc.paper.command.brigadier.bukkit;
+ 
+-import co.aikar.timings.Timing;
+ import com.mojang.brigadier.arguments.StringArgumentType;
+ import com.mojang.brigadier.builder.RequiredArgumentBuilder;
+ import com.mojang.brigadier.context.CommandContext;
+@@ -74,9 +73,6 @@ public class BukkitCommandNode extends LiteralCommandNode<CommandSourceStack> {
+             CommandSender sender = context.getSource().getSender();
+ 
+             // Plugins do weird things to workaround normal registration
+-            if (this.command.timings == null) {
+-                //this.command.timings = co.aikar.timings.TimingsManager.getCommandTiming(null, this.command); // Purpur
+-            }
+ 
+             String content = context.getRange().get(context.getInput());
+             String[] args = org.apache.commons.lang3.StringUtils.split(content, ' '); // fix adjacent spaces (from console/plugins) causing empty array elements
 diff --git a/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java b/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
 index d02d22b09430b93349d48bcb50d456d23f9b49c7..07fce8459d75920a4c5089506cf233d9194d9f29 100644
 --- a/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
