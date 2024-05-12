@@ -120,6 +120,28 @@ index 7f6d1ccd147e5593412567bb2934ce5662da7ef0..8b232e22b1db41043ccc38e672c9bb3b
  
          long expectedChunks = (long)regionFiles.length * (32L * 32L);
  
+diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
+index 2720d080ab34d7ced08cc54852a1e489c1f72e90..41d47be479d90d714fbeacc02a61f443a2d81b67 100644
+--- a/src/main/java/net/minecraft/server/MinecraftServer.java
++++ b/src/main/java/net/minecraft/server/MinecraftServer.java
+@@ -890,7 +890,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+             // Paper start - rewrite chunk system
+             worldserver.save((ProgressListener) null, flush, worldserver.noSave && !force, close);
+             if (flush) {
+-                MinecraftServer.LOGGER.info("ThreadedAnvilChunkStorage ({}): All chunks are saved", worldserver.getChunkSource().chunkMap.getStorageName());
++                MinecraftServer.LOGGER.info("ThreadedChunkStorage ({}): All chunks are saved", worldserver.getChunkSource().chunkMap.getStorageName()); // DivineMC
+             }
+             // Paper end - rewrite chunk system
+         }
+@@ -914,7 +914,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+                 //MinecraftServer.LOGGER.info("ThreadedAnvilChunkStorage ({}): All chunks are saved", worldserver2.getChunkSource().chunkMap.getStorageName()); // Paper - move up
+             }
+ 
+-            MinecraftServer.LOGGER.info("ThreadedAnvilChunkStorage: All dimensions are saved");
++            MinecraftServer.LOGGER.info("ThreadedChunkStorage: All dimensions are saved"); // DivineMC
+         }
+ 
+         return flag3;
 diff --git a/src/main/java/net/minecraft/server/level/ChunkMap.java b/src/main/java/net/minecraft/server/level/ChunkMap.java
 index 22d0b075512279f43a261877e524f2b50c33b863..b93a7b8aef8c06837a3a86a093dac059e7ce2c3f 100644
 --- a/src/main/java/net/minecraft/server/level/ChunkMap.java
