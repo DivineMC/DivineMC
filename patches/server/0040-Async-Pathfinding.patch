@@ -8,142 +8,119 @@ You can find the original code on https://github.com/Bloom-host/Petal
 
 Makes most pathfinding-related work happen asynchronously
 
-Will be updated to 1.20.6 soon
-
 diff --git a/src/main/java/net/minecraft/world/entity/ai/behavior/AcquirePoi.java b/src/main/java/net/minecraft/world/entity/ai/behavior/AcquirePoi.java
-index abcc3ef59475ac170fd10b4dd4a4f3371faf17e0..15d8cdedf1ab558f1009c41180c0d580372a3c24 100644
+index 6499e3fe49e453db11e51eaf717ca8b3b682056b..89c89199851e01e6bb9b43612494c18adccc6f54 100644
 --- a/src/main/java/net/minecraft/world/entity/ai/behavior/AcquirePoi.java
 +++ b/src/main/java/net/minecraft/world/entity/ai/behavior/AcquirePoi.java
-@@ -7,7 +7,6 @@ import java.util.HashSet;
- import java.util.Optional;
- import java.util.Set;
- import java.util.function.Predicate;
--import java.util.stream.Collectors;
- import javax.annotation.Nullable;
- import net.minecraft.core.BlockPos;
- import net.minecraft.core.GlobalPos;
-@@ -22,6 +21,7 @@ import net.minecraft.world.entity.ai.village.poi.PoiManager;
- import net.minecraft.world.entity.ai.village.poi.PoiType;
- import net.minecraft.world.level.pathfinder.Path;
- import org.apache.commons.lang3.mutable.MutableLong;
-+import space.bxteam.divinemc.pathfinding.AsyncPathProcessor;
- 
- public class AcquirePoi {
-     public static final int SCAN_RANGE = 48;
-@@ -68,25 +68,60 @@ public class AcquirePoi {
-                         io.papermc.paper.util.PoiAccess.findNearestPoiPositions(poiManager, poiPredicate, predicate2, entity.blockPosition(), 48, 48*48, PoiManager.Occupancy.HAS_SPACE, false, 5, poiposes);
-                         Set<Pair<Holder<PoiType>, BlockPos>> set = new java.util.HashSet<>(poiposes);
-                         // Paper end - optimise POI access
--                        Path path = findPathToPois(entity, set);
--                        if (path != null && path.canReach()) {
--                            BlockPos blockPos = path.getTarget();
--                            poiManager.getType(blockPos).ifPresent((poiType) -> {
--                                poiManager.take(poiPredicate, (holder, blockPos2) -> {
--                                    return blockPos2.equals(blockPos);
--                                }, blockPos, 1);
--                                queryResult.set(GlobalPos.of(world.dimension(), blockPos));
--                                entityStatus.ifPresent((status) -> {
--                                    world.broadcastEntityEvent(entity, status);
-+                        // DivineMC start - Async Pathfinding
-+                        if (space.bxteam.divinemc.configuration.DivineConfig.asyncPathfinding) {
-+                            // await on path async
-+                            Path possiblePath = findPathToPois(entity, set);
+@@ -76,23 +76,56 @@ public class AcquirePoi {
+                         io.papermc.paper.util.PoiAccess.findNearestPoiPositions(poiManager, poiPredicate, predicate2, entity.blockPosition(), world.purpurConfig.villagerAcquirePoiSearchRadius, world.purpurConfig.villagerAcquirePoiSearchRadius*world.purpurConfig.villagerAcquirePoiSearchRadius, PoiManager.Occupancy.HAS_SPACE, false, 5, poiposes); // Purpur
+                                     Set<Pair<Holder<PoiType>, BlockPos>> set = new java.util.HashSet<>(poiposes);
+                                     // Paper end - optimise POI access
+-                                    Path path = findPathToPois(entity, set);
+-                                    if (path != null && path.canReach()) {
+-                                        BlockPos blockPos = path.getTarget();
+-                                        poiManager.getType(blockPos).ifPresent(poiType -> {
+-                                            poiManager.take(poiPredicate, (holder, blockPos2) -> blockPos2.equals(blockPos), blockPos, 1);
+-                                            queryResult.set(GlobalPos.of(world.dimension(), blockPos));
+-                                            entityStatus.ifPresent(status -> world.broadcastEntityEvent(entity, status));
+-                                            long2ObjectMap.clear();
+-                                            DebugPackets.sendPoiTicketCountPacket(world, blockPos);
++                                    // DivineMC start - Async Pathfinding
++                                    if (space.bxteam.divinemc.configuration.DivineConfig.asyncPathfinding) {
++                                        // await on path async
++                                        Path possiblePath = findPathToPois(entity, set);
 +
-+                            // wait on the path to be processed
-+                            AsyncPathProcessor.awaitProcessing(entity, possiblePath, path -> {
-+                                // read canReach check
-+                                if (path == null || !path.canReach()) {
-+                                    for (Pair<Holder<PoiType>, BlockPos> pair : set) {
-+                                        long2ObjectMap.computeIfAbsent(
-+                                                pair.getSecond().asLong(),
-+                                                (m) -> new JitteredLinearRetry(entity.level().random, time)
-+                                        );
-+                                    }
-+                                    return;
-+                                }
-+                                BlockPos blockPos = path.getTarget();
-+                                poiManager.getType(blockPos).ifPresent((poiType) -> {
-+                                    poiManager.take(poiPredicate,
-+                                            (holder, blockPos2) -> blockPos2.equals(blockPos),
-+                                            blockPos,
-+                                            1
-+                                    );
-+                                    queryResult.set(GlobalPos.of(world.dimension(), blockPos));
-+                                    entityStatus.ifPresent((status) -> {
-+                                        world.broadcastEntityEvent(entity, status);
-+                                    });
-+                                    long2ObjectMap.clear();
-+                                    DebugPackets.sendPoiTicketCountPacket(world, blockPos);
-                                 });
--                                long2ObjectMap.clear();
--                                DebugPackets.sendPoiTicketCountPacket(world, blockPos);
-                             });
-                         } else {
--                            for(Pair<Holder<PoiType>, BlockPos> pair : set) {
--                                long2ObjectMap.computeIfAbsent(pair.getSecond().asLong(), (m) -> {
--                                    return new AcquirePoi.JitteredLinearRetry(world.random, time);
-+                        // DivineMC end
-+                            Path path = findPathToPois(entity, set);
-+                            if (path != null && path.canReach()) {
-+                                BlockPos blockPos = path.getTarget();
-+                                poiManager.getType(blockPos).ifPresent((poiType) -> {
-+                                    poiManager.take(poiPredicate, (holder, blockPos2) -> {
-+                                        return blockPos2.equals(blockPos);
-+                                    }, blockPos, 1);
-+                                    queryResult.set(GlobalPos.of(world.dimension(), blockPos));
-+                                    entityStatus.ifPresent((status) -> {
-+                                        world.broadcastEntityEvent(entity, status);
-+                                    });
-+                                    long2ObjectMap.clear();
-+                                    DebugPackets.sendPoiTicketCountPacket(world, blockPos);
-                                 });
-+                            } else {
-+                                for (Pair<Holder<PoiType>, BlockPos> pair : set) {
-+                                    long2ObjectMap.computeIfAbsent(pair.getSecond().asLong(), (m) -> {
-+                                        return new AcquirePoi.JitteredLinearRetry(world.random, time);
-+                                    });
-+                                }
-                             }
-                         }
++                                        // wait on the path to be processed
++                                        space.bxteam.divinemc.pathfinding.AsyncPathProcessor.awaitProcessing(entity, possiblePath, path -> {
++                                            // read canReach check
++                                            if (path == null || !path.canReach()) {
++                                                for (Pair<Holder<PoiType>, BlockPos> pair : set) {
++                                                    long2ObjectMap.computeIfAbsent(
++                                                            pair.getSecond().asLong(),
++                                                            m -> new JitteredLinearRetry(entity.level().random, time)
++                                                    );
++                                                }
++                                                return;
++                                            }
++                                            BlockPos blockPos = path.getTarget();
++                                            poiManager.getType(blockPos).ifPresent(poiType -> {
++                                                poiManager.take(poiPredicate,
++                                                        (holder, blockPos2) -> blockPos2.equals(blockPos),
++                                                        blockPos,
++                                                        1
++                                                );
++                                                queryResult.set(GlobalPos.of(world.dimension(), blockPos));
++                                                entityStatus.ifPresent(status -> world.broadcastEntityEvent(entity, status));
++                                                long2ObjectMap.clear();
++                                                DebugPackets.sendPoiTicketCountPacket(world, blockPos);
++                                            });
+                                         });
+                                     } else {
+-                                        for (Pair<Holder<PoiType>, BlockPos> pair : set) {
+-                                            long2ObjectMap.computeIfAbsent(
+-                                                pair.getSecond().asLong(), m -> new AcquirePoi.JitteredLinearRetry(world.random, time)
+-                                            );
++                                        // DivineMC end
++                                        Path path = findPathToPois(entity, set);
++                                        if (path != null && path.canReach()) {
++                                            BlockPos blockPos = path.getTarget();
++                                            poiManager.getType(blockPos).ifPresent(poiType -> {
++                                                poiManager.take(poiPredicate, (holder, blockPos2) -> blockPos2.equals(blockPos), blockPos, 1);
++                                                queryResult.set(GlobalPos.of(world.dimension(), blockPos));
++                                                entityStatus.ifPresent(status -> world.broadcastEntityEvent(entity, status));
++                                                long2ObjectMap.clear();
++                                                DebugPackets.sendPoiTicketCountPacket(world, blockPos);
++                                            });
++                                        } else {
++                                            for (Pair<Holder<PoiType>, BlockPos> pair : set) {
++                                                long2ObjectMap.computeIfAbsent(
++                                                        pair.getSecond().asLong(), m -> new AcquirePoi.JitteredLinearRetry(world.random, time)
++                                                );
++                                            }
+                                         }
+-                                    }
++                                    } // DivineMC - Async Pathfinding
  
+                                     return true;
+                                 }
 diff --git a/src/main/java/net/minecraft/world/entity/ai/behavior/MoveToTargetSink.java b/src/main/java/net/minecraft/world/entity/ai/behavior/MoveToTargetSink.java
-index 1ab77f3518d1df30f66ae44d7d4fa69e5b32d93a..aefa26d6f60d20041b8f7fcc5c87c06ed659644a 100644
+index 2a7a26ca447cc78f24e61a2bf557411c31eb16b2..b7fa1c3c564d3c45ac559fd4ec73c3f9f6911576 100644
 --- a/src/main/java/net/minecraft/world/entity/ai/behavior/MoveToTargetSink.java
 +++ b/src/main/java/net/minecraft/world/entity/ai/behavior/MoveToTargetSink.java
 @@ -21,6 +21,7 @@ public class MoveToTargetSink extends Behavior<Mob> {
      private int remainingCooldown;
      @Nullable
      private Path path;
-+    private boolean finishedProcessing; // DivineMC - Async Pathfinding
++    private boolean finishedProcessing; // DivineMC
      @Nullable
      private BlockPos lastTargetPos;
      private float speedModifier;
-@@ -42,9 +43,11 @@ public class MoveToTargetSink extends Behavior<Mob> {
+@@ -53,9 +54,11 @@ public class MoveToTargetSink extends Behavior<Mob> {
              Brain<?> brain = entity.getBrain();
              WalkTarget walkTarget = brain.getMemory(MemoryModuleType.WALK_TARGET).get();
              boolean bl = this.reachedTarget(entity, walkTarget);
 -            if (!bl && this.tryComputePath(entity, walkTarget, world.getGameTime())) {
-+            if (!space.bxteam.divinemc.configuration.DivineConfig.asyncPathfinding && !bl && this.tryComputePath(entity, walkTarget, world.getGameTime())) { // DivineMC - Async Pathfinding
++            if (!space.bxteam.divinemc.configuration.DivineConfig.asyncPathfinding && !bl && this.tryComputePath(entity, walkTarget, world.getGameTime())) { // DivineMC - async pathfinding
                  this.lastTargetPos = walkTarget.getTarget().currentBlockPosition();
                  return true;
-+            } else if (space.bxteam.divinemc.configuration.DivineConfig.asyncPathfinding && !bl) { // DivineMC - Async Pathfinding
++            } else if (space.bxteam.divinemc.configuration.DivineConfig.asyncPathfinding && !bl) { // DivineMC - async pathfinding
 +                return true;
              } else {
                  brain.eraseMemory(MemoryModuleType.WALK_TARGET);
                  if (bl) {
-@@ -58,6 +61,7 @@ public class MoveToTargetSink extends Behavior<Mob> {
+@@ -69,6 +72,7 @@ public class MoveToTargetSink extends Behavior<Mob> {
  
      @Override
      protected boolean canStillUse(ServerLevel world, Mob entity, long time) {
-+        if (space.bxteam.divinemc.configuration.DivineConfig.asyncPathfinding && !this.finishedProcessing) return true; // DivineMC - Async Pathfinding
++        if (space.bxteam.divinemc.configuration.DivineConfig.asyncPathfinding && !this.finishedProcessing) return true; // DivineMC - petal - wait for processing
          if (this.path != null && this.lastTargetPos != null) {
              Optional<WalkTarget> optional = entity.getBrain().getMemory(MemoryModuleType.WALK_TARGET);
              boolean bl = optional.map(MoveToTargetSink::isWalkTargetSpectator).orElse(false);
-@@ -82,28 +86,99 @@ public class MoveToTargetSink extends Behavior<Mob> {
+@@ -95,28 +99,98 @@ public class MoveToTargetSink extends Behavior<Mob> {
  
      @Override
      protected void start(ServerLevel serverLevel, Mob mob, long l) {
-+        // DivineMC start - Async Pathfinding
++        // DivineMC start - start processing
 +        if (space.bxteam.divinemc.configuration.DivineConfig.asyncPathfinding) {
 +            Brain<?> brain = mob.getBrain();
 +            WalkTarget walkTarget = brain.getMemory(MemoryModuleType.WALK_TARGET).get();
@@ -166,13 +143,14 @@ index 1ab77f3518d1df30f66ae44d7d4fa69e5b32d93a..aefa26d6f60d20041b8f7fcc5c87c06e
 -            this.path = path;
 -            brain.setMemory(MemoryModuleType.PATH, path);
 -        }
-+        // DivineMC start - Async Pathfinding
++        // DivineMC start - Async path processing
 +        if (space.bxteam.divinemc.configuration.DivineConfig.asyncPathfinding) {
 +            if (this.path != null && !this.path.isProcessed()) return; // wait for processing
  
 -        if (path != null && this.lastTargetPos != null) {
 -            WalkTarget walkTarget = brain.getMemory(MemoryModuleType.WALK_TARGET).get();
--            if (walkTarget.getTarget().currentBlockPosition().distSqr(this.lastTargetPos) > 4.0D && this.tryComputePath(mob, walkTarget, serverLevel.getGameTime())) {
+-            if (walkTarget.getTarget().currentBlockPosition().distSqr(this.lastTargetPos) > 4.0
+-                && this.tryComputePath(mob, walkTarget, serverLevel.getGameTime())) {
 -                this.lastTargetPos = walkTarget.getTarget().currentBlockPosition();
 -                this.start(serverLevel, mob, l);
 +            if (!this.finishedProcessing) {
@@ -189,7 +167,7 @@ index 1ab77f3518d1df30f66ae44d7d4fa69e5b32d93a..aefa26d6f60d20041b8f7fcc5c87c06e
 +                if (!canReach) {
 +                    Optional<WalkTarget> walkTarget = brain.getMemory(MemoryModuleType.WALK_TARGET);
 +
-+                    if (walkTarget.isEmpty()) return;
++                    if (!walkTarget.isPresent()) return;
 +
 +                    BlockPos blockPos = walkTarget.get().getTarget().currentBlockPosition();
 +                    Vec3 vec3 = DefaultRandomPos.getPosTowards((PathfinderMob) mob, 10, 7, Vec3.atBottomCenterOf(blockPos), (float) Math.PI / 2F);
@@ -203,18 +181,19 @@ index 1ab77f3518d1df30f66ae44d7d4fa69e5b32d93a..aefa26d6f60d20041b8f7fcc5c87c06e
 +
 +                mob.getBrain().setMemory(MemoryModuleType.PATH, this.path);
 +                mob.getNavigation().moveTo(this.path, this.speedModifier);
-+            }
+             }
 +
 +            Path path = mob.getNavigation().getPath();
 +            Brain<?> brain = mob.getBrain();
 +
 +            if (path != null && this.lastTargetPos != null && brain.hasMemoryValue(MemoryModuleType.WALK_TARGET)) {
-+                WalkTarget walkTarget = brain.getMemory(MemoryModuleType.WALK_TARGET).get(); // we know !isEmpty()
++                WalkTarget walkTarget = brain.getMemory(MemoryModuleType.WALK_TARGET).get(); // we know isPresent = true
 +                if (walkTarget.getTarget().currentBlockPosition().distSqr(this.lastTargetPos) > 4.0D) {
 +                    this.start(serverLevel, mob, l);
 +                }
 +            }
 +        } else {
++            // DivineMC end
 +            Path path = mob.getNavigation().getPath();
 +            Brain<?> brain = mob.getBrain();
 +            if (this.path != path) {
@@ -224,21 +203,19 @@ index 1ab77f3518d1df30f66ae44d7d4fa69e5b32d93a..aefa26d6f60d20041b8f7fcc5c87c06e
 +
 +            if (path != null && this.lastTargetPos != null) {
 +                WalkTarget walkTarget = brain.getMemory(MemoryModuleType.WALK_TARGET).get();
-+                if (walkTarget.getTarget().currentBlockPosition().distSqr(this.lastTargetPos) > 4.0D && this.tryComputePath(mob, walkTarget, serverLevel.getGameTime())) {
++                if (walkTarget.getTarget().currentBlockPosition().distSqr(this.lastTargetPos) > 4.0
++                        && this.tryComputePath(mob, walkTarget, serverLevel.getGameTime())) {
 +                    this.lastTargetPos = walkTarget.getTarget().currentBlockPosition();
 +                    this.start(serverLevel, mob, l);
 +                }
-             }
++            }
 +        }
-+        // DivineMC end
 +    }
- 
-+    // DivineMC start - Async Pathfinding
++
++    // DivineMC start - Async path processing
 +    @Nullable
-+    private Path computePath(Mob entity, WalkTarget walkTarget) {
++    private Path computePath(Mob entity, WalkTarget walkTarget){
 +        BlockPos blockPos = walkTarget.getTarget().currentBlockPosition();
-+        // don't pathfind outside region
-+        //if (!io.papermc.paper.util.TickThread.isTickThreadFor((ServerLevel) entity.level(), blockPos)) return null; // DivineMC - Don't need this
 +        this.speedModifier = walkTarget.getSpeedModifier();
 +        Brain<?> brain = entity.getBrain();
 +        if (this.reachedTarget(entity, walkTarget)) {
@@ -251,99 +228,79 @@ index 1ab77f3518d1df30f66ae44d7d4fa69e5b32d93a..aefa26d6f60d20041b8f7fcc5c87c06e
      private boolean tryComputePath(Mob entity, WalkTarget walkTarget, long time) {
          BlockPos blockPos = walkTarget.getTarget().currentBlockPosition();
 diff --git a/src/main/java/net/minecraft/world/entity/ai/behavior/SetClosestHomeAsWalkTarget.java b/src/main/java/net/minecraft/world/entity/ai/behavior/SetClosestHomeAsWalkTarget.java
-index 271efbb027f6f5d69ac5bc5dc51102a1eb00ab31..fd3c49a9a8f72d07cc1feeaa4ef7fc1da2da4b9e 100644
+index 6802e0c4d331c7125114dd86409f6a110465ab82..0b68b4248e85280199f99da80487520dd0d8b7a0 100644
 --- a/src/main/java/net/minecraft/world/entity/ai/behavior/SetClosestHomeAsWalkTarget.java
 +++ b/src/main/java/net/minecraft/world/entity/ai/behavior/SetClosestHomeAsWalkTarget.java
-@@ -20,6 +20,7 @@ import net.minecraft.world.entity.ai.village.poi.PoiTypes;
- import net.minecraft.world.level.pathfinder.Path;
- import org.apache.commons.lang3.mutable.MutableInt;
- import org.apache.commons.lang3.mutable.MutableLong;
-+import space.bxteam.divinemc.pathfinding.AsyncPathProcessor;
- 
- public class SetClosestHomeAsWalkTarget {
-     private static final int CACHE_TIMEOUT = 40;
-@@ -57,19 +58,38 @@ public class SetClosestHomeAsWalkTarget {
-                             Set<Pair<Holder<PoiType>, BlockPos>> set = poiManager.findAllWithType((poiType) -> {
-                                 return poiType.is(PoiTypes.HOME);
-                             }, predicate, entity.blockPosition(), 48, PoiManager.Occupancy.ANY).collect(Collectors.toSet());
--                            Path path = AcquirePoi.findPathToPois(entity, set);
--                            if (path != null && path.canReach()) {
--                                BlockPos blockPos = path.getTarget();
--                                Optional<Holder<PoiType>> optional2 = poiManager.getType(blockPos);
--                                if (optional2.isPresent()) {
--                                    walkTarget.set(new WalkTarget(blockPos, speed, 1));
--                                    DebugPackets.sendPoiTicketCountPacket(world, blockPos);
--                                }
--                            } else if (mutableInt.getValue() < 5) {
--                                long2LongMap.long2LongEntrySet().removeIf((entry) -> {
--                                    return entry.getLongValue() < mutableLong.getValue();
-+                            // DivineMC start - Async Pathfinding
-+                            if (space.bxteam.divinemc.configuration.DivineConfig.asyncPathfinding) {
-+                                // await on path async
-+                                Path possiblePath = AcquirePoi.findPathToPois(entity, set);
+@@ -60,16 +60,37 @@ public class SetClosestHomeAsWalkTarget {
+                                                 poiType -> poiType.is(PoiTypes.HOME), predicate, entity.blockPosition(), 48, PoiManager.Occupancy.ANY
+                                             )
+                                             .collect(Collectors.toSet());
+-                                        Path path = AcquirePoi.findPathToPois(entity, set);
+-                                        if (path != null && path.canReach()) {
+-                                            BlockPos blockPos = path.getTarget();
+-                                            Optional<Holder<PoiType>> optional2 = poiManager.getType(blockPos);
+-                                            if (optional2.isPresent()) {
+-                                                walkTarget.set(new WalkTarget(blockPos, speed, 1));
+-                                                DebugPackets.sendPoiTicketCountPacket(world, blockPos);
++                                        // DivineMC start - Async path processing
++                                        if (space.bxteam.divinemc.configuration.DivineConfig.asyncPathfinding) {
++                                            // await on path async
++                                            Path possiblePath = AcquirePoi.findPathToPois(entity, set);
 +
-+                                // wait on the path to be processed
-+                                AsyncPathProcessor.awaitProcessing(entity, possiblePath, path -> {
-+                                    if (path == null || !path.canReach() || mutableInt.getValue() < 5) { // read canReach check
-+                                        long2LongMap.long2LongEntrySet().removeIf((entry) -> entry.getLongValue() < mutableLong.getValue());
-+                                        return;
-+                                    }
-+                                    BlockPos blockPos = path.getTarget();
-+                                    Optional<Holder<PoiType>> optional2 = poiManager.getType(blockPos);
-+                                    if (optional2.isPresent()) {
-+                                        walkTarget.set(new WalkTarget(blockPos, speed, 1));
-+                                        DebugPackets.sendPoiTicketCountPacket(world, blockPos);
-+                                    }
-                                 });
--                            }
-+                            } else {
-+                                // DivineMC end
-+                                Path path = AcquirePoi.findPathToPois(entity, set);
-+                                if (path != null && path.canReach()) {
-+                                    BlockPos blockPos = path.getTarget();
-+                                    Optional<Holder<PoiType>> optional2 = poiManager.getType(blockPos);
-+                                    if (optional2.isPresent()) {
-+                                        walkTarget.set(new WalkTarget(blockPos, speed, 1));
-+                                        DebugPackets.sendPoiTicketCountPacket(world, blockPos);
-+                                    }
-+                                } else if (mutableInt.getValue() < 5) {
-+                                    long2LongMap.long2LongEntrySet().removeIf((entry) -> entry.getLongValue() < mutableLong.getValue());
-+                                }
-+                            } // DivineMC - Async Pathfinding
++                                            // wait on the path to be processed
++                                            space.bxteam.divinemc.pathfinding.AsyncPathProcessor.awaitProcessing(entity, possiblePath, path -> {
++                                                if (path == null || !path.canReach() || mutableInt.getValue() < 5) { // read canReach check
++                                                    long2LongMap.long2LongEntrySet().removeIf(entry -> entry.getLongValue() < mutableLong.getValue());
++                                                    return;
++                                                }
++                                                BlockPos blockPos = path.getTarget();
++                                                Optional<Holder<PoiType>> optional2 = poiManager.getType(blockPos);
++                                                if (optional2.isPresent()) {
++                                                    walkTarget.set(new WalkTarget(blockPos, speed, 1));
++                                                    DebugPackets.sendPoiTicketCountPacket(world, blockPos);
++                                                }
++                                            });
++                                        } else {
++                                            // DivineMC end
++                                            Path path = AcquirePoi.findPathToPois(entity, set);
++                                            if (path != null && path.canReach()) {
++                                                BlockPos blockPos = path.getTarget();
++                                                Optional<Holder<PoiType>> optional2 = poiManager.getType(blockPos);
++                                                if (optional2.isPresent()) {
++                                                    walkTarget.set(new WalkTarget(blockPos, speed, 1));
++                                                    DebugPackets.sendPoiTicketCountPacket(world, blockPos);
++                                                }
++                                            } else if (mutableInt.getValue() < 5) {
++                                                long2LongMap.long2LongEntrySet().removeIf(entry -> entry.getLongValue() < mutableLong.getValue());
+                                             }
+-                                        } else if (mutableInt.getValue() < 5) {
+-                                            long2LongMap.long2LongEntrySet().removeIf(entry -> entry.getLongValue() < mutableLong.getValue());
+                                         }
  
-                             return true;
-                         } else {
+                                         return true;
 diff --git a/src/main/java/net/minecraft/world/entity/ai/goal/DoorInteractGoal.java b/src/main/java/net/minecraft/world/entity/ai/goal/DoorInteractGoal.java
-index 6771f2dc974317b6b152288bf41d1a95bc78a8e4..770b8a6e54104873dfd5fcc2ac800adab2a1edcf 100644
+index 74aca307b4ebffe4e33c4fca3e07c23ca87622ac..638104ed241bd47bff7cbdd65f63870e80d9b091 100644
 --- a/src/main/java/net/minecraft/world/entity/ai/goal/DoorInteractGoal.java
 +++ b/src/main/java/net/minecraft/world/entity/ai/goal/DoorInteractGoal.java
-@@ -57,7 +57,7 @@ public abstract class DoorInteractGoal extends Goal {
+@@ -56,7 +56,7 @@ public abstract class DoorInteractGoal extends Goal {
          } else {
              GroundPathNavigation groundPathNavigation = (GroundPathNavigation)this.mob.getNavigation();
              Path path = groundPathNavigation.getPath();
 -            if (path != null && !path.isDone() && groundPathNavigation.canOpenDoors()) {
-+            if (path != null && path.isProcessed() && !path.isDone() && groundPathNavigation.canOpenDoors()) { // DivineMC - Async Pathfinding
-                 for(int i = 0; i < Math.min(path.getNextNodeIndex() + 2, path.getNodeCount()); ++i) {
++            if (path != null && path.isProcessed() && !path.isDone() && groundPathNavigation.canOpenDoors()) { // DivineMC - async pathfinding - ensure path is processed
+                 for (int i = 0; i < Math.min(path.getNextNodeIndex() + 2, path.getNodeCount()); i++) {
                      Node node = path.getNode(i);
                      this.doorPos = new BlockPos(node.x, node.y + 1, node.z);
 diff --git a/src/main/java/net/minecraft/world/entity/ai/navigation/AmphibiousPathNavigation.java b/src/main/java/net/minecraft/world/entity/ai/navigation/AmphibiousPathNavigation.java
-index 9d3b32c852d660356e0f16d4cc10072b1c603e64..63bbd2819fab3beee528321ebf19ef39f38fa8eb 100644
+index ee38e447a810094d2253b85714b74282a4b4c2bc..418961feef15779bbf4a7da42d8d3bd2f0564da5 100644
 --- a/src/main/java/net/minecraft/world/entity/ai/navigation/AmphibiousPathNavigation.java
 +++ b/src/main/java/net/minecraft/world/entity/ai/navigation/AmphibiousPathNavigation.java
-@@ -6,17 +6,36 @@ import net.minecraft.world.level.Level;
- import net.minecraft.world.level.pathfinder.AmphibiousNodeEvaluator;
- import net.minecraft.world.level.pathfinder.PathFinder;
- import net.minecraft.world.phys.Vec3;
-+import space.bxteam.divinemc.pathfinding.NodeEvaluatorGenerator;
-+import space.bxteam.divinemc.pathfinding.NodeEvaluatorFeatures;
- 
- public class AmphibiousPathNavigation extends PathNavigation {
-     public AmphibiousPathNavigation(Mob mob, Level world) {
+@@ -12,10 +12,26 @@ public class AmphibiousPathNavigation extends PathNavigation {
          super(mob, world);
      }
  
-+    // DivineMC start - Async Pathfinding
-+    private static final NodeEvaluatorGenerator nodeEvaluatorGenerator = (NodeEvaluatorFeatures nodeEvaluatorFeatures) -> {
++    // DivineMC start - async path processing
++    private static final space.bxteam.divinemc.pathfinding.NodeEvaluatorGenerator nodeEvaluatorGenerator = (space.bxteam.divinemc.pathfinding.NodeEvaluatorFeatures nodeEvaluatorFeatures) -> {
 +        AmphibiousNodeEvaluator nodeEvaluator = new AmphibiousNodeEvaluator(false);
 +        nodeEvaluator.setCanPassDoors(nodeEvaluatorFeatures.canPassDoors());
 +        nodeEvaluator.setCanFloat(nodeEvaluatorFeatures.canFloat());
@@ -357,35 +314,24 @@ index 9d3b32c852d660356e0f16d4cc10072b1c603e64..63bbd2819fab3beee528321ebf19ef39
      protected PathFinder createPathFinder(int range) {
          this.nodeEvaluator = new AmphibiousNodeEvaluator(false);
          this.nodeEvaluator.setCanPassDoors(true);
--        return new PathFinder(this.nodeEvaluator, range);
-+        // DivineMC start - Async Pathfinding
++        // DivineMC start - async path processing
 +        if (space.bxteam.divinemc.configuration.DivineConfig.asyncPathfinding) {
 +            return new PathFinder(this.nodeEvaluator, range, nodeEvaluatorGenerator);
-+        } else {
-+            return new PathFinder(this.nodeEvaluator, range);
 +        }
 +        // DivineMC end
+         return new PathFinder(this.nodeEvaluator, range);
      }
  
-     @Override
 diff --git a/src/main/java/net/minecraft/world/entity/ai/navigation/FlyingPathNavigation.java b/src/main/java/net/minecraft/world/entity/ai/navigation/FlyingPathNavigation.java
-index e35c38feb62c3345d82636081decc09db9f061ab..6bb6e386d66288d3776fde0f76774571d68f1550 100644
+index a3e0c5af4cc9323c02e88e768cbda9e46854aea1..05e5b7e2785e09492656261f37e7aadf2669a7de 100644
 --- a/src/main/java/net/minecraft/world/entity/ai/navigation/FlyingPathNavigation.java
 +++ b/src/main/java/net/minecraft/world/entity/ai/navigation/FlyingPathNavigation.java
-@@ -10,17 +10,36 @@ import net.minecraft.world.level.pathfinder.FlyNodeEvaluator;
- import net.minecraft.world.level.pathfinder.Path;
- import net.minecraft.world.level.pathfinder.PathFinder;
- import net.minecraft.world.phys.Vec3;
-+import space.bxteam.divinemc.pathfinding.NodeEvaluatorFeatures;
-+import space.bxteam.divinemc.pathfinding.NodeEvaluatorGenerator;
- 
- public class FlyingPathNavigation extends PathNavigation {
-     public FlyingPathNavigation(Mob entity, Level world) {
+@@ -16,10 +16,26 @@ public class FlyingPathNavigation extends PathNavigation {
          super(entity, world);
      }
  
-+    // DivineMC start - Async Pathfinding
-+    private static final NodeEvaluatorGenerator nodeEvaluatorGenerator = (NodeEvaluatorFeatures nodeEvaluatorFeatures) -> {
++    // DivineMC start - async path processing
++    private static final space.bxteam.divinemc.pathfinding.NodeEvaluatorGenerator nodeEvaluatorGenerator = (space.bxteam.divinemc.pathfinding.NodeEvaluatorFeatures nodeEvaluatorFeatures) -> {
 +        FlyNodeEvaluator nodeEvaluator = new FlyNodeEvaluator();
 +        nodeEvaluator.setCanPassDoors(nodeEvaluatorFeatures.canPassDoors());
 +        nodeEvaluator.setCanFloat(nodeEvaluatorFeatures.canFloat());
@@ -399,44 +345,32 @@ index e35c38feb62c3345d82636081decc09db9f061ab..6bb6e386d66288d3776fde0f76774571
      protected PathFinder createPathFinder(int range) {
          this.nodeEvaluator = new FlyNodeEvaluator();
          this.nodeEvaluator.setCanPassDoors(true);
--        return new PathFinder(this.nodeEvaluator, range);
-+        // DivineMC start - Async Pathfinding
++        // DivineMC start - async path processing
 +        if (space.bxteam.divinemc.configuration.DivineConfig.asyncPathfinding) {
 +            return new PathFinder(this.nodeEvaluator, range, nodeEvaluatorGenerator);
-+        } else {
-+            return new PathFinder(this.nodeEvaluator, range);
 +        }
 +        // DivineMC end
+         return new PathFinder(this.nodeEvaluator, range);
      }
  
-     @Override
-@@ -49,6 +68,7 @@ public class FlyingPathNavigation extends PathNavigation {
+@@ -49,6 +65,7 @@ public class FlyingPathNavigation extends PathNavigation {
          if (this.hasDelayedRecomputation) {
              this.recomputePath();
          }
-+        if (this.path != null && !this.path.isProcessed()) return; // DivineMC - Async Pathfinding
++        if (this.path != null && !this.path.isProcessed()) return; // DivineMC - petal - async path processing
  
          if (!this.isDone()) {
              if (this.canUpdatePath()) {
 diff --git a/src/main/java/net/minecraft/world/entity/ai/navigation/GroundPathNavigation.java b/src/main/java/net/minecraft/world/entity/ai/navigation/GroundPathNavigation.java
-index 47de460ff5435ea6712c800c77093126908d0fce..c880ed689b3521925c67817c5fc235810f521c30 100644
+index 62634bedd97c5be9ecce24ab0cff205715a68da8..dc5f3402eb0b5404af40c248f550e603b9ef9ac2 100644
 --- a/src/main/java/net/minecraft/world/entity/ai/navigation/GroundPathNavigation.java
 +++ b/src/main/java/net/minecraft/world/entity/ai/navigation/GroundPathNavigation.java
-@@ -15,6 +15,8 @@ import net.minecraft.world.level.pathfinder.Path;
- import net.minecraft.world.level.pathfinder.PathFinder;
- import net.minecraft.world.level.pathfinder.WalkNodeEvaluator;
- import net.minecraft.world.phys.Vec3;
-+import space.bxteam.divinemc.pathfinding.NodeEvaluatorGenerator;
-+import space.bxteam.divinemc.pathfinding.NodeEvaluatorFeatures;
- 
- public class GroundPathNavigation extends PathNavigation {
-     private boolean avoidSun;
-@@ -23,11 +25,28 @@ public class GroundPathNavigation extends PathNavigation {
+@@ -23,10 +23,26 @@ public class GroundPathNavigation extends PathNavigation {
          super(entity, world);
      }
  
-+    // DivineMC start - Async Pathfinding
-+    protected static final NodeEvaluatorGenerator nodeEvaluatorGenerator = (NodeEvaluatorFeatures nodeEvaluatorFeatures) -> {
++    // DivineMC start - async path processing
++    protected static final space.bxteam.divinemc.pathfinding.NodeEvaluatorGenerator nodeEvaluatorGenerator = (space.bxteam.divinemc.pathfinding.NodeEvaluatorFeatures nodeEvaluatorFeatures) -> {
 +        WalkNodeEvaluator nodeEvaluator = new WalkNodeEvaluator();
 +        nodeEvaluator.setCanPassDoors(nodeEvaluatorFeatures.canPassDoors());
 +        nodeEvaluator.setCanFloat(nodeEvaluatorFeatures.canFloat());
@@ -450,55 +384,44 @@ index 47de460ff5435ea6712c800c77093126908d0fce..c880ed689b3521925c67817c5fc23581
      protected PathFinder createPathFinder(int range) {
          this.nodeEvaluator = new WalkNodeEvaluator();
          this.nodeEvaluator.setCanPassDoors(true);
--        return new PathFinder(this.nodeEvaluator, range);
-+        // DivineMC start - Async Pathfinding
++        // DivineMC start - async path processing
 +        if (space.bxteam.divinemc.configuration.DivineConfig.asyncPathfinding) {
 +            return new PathFinder(this.nodeEvaluator, range, nodeEvaluatorGenerator);
-+        } else {
-+            return new PathFinder(this.nodeEvaluator, range);
 +        }
 +        // DivineMC end
+         return new PathFinder(this.nodeEvaluator, range);
      }
  
-     @Override
 diff --git a/src/main/java/net/minecraft/world/entity/ai/navigation/PathNavigation.java b/src/main/java/net/minecraft/world/entity/ai/navigation/PathNavigation.java
-index 43699f94dd0fd97513242fcdbc4ec4d0dc260f8e..1f93664d80ca0f78a04d844436da5741e01bb32b 100644
+index 544920a31b649985333f82beafa94a3392f5853e..98b97269886b0ff3bbb32444d3e825c39b2ff175 100644
 --- a/src/main/java/net/minecraft/world/entity/ai/navigation/PathNavigation.java
 +++ b/src/main/java/net/minecraft/world/entity/ai/navigation/PathNavigation.java
-@@ -25,6 +25,8 @@ import net.minecraft.world.level.pathfinder.PathFinder;
- import net.minecraft.world.level.pathfinder.WalkNodeEvaluator;
- import net.minecraft.world.phys.HitResult;
- import net.minecraft.world.phys.Vec3;
-+import space.bxteam.divinemc.pathfinding.AsyncPath;
-+import space.bxteam.divinemc.pathfinding.AsyncPathProcessor;
- 
- public abstract class PathNavigation {
-     private static final int MAX_TIME_RECOMPUTE = 20;
-@@ -153,6 +155,10 @@ public abstract class PathNavigation {
+@@ -152,6 +152,10 @@ public abstract class PathNavigation {
              return null;
          } else if (!this.canUpdatePath()) {
              return null;
-+        // DivineMC start - Async Pathfinding
-+        } else if (this.path instanceof AsyncPath asyncPath && !asyncPath.isProcessed() && asyncPath.hasSameProcessingPositions(positions)) {
++            // DivineMC start - catch early if it's still processing these positions let it keep processing
++        } else if (this.path instanceof space.bxteam.divinemc.pathfinding.AsyncPath asyncPath && !asyncPath.isProcessed() && asyncPath.hasSameProcessingPositions(positions)) {
 +            return this.path;
-+        // DivineMC end
++            // DivineMC end
          } else if (this.path != null && !this.path.isDone() && positions.contains(this.targetPos)) {
              return this.path;
          } else {
-@@ -179,11 +185,29 @@ public abstract class PathNavigation {
+@@ -177,11 +181,28 @@ public abstract class PathNavigation {
+             int i = (int)(followRange + (float)range);
              PathNavigationRegion pathNavigationRegion = new PathNavigationRegion(this.level, blockPos.offset(-i, -i, -i), blockPos.offset(i, i, i));
              Path path = this.pathFinder.findPath(pathNavigationRegion, this.mob, positions, followRange, distance, this.maxVisitedNodesMultiplier);
-             //this.level.getProfiler().pop(); // Purpur
+-            //this.level.getProfiler().pop(); // Purpur
 -            if (path != null && path.getTarget() != null) {
 -                this.targetPos = path.getTarget();
 -                this.reachRange = distance;
 -                this.resetStuckTimeout();
-+            // DivineMC start - Async Pathfinding
++            // DivineMC start - async path processing
 +            if (space.bxteam.divinemc.configuration.DivineConfig.asyncPathfinding) {
 +                // assign early a target position. most calls will only have 1 position
 +                if (!positions.isEmpty()) this.targetPos = positions.iterator().next();
 +
-+                AsyncPathProcessor.awaitProcessing(mob, path, processedPath -> {
++                space.bxteam.divinemc.pathfinding.AsyncPathProcessor.awaitProcessing(mob, path, processedPath -> {
 +                    // check that processing didn't take so long that we calculated a new path
 +                    if (processedPath != this.path) return;
 +
@@ -509,71 +432,61 @@ index 43699f94dd0fd97513242fcdbc4ec4d0dc260f8e..1f93664d80ca0f78a04d844436da5741
 +                    }
 +                });
 +            } else {
++                // DivineMC end
 +                if (path != null && path.getTarget() != null) {
 +                    this.targetPos = path.getTarget();
 +                    this.reachRange = distance;
 +                    this.resetStuckTimeout();
 +                }
              }
-+            // DivineMC end
  
              return path;
-         }
-@@ -230,8 +254,8 @@ public abstract class PathNavigation {
+@@ -233,8 +254,8 @@ public abstract class PathNavigation {
              if (this.isDone()) {
                  return false;
              } else {
 -                this.trimPath();
 -                if (this.path.getNodeCount() <= 0) {
-+                if (path.isProcessed()) this.trimPath(); // DivineMC - Async Pathfinding
-+                if (path.isProcessed() && this.path.getNodeCount() <= 0) { // DivineMC - Async Pathfinding
++                if (path.isProcessed()) this.trimPath(); // DivineMC - petal - only trim if processed
++                if (path.isProcessed() && this.path.getNodeCount() <= 0) { // DivineMC - petal - only check node count if processed
                      return false;
                  } else {
                      this.speedModifier = speed;
-@@ -254,6 +278,7 @@ public abstract class PathNavigation {
+@@ -257,6 +278,7 @@ public abstract class PathNavigation {
          if (this.hasDelayedRecomputation) {
              this.recomputePath();
          }
-+        if (this.path != null && !this.path.isProcessed()) return; // DivineMC - Async Pathfinding
++        if (this.path != null && !this.path.isProcessed()) return; // DivineMC - petal - skip pathfinding if we're still processing
  
          if (!this.isDone()) {
              if (this.canUpdatePath()) {
-@@ -280,6 +305,7 @@ public abstract class PathNavigation {
+@@ -283,6 +305,7 @@ public abstract class PathNavigation {
      }
  
      protected void followThePath() {
-+        if (!this.path.isProcessed()) return; // DivineMC - Async Pathfinding
++        if (!this.path.isProcessed()) return; // DivineMC - petal - skip if not processed
          Vec3 vec3 = this.getTempMobPos();
          this.maxDistanceToWaypoint = this.mob.getBbWidth() > 0.75F ? this.mob.getBbWidth() / 2.0F : 0.75F - this.mob.getBbWidth() / 2.0F;
          Vec3i vec3i = this.path.getNextNodePos();
-@@ -435,7 +461,7 @@ public abstract class PathNavigation {
+@@ -439,7 +462,7 @@ public abstract class PathNavigation {
      public boolean shouldRecomputePath(BlockPos pos) {
          if (this.hasDelayedRecomputation) {
              return false;
 -        } else if (this.path != null && !this.path.isDone() && this.path.getNodeCount() != 0) {
-+        } else if (this.path != null && this.path.isProcessed() && !this.path.isDone() && this.path.getNodeCount() != 0) { // DivineMC - Async Pathfinding
++        } else if (this.path != null && this.path.isProcessed() && !this.path.isDone() && this.path.getNodeCount() != 0) { // DivineMC - petal - Skip if not processed
              Node node = this.path.getEndNode();
-             Vec3 vec3 = new Vec3(((double)node.x + this.mob.getX()) / 2.0D, ((double)node.y + this.mob.getY()) / 2.0D, ((double)node.z + this.mob.getZ()) / 2.0D);
+             Vec3 vec3 = new Vec3(((double)node.x + this.mob.getX()) / 2.0, ((double)node.y + this.mob.getY()) / 2.0, ((double)node.z + this.mob.getZ()) / 2.0);
              return pos.closerToCenterThan(vec3, (double)(this.path.getNodeCount() - this.path.getNextNodeIndex()));
 diff --git a/src/main/java/net/minecraft/world/entity/ai/navigation/WaterBoundPathNavigation.java b/src/main/java/net/minecraft/world/entity/ai/navigation/WaterBoundPathNavigation.java
-index ee8543afbbd681bf327a353530a7a635aa5ef592..f3d145fdaaa91ecdef49b596cbe6ee107e9d8c8a 100644
+index ce7398a617abe6e800c1e014b3ac5c970eb15c8a..c37ec1c55b5104456788b270c1ceee7cc67e5bed 100644
 --- a/src/main/java/net/minecraft/world/entity/ai/navigation/WaterBoundPathNavigation.java
 +++ b/src/main/java/net/minecraft/world/entity/ai/navigation/WaterBoundPathNavigation.java
-@@ -7,6 +7,8 @@ import net.minecraft.world.level.Level;
- import net.minecraft.world.level.pathfinder.PathFinder;
- import net.minecraft.world.level.pathfinder.SwimNodeEvaluator;
- import net.minecraft.world.phys.Vec3;
-+import space.bxteam.divinemc.pathfinding.NodeEvaluatorFeatures;
-+import space.bxteam.divinemc.pathfinding.NodeEvaluatorGenerator;
- 
- public class WaterBoundPathNavigation extends PathNavigation {
-     private boolean allowBreaching;
-@@ -15,11 +17,28 @@ public class WaterBoundPathNavigation extends PathNavigation {
+@@ -15,10 +15,26 @@ public class WaterBoundPathNavigation extends PathNavigation {
          super(entity, world);
      }
  
-+    // DivineMC start - Async Pathfinding
-+    private static final NodeEvaluatorGenerator nodeEvaluatorGenerator = (NodeEvaluatorFeatures nodeEvaluatorFeatures) -> {
++    // DivineMC start - async path processing
++    private static final space.bxteam.divinemc.pathfinding.NodeEvaluatorGenerator nodeEvaluatorGenerator = (space.bxteam.divinemc.pathfinding.NodeEvaluatorFeatures nodeEvaluatorFeatures) -> {
 +        SwimNodeEvaluator nodeEvaluator = new SwimNodeEvaluator(nodeEvaluatorFeatures.allowBreaching());
 +        nodeEvaluator.setCanPassDoors(nodeEvaluatorFeatures.canPassDoors());
 +        nodeEvaluator.setCanFloat(nodeEvaluatorFeatures.canFloat());
@@ -587,34 +500,22 @@ index ee8543afbbd681bf327a353530a7a635aa5ef592..f3d145fdaaa91ecdef49b596cbe6ee10
      protected PathFinder createPathFinder(int range) {
          this.allowBreaching = this.mob.getType() == EntityType.DOLPHIN;
          this.nodeEvaluator = new SwimNodeEvaluator(this.allowBreaching);
--        return new PathFinder(this.nodeEvaluator, range);
-+        // DivineMC start - Async Pathfinding
++        // DivineMC start - async path processing
 +        if (space.bxteam.divinemc.configuration.DivineConfig.asyncPathfinding) {
 +            return new PathFinder(this.nodeEvaluator, range, nodeEvaluatorGenerator);
-+        } else {
-+            return new PathFinder(this.nodeEvaluator, range);
 +        }
 +        // DivineMC end
+         return new PathFinder(this.nodeEvaluator, range);
      }
  
-     @Override
 diff --git a/src/main/java/net/minecraft/world/entity/ai/sensing/NearestBedSensor.java b/src/main/java/net/minecraft/world/entity/ai/sensing/NearestBedSensor.java
-index 8db20db72cd51046213625fac46c35854c59ec5d..baf8135a592c9667c2886b9b4bcab03c862331c3 100644
+index 9104d7010bda6f9f73b478c11490ef9c53f76da2..b3443445b79393e331b7dd30cfb8453f5fcab539 100644
 --- a/src/main/java/net/minecraft/world/entity/ai/sensing/NearestBedSensor.java
 +++ b/src/main/java/net/minecraft/world/entity/ai/sensing/NearestBedSensor.java
-@@ -7,7 +7,7 @@ import it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap;
- import java.util.Optional;
- import java.util.Set;
- import java.util.function.Predicate;
--import java.util.stream.Collectors;
-+import space.bxteam.divinemc.pathfinding.AsyncPathProcessor;
- import net.minecraft.core.BlockPos;
- import net.minecraft.core.Holder;
- import net.minecraft.server.level.ServerLevel;
-@@ -57,20 +57,37 @@ public class NearestBedSensor extends Sensor<Mob> {
+@@ -57,16 +57,36 @@ public class NearestBedSensor extends Sensor<Mob> {
              java.util.List<Pair<Holder<PoiType>, BlockPos>> poiposes = new java.util.ArrayList<>();
              // don't ask me why it's unbounded. ask mojang.
-             io.papermc.paper.util.PoiAccess.findAnyPoiPositions(poiManager, type -> type.is(PoiTypes.HOME), predicate, entity.blockPosition(), 48, PoiManager.Occupancy.ANY, false, Integer.MAX_VALUE, poiposes);
+             io.papermc.paper.util.PoiAccess.findAnyPoiPositions(poiManager, type -> type.is(PoiTypes.HOME), predicate, entity.blockPosition(), world.purpurConfig.villagerNearestBedSensorSearchRadius, PoiManager.Occupancy.ANY, false, Integer.MAX_VALUE, poiposes); // Purpur
 -            Path path = AcquirePoi.findPathToPois(entity, new java.util.HashSet<>(poiposes));
 -            // Paper end - optimise POI access
 -            if (path != null && path.canReach()) {
@@ -622,17 +523,13 @@ index 8db20db72cd51046213625fac46c35854c59ec5d..baf8135a592c9667c2886b9b4bcab03c
 -                Optional<Holder<PoiType>> optional = poiManager.getType(blockPos);
 -                if (optional.isPresent()) {
 -                    entity.getBrain().setMemory(MemoryModuleType.NEAREST_BED, blockPos);
--                }
--            } else if (this.triedCount < 5) {
--                this.batchCache.long2LongEntrySet().removeIf((entry) -> {
--                    return entry.getLongValue() < this.lastUpdate;
-+            // DivineMC start - Async Pathfinding
++            // DivineMC start - await on async path processing
 +            if (space.bxteam.divinemc.configuration.DivineConfig.asyncPathfinding) {
 +                Path possiblePath = AcquirePoi.findPathToPois(entity, new java.util.HashSet<>(poiposes));
-+                AsyncPathProcessor.awaitProcessing(entity, possiblePath, path -> {
++                space.bxteam.divinemc.pathfinding.AsyncPathProcessor.awaitProcessing(entity, possiblePath, path -> {
 +                    // read canReach check
 +                    if ((path == null || !path.canReach()) && this.triedCount < 5) {
-+                        this.batchCache.long2LongEntrySet().removeIf((entry) -> entry.getLongValue() < this.lastUpdate);
++                        this.batchCache.long2LongEntrySet().removeIf(entry -> entry.getLongValue() < this.lastUpdate);
 +                        return;
 +                    }
 +                    if (path == null) return;
@@ -642,8 +539,9 @@ index 8db20db72cd51046213625fac46c35854c59ec5d..baf8135a592c9667c2886b9b4bcab03c
 +                    if (optional.isPresent()) {
 +                        entity.getBrain().setMemory(MemoryModuleType.NEAREST_BED, blockPos);
 +                    }
-                 });
++                });
 +            } else {
++                // DivineMC end
 +                Path path = AcquirePoi.findPathToPois(entity, new java.util.HashSet<>(poiposes));
 +                // Paper end - optimise POI access
 +                if (path != null && path.canReach()) {
@@ -653,63 +551,45 @@ index 8db20db72cd51046213625fac46c35854c59ec5d..baf8135a592c9667c2886b9b4bcab03c
 +                        entity.getBrain().setMemory(MemoryModuleType.NEAREST_BED, blockPos);
 +                    }
 +                } else if (this.triedCount < 5) {
-+                    this.batchCache.long2LongEntrySet().removeIf((entry) -> entry.getLongValue() < this.lastUpdate);
-+                }
++                    this.batchCache.long2LongEntrySet().removeIf(entry -> entry.getLongValue() < this.lastUpdate);
+                 }
+-            } else if (this.triedCount < 5) {
+-                this.batchCache.long2LongEntrySet().removeIf(entry -> entry.getLongValue() < this.lastUpdate);
              }
--
-+            // DivineMC end
          }
      }
- }
 diff --git a/src/main/java/net/minecraft/world/entity/animal/Bee.java b/src/main/java/net/minecraft/world/entity/animal/Bee.java
-index aea0b36a52b2e9794daf8043f6a4279e52fec931..9aa9e64e3e4ea60a8f1d98a0a76c7198b91a6639 100644
+index b5609aae461d7b9353287d99a6ebe517e2b3b82e..0ad09a5bfc42b67d74582fb42587405062705cd3 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/Bee.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/Bee.java
-@@ -1154,7 +1154,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
+@@ -1135,7 +1135,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
                          } else {
                              Bee.this.pathfindRandomlyTowards(Bee.this.hivePos);
                          }
 -                    } else {
-+                    } else if (navigation.getPath() != null && navigation.getPath().isProcessed()) { // DivineMC - Async Pathfinding
++                    } else if (navigation.getPath() != null && navigation.getPath().isProcessed()) { // DivineMC - petal - check processing
                          boolean flag = this.pathfindDirectlyTowards(Bee.this.hivePos);
  
                          if (!flag) {
-@@ -1216,7 +1216,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
+@@ -1197,7 +1197,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
              } else {
                  Path pathentity = Bee.this.navigation.getPath();
  
 -                return pathentity != null && pathentity.getTarget().equals(pos) && pathentity.canReach() && pathentity.isDone();
-+                return pathentity != null && pathentity.isProcessed() && pathentity.getTarget().equals(pos) && pathentity.canReach() && pathentity.isDone(); // DivineMC - Async Pathfinding
++                return pathentity != null && pathentity.isProcessed() && pathentity.getTarget().equals(pos) && pathentity.canReach() && pathentity.isDone(); // DivineMC - petal - ensure path is processed
              }
          }
      }
 diff --git a/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java b/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java
-index bc991589effff1a0c9bd48a16c7d460bed3dfd95..7751d0762b30f3893a6d815099273cb07a93eda4 100644
+index 84c6a786658b16fe0535b4d99135ba58cec8d3a9..01d64dad1769d5585e9c51d93cd8ec6a4cac457c 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java
-@@ -41,7 +41,6 @@ import net.minecraft.world.entity.VariantHolder;
- import net.minecraft.world.entity.ai.Brain;
- import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
- import net.minecraft.world.entity.ai.attributes.Attributes;
--import net.minecraft.world.entity.ai.control.LookControl;
- import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
- import net.minecraft.world.entity.ai.memory.MemoryModuleType;
- import net.minecraft.world.entity.ai.navigation.AmphibiousPathNavigation;
-@@ -66,6 +65,8 @@ import net.minecraft.world.level.pathfinder.Node;
- import net.minecraft.world.level.pathfinder.PathFinder;
- import net.minecraft.world.phys.Vec3;
- import org.joml.Vector3f;
-+import space.bxteam.divinemc.pathfinding.NodeEvaluatorGenerator;
-+import space.bxteam.divinemc.pathfinding.NodeEvaluatorFeatures;
- 
- public class Frog extends Animal implements VariantHolder<FrogVariant> {
-     public static final Ingredient TEMPTATION_ITEM = Ingredient.of(Items.SLIME_BALL);
-@@ -455,6 +456,17 @@ public class Frog extends Animal implements VariantHolder<FrogVariant> {
+@@ -485,6 +485,17 @@ public class Frog extends Animal implements VariantHolder<Holder<FrogVariant>> {
              super(frog, world);
          }
  
-+        // DivineMC start - Async Pathfinding
-+        private static final NodeEvaluatorGenerator nodeEvaluatorGenerator = (NodeEvaluatorFeatures nodeEvaluatorFeatures) -> {
++        // DivineMC start - async path processing
++        private static final space.bxteam.divinemc.pathfinding.NodeEvaluatorGenerator nodeEvaluatorGenerator = (space.bxteam.divinemc.pathfinding.NodeEvaluatorFeatures nodeEvaluatorFeatures) -> {
 +            Frog.FrogNodeEvaluator nodeEvaluator = new Frog.FrogNodeEvaluator(true);
 +            nodeEvaluator.setCanPassDoors(nodeEvaluatorFeatures.canPassDoors());
 +            nodeEvaluator.setCanFloat(nodeEvaluatorFeatures.canFloat());
@@ -720,63 +600,43 @@ index bc991589effff1a0c9bd48a16c7d460bed3dfd95..7751d0762b30f3893a6d815099273cb0
 +        // DivineMC end
 +
          @Override
-         public boolean canCutCorner(BlockPathTypes nodeType) {
-             return nodeType != BlockPathTypes.WATER_BORDER && super.canCutCorner(nodeType);
-@@ -464,7 +476,13 @@ public class Frog extends Animal implements VariantHolder<FrogVariant> {
+         public boolean canCutCorner(PathType nodeType) {
+             return nodeType != PathType.WATER_BORDER && super.canCutCorner(nodeType);
+@@ -494,6 +505,11 @@ public class Frog extends Animal implements VariantHolder<Holder<FrogVariant>> {
          protected PathFinder createPathFinder(int range) {
              this.nodeEvaluator = new Frog.FrogNodeEvaluator(true);
              this.nodeEvaluator.setCanPassDoors(true);
--            return new PathFinder(this.nodeEvaluator, range);
-+            // DivineMC start - Async Pathfinding
++            // DivineMC start - async path processing
 +            if (space.bxteam.divinemc.configuration.DivineConfig.asyncPathfinding) {
 +                return new PathFinder(this.nodeEvaluator, range, nodeEvaluatorGenerator);
-+            } else {
-+                return new PathFinder(this.nodeEvaluator, range);
-+            }
++                }
 +            // DivineMC end
+             return new PathFinder(this.nodeEvaluator, range);
          }
      }
- }
 diff --git a/src/main/java/net/minecraft/world/entity/monster/Drowned.java b/src/main/java/net/minecraft/world/entity/monster/Drowned.java
-index 7600e747d91ae888eb801cfafcb09bffb76c8e62..9510fcd722d138337cc40b5ad35a758e4c8b36cc 100644
+index 15afee3c4f6307557321424560d2340e23cd472b..525b7c750604068aca1183dc19428a39674da9b4 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/Drowned.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/Drowned.java
-@@ -282,7 +282,6 @@ public class Drowned extends Zombie implements RangedAttackMob {
-                 this.setSwimming(false);
-             }
-         }
--
-     }
- 
-     @Override
-@@ -293,7 +292,7 @@ public class Drowned extends Zombie implements RangedAttackMob {
+@@ -296,7 +296,7 @@ public class Drowned extends Zombie implements RangedAttackMob {
      protected boolean closeToNextPos() {
          Path pathentity = this.getNavigation().getPath();
  
 -        if (pathentity != null) {
-+        if (pathentity != null && pathentity.isProcessed()) { // DivineMC - Async Pathfinding
++        if (pathentity != null && pathentity.isProcessed()) { // DivineMC - petal - ensure path is processed
              BlockPos blockposition = pathentity.getTarget();
  
              if (blockposition != null) {
 diff --git a/src/main/java/net/minecraft/world/entity/monster/Strider.java b/src/main/java/net/minecraft/world/entity/monster/Strider.java
-index 2f49b528601a1feb7246fe7a9b83ce828c2d78fc..c12aa0e7d3fbb70170bc1a6ff05d8ab866363da5 100644
+index 5ea5bf9c0e11b0e1f9fe50093899c6e35ee6cf4f..e8cf5618233267ac6ec0a069fabe4aef4bd9007a 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/Strider.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/Strider.java
-@@ -74,6 +74,8 @@ import net.minecraft.world.phys.AABB;
- import net.minecraft.world.phys.Vec3;
- import net.minecraft.world.phys.shapes.CollisionContext;
- import org.joml.Vector3f;
-+import space.bxteam.divinemc.pathfinding.NodeEvaluatorFeatures;
-+import space.bxteam.divinemc.pathfinding.NodeEvaluatorGenerator;
- 
- public class Strider extends Animal implements ItemSteerable, Saddleable {
- 
-@@ -609,11 +611,28 @@ public class Strider extends Animal implements ItemSteerable, Saddleable {
+@@ -609,10 +609,26 @@ public class Strider extends Animal implements ItemSteerable, Saddleable {
              super(entity, world);
          }
  
-+        // DivineMC start - Async Pathfinding
-+        private static final NodeEvaluatorGenerator nodeEvaluatorGenerator = (NodeEvaluatorFeatures nodeEvaluatorFeatures) -> {
++        // DivineMC start - async path processing
++        private static final space.bxteam.divinemc.pathfinding.NodeEvaluatorGenerator nodeEvaluatorGenerator = (space.bxteam.divinemc.pathfinding.NodeEvaluatorFeatures nodeEvaluatorFeatures) -> {
 +            WalkNodeEvaluator nodeEvaluator = new WalkNodeEvaluator();
 +            nodeEvaluator.setCanPassDoors(nodeEvaluatorFeatures.canPassDoors());
 +            nodeEvaluator.setCanFloat(nodeEvaluatorFeatures.canFloat());
@@ -790,31 +650,23 @@ index 2f49b528601a1feb7246fe7a9b83ce828c2d78fc..c12aa0e7d3fbb70170bc1a6ff05d8ab8
          protected PathFinder createPathFinder(int range) {
              this.nodeEvaluator = new WalkNodeEvaluator();
              this.nodeEvaluator.setCanPassDoors(true);
--            return new PathFinder(this.nodeEvaluator, range);
-+            // DivineMC start - Async Pathfinding
++            // DivineMC start - async path processing
 +            if (space.bxteam.divinemc.configuration.DivineConfig.asyncPathfinding) {
 +                return new PathFinder(this.nodeEvaluator, range, nodeEvaluatorGenerator);
-+            } else {
-+                return new PathFinder(this.nodeEvaluator, range);
 +            }
 +            // DivineMC end
+             return new PathFinder(this.nodeEvaluator, range);
          }
  
-         @Override
 diff --git a/src/main/java/net/minecraft/world/entity/monster/warden/Warden.java b/src/main/java/net/minecraft/world/entity/monster/warden/Warden.java
-index 1bcdee570baf1499d660d019cf03b66dd4d05195..14de3afe98d425d8becd458bf65f4ec35d67678c 100644
+index 68b533cdaa53af2d76e9b8ab050dc335bc733794..a24745ac4843ccabebffba36d583248d71f994f0 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/warden/Warden.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/warden/Warden.java
-@@ -642,12 +642,21 @@ public class Warden extends Monster implements VibrationSystem {
+@@ -635,6 +635,16 @@ public class Warden extends Monster implements VibrationSystem {
              protected PathFinder createPathFinder(int range) {
                  this.nodeEvaluator = new WalkNodeEvaluator();
                  this.nodeEvaluator.setCanPassDoors(true);
--                return new PathFinder(this.nodeEvaluator, range) {
--                    @Override
--                    protected float distance(Node a, Node b) {
--                        return a.distanceToXZ(b);
--                    }
--                };
++                // DivineMC start - async path processing
 +                if (space.bxteam.divinemc.configuration.DivineConfig.asyncPathfinding) {
 +                    return new PathFinder(this.nodeEvaluator, range, GroundPathNavigation.nodeEvaluatorGenerator) {
 +                        @Override
@@ -822,39 +674,20 @@ index 1bcdee570baf1499d660d019cf03b66dd4d05195..14de3afe98d425d8becd458bf65f4ec3
 +                            return a.distanceToXZ(b);
 +                        }
 +                    };
-+                } else {
-+                    return new PathFinder(this.nodeEvaluator, range) {
-+                        @Override
-+                        protected float distance(Node a, Node b) {
-+                            return a.distanceToXZ(b);
-+                        }
-+                    };
 +                }
-             }
-         };
-     }
-diff --git a/src/main/java/net/minecraft/world/level/block/ShulkerBoxBlock.java b/src/main/java/net/minecraft/world/level/block/ShulkerBoxBlock.java
-index 42407c5c0c09cd9d19bc7af92af8868bb038c686..afdaa9e80d2e2b881b8b1e819b27f93fbbb9c0c9 100644
---- a/src/main/java/net/minecraft/world/level/block/ShulkerBoxBlock.java
-+++ b/src/main/java/net/minecraft/world/level/block/ShulkerBoxBlock.java
-@@ -253,7 +253,7 @@ public class ShulkerBoxBlock extends BaseEntityBlock {
-     }
- 
-     @Override
--    public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
-+    public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) { // DivineMC - async pathfinding // cannot get block entities
-         BlockEntity blockEntity = world.getBlockEntity(pos);
-         return blockEntity instanceof ShulkerBoxBlockEntity ? Shapes.create(((ShulkerBoxBlockEntity)blockEntity).getBoundingBox(state)) : Shapes.block();
-     }
++                // DivineMC end
+                 return new PathFinder(this.nodeEvaluator, range) { // CraftBukkit - decompile error
+                     @Override
+                     protected float distance(Node a, Node b) {
 diff --git a/src/main/java/net/minecraft/world/level/pathfinder/Path.java b/src/main/java/net/minecraft/world/level/pathfinder/Path.java
-index 3049edb5a8b5967e5242a3896b23665888eb3472..522ec4287b0d57a2034a69528f3ad9711ed99b83 100644
+index d9d0fff9962131808d54cca20f209df50b8e4af1..a0b24f4c245f4b0ffa6dadd5ea8e03a231b64092 100644
 --- a/src/main/java/net/minecraft/world/level/pathfinder/Path.java
 +++ b/src/main/java/net/minecraft/world/level/pathfinder/Path.java
 @@ -27,6 +27,17 @@ public class Path {
          this.reached = reachesTarget;
      }
  
-+    // DivineMC start - Async Pathfinding
++    // DivineMC start - async path processing
 +    /**
 +     * checks if the path is completely processed in the case of it being computed async
 +     *
@@ -866,99 +699,75 @@ index 3049edb5a8b5967e5242a3896b23665888eb3472..522ec4287b0d57a2034a69528f3ad971
 +    // DivineMC end
 +
      public void advance() {
-         ++this.nextNodeIndex;
+         this.nextNodeIndex++;
      }
-@@ -101,6 +112,7 @@ public class Path {
+@@ -100,6 +111,7 @@ public class Path {
      }
  
      public boolean sameAs(@Nullable Path o) {
-+        if (o == this) return true; // DivineMC - Async Pathfinding
++        if (o == this) return true; // DivineMC - petal - short circuit
          if (o == null) {
              return false;
          } else if (o.nodes.size() != this.nodes.size()) {
 diff --git a/src/main/java/net/minecraft/world/level/pathfinder/PathFinder.java b/src/main/java/net/minecraft/world/level/pathfinder/PathFinder.java
-index f039d6109ee6f55542adc8f30476ba9a9e4974bf..6683cf38493c7a48ad3436f28e02692e32f2b308 100644
+index 404080976208c30e9e95e5bee47c2a749e709a45..a84d35511547d9ce4f38dbeb3e4fb408fd8af59c 100644
 --- a/src/main/java/net/minecraft/world/level/pathfinder/PathFinder.java
 +++ b/src/main/java/net/minecraft/world/level/pathfinder/PathFinder.java
-@@ -1,21 +1,18 @@
- package net.minecraft.world.level.pathfinder;
- 
--import com.google.common.collect.ImmutableSet;
- import com.google.common.collect.Lists;
--import com.google.common.collect.Sets;
- import java.util.Comparator;
- import java.util.List;
- import java.util.Map;
--import java.util.Optional;
- import java.util.Set;
--import java.util.function.Function;
--import java.util.stream.Collectors;
- import javax.annotation.Nullable;
- import net.minecraft.core.BlockPos;
- import net.minecraft.util.profiling.ProfilerFiller;
--import net.minecraft.util.profiling.metrics.MetricCategory;
- import net.minecraft.world.entity.Mob;
- import net.minecraft.world.level.PathNavigationRegion;
-+import space.bxteam.divinemc.pathfinding.AsyncPath;
-+import space.bxteam.divinemc.pathfinding.NodeEvaluatorCache;
-+import space.bxteam.divinemc.pathfinding.NodeEvaluatorGenerator;
- 
- public class PathFinder {
-     private static final float FUDGING = 1.5F;
-@@ -24,37 +21,80 @@ public class PathFinder {
+@@ -24,38 +24,80 @@ public class PathFinder {
      public final NodeEvaluator nodeEvaluator;
      private static final boolean DEBUG = false;
      private final BinaryHeap openSet = new BinaryHeap();
-+    private final @Nullable NodeEvaluatorGenerator nodeEvaluatorGenerator; // DivineMC - Async Pathfinding
++    private final @Nullable space.bxteam.divinemc.pathfinding.NodeEvaluatorGenerator nodeEvaluatorGenerator; // DivineMC - petal - we use this later to generate an evaluator
  
 -    public PathFinder(NodeEvaluator pathNodeMaker, int range) {
-+    public PathFinder(NodeEvaluator pathNodeMaker, int range, @Nullable NodeEvaluatorGenerator nodeEvaluatorGenerator) { // DivineMC - Async Pathfinding
++    public PathFinder(NodeEvaluator pathNodeMaker, int range, @Nullable space.bxteam.divinemc.pathfinding.NodeEvaluatorGenerator nodeEvaluatorGenerator) { // DivineMC - petal - add nodeEvaluatorGenerator
          this.nodeEvaluator = pathNodeMaker;
          this.maxVisitedNodes = range;
-+        // DivineMC start - Async Pathfinding
++        // DivineMC start - support nodeEvaluatorgenerators
 +        this.nodeEvaluatorGenerator = nodeEvaluatorGenerator;
 +    }
 +
 +    public PathFinder(NodeEvaluator pathNodeMaker, int range) {
 +        this(pathNodeMaker, range, null);
++        // DivineMC end
      }
-+    // DivineMC end
  
      @Nullable
      public Path findPath(PathNavigationRegion world, Mob mob, Set<BlockPos> positions, float followRange, int distance, float rangeMultiplier) {
 -        this.openSet.clear();
 -        this.nodeEvaluator.prepare(world, mob);
 -        Node node = this.nodeEvaluator.getStart();
-+        if (!space.bxteam.divinemc.configuration.DivineConfig.asyncPathfinding) this.openSet.clear(); // DivineMC - Async Pathfinding
-+        // DivineMC start - Async Pathfinding
++        if (!space.bxteam.divinemc.configuration.DivineConfig.asyncPathfinding)
++            this.openSet.clear(); // DivineMC - petal - it's always cleared in processPath
++        // DivineMC start - use a generated evaluator if we have one otherwise run sync
 +        NodeEvaluator nodeEvaluator = this.nodeEvaluatorGenerator == null
 +                ? this.nodeEvaluator
-+                : NodeEvaluatorCache.takeNodeEvaluator(this.nodeEvaluatorGenerator, this.nodeEvaluator);
++                : space.bxteam.divinemc.pathfinding.NodeEvaluatorCache.takeNodeEvaluator(this.nodeEvaluatorGenerator, this.nodeEvaluator);
 +        nodeEvaluator.prepare(world, mob);
 +        Node node = nodeEvaluator.getStart();
 +        // DivineMC end
          if (node == null) {
-+            NodeEvaluatorCache.removeNodeEvaluator(nodeEvaluator); // DivineMC - Async Pathfinding
++            space.bxteam.divinemc.pathfinding.NodeEvaluatorCache.removeNodeEvaluator(nodeEvaluator); // DivineMC - petal - handle nodeEvaluatorGenerator
              return null;
          } else {
              // Paper start - Perf: remove streams and optimize collection
              List<Map.Entry<Target, BlockPos>> map = Lists.newArrayList();
-             for (BlockPos pos : positions) {
--                map.add(new java.util.AbstractMap.SimpleEntry<>(this.nodeEvaluator.getGoal(pos.getX(), pos.getY(), pos.getZ()), pos));
-+                map.add(new java.util.AbstractMap.SimpleEntry<>(nodeEvaluator.getGoal(pos.getX(), pos.getY(), pos.getZ()), pos)); // DivineMC - Async Pathfinding
+             for (final BlockPos pos : positions) {
+-                map.add(new java.util.AbstractMap.SimpleEntry<>(this.nodeEvaluator.getTarget(pos.getX(), pos.getY(), pos.getZ()), pos));
++                map.add(new java.util.AbstractMap.SimpleEntry<>(nodeEvaluator.getTarget(pos.getX(), pos.getY(), pos.getZ()), pos)); // DivineMC - petal - handle nodeEvaluatorGenerator
              }
              // Paper end - Perf: remove streams and optimize collection
 -            Path path = this.findPath(world.getProfiler(), node, map, followRange, distance, rangeMultiplier);
 -            this.nodeEvaluator.done();
 -            return path;
-+            // DivineMC start - Async Pathfinding
++            // DivineMC start - async path processing
 +            if (this.nodeEvaluatorGenerator == null) {
 +                // run sync :(
-+                NodeEvaluatorCache.removeNodeEvaluator(nodeEvaluator);
-+                return this.findPath(world.getProfiler(), node, map, followRange, distance, rangeMultiplier);
++                space.bxteam.divinemc.pathfinding.NodeEvaluatorCache.removeNodeEvaluator(nodeEvaluator);
++                return this.findPath(node, map, followRange, distance, rangeMultiplier); // Purpur - remove vanilla profiler
 +            }
 +
-+            return new AsyncPath(Lists.newArrayList(), positions, () -> {
++            return new space.bxteam.divinemc.pathfinding.AsyncPath(Lists.newArrayList(), positions, () -> {
 +                try {
 +                    return this.processPath(nodeEvaluator, node, map, followRange, distance, rangeMultiplier);
 +                } catch (Exception e) {
@@ -966,20 +775,20 @@ index f039d6109ee6f55542adc8f30476ba9a9e4974bf..6683cf38493c7a48ad3436f28e02692e
 +                    return null;
 +                } finally {
 +                    nodeEvaluator.done();
-+                    NodeEvaluatorCache.returnNodeEvaluator(nodeEvaluator);
++                    space.bxteam.divinemc.pathfinding.NodeEvaluatorCache.returnNodeEvaluator(nodeEvaluator);
 +                }
 +            });
 +            // DivineMC end
          }
      }
  
--    @Nullable
-+    // @Nullable // DivineMC - Async Pathfinding - Always not null
+     @Nullable
      // Paper start - Perf: remove streams and optimize collection
      private Path findPath(ProfilerFiller profiler, Node startNode, List<Map.Entry<Target, BlockPos>> positions, float followRange, int distance, float rangeMultiplier) {
-         //profiler.push("find_path"); // Purpur
-         //profiler.markForCharting(MetricCategory.PATH_FINDING); // Purpur
-+        // DivineMC start - Async Pathfinding
+-        //profiler.push("find_path"); // Purpur
+-        //profiler.markForCharting(MetricCategory.PATH_FINDING); // Purpur
+-        // Set<Target> set = positions.keySet();
++        // DivineMC start - split pathfinding into the original sync method for compat and processing for delaying
 +        try {
 +            return this.processPath(this.nodeEvaluator, startNode, positions, followRange, distance, rangeMultiplier);
 +        } catch (Exception e) {
@@ -989,41 +798,42 @@ index f039d6109ee6f55542adc8f30476ba9a9e4974bf..6683cf38493c7a48ad3436f28e02692e
 +            this.nodeEvaluator.done();
 +        }
 +    }
++
 +    private synchronized @org.jetbrains.annotations.NotNull Path processPath(NodeEvaluator nodeEvaluator, Node startNode, List<Map.Entry<Target, BlockPos>> positions, float followRange, int distance, float rangeMultiplier) { // sync to only use the caching functions in this class on a single thread
 +        org.apache.commons.lang3.Validate.isTrue(!positions.isEmpty()); // ensure that we have at least one position, which means we'll always return a path
 +        // DivineMC end
-         // Set<Target> set = positions.keySet();
          startNode.g = 0.0F;
          startNode.h = this.getBestH(startNode, positions); // Paper - optimize collection
-@@ -91,7 +131,7 @@ public class PathFinder {
+         startNode.f = startNode.h;
+@@ -90,7 +132,7 @@ public class PathFinder {
              }
  
              if (!(node.distanceTo(startNode) >= followRange)) {
 -                int k = this.nodeEvaluator.getNeighbors(this.neighbors, node);
-+                int k = nodeEvaluator.getNeighbors(this.neighbors, node); // DivineMC - Async Pathfinding
++                int k = nodeEvaluator.getNeighbors(this.neighbors, node); // DivineMC - petal - use provided nodeEvaluator
  
-                 for(int l = 0; l < k; ++l) {
+                 for (int l = 0; l < k; l++) {
                      Node node2 = this.neighbors[l];
 diff --git a/src/main/java/net/minecraft/world/level/pathfinder/SwimNodeEvaluator.java b/src/main/java/net/minecraft/world/level/pathfinder/SwimNodeEvaluator.java
-index 0e2b14e7dfedf209d63279c81723fd7955122d78..64a92e26a48aabee3b51da7f394bc28295c29f3d 100644
+index 6308822f819d7cb84c8070c8a7eec1a3f822114b..3db838279e4407c28671bb1563fc96f981a6c59c 100644
 --- a/src/main/java/net/minecraft/world/level/pathfinder/SwimNodeEvaluator.java
 +++ b/src/main/java/net/minecraft/world/level/pathfinder/SwimNodeEvaluator.java
-@@ -16,7 +16,7 @@ import net.minecraft.world.level.block.state.BlockState;
+@@ -15,7 +15,7 @@ import net.minecraft.world.level.block.state.BlockState;
  import net.minecraft.world.level.material.FluidState;
  
  public class SwimNodeEvaluator extends NodeEvaluator {
 -    private final boolean allowBreaching;
-+    public final boolean allowBreaching; // private -> public - DivineMC
-     private final Long2ObjectMap<BlockPathTypes> pathTypesByPosCache = new Long2ObjectOpenHashMap<>();
++    public final boolean allowBreaching; // DivineMC - make this public
+     private final Long2ObjectMap<PathType> pathTypesByPosCache = new Long2ObjectOpenHashMap<>();
  
      public SwimNodeEvaluator(boolean canJumpOutOfWater) {
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-index 5fd3f43795101e95dce6c54bb917f4f2ae2ed18c..314609862c357fc3125d955892ac90bfee9cecff 100644
+index e20d608bf9e86a263ca7c80203fae4a3ce7cc71a..1934e6c1282c33f4f8e183a97fc67f2016593eb3 100644
 --- a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-@@ -182,4 +182,21 @@ public class DivineConfig {
-         biomeManagerOptimization = getBoolean("settings.optimizations.biome-manager-optimization", biomeManagerOptimization);
-         sheepOptimization = getBoolean("settings.optimizations.sheep-optimization", sheepOptimization);
+@@ -177,4 +177,21 @@ public class DivineConfig {
+         else
+             linearFlushThreads = Math.max(linearFlushThreads, 1);
      }
 +
 +    public static boolean asyncPathfinding = true;
@@ -1045,7 +855,7 @@ index 5fd3f43795101e95dce6c54bb917f4f2ae2ed18c..314609862c357fc3125d955892ac90bf
  }
 diff --git a/src/main/java/space/bxteam/divinemc/pathfinding/AsyncPath.java b/src/main/java/space/bxteam/divinemc/pathfinding/AsyncPath.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..a247035fdf6d869b727152caa17323cb74cad9ad
+index 0000000000000000000000000000000000000000..233ab97f287e7ab2cca522147778eebb2f6459be
 --- /dev/null
 +++ b/src/main/java/space/bxteam/divinemc/pathfinding/AsyncPath.java
 @@ -0,0 +1,284 @@
@@ -1096,19 +906,19 @@ index 0000000000000000000000000000000000000000..a247035fdf6d869b727152caa17323cb
 +    private final List<Node> nodes;
 +    /**
 +     * the block we're trying to path to
-+     *
++     * <p>
 +     * while processing, we have no idea where this is so consumers of `Path` should check that the path is processed before checking the target block
 +     */
 +    private @Nullable BlockPos target;
 +    /**
 +     * how far we are to the target
-+     *
++     * <p>
 +     * while processing, the target could be anywhere but theoretically we're always "close" to a theoretical target so default is 0
 +     */
 +    private float distToTarget = 0;
 +    /**
 +     * whether we can reach the target
-+     *
++     * <p>
 +     * while processing, we can always theoretically reach the target so default is true
 +     */
 +    private boolean canReach = true;
@@ -1335,7 +1145,7 @@ index 0000000000000000000000000000000000000000..a247035fdf6d869b727152caa17323cb
 +}
 diff --git a/src/main/java/space/bxteam/divinemc/pathfinding/AsyncPathProcessor.java b/src/main/java/space/bxteam/divinemc/pathfinding/AsyncPathProcessor.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..f21810bfa9fe351046ff8bcc729699a120da4648
+index 0000000000000000000000000000000000000000..d51ecee31eb583ecb4a59c56a6325fa028789abf
 --- /dev/null
 +++ b/src/main/java/space/bxteam/divinemc/pathfinding/AsyncPathProcessor.java
 @@ -0,0 +1,53 @@
@@ -1364,7 +1174,7 @@ index 0000000000000000000000000000000000000000..f21810bfa9fe351046ff8bcc729699a1
 +            DivineConfig.asyncPathfindingKeepalive, TimeUnit.SECONDS,
 +            new LinkedBlockingQueue<>(),
 +            new ThreadFactoryBuilder()
-+                    .setNameFormat("petal-path-processor-%d")
++                    .setNameFormat("petal-async-pathfinding-thread-%d") // This used in ShulkerBoxBlock and Mob classes
 +                    .setPriority(Thread.NORM_PRIORITY - 2)
 +                    .build()
 +    );
@@ -1394,7 +1204,7 @@ index 0000000000000000000000000000000000000000..f21810bfa9fe351046ff8bcc729699a1
 +}
 diff --git a/src/main/java/space/bxteam/divinemc/pathfinding/NodeEvaluatorCache.java b/src/main/java/space/bxteam/divinemc/pathfinding/NodeEvaluatorCache.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..db9b5477c6a0a2bbab9d378f3bba1a94a2dbf6a5
+index 0000000000000000000000000000000000000000..eb05bea8b9a18c348aa4d3edaefb93b69e1c371f
 --- /dev/null
 +++ b/src/main/java/space/bxteam/divinemc/pathfinding/NodeEvaluatorCache.java
 @@ -0,0 +1,45 @@
@@ -1415,7 +1225,7 @@ index 0000000000000000000000000000000000000000..db9b5477c6a0a2bbab9d378f3bba1a94
 +    private static final Map<NodeEvaluator, NodeEvaluatorGenerator> nodeEvaluatorToGenerator = new ConcurrentHashMap<>();
 +
 +    private static @NotNull Queue<NodeEvaluator> getQueueForFeatures(@NotNull NodeEvaluatorFeatures nodeEvaluatorFeatures) {
-+        return threadLocalNodeEvaluators.computeIfAbsent(nodeEvaluatorFeatures, (key) -> new ConcurrentLinkedQueue<>());
++        return threadLocalNodeEvaluators.computeIfAbsent(nodeEvaluatorFeatures, key -> new ConcurrentLinkedQueue<>());
 +    }
 +
 +    public static @NotNull NodeEvaluator takeNodeEvaluator(@NotNull NodeEvaluatorGenerator generator, @NotNull NodeEvaluator localNodeEvaluator) {
@@ -1445,21 +1255,23 @@ index 0000000000000000000000000000000000000000..db9b5477c6a0a2bbab9d378f3bba1a94
 +}
 diff --git a/src/main/java/space/bxteam/divinemc/pathfinding/NodeEvaluatorFeatures.java b/src/main/java/space/bxteam/divinemc/pathfinding/NodeEvaluatorFeatures.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..035329f37c619ab150d32bf223de6c22f0c55c19
+index 0000000000000000000000000000000000000000..e1aeb6b58349042e649219ad521525bbacc5776f
 --- /dev/null
 +++ b/src/main/java/space/bxteam/divinemc/pathfinding/NodeEvaluatorFeatures.java
-@@ -0,0 +1,21 @@
+@@ -0,0 +1,23 @@
 +package space.bxteam.divinemc.pathfinding;
 +
 +import net.minecraft.world.level.pathfinder.NodeEvaluator;
 +import net.minecraft.world.level.pathfinder.SwimNodeEvaluator;
 +
-+public record NodeEvaluatorFeatures(NodeEvaluatorType type,
-+                                    boolean canPassDoors,
-+                                    boolean canFloat,
-+                                    boolean canWalkOverFences,
-+                                    boolean canOpenDoors,
-+                                    boolean allowBreaching) {
++public record NodeEvaluatorFeatures(
++        NodeEvaluatorType type,
++        boolean canPassDoors,
++        boolean canFloat,
++        boolean canWalkOverFences,
++        boolean canOpenDoors,
++        boolean allowBreaching
++) {
 +    public static NodeEvaluatorFeatures fromNodeEvaluator(NodeEvaluator nodeEvaluator) {
 +        NodeEvaluatorType type = NodeEvaluatorType.fromNodeEvaluator(nodeEvaluator);
 +        boolean canPassDoors = nodeEvaluator.canPassDoors();
