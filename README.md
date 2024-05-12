@@ -25,7 +25,7 @@
 
 In normal case, you can download the latest JAR file from releases tab [here](https://github.com/DivineMC/DivineMC/releases/latest)
 
-**Please note:** Java >= 17 is required.
+**Please note:** Java >= 21 is required.
 
 ## 📦 Building
 In order to distribute and use this server software, you need a paperclip file:

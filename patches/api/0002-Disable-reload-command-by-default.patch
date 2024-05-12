@@ -7,10 +7,10 @@ This is fully rewritten reload command. Reloading in Bukkit VERY, VERY UNSTABLE 
 Read this article why reload is VERY UNSAFE in Bukkit: https://madelinemiller.dev/blog/problem-with-reload/
 
 diff --git a/src/main/java/org/bukkit/command/defaults/ReloadCommand.java b/src/main/java/org/bukkit/command/defaults/ReloadCommand.java
-index 3ec32b46264cfff857b50129b5e0fa5584943ec6..9cf8ed9c4c42f9469bd06b2eb43b51621a5883c4 100644
+index bdfe68b386b5ca2878475e548d3c9a3808fce848..ce4aa866eacd5c07f915986cee740edf007e6978 100644
 --- a/src/main/java/org/bukkit/command/defaults/ReloadCommand.java
 +++ b/src/main/java/org/bukkit/command/defaults/ReloadCommand.java
-@@ -1,60 +1,32 @@
+@@ -1,13 +1,10 @@
  package org.bukkit.command.defaults;
  
 -import java.util.Arrays;
@@ -18,16 +18,14 @@ index 3ec32b46264cfff857b50129b5e0fa5584943ec6..9cf8ed9c4c42f9469bd06b2eb43b5162
  import java.util.List;
 -import org.bukkit.Bukkit;
 -import org.bukkit.ChatColor;
-+
  import org.bukkit.command.Command;
  import org.bukkit.command.CommandSender;
  import org.jetbrains.annotations.NotNull;
- 
 +import net.kyori.adventure.text.format.NamedTextColor; // DivineMC
-+
+ 
  public class ReloadCommand extends BukkitCommand {
      public ReloadCommand(@NotNull String name) {
-         super(name);
+@@ -15,7 +12,7 @@ public class ReloadCommand extends BukkitCommand {
          this.description = "Reloads the server configuration and plugins";
          this.usageMessage = "/reload [permissions|commands|confirm]"; // Paper
          this.setPermission("bukkit.command.reload");
@@ -35,7 +33,8 @@ index 3ec32b46264cfff857b50129b5e0fa5584943ec6..9cf8ed9c4c42f9469bd06b2eb43b5162
 +        this.setAliases(List.of("rl"));
      }
  
-     @Override
+     @org.jetbrains.annotations.ApiStatus.Internal // Paper
+@@ -25,48 +22,12 @@ public class ReloadCommand extends BukkitCommand {
      public boolean execute(@NotNull CommandSender sender, @NotNull String currentAlias, @NotNull String[] args) { // Paper
          if (!testPermission(sender)) return true;
  
@@ -68,7 +67,16 @@ index 3ec32b46264cfff857b50129b5e0fa5584943ec6..9cf8ed9c4c42f9469bd06b2eb43b5162
 -
 -        Command.broadcastCommandMessage(sender, ChatColor.RED + "Please note that this command is not supported and may cause issues when using some plugins.");
 -        Command.broadcastCommandMessage(sender, ChatColor.RED + "If you encounter any issues please use the /stop command to restart your server.");
--        Bukkit.reload();
+-        // Paper start - lifecycle events
+-        try {
+-            Bukkit.reload();
+-        } catch (final IllegalStateException ex) {
+-            if (ex.getMessage().equals(RELOADING_DISABLED_MESSAGE)) {
+-                Command.broadcastCommandMessage(sender, ChatColor.RED + RELOADING_DISABLED_MESSAGE);
+-                return true;
+-            }
+-        }
+-        // Paper end - lifecycle events
 -        Command.broadcastCommandMessage(sender, ChatColor.GREEN + "Reload complete.");
 -
 +        // DivineMC start - Disable reload command by default
