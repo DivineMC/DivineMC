@@ -8,6 +8,8 @@ You can find the original code on https://github.com/Bloom-host/Petal
 
 Makes most pathfinding-related work happen asynchronously
 
+Will be updated to 1.20.6 soon
+
 diff --git a/src/main/java/net/minecraft/world/entity/ai/behavior/AcquirePoi.java b/src/main/java/net/minecraft/world/entity/ai/behavior/AcquirePoi.java
 index abcc3ef59475ac170fd10b4dd4a4f3371faf17e0..15d8cdedf1ab558f1009c41180c0d580372a3c24 100644
 --- a/src/main/java/net/minecraft/world/entity/ai/behavior/AcquirePoi.java

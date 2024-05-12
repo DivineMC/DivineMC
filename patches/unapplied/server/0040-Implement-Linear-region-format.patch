@@ -3,6 +3,7 @@ From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
 Date: Wed, 17 Apr 2024 00:15:20 +0300
 Subject: [PATCH] Implement Linear region format
 
+Will be updated to 1.20.6 soon
 
 diff --git a/build.gradle.kts b/build.gradle.kts
 index 62ed501aaadfc9b636dec3c0c7c6b1e2c53e418e..60f809b14aa2ca539f7b5abd93ab5b9827209022 100644

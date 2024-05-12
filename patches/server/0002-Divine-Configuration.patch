@@ -131,13 +131,13 @@ index a0a7bfe8f5a40b945b83096de1efd650adeb9ee3..248405f9c0290b16a580d16bc3cb824c
                  // Paper start
                  acceptsAll(asList("server-name"), "Name of the server")
                          .withRequiredArg()
-diff --git a/src/main/java/space/bxteam/divinemc/DivineCommand.java b/src/main/java/space/bxteam/divinemc/DivineCommand.java
+diff --git a/src/main/java/space/bxteam/divinemc/commands/DivineCommand.java b/src/main/java/space/bxteam/divinemc/commands/DivineCommand.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..d81f74dd17aa3f49e28aa0b2956bcb79a4d7b379
+index 0000000000000000000000000000000000000000..06af4af987859081bcf23e91da02b295ec31eba4
 --- /dev/null
-+++ b/src/main/java/space/bxteam/divinemc/DivineCommand.java
++++ b/src/main/java/space/bxteam/divinemc/commands/DivineCommand.java
 @@ -0,0 +1,66 @@
-+package space.bxteam.divinemc;
++package space.bxteam.divinemc.commands;
 +
 +import net.minecraft.server.MinecraftServer;
 +import net.minecraft.server.level.ServerLevel;
@@ -205,7 +205,7 @@ index 0000000000000000000000000000000000000000..d81f74dd17aa3f49e28aa0b2956bcb79
 +}
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..c10403d781d25e4bb9e43d3f064fb1aebde00bfb
+index 0000000000000000000000000000000000000000..8380fd40b19ea1b4bff6ba78648408fbd3c662d0
 --- /dev/null
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 @@ -0,0 +1,155 @@
@@ -213,7 +213,7 @@ index 0000000000000000000000000000000000000000..c10403d781d25e4bb9e43d3f064fb1ae
 +
 +import com.google.common.base.Throwables;
 +import com.google.common.collect.ImmutableMap;
-+import space.bxteam.divinemc.DivineCommand;
++import space.bxteam.divinemc.commands.*;
 +import net.minecraft.server.MinecraftServer;
 +import net.minecraft.world.level.block.Blocks;
 +import org.bukkit.Bukkit;
