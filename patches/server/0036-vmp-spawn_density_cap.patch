@@ -7,7 +7,7 @@ Original code by RelativityMC, licensed under MIT
 You can find the original code on https://github.com/RelativityMC/VMP-fabric (Yarn mappings)
 
 diff --git a/src/main/java/net/minecraft/world/level/LocalMobCapCalculator.java b/src/main/java/net/minecraft/world/level/LocalMobCapCalculator.java
-index 84c766e09898cfc07d6e07e80f4b9aa318050a62..66fe98e671a7e5fe3d3235d050020a92a8ddea8f 100644
+index 09199c574169057ae6e52ee7df277c03fa6ba5c2..1124432a2ad0be2866c0d08e59cd697190c62347 100644
 --- a/src/main/java/net/minecraft/world/level/LocalMobCapCalculator.java
 +++ b/src/main/java/net/minecraft/world/level/LocalMobCapCalculator.java
 @@ -3,8 +3,6 @@ package net.minecraft.world.level;
@@ -19,7 +19,7 @@ index 84c766e09898cfc07d6e07e80f4b9aa318050a62..66fe98e671a7e5fe3d3235d050020a92
  import java.util.List;
  import java.util.Map;
  import net.minecraft.server.level.ChunkMap;
-@@ -47,16 +45,14 @@ public class LocalMobCapCalculator {
+@@ -42,14 +40,14 @@ public class LocalMobCapCalculator {
      }
  
      static class MobCounts {
@@ -27,9 +27,7 @@ index 84c766e09898cfc07d6e07e80f4b9aa318050a62..66fe98e671a7e5fe3d3235d050020a92
 +        private final int[] spawnGroupDensities = new int[MobCategory.values().length]; // DivineMC - vmp: spawn_density_cap
  
          public void add(MobCategory spawnGroup) {
--            this.counts.computeInt(spawnGroup, (group, density) -> {
--                return density == null ? 1 : density + 1;
--            });
+-            this.counts.computeInt(spawnGroup, (group, density) -> density == null ? 1 : density + 1);
 +            this.spawnGroupDensities[spawnGroup.ordinal()]++; // DivineMC - vmp: spawn_density_cap
          }
  
