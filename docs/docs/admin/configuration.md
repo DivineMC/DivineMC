@@ -36,9 +36,9 @@ Global settings affect all worlds on the server as well as the core server funct
 - **description**: Sets whether the server should dump all configuration values to the server log on startup (this maybe not working)
 
 ### settings
-- #### disable-chat-reports
-  - **default**: false
-  - **description**: Disables chat signing, which was introduced in version 1.19.1 (similar to No Chat Reports mod)
+- #### chat-message-signatures
+  - **default**: true
+  - **description**: Whether enable chat message signature, disable will prevent players to report chat messages (similar to No Chat Reports mod)
 - #### async-pathfinding
   - ##### enable
     - **default**: true

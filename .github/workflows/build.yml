@@ -4,8 +4,8 @@ on:
   workflow_dispatch:
 
 env:
-  version: '1.20.4'
-  branch: 'ver/1.20.4'
+  version: '1.20.6'
+  branch: 'ver/1.20.6'
   debug: 'false'
 
 jobs:
@@ -23,7 +23,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: temurin
-          java-version: 17
+          java-version: 21
           cache: 'gradle'
 
       - name: Configure Git and Gradle
