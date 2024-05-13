@@ -1,0 +1,54 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Mon, 13 May 2024 17:56:57 +0300
+Subject: [PATCH] Resource pack API
+
+
+diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java
+index 842f382de43df5d5c321422372ec30ccdd7859d7..9e23d973eb6ab9ef29495305936178ab203de92d 100644
+--- a/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java
++++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java
+@@ -100,7 +100,7 @@ public class DedicatedServerProperties extends Settings<DedicatedServerPropertie
+     public final boolean hideOnlinePlayers;
+     public final int entityBroadcastRangePercentage;
+     public final String textFilteringConfig;
+-    public final Optional<MinecraftServer.ServerResourcePackInfo> serverResourcePackInfo;
++    public Optional<MinecraftServer.ServerResourcePackInfo> serverResourcePackInfo; // DivineMC - public final -> public
+     public final DataPackConfig initialDataPackConfiguration;
+     public final Settings<DedicatedServerProperties>.MutableValue<Integer> playerIdleTimeout;
+     public final Settings<DedicatedServerProperties>.MutableValue<Boolean> whiteList;
+@@ -202,7 +202,13 @@ public class DedicatedServerProperties extends Settings<DedicatedServerPropertie
+         return null;
+     }
+ 
+-    private static Optional<MinecraftServer.ServerResourcePackInfo> getServerPackInfo(String id, String url, String sha1, @Nullable String hash, boolean required, String prompt) {
++    // DivineMC start - Resource pack API
++    public String getDefaultResourcePackId() {
++        return get("resource-pack-id", "");
++    }
++    // DivineMC end
++
++    public static Optional<MinecraftServer.ServerResourcePackInfo> getServerPackInfo(String id, String url, String sha1, @Nullable String hash, boolean required, String prompt) { // DivineMC - private -> public
+         if (url.isEmpty()) {
+             return Optional.empty();
+         } else {
+diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
+index 978146aaf5ec11b82c41ecc9f766d6e6045958cf..0a2593c11cf33a2f893e9c36c2833366fbc6443d 100644
+--- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
++++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
+@@ -3377,4 +3377,15 @@ public final class CraftServer implements Server {
+         return getServer().lagging;
+     }
+     // Purpur end
++
++    // DivineMC start - Resource pack API
++    @Override
++    public void setResourcePack(String url, String hash, boolean required, net.kyori.adventure.text.Component prompt) {
++        if (url == null || hash == null || url.isEmpty()) {
++            getServer().getProperties().serverResourcePackInfo = Optional.empty();
++            return;
++        }
++        getServer().getProperties().serverResourcePackInfo = DedicatedServerProperties.getServerPackInfo(getServer().getProperties().getDefaultResourcePackId(), url, hash, null, required, net.kyori.adventure.text.serializer.gson.GsonComponentSerializer.gson().serialize(prompt));
++    }
++    // DivineMC end
+ }
