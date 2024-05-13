@@ -101,7 +101,4 @@ For a more clear explanation of the world settings section of the config, feel f
   - ##### linear
     - ###### compression-level
       - **default**: 1
-      - **description**: Compression ratio of the region files
-    - ###### crash-on-broken-symlink
-      - **default**: true
-      - **description**: Server crashes if the symlink is broken/damaged
+      - **description**: Compression ratio of the region
