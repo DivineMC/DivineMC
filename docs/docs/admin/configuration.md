@@ -49,14 +49,6 @@ Global settings affect all worlds on the server as well as the core server funct
   - ##### keepalive
     - **default**: 60
     - **description**: The time during which inactive threads will remain in the pool until they are completed after downtime, specified in seconds.
-- #### region-format
-    ##### linear
-    - ###### flush-frequency
-      - **default**: 10
-      - **description**: Time in seconds after which chunks will be flushed
-    - ###### flush-max-threads
-      - **default**: 1
-      - **description**: Maximum number of threads for flushing chunks
 - #### optimizations
   - ##### recipe-manager-optimization
     - **default**: true
@@ -68,6 +60,18 @@ Global settings affect all worlds on the server as well as the core server funct
     - **default**: true
     - **description**: Enables or disables optimization of sheep color choosing from the CarpetFixes mod. The game determines the child sheep's color by getting a wool block from the parents, putting them in a crafting
 recipe, getting the output wool and getting the color from that.
+- #### misc
+  - ##### use-secure-seed
+    - **default**: false
+    - **description**: Enabling this, default 64-bit seed will be changed to a 1024-bit seed, making it almost impossible to crack the seed. 
+- #### region-format
+    ##### linear
+    - ###### flush-frequency
+      - **default**: 10
+      - **description**: Time in seconds after which chunks will be flushed
+    - ###### flush-max-threads
+      - **default**: 1
+      - **description**: Maximum number of threads for flushing chunks
 
 ## world-settings
 
@@ -76,23 +80,31 @@ World settings are on a per-world basis. The child-node `default` is used for al
 For a more clear explanation of the world settings section of the config, feel free to read through Paper's explanation here: https://docs.papermc.io/paper/per-world-configuration
 
 ### gameplay-mechanics
-- #### boat
-    - ##### dont-eject-players-from-boat-underwater
-        - **default**: true
-        - **description**: Players can't be ejected from boat underwater
-
-    - ##### always-allow-to-enter-the-boat
-        - **default**: true
-        - **description**: Player can enter the boat anywhere
 - #### mob
   - ##### shulker
     - ##### despawn-bullets-on-player-death
       - **default**: true
       - **description**: If player is dead from shulker - bullets disappering for optimization
+- #### should-save-fireworks
+  - **default**: false
+  - **description**: Switches the saving of fireworks in the world
+- #### projectiles
+  - ##### snowball
+    - ###### knockback
+      - **default**: true
+      - **description**: Enables or disables knocking back with snowball
+  - ##### egg
+    - ###### knockback
+      - **default**: true
+      - **description**: Enables or disables knocking back with egg
 
-- #### suppress-errors-from-dirty-attributes
-  - **default**: true
-  - **description**:
+- #### boat
+    - ##### dont-eject-players-from-boat-underwater
+        - **default**: true
+        - **description**: Players can't be ejected from boat underwater
+    - ##### always-allow-to-enter-the-boat
+        - **default**: true
+        - **description**: Player can enter the boat anywhere
 
 - #### region-format
   - ##### format
@@ -102,3 +114,7 @@ For a more clear explanation of the world settings section of the config, feel f
     - ###### compression-level
       - **default**: 1
       - **description**: Compression ratio of the region
+     
+- #### suppress-errors-from-dirty-attributes
+  - **default**: true
+  - **description**: 
