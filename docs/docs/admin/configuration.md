@@ -61,7 +61,7 @@ Global settings affect all worlds on the server as well as the core server funct
     - **description**: Enables or disables optimization of sheep color choosing from the CarpetFixes mod. The game determines the child sheep's color by getting a wool block from the parents, putting them in a crafting
 recipe, getting the output wool and getting the color from that.
 - #### misc
-  - #### use-secure-seed
+  - ##### use-secure-seed
     - **default**: false
     - **description**: Enabling this, default 64-bit seed will be changed to a 1024-bit seed, making it almost impossible to crack the seed. 
 - #### region-format
@@ -89,12 +89,12 @@ For a more clear explanation of the world settings section of the config, feel f
   - **default**: false
   - **description**: Switches the saving of fireworks in the world
 - #### projectiles
-  - #### snowball
-    - #### knockback
+  - ##### snowball
+    - ###### knockback
       - **default**: true
       - **description**: Enables or disables knocking back with snowball
-  - #### egg
-    - #### knockback
+  - ##### egg
+    - ###### knockback
       - **default**: true
       - **description**: Enables or disables knocking back with egg
 
