@@ -710,10 +710,31 @@ index d9d0fff9962131808d54cca20f209df50b8e4af1..a0b24f4c245f4b0ffa6dadd5ea8e03a2
              return false;
          } else if (o.nodes.size() != this.nodes.size()) {
 diff --git a/src/main/java/net/minecraft/world/level/pathfinder/PathFinder.java b/src/main/java/net/minecraft/world/level/pathfinder/PathFinder.java
-index 404080976208c30e9e95e5bee47c2a749e709a45..a84d35511547d9ce4f38dbeb3e4fb408fd8af59c 100644
+index 404080976208c30e9e95e5bee47c2a749e709a45..fb4ea7b86ead263e21eca6cce93d5ee939e4e57b 100644
 --- a/src/main/java/net/minecraft/world/level/pathfinder/PathFinder.java
 +++ b/src/main/java/net/minecraft/world/level/pathfinder/PathFinder.java
-@@ -24,38 +24,80 @@ public class PathFinder {
+@@ -1,19 +1,13 @@
+ package net.minecraft.world.level.pathfinder;
+ 
+-import com.google.common.collect.ImmutableSet;
+ import com.google.common.collect.Lists;
+-import com.google.common.collect.Sets;
++
+ import java.util.Comparator;
+ import java.util.List;
+ import java.util.Map;
+-import java.util.Optional;
+ import java.util.Set;
+-import java.util.function.Function;
+-import java.util.stream.Collectors;
+ import javax.annotation.Nullable;
+ import net.minecraft.core.BlockPos;
+-import net.minecraft.util.profiling.ProfilerFiller;
+-import net.minecraft.util.profiling.metrics.MetricCategory;
+ import net.minecraft.world.entity.Mob;
+ import net.minecraft.world.level.PathNavigationRegion;
+ 
+@@ -24,37 +18,80 @@ public class PathFinder {
      public final NodeEvaluator nodeEvaluator;
      private static final boolean DEBUG = false;
      private final BinaryHeap openSet = new BinaryHeap();
@@ -723,7 +744,7 @@ index 404080976208c30e9e95e5bee47c2a749e709a45..a84d35511547d9ce4f38dbeb3e4fb408
 +    public PathFinder(NodeEvaluator pathNodeMaker, int range, @Nullable space.bxteam.divinemc.pathfinding.NodeEvaluatorGenerator nodeEvaluatorGenerator) { // DivineMC - petal - add nodeEvaluatorGenerator
          this.nodeEvaluator = pathNodeMaker;
          this.maxVisitedNodes = range;
-+        // DivineMC start - support nodeEvaluatorgenerators
++        // DivineMC start - petal - support nodeEvaluatorgenerators
 +        this.nodeEvaluatorGenerator = nodeEvaluatorGenerator;
 +    }
 +
@@ -739,7 +760,7 @@ index 404080976208c30e9e95e5bee47c2a749e709a45..a84d35511547d9ce4f38dbeb3e4fb408
 -        Node node = this.nodeEvaluator.getStart();
 +        if (!space.bxteam.divinemc.configuration.DivineConfig.asyncPathfinding)
 +            this.openSet.clear(); // DivineMC - petal - it's always cleared in processPath
-+        // DivineMC start - use a generated evaluator if we have one otherwise run sync
++        // DivineMC start - petal - use a generated evaluator if we have one otherwise run sync
 +        NodeEvaluator nodeEvaluator = this.nodeEvaluatorGenerator == null
 +                ? this.nodeEvaluator
 +                : space.bxteam.divinemc.pathfinding.NodeEvaluatorCache.takeNodeEvaluator(this.nodeEvaluatorGenerator, this.nodeEvaluator);
@@ -760,11 +781,11 @@ index 404080976208c30e9e95e5bee47c2a749e709a45..a84d35511547d9ce4f38dbeb3e4fb408
 -            Path path = this.findPath(world.getProfiler(), node, map, followRange, distance, rangeMultiplier);
 -            this.nodeEvaluator.done();
 -            return path;
-+            // DivineMC start - async path processing
++            // DivineMC start - petal - async path processing
 +            if (this.nodeEvaluatorGenerator == null) {
 +                // run sync :(
 +                space.bxteam.divinemc.pathfinding.NodeEvaluatorCache.removeNodeEvaluator(nodeEvaluator);
-+                return this.findPath(node, map, followRange, distance, rangeMultiplier); // Purpur - remove vanilla profiler
++                return this.findPath(node, map, followRange, distance, rangeMultiplier);
 +            }
 +
 +            return new space.bxteam.divinemc.pathfinding.AsyncPath(Lists.newArrayList(), positions, () -> {
@@ -784,11 +805,11 @@ index 404080976208c30e9e95e5bee47c2a749e709a45..a84d35511547d9ce4f38dbeb3e4fb408
  
      @Nullable
      // Paper start - Perf: remove streams and optimize collection
-     private Path findPath(ProfilerFiller profiler, Node startNode, List<Map.Entry<Target, BlockPos>> positions, float followRange, int distance, float rangeMultiplier) {
+-    private Path findPath(ProfilerFiller profiler, Node startNode, List<Map.Entry<Target, BlockPos>> positions, float followRange, int distance, float rangeMultiplier) {
 -        //profiler.push("find_path"); // Purpur
 -        //profiler.markForCharting(MetricCategory.PATH_FINDING); // Purpur
--        // Set<Target> set = positions.keySet();
-+        // DivineMC start - split pathfinding into the original sync method for compat and processing for delaying
++    private Path findPath(Node startNode, List<Map.Entry<Target, BlockPos>> positions, float followRange, int distance, float rangeMultiplier) {
++        // DivineMC start - petal - split pathfinding into the original sync method for compat and processing for delaying
 +        try {
 +            return this.processPath(this.nodeEvaluator, startNode, positions, followRange, distance, rangeMultiplier);
 +        } catch (Exception e) {
@@ -802,10 +823,10 @@ index 404080976208c30e9e95e5bee47c2a749e709a45..a84d35511547d9ce4f38dbeb3e4fb408
 +    private synchronized @org.jetbrains.annotations.NotNull Path processPath(NodeEvaluator nodeEvaluator, Node startNode, List<Map.Entry<Target, BlockPos>> positions, float followRange, int distance, float rangeMultiplier) { // sync to only use the caching functions in this class on a single thread
 +        org.apache.commons.lang3.Validate.isTrue(!positions.isEmpty()); // ensure that we have at least one position, which means we'll always return a path
 +        // DivineMC end
+         // Set<Target> set = positions.keySet();
          startNode.g = 0.0F;
          startNode.h = this.getBestH(startNode, positions); // Paper - optimize collection
-         startNode.f = startNode.h;
-@@ -90,7 +132,7 @@ public class PathFinder {
+@@ -90,7 +127,7 @@ public class PathFinder {
              }
  
              if (!(node.distanceTo(startNode) >= followRange)) {
@@ -814,6 +835,14 @@ index 404080976208c30e9e95e5bee47c2a749e709a45..a84d35511547d9ce4f38dbeb3e4fb408
  
                  for (int l = 0; l < k; l++) {
                      Node node2 = this.neighbors[l];
+@@ -123,6 +160,7 @@ public class PathFinder {
+                 best = path;
+         }
+         //profiler.pop(); // Purpur
++        //noinspection ConstantConditions // DivineMC - petal - ignore this warning, we know that the above loop always runs at least once since positions is not empty
+         return best;
+         // Paper end - Perf: remove streams and optimize collection
+     }
 diff --git a/src/main/java/net/minecraft/world/level/pathfinder/SwimNodeEvaluator.java b/src/main/java/net/minecraft/world/level/pathfinder/SwimNodeEvaluator.java
 index 6308822f819d7cb84c8070c8a7eec1a3f822114b..3db838279e4407c28671bb1563fc96f981a6c59c 100644
 --- a/src/main/java/net/minecraft/world/level/pathfinder/SwimNodeEvaluator.java
