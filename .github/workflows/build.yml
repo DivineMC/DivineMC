@@ -19,7 +19,7 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
 
-      - name: Setup JDK 17
+      - name: Setup JDK 21
         uses: actions/setup-java@v3
         with:
           distribution: temurin
@@ -40,6 +40,10 @@ jobs:
 
       - name: Create Mojmap Jar
         run: ./gradlew createMojmapPaperclipJar --stacktrace
+
+      - name: Publish API
+        continue-on-error: true
+        run: ./gradlew publish -PdivinemcUsername=${{ secrets.REPO_USERNAME }} -PdivinemcPassword=${{ secrets.REPO_SECRET }}
 
       - name: Upload Artifacts
         if: env.debug == 'true' || github.ref_name != env.branch

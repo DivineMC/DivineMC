@@ -25,13 +25,6 @@ In normal case, you can download the latest JAR file from releases tab [here](ht
 
 **Please note:** Java >= 21 is required.
 
-## 📦 Building
-In order to distribute and use this server software, you need a paperclip file:
-
-```bash
-./gradlew applyPatches && ./gradlew createReobfPaperclipJar
-```
-
 ## ⚖️ License
 Patches are licensed under GPL-3.0.  
 All other files are licensed under MIT.
@@ -39,5 +32,56 @@ All other files are licensed under MIT.
 ## 📈 bStats
 
 [![bStats](https://bstats.org/signatures/server-implementation/DivineMC.svg)](https://bstats.org/plugin/server-implementation/DivineMC)
+
+## API
+### [Javadoc](https://repo.bx-team.space/javadoc/snapshots/space/bxteam/divinemc/divinemc-api/1.20.6-R0.1-SNAPSHOT)
+
+### Dependency Information
+
+#### Maven
+```xml
+<repository>
+  <id>bx-team</id>
+  <url>https://repo.bx-team.space/snapshots</url>
+</repository>
+```
+```xml
+<dependency>
+  <groupId>space.bxteam.divinemc</groupId>
+  <artifactId>divinemc-api</artifactId>
+  <version>1.20.6-R0.1-SNAPSHOT</version>
+  <scope>provided</scope>
+</dependency>
+```
+
+#### Gradle
+```groovy
+repositories {
+    maven("https://repo.bx-team.space/snapshots")
+}
+```
+```groovy
+dependencies {
+    compileOnly("space.bxteam.divinemc:divinemc-api:1.20.6-R0.1-SNAPSHOT")
+}
+```
+
+## 📦 Building and setting up
+### Initial setup
+First, clone this repository (do not download it) and the run the following command in the root directory:
+```bash
+./gradlew applyPatches
+```
+After that, project is ready to use and editing it.
+
+### Creating a patch
+Patches are effectively just commits in either `DivineMC-API` or `DivineMC-Server`. To create one, just add a commit to either repo and run `./gradlew rebuildPatches`, and a patch will be placed in the patches folder. Modifying commits will also modify its corresponding patch file.
+
+Read our [documentation](https://divinemc.bx-team.space/docs/dev/contributing) to learn more about patches
+
+### Compiling
+Use the command `./gradlew build` to build the API and server. Compiled JARs will be placed under `DivineMC-API/build/libs` and `DivineMC-Server/build/libs`. **These JARs are not used to start a server**.
+
+To compile a server-ready paperclip jar, run `./gradlew createReobfPaperclipJar`. The compiled paperclip jar will be in `build/libs/` in the main root.
 
 ###### We don't steal logo from YatopiaMC! [List of all forks](https://gist.github.com/NONPLAYT/48742353af8ae36bcef5d1c36de9730a)
