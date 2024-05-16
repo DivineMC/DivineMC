@@ -5,7 +5,7 @@ Subject: [PATCH] Configurable Chat message signatures
 
 
 diff --git a/src/main/java/io/papermc/paper/adventure/ChatProcessor.java b/src/main/java/io/papermc/paper/adventure/ChatProcessor.java
-index e83f9517b31c5171b8dc75ab63a5bfe654221c84..8883b8bbbd6cf43475d005e1a91acd9afccda92f 100644
+index e83f9517b31c5171b8dc75ab63a5bfe654221c84..2a6502e4c3f2f97ba88cc0332cb1482e74810196 100644
 --- a/src/main/java/io/papermc/paper/adventure/ChatProcessor.java
 +++ b/src/main/java/io/papermc/paper/adventure/ChatProcessor.java
 @@ -317,7 +317,7 @@ public final class ChatProcessor {
@@ -13,12 +13,12 @@ index e83f9517b31c5171b8dc75ab63a5bfe654221c84..8883b8bbbd6cf43475d005e1a91acd9a
          private void sendToServer(final ChatType.Bound chatType, final @Nullable Function<Audience, net.minecraft.network.chat.Component> msgFunction) {
              final PlayerChatMessage toConsoleMessage = msgFunction == null ? ChatProcessor.this.message : ChatProcessor.this.message.withUnsignedContent(msgFunction.apply(ChatProcessor.this.server.console));
 -            ChatProcessor.this.server.logChatMessage(toConsoleMessage.decoratedContent(), chatType, ChatProcessor.this.server.getPlayerList().verifyChatTrusted(toConsoleMessage) ? null : "Not Secure");
-+            ChatProcessor.this.server.logChatMessage(toConsoleMessage.decoratedContent(), chatType, ChatProcessor.this.server.getPlayerList().verifyChatTrusted(toConsoleMessage) ? null : (space.bxteam.divinemc.configuration.DivineConfig.chatMessageSignatures ? null : "Not Secure")); // DivineMC - Configurable Chat message signatures
++            ChatProcessor.this.server.logChatMessage(toConsoleMessage.decoratedContent(), chatType, !space.bxteam.divinemc.configuration.DivineConfig.chatMessageSignatures || ChatProcessor.this.server.getPlayerList().verifyChatTrusted(toConsoleMessage) ? null : "Not Secure"); // DivineMC - Configurable Chat message signatures
          }
      }
  
 diff --git a/src/main/java/net/minecraft/network/protocol/game/ServerboundChatPacket.java b/src/main/java/net/minecraft/network/protocol/game/ServerboundChatPacket.java
-index 07df3299f1d1aa5506e1f6f146347d53e0278d9c..2563cf1f1d92b294f65d4ba26fedbdb5eea57164 100644
+index 07df3299f1d1aa5506e1f6f146347d53e0278d9c..d23ef0e94d823e078cb373c9d33d73b154ea543e 100644
 --- a/src/main/java/net/minecraft/network/protocol/game/ServerboundChatPacket.java
 +++ b/src/main/java/net/minecraft/network/protocol/game/ServerboundChatPacket.java
 @@ -23,7 +23,7 @@ public record ServerboundChatPacket(String message, Instant timeStamp, long salt
@@ -26,7 +26,7 @@ index 07df3299f1d1aa5506e1f6f146347d53e0278d9c..2563cf1f1d92b294f65d4ba26fedbdb5
          buf.writeInstant(this.timeStamp);
          buf.writeLong(this.salt);
 -        buf.writeNullable(this.signature, MessageSignature::write);
-+        if (!space.bxteam.divinemc.configuration.DivineConfig.chatMessageSignatures) buf.writeNullable(this.signature, MessageSignature::write); // DivineMC - Configurable Chat message signatures
++        if (space.bxteam.divinemc.configuration.DivineConfig.chatMessageSignatures) buf.writeNullable(this.signature, MessageSignature::write); // DivineMC - Configurable Chat message signatures
          this.lastSeenMessages.write(buf);
      }
  
@@ -109,7 +109,7 @@ index b82a72775f9de5ad65ae46a8b97f93a7ef852265..529b4c6f38e0b2dc8bd3c46059f19485
          if (packet == null || this.processedDisconnect) { // Spigot
              return;
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index b863f6fe65c796a1d3102cc3eddb5d6c5becd3ac..cc1c9fe6dfb436befbe626c53d896ac8ec58ff31 100644
+index b863f6fe65c796a1d3102cc3eddb5d6c5becd3ac..10d52cd97b292a38ee6bb809cdb40554a011bb78 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -1468,7 +1468,7 @@ public abstract class PlayerList {
@@ -117,7 +117,7 @@ index b863f6fe65c796a1d3102cc3eddb5d6c5becd3ac..cc1c9fe6dfb436befbe626c53d896ac8
          boolean flag = this.verifyChatTrusted(message);
  
 -        this.server.logChatMessage((unsignedFunction == null ? message.decoratedContent() : unsignedFunction.apply(this.server.console)), params, flag ? null : "Not Secure"); // Paper
-+        this.server.logChatMessage((unsignedFunction == null ? message.decoratedContent() : unsignedFunction.apply(this.server.console)), params, flag ? null : (space.bxteam.divinemc.configuration.DivineConfig.chatMessageSignatures ? null : "Not Secure")); // Paper // DivineMC - Configurable Chat message signatures
++        this.server.logChatMessage((unsignedFunction == null ? message.decoratedContent() : unsignedFunction.apply(this.server.console)), params, !space.bxteam.divinemc.configuration.DivineConfig.chatMessageSignatures || flag ? null : "Not Secure"); // Paper // DivineMC - Configurable Chat message signatures
          OutgoingChatMessage outgoingchatmessage = OutgoingChatMessage.create(message);
          boolean flag1 = false;
  
@@ -130,7 +130,7 @@ index b863f6fe65c796a1d3102cc3eddb5d6c5becd3ac..cc1c9fe6dfb436befbe626c53d896ac8
      }
  
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-index 9ae6daeb94232c2f8c5e8f9cc3a2df2f89cd4ed3..ed92e0b8295f0ca45359612a41367874d88f2181 100644
+index c176fdb912c62f355cf01ff98555a4760818aadb..33e269fd807bc41c8070bf1e9a08246f45d55d7d 100644
 --- a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 @@ -161,4 +161,9 @@ public class DivineConfig {

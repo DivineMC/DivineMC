@@ -72,7 +72,7 @@ index 842f382de43df5d5c321422372ec30ccdd7859d7..bd17ddefd6a9c640cc410cfa22859d32
              return GsonHelper.parse(!s1.isEmpty() ? s1 : "{}");
          }, new JsonObject()), (String) this.get("level-type", (s1) -> {
 diff --git a/src/main/java/net/minecraft/server/level/ServerChunkCache.java b/src/main/java/net/minecraft/server/level/ServerChunkCache.java
-index 476a04d87a61b021816d2970e86042bde32d95a2..ceb5bc89eb718a3c8863673e9ca7691a5c05dba1 100644
+index 476a04d87a61b021816d2970e86042bde32d95a2..728f8429ee779854de136e83809d9308d9a27c8c 100644
 --- a/src/main/java/net/minecraft/server/level/ServerChunkCache.java
 +++ b/src/main/java/net/minecraft/server/level/ServerChunkCache.java
 @@ -44,6 +44,7 @@ import net.minecraft.world.level.levelgen.RandomState;
@@ -87,7 +87,7 @@ index 476a04d87a61b021816d2970e86042bde32d95a2..ceb5bc89eb718a3c8863673e9ca7691a
      }
  
      public ChunkGenerator getGenerator() {
-+        WorldSeedUtils.setupGlobals(level); // DivineMC - Matter - Implement Secure Seed
++        WorldSeedUtils.setupGlobals(level); // DivineMC - Implement Secure Seed
          return this.chunkMap.generator();
      }
  
@@ -171,7 +171,7 @@ index 1aac95b03a9e2e37c24f2a30bcb259c1424e1c78..253dfb24df08b3f3173cd23844320695
      @Nullable
      public abstract BlockState setBlockState(BlockPos pos, BlockState state, boolean moved);
 diff --git a/src/main/java/net/minecraft/world/level/chunk/ChunkGenerator.java b/src/main/java/net/minecraft/world/level/chunk/ChunkGenerator.java
-index 927bdebdb8ae01613f0cea074b3367bd7ffe9ab1..66848f69f83a7e6a09e2f38e72ff206c869c54b8 100644
+index 927bdebdb8ae01613f0cea074b3367bd7ffe9ab1..01e83ad86d9dd952481891ce21d20adbf1d4db1b 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/ChunkGenerator.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/ChunkGenerator.java
 @@ -78,6 +78,10 @@ import net.minecraft.world.level.levelgen.structure.placement.RandomSpreadStruct
@@ -205,7 +205,7 @@ index 927bdebdb8ae01613f0cea074b3367bd7ffe9ab1..66848f69f83a7e6a09e2f38e72ff206c
 -                    WorldgenRandom seededrandom = new WorldgenRandom(new LegacyRandomSource(0L));
 -
 -                    seededrandom.setLargeFeatureSeed(placementCalculator.getLevelSeed(), chunkcoordintpair.x, chunkcoordintpair.z);
-+                    // DivineMC start - Matter - Implement Secure Seed
++                    // DivineMC start - Implement Secure Seed
 +                    WorldgenRandom seededrandom;
 +                    if (space.bxteam.divinemc.configuration.DivineConfig.useSecureSeed) {
 +                        seededrandom = new WorldgenCryptoRandom(
@@ -216,7 +216,7 @@ index 927bdebdb8ae01613f0cea074b3367bd7ffe9ab1..66848f69f83a7e6a09e2f38e72ff206c
 +
 +                        seededrandom.setLargeFeatureSeed(placementCalculator.getLevelSeed(), chunkcoordintpair.x, chunkcoordintpair.z);
 +                    }
-+                    // DivineMC end - Matter
++                    // DivineMC end
                      int i = 0;
  
                      StructureSet.StructureSelectionEntry structureset_a1;
@@ -278,7 +278,7 @@ index b81c548c0e1ac53784e9c94b34b65db5f123309c..e8420f5701f909afd195a6226c5e5b27
          ProfiledDuration profiledDuration = JvmProfiler.INSTANCE.onChunkGenerate(chunkAccess.getPos(), context.level().dimension(), this.toString());
          return this.generationTask.doWork(context, this, executor, fullChunkConverter, chunks, chunkAccess).thenApply(chunk -> {
 diff --git a/src/main/java/net/minecraft/world/level/levelgen/WorldOptions.java b/src/main/java/net/minecraft/world/level/levelgen/WorldOptions.java
-index 5ae04ec610a885e2ed73e942879a27fe8640471c..49a2f613e0bb3a16734fdc82f50ad9e201d1fd62 100644
+index 5ae04ec610a885e2ed73e942879a27fe8640471c..1e04d6a2e13b10a3eaeea06959ee24241cf70120 100644
 --- a/src/main/java/net/minecraft/world/level/levelgen/WorldOptions.java
 +++ b/src/main/java/net/minecraft/world/level/levelgen/WorldOptions.java
 @@ -5,12 +5,25 @@ import com.mojang.serialization.MapCodec;
@@ -371,7 +371,7 @@ index 5ae04ec610a885e2ed73e942879a27fe8640471c..49a2f613e0bb3a16734fdc82f50ad9e2
          return this.legacyCustomOptions.isPresent();
      }
  
-+    // DivineMC start - Matter - Implement Secure Seed
++    // DivineMC start - Implement Secure Seed
      public WorldOptions withBonusChest(boolean bonusChest) {
 -        return new WorldOptions(this.seed, this.generateStructures, bonusChest, this.legacyCustomOptions);
 +        return isSecureSeedEnabled ? new WorldOptions(this.seed, this.featureSeed, this.generateStructures, bonusChest, this.legacyCustomOptions) : new WorldOptions(this.seed, this.generateStructures, bonusChest, this.legacyCustomOptions);
@@ -425,7 +425,7 @@ index 17d2bb3f7d158ec1230a1ad7c52b9feeda586630..31997bc79a95079009b7545cc91da7ef
          List<BlockPos> list2 = Lists.newLinkedList();
          double d = (double)k / (double)geodeConfiguration.outerWallDistance.getMaxValue();
 diff --git a/src/main/java/net/minecraft/world/level/levelgen/structure/Structure.java b/src/main/java/net/minecraft/world/level/levelgen/structure/Structure.java
-index 4d7398cbe2c400791e6598c9924202a454cb56ce..be186cf8c9a46b9b3ea1318b754ccd981d938bb1 100644
+index 4d7398cbe2c400791e6598c9924202a454cb56ce..9d276cfddf124642a5fc07e9727c507b8544b854 100644
 --- a/src/main/java/net/minecraft/world/level/levelgen/structure/Structure.java
 +++ b/src/main/java/net/minecraft/world/level/levelgen/structure/Structure.java
 @@ -39,6 +39,11 @@ import net.minecraft.world.level.levelgen.structure.pieces.PiecesContainer;
@@ -444,13 +444,13 @@ index 4d7398cbe2c400791e6598c9924202a454cb56ce..be186cf8c9a46b9b3ea1318b754ccd98
          }
  
          private static WorldgenRandom makeRandom(long seed, ChunkPos chunkPos) {
-+            // DivineMC start - Matter - Implement Secure Seed
++            // DivineMC start - Implement Secure Seed
 +            if (space.bxteam.divinemc.configuration.DivineConfig.useSecureSeed) {
 +                return new WorldgenCryptoRandom(
 +                        chunkPos.x, chunkPos.z, WorldSeedUtils.Salt.GENERATE_FEATURE, seed
 +                );
 +            }
-+            // DivineMC end - Matter
++            // DivineMC end
 +
              WorldgenRandom worldgenRandom = new WorldgenRandom(new LegacyRandomSource(0L));
              worldgenRandom.setLargeFeatureSeed(seed, chunkPos.x, chunkPos.z);
@@ -527,7 +527,7 @@ index cbf13e4f2da6a27619e9bc9a7cd73bb6e69cad2a..1f52d0de1a603037738b961873b9ee18
      }
  
 diff --git a/src/main/java/net/minecraft/world/level/levelgen/structure/pools/JigsawPlacement.java b/src/main/java/net/minecraft/world/level/levelgen/structure/pools/JigsawPlacement.java
-index 70dbf7267b43357578c07fcd46618f656410a8e2..610dea1ec011ed2a09fbd2515329d7d48c058ef1 100644
+index 70dbf7267b43357578c07fcd46618f656410a8e2..c1ee25acabf60f78829176a77bfac377cab78c91 100644
 --- a/src/main/java/net/minecraft/world/level/levelgen/structure/pools/JigsawPlacement.java
 +++ b/src/main/java/net/minecraft/world/level/levelgen/structure/pools/JigsawPlacement.java
 @@ -43,6 +43,11 @@ import net.minecraft.world.phys.shapes.VoxelShape;
@@ -547,11 +547,11 @@ index 70dbf7267b43357578c07fcd46618f656410a8e2..610dea1ec011ed2a09fbd2515329d7d4
          StructureTemplateManager structureTemplateManager = context.structureTemplateManager();
          LevelHeightAccessor levelHeightAccessor = context.heightAccessor();
 -        WorldgenRandom worldgenRandom = context.random();
-+        // DivineMC start - Matter - Implement Secure Seed
++        // DivineMC start - Implement Secure Seed
 +        WorldgenRandom worldgenRandom = space.bxteam.divinemc.configuration.DivineConfig.useSecureSeed ? new WorldgenCryptoRandom(
 +                context.chunkPos().x, context.chunkPos().z, WorldSeedUtils.Salt.JIGSAW_PLACEMENT, 0
 +        ) : context.random();
-+        // DivineMC end - Matter
++        // DivineMC end
          Registry<StructureTemplatePool> registry = registryAccess.registryOrThrow(Registries.TEMPLATE_POOL);
          Rotation rotation = Rotation.getRandom(worldgenRandom);
          StructureTemplatePool structureTemplatePool = structurePool.unwrapKey()
