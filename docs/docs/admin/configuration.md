@@ -38,7 +38,7 @@ Global settings affect all worlds on the server as well as the core server funct
 ### settings
 - #### chat-message-signatures
   - **default**: true
-  - **description**: Whether enable chat message signature, disable will prevent players to report chat messages (similar to No Chat Reports mod)
+  - **description**: If the value is set to false, then sending reports about player messages will not be possible.
 - #### async-pathfinding
   - ##### enable
     - **default**: true
