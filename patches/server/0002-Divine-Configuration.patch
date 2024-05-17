@@ -62,19 +62,19 @@ index eda2f8cc034cf46293be1be117a60cf8b663c303..6a3c349cb36a0c89747cf4665e7bc272
          this.generator = gen;
          this.world = new CraftWorld((ServerLevel) this, gen, biomeProvider, env);
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 2f934d807a0b005fcf682ad2aa97b783b0a2169a..5905ea67e79c46b90c60b191a0967e07fee4606e 100644
+index ccdf1b7b86895fe469476112277b5f76f7f02bf0..dd0f1013f3de00d67e6b3d69ed09176176bc6a0b 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -268,6 +268,8 @@ import net.md_5.bungee.api.chat.BaseComponent; // Spigot
+@@ -263,6 +263,8 @@ import net.md_5.bungee.api.chat.BaseComponent; // Spigot
  import javax.annotation.Nullable; // Paper
  import javax.annotation.Nonnull; // Paper
  
 +import space.bxteam.divinemc.configuration.DivineConfig; // DivineMC
 +
  public final class CraftServer implements Server {
-     private final String serverName = "DivineMC"; // Paper // Pufferfish // Purpur // DivineMC
+     private final String serverName = io.papermc.paper.ServerBuildInfo.buildInfo().brandName(); // Paper
      private final String serverVersion;
-@@ -1053,6 +1055,7 @@ public final class CraftServer implements Server {
+@@ -1048,6 +1050,7 @@ public final class CraftServer implements Server {
          org.spigotmc.SpigotConfig.init((File) this.console.options.valueOf("spigot-settings")); // Spigot
          this.console.paperConfigurations.reloadConfigs(this.console);
          org.purpurmc.purpur.PurpurConfig.init((File) console.options.valueOf("purpur-settings")); // Purpur
@@ -82,7 +82,7 @@ index 2f934d807a0b005fcf682ad2aa97b783b0a2169a..5905ea67e79c46b90c60b191a0967e07
          for (ServerLevel world : this.console.getAllLevels()) {
              // world.serverLevelData.setDifficulty(config.difficulty); // Paper - per level difficulty
              world.setSpawnSettings(world.serverLevelData.getDifficulty() != Difficulty.PEACEFUL && config.spawnMonsters, config.spawnAnimals); // Paper - per level difficulty (from MinecraftServer#setDifficulty(ServerLevel, Difficulty, boolean))
-@@ -1069,6 +1072,7 @@ public final class CraftServer implements Server {
+@@ -1064,6 +1067,7 @@ public final class CraftServer implements Server {
              }
              world.spigotConfig.init(); // Spigot
              world.purpurConfig.init(); // Purpur
@@ -90,7 +90,7 @@ index 2f934d807a0b005fcf682ad2aa97b783b0a2169a..5905ea67e79c46b90c60b191a0967e07
          }
  
          Plugin[] pluginClone = pluginManager.getPlugins().clone(); // Paper
-@@ -1086,6 +1090,7 @@ public final class CraftServer implements Server {
+@@ -1081,6 +1085,7 @@ public final class CraftServer implements Server {
          org.spigotmc.SpigotConfig.registerCommands(); // Spigot
          io.papermc.paper.command.PaperCommands.registerCommands(this.console); // Paper
          org.purpurmc.purpur.PurpurConfig.registerCommands(); // Purpur
@@ -98,7 +98,7 @@ index 2f934d807a0b005fcf682ad2aa97b783b0a2169a..5905ea67e79c46b90c60b191a0967e07
          this.overrideAllCommandBlockCommands = this.commandsConfiguration.getStringList("command-block-overrides").contains("*");
          this.ignoreVanillaPermissions = this.commandsConfiguration.getBoolean("ignore-vanilla-permissions");
  
-@@ -3117,6 +3122,13 @@ public final class CraftServer implements Server {
+@@ -3112,6 +3117,13 @@ public final class CraftServer implements Server {
          }
          // Purpur end
  
@@ -113,10 +113,10 @@ index 2f934d807a0b005fcf682ad2aa97b783b0a2169a..5905ea67e79c46b90c60b191a0967e07
          public void restart() {
              org.spigotmc.RestartCommand.restart();
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index a0a7bfe8f5a40b945b83096de1efd650adeb9ee3..248405f9c0290b16a580d16bc3cb824cc9f53bc2 100644
+index 6d8e9cf4ee496b8748654e792ce438f512c3d946..d62bb6611ec37ec9c35712810cc65a60cb88ed6e 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
-@@ -183,6 +183,14 @@ public class Main {
+@@ -184,6 +184,14 @@ public class Main {
                      .describedAs("Yml file");
                  // Purpur end
  

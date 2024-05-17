@@ -842,7 +842,7 @@ index 8c134a642ccaf3530022f2e675a858d726e1dda4..d6daa27a8d7aca00b181e90d789f4249
                      } catch (Exception exception) {
                          if (exception instanceof ReportedException) {
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index dfe3d28bd97d1335457d1005ecf69afe75d5ff80..2720d080ab34d7ced08cc54852a1e489c1f72e90 100644
+index 71705ccbc0cce88382b1fb536271773a332ad3a2..eca0c8afe003e0c3155aded8b5a9855ad0952e60 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -3,7 +3,6 @@ package net.minecraft.server;
@@ -853,7 +853,7 @@ index dfe3d28bd97d1335457d1005ecf69afe75d5ff80..2720d080ab34d7ced08cc54852a1e489
  import com.destroystokyo.paper.event.server.PaperServerListPingEvent;
  import com.google.common.base.Stopwatch;
  import com.google.common.collect.Lists;
-@@ -193,8 +192,6 @@ import org.bukkit.craftbukkit.Main;
+@@ -190,8 +189,6 @@ import org.bukkit.craftbukkit.CraftRegistry;
  import org.bukkit.event.server.ServerLoadEvent;
  // CraftBukkit end
  
@@ -862,7 +862,7 @@ index dfe3d28bd97d1335457d1005ecf69afe75d5ff80..2720d080ab34d7ced08cc54852a1e489
  public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTask> implements ServerInfo, CommandSource, AutoCloseable {
  
      private static MinecraftServer SERVER; // Paper
-@@ -981,7 +978,6 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -978,7 +975,6 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
  
          MinecraftServer.LOGGER.info("Stopping server");
          Commands.COMMAND_SENDING_POOL.shutdownNow(); // Paper - Perf: Async command map building; Shutdown and don't bother finishing
@@ -870,7 +870,7 @@ index dfe3d28bd97d1335457d1005ecf69afe75d5ff80..2720d080ab34d7ced08cc54852a1e489
          // Purpur start
          if (upnp) {
              if (dev.omega24.upnp4j.UPnP4J.close(this.getPort(), dev.omega24.upnp4j.util.Protocol.TCP)) {
-@@ -1493,34 +1489,29 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1490,34 +1486,29 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
              return;
          }
  
@@ -924,7 +924,7 @@ index dfe3d28bd97d1335457d1005ecf69afe75d5ff80..2720d080ab34d7ced08cc54852a1e489
          }
      }
      // Paper end - execute chunk tasks mid tick
-@@ -1595,15 +1586,14 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1592,15 +1583,14 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
      }
  
      public void tickServer(BooleanSupplier shouldKeepTicking) {
@@ -942,7 +942,7 @@ index dfe3d28bd97d1335457d1005ecf69afe75d5ff80..2720d080ab34d7ced08cc54852a1e489
          // Paper end
          new com.destroystokyo.paper.event.server.ServerTickStartEvent(this.tickCount+1).callEvent(); // Paper - Server Tick Events
  
-@@ -1640,9 +1630,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1637,9 +1627,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          // Paper end - Incremental chunk and player saving
          io.papermc.paper.util.CachedLists.reset(); // Paper
          // Paper start - move executeAll() into full server tick timing
@@ -953,7 +953,7 @@ index dfe3d28bd97d1335457d1005ecf69afe75d5ff80..2720d080ab34d7ced08cc54852a1e489
          // Paper end
          // Paper start - Server Tick Events
          long endTime = System.nanoTime();
-@@ -1665,7 +1653,6 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1662,7 +1650,6 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          this.logTickMethodTime(i);
          //this.profiler.pop(); // Purpur
          org.spigotmc.WatchdogThread.tick(); // Spigot
@@ -1039,7 +1039,7 @@ index 7924e3c597164f71056cd58dd167ee8b1d41b9c3..90aa52efeb8ae92bf981a973415d1c11
          entity.postTick(); // CraftBukkit
          } else { entity.inactiveTick(); } // Paper - EAR 2
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index cc1c9fe6dfb436befbe626c53d896ac8ec58ff31..e26fb91e7fcce8c08a68d9038f15aecd4024e0cb 100644
+index 10d52cd97b292a38ee6bb809cdb40554a011bb78..5a5ab84a944693efa10a7deb31bd1c59a445af1e 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -1,6 +1,5 @@
@@ -1214,10 +1214,10 @@ index 8dc1436fe78759cee5247cc28e8a18999e738a1b..ce3cc2d4b8cdfae98c02e03f7290c611
      private static final CraftPersistentDataTypeRegistry DATA_TYPE_REGISTRY = new CraftPersistentDataTypeRegistry();
      public CraftPersistentDataContainer persistentDataContainer;
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 248405f9c0290b16a580d16bc3cb824cc9f53bc2..30807e53812d1f3d00019ef82f4e014c2af65840 100644
+index d62bb6611ec37ec9c35712810cc65a60cb88ed6e..93cf19c3bb09f4b639c60d1093181256b93d612a 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
-@@ -361,8 +361,10 @@ public class Main {
+@@ -362,8 +362,10 @@ public class Main {
              tryPreloadClass("org.jline.terminal.impl.MouseSupport");
              tryPreloadClass("org.jline.terminal.impl.MouseSupport$1");
              tryPreloadClass("org.jline.terminal.Terminal$MouseTracking");
@@ -1230,7 +1230,7 @@ index 248405f9c0290b16a580d16bc3cb824cc9f53bc2..30807e53812d1f3d00019ef82f4e014c
              tryPreloadClass("io.netty.channel.AbstractChannelHandlerContext");
              tryPreloadClass("io.netty.channel.AbstractChannelHandlerContext$11");
              tryPreloadClass("io.netty.channel.AbstractChannelHandlerContext$12");
-@@ -375,7 +377,7 @@ public class Main {
+@@ -376,7 +378,7 @@ public class Main {
              tryPreloadClass("org.bukkit.craftbukkit.scheduler.CraftScheduler$1");
              tryPreloadClass("org.bukkit.craftbukkit.scheduler.CraftScheduler$2");
              tryPreloadClass("org.bukkit.craftbukkit.scheduler.CraftScheduler$3");
@@ -1334,7 +1334,7 @@ index d3ec817e95628f1fc8be4a29c9a0f13c7d5fd552..e9798517b9211c50a20ea5c69603aab3
      }
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
-index 8c62796dacf79dbe7ac228ac04ea478679466fd4..46c2e7b4deddcf1e829ccc1a69256139af77f793 100644
+index 3daf674f1e0de3fdd89db5536cc1e34140a5abb8..066ad76b6545016d79009f46678106802e36d1f9 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
 +++ b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
 @@ -219,7 +219,7 @@ public final class CraftMagicNumbers implements UnsafeValues {

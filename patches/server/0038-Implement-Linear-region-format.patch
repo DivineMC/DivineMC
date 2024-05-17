@@ -5,10 +5,10 @@ Subject: [PATCH] Implement Linear region format
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 682908b659fd11b781fc1ce0aebc3cbd58cb061a..5d5ed441aa561a855c803401bee418070f9895a7 100644
+index ba4a171468365dbfa95d50f4eb2830815eb167e3..e47d61efeb9f099b53885ced4b400e6663995c4f 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
-@@ -29,6 +29,10 @@ dependencies {
+@@ -30,6 +30,10 @@ dependencies {
      alsoShade(log4jPlugins.output)
      implementation("io.netty:netty-codec-haproxy:4.1.97.Final") // Paper - Add support for proxy protocol
      // Paper end
@@ -121,10 +121,10 @@ index 7f6d1ccd147e5593412567bb2934ce5662da7ef0..8b232e22b1db41043ccc38e672c9bb3b
          long expectedChunks = (long)regionFiles.length * (32L * 32L);
  
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 2720d080ab34d7ced08cc54852a1e489c1f72e90..41d47be479d90d714fbeacc02a61f443a2d81b67 100644
+index eca0c8afe003e0c3155aded8b5a9855ad0952e60..0271452c3ddf2e95df3f6f8a6b1cbe3b76678658 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -890,7 +890,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -887,7 +887,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
              // Paper start - rewrite chunk system
              worldserver.save((ProgressListener) null, flush, worldserver.noSave && !force, close);
              if (flush) {
@@ -133,7 +133,7 @@ index 2720d080ab34d7ced08cc54852a1e489c1f72e90..41d47be479d90d714fbeacc02a61f443
              }
              // Paper end - rewrite chunk system
          }
-@@ -914,7 +914,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -911,7 +911,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
                  //MinecraftServer.LOGGER.info("ThreadedAnvilChunkStorage ({}): All chunks are saved", worldserver2.getChunkSource().chunkMap.getStorageName()); // Paper - move up
              }
  
