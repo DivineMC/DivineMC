@@ -767,7 +767,7 @@ index 02597f890ac7f2dc12c94c283356b8309638dd17..7b00e6bd50cafd87e63863c186418973
              String content = context.getRange().get(context.getInput());
              String[] args = org.apache.commons.lang3.StringUtils.split(content, ' '); // fix adjacent spaces (from console/plugins) causing empty array elements
 diff --git a/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java b/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
-index d02d22b09430b93349d48bcb50d456d23f9b49c7..07fce8459d75920a4c5089506cf233d9194d9f29 100644
+index 17961dd8fbe306dfcb721db2830f0156db453a62..5dfb0c95642ab2e16501b9f95d96e02354643f34 100644
 --- a/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
 +++ b/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
 @@ -1,6 +1,5 @@
@@ -777,14 +777,35 @@ index d02d22b09430b93349d48bcb50d456d23f9b49c7..07fce8459d75920a4c5089506cf233d9
  import com.mojang.logging.LogUtils;
  import io.papermc.paper.configuration.constraint.Constraints;
  import io.papermc.paper.configuration.type.number.IntOr;
-@@ -112,7 +111,7 @@ public class GlobalConfiguration extends ConfigurationPart {
- 
-         @PostProcess
-         private void postProcess() {
--            MinecraftTimings.processConfig(this);
-+
-         }
+@@ -91,28 +90,7 @@ public class GlobalConfiguration extends ConfigurationPart {
+         public boolean useDisplayNameInQuitMessage = false;
      }
+ 
+-    @Deprecated(forRemoval = true)
+-    public Timings timings;
+-
+-    @Deprecated(forRemoval = true)
+-    public class Timings extends ConfigurationPart {
+-        public boolean enabled = true;
+-        public boolean verbose = true;
+-        public String url = "https://timings.aikar.co/";
+-        public boolean serverNamePrivacy = false;
+-        public List<String> hiddenConfigEntries = List.of(
+-            "database",
+-            "proxies.velocity.secret"
+-        );
+-        public int historyInterval = 300;
+-        public int historyLength = 3600;
+-        public String serverName = "Unknown Server";
+-
+-        @PostProcess
+-        private void postProcess() {
+-            MinecraftTimings.processConfig(this);
+-        }
+-    }
++    // DivineMC - Remove timings configuration section
+ 
+     public Proxies proxies;
  
 diff --git a/src/main/java/io/papermc/paper/plugin/manager/PaperEventManager.java b/src/main/java/io/papermc/paper/plugin/manager/PaperEventManager.java
 index 0e3bed7a75f8f4611f9f44a1f78fd70cc06eaa54..126ed4bd24d993b598c112c2dbfcb9d662038925 100644
@@ -842,7 +863,7 @@ index 8c134a642ccaf3530022f2e675a858d726e1dda4..d6daa27a8d7aca00b181e90d789f4249
                      } catch (Exception exception) {
                          if (exception instanceof ReportedException) {
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 71705ccbc0cce88382b1fb536271773a332ad3a2..eca0c8afe003e0c3155aded8b5a9855ad0952e60 100644
+index acb0e7d4cb383a37b18d5981ee55e78e08a66922..08ec1a1c9b4a044c2ae6da145f09645d89da96cb 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -3,7 +3,6 @@ package net.minecraft.server;
@@ -1094,7 +1115,7 @@ index 8120f39a9689dae1233b243b74825e9ff110eac3..4203dae9628b0576cc0b9a9160dca985
          return this != EntityType.PLAYER && this != EntityType.LLAMA_SPIT && this != EntityType.WITHER && this != EntityType.BAT && this != EntityType.ITEM_FRAME && this != EntityType.GLOW_ITEM_FRAME && this != EntityType.LEASH_KNOT && this != EntityType.PAINTING && this != EntityType.END_CRYSTAL && this != EntityType.EVOKER_FANGS;
      }
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index cb9429ea4c7c8521e17fcb46a8457d95bfb76cf7..4a224af1a9063e1617bc6753e063e8e395271ec7 100644
+index 18f03478a4f2c5b71d243aada4173abf9f33cc20..0f60b2fb44ecaf037c8235ed0d3da017e65310e3 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
 @@ -150,8 +150,6 @@ import org.bukkit.event.entity.EntityTeleportEvent;
@@ -1240,7 +1261,7 @@ index d62bb6611ec37ec9c35712810cc65a60cb88ed6e..93cf19c3bb09f4b639c60d1093181256
              tryPreloadClass("org.slf4j.helpers.FormattingTuple");
              tryPreloadClass("org.slf4j.helpers.BasicMarker");
 diff --git a/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java b/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java
-index ca8ae8e1c51b937dac916e0b0dc94b5e2e61efeb..2ed64f924170afe61829db270445cc16b4e61cdf 100644
+index e68e13ac375a6418ad0785bc1c0f20af72bf6cf5..e51a9ec41054750c38f95b06881980842c2c57f3 100644
 --- a/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java
 +++ b/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java
 @@ -1,6 +1,5 @@
@@ -1334,7 +1355,7 @@ index d3ec817e95628f1fc8be4a29c9a0f13c7d5fd552..e9798517b9211c50a20ea5c69603aab3
      }
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
-index 3daf674f1e0de3fdd89db5536cc1e34140a5abb8..066ad76b6545016d79009f46678106802e36d1f9 100644
+index 3daf674f1e0de3fdd89db5536cc1e34140a5abb8..110c5879d54c8251913ea9af571af27a1a7f5dc9 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
 +++ b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
 @@ -219,7 +219,7 @@ public final class CraftMagicNumbers implements UnsafeValues {
@@ -1346,6 +1367,15 @@ index 3daf674f1e0de3fdd89db5536cc1e34140a5abb8..066ad76b6545016d79009f4667810680
      }
      // Paper end
  
+@@ -506,7 +506,7 @@ public final class CraftMagicNumbers implements UnsafeValues {
+     // Paper start
+     @Override
+     public String getTimingsServerName() {
+-        return io.papermc.paper.configuration.GlobalConfiguration.get().timings.serverName;
++        return "Unknown Server"; // DivineMC - strict assignment of the server name to an unknown
+     }
+ 
+     @Override
 diff --git a/src/main/java/org/spigotmc/ActivationRange.java b/src/main/java/org/spigotmc/ActivationRange.java
 index de2b469f06f6679aed1d20156052bfbef5e7c30b..d429b2ad38db053f8906f38a2d7fdee0099f4d3a 100644
 --- a/src/main/java/org/spigotmc/ActivationRange.java

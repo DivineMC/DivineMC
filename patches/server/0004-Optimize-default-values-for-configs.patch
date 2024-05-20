@@ -5,25 +5,10 @@ Subject: [PATCH] Optimize default values for configs
 
 
 diff --git a/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java b/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
-index 2874bc3001c4e7d9191e47ba512c5a68369c21f1..d02d22b09430b93349d48bcb50d456d23f9b49c7 100644
+index 2874bc3001c4e7d9191e47ba512c5a68369c21f1..17961dd8fbe306dfcb721db2830f0156db453a62 100644
 --- a/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
 +++ b/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
-@@ -96,9 +96,11 @@ public class GlobalConfiguration extends ConfigurationPart {
- 
-     @Deprecated(forRemoval = true)
-     public class Timings extends ConfigurationPart {
--        public boolean enabled = true;
--        public boolean verbose = true;
--        public String url = "https://timings.aikar.co/";
-+        // DivineMC start - optimize default values for configs - disable default metrics
-+        public boolean enabled = false;
-+        public boolean verbose = false;
-+        public String url = "https://timin.gs/";
-+        // DivineMC end
-         public boolean serverNamePrivacy = false;
-         public List<String> hiddenConfigEntries = List.of(
-             "database",
-@@ -328,9 +330,9 @@ public class GlobalConfiguration extends ConfigurationPart {
+@@ -328,9 +328,9 @@ public class GlobalConfiguration extends ConfigurationPart {
          public boolean fixEntityPositionDesync = true;
          public boolean loadPermissionsYmlBeforePlugins = true;
          @Constraints.Min(4)
@@ -205,7 +190,7 @@ index efc91ff91827872c62b8bd060282549ccdcf67dd..2b3075505f09c15cee350b7a7f5e7571
          public float maxLeashDistance = 10f;
          public boolean disableSprintInterruptionOnAttack = false;
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-index bcdd2bc6ffc91349ac75833bd3928e8ca7de7a0f..a5dec9d6858fc19d6877a8ae93e51dcbccabd635 100644
+index b5092184076946b7169b67086b9542a9685c15f3..3d37b1413187004df679ee7744d8be2aaaeec670 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 @@ -241,7 +241,7 @@ public class PurpurConfig {

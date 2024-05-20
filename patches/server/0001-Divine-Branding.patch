@@ -159,7 +159,7 @@ index 3cb56595822799926a8141e60a42f5d1edfc6de5..05478a1ea04ec0396bc8c97090edef4a
                  .completer(new ConsoleCommandCompleter(this.server))
                  .option(LineReader.Option.COMPLETE_IN_WORD, true);
 diff --git a/src/main/java/io/papermc/paper/ServerBuildInfoImpl.java b/src/main/java/io/papermc/paper/ServerBuildInfoImpl.java
-index a6e5950b5875cafd734300cdfbf58f5d3736f3c8..3c2102bd861f65474968a51d379993efc639bdc3 100644
+index a6e5950b5875cafd734300cdfbf58f5d3736f3c8..7256e02150a2ddc2afd821299d36b1c71b7930b6 100644
 --- a/src/main/java/io/papermc/paper/ServerBuildInfoImpl.java
 +++ b/src/main/java/io/papermc/paper/ServerBuildInfoImpl.java
 @@ -32,6 +32,7 @@ public record ServerBuildInfoImpl(
@@ -178,10 +178,36 @@ index a6e5950b5875cafd734300cdfbf58f5d3736f3c8..3c2102bd861f65474968a51d379993ef
 +                .orElse(BRAND_DIVINEMC_ID), // DivineMC
              getManifestAttribute(manifest, ATTRIBUTE_BRAND_NAME)
 -                .orElse(BRAND_PURPUR_NAME), // Purpur
-+                .orElse(BRAND_DIVINEMC_NAME), // Purpur
++                .orElse(BRAND_DIVINEMC_NAME), // DivineMC
              SharedConstants.getCurrentVersion().getId(),
              SharedConstants.getCurrentVersion().getName(),
              getManifestAttribute(manifest, ATTRIBUTE_BUILD_NUMBER)
+diff --git a/src/main/java/net/minecraft/CrashReport.java b/src/main/java/net/minecraft/CrashReport.java
+index c366d84518979e842a6f10f969a5951539ecac93..b44daf19e76e9729980a4c871edd31dc293143fd 100644
+--- a/src/main/java/net/minecraft/CrashReport.java
++++ b/src/main/java/net/minecraft/CrashReport.java
+@@ -127,7 +127,7 @@ public class CrashReport {
+         stringbuilder.append("---- Minecraft Crash Report ----\n");
+         // Purpur start
+         stringbuilder.append("// ");
+-        stringbuilder.append("// DO NOT REPORT THIS TO PAPER! REPORT TO PURPUR INSTEAD!");
++        stringbuilder.append("// DO NOT REPORT THIS TO PAPER! REPORT TO DIVINEMC INSTEAD!"); // DivineMC
+         // Purpur end
+         stringbuilder.append("// ");
+         stringbuilder.append(CrashReport.getErrorComment());
+diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
+index 71705ccbc0cce88382b1fb536271773a332ad3a2..acb0e7d4cb383a37b18d5981ee55e78e08a66922 100644
+--- a/src/main/java/net/minecraft/server/MinecraftServer.java
++++ b/src/main/java/net/minecraft/server/MinecraftServer.java
+@@ -962,7 +962,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+         shutdownThread = Thread.currentThread();
+         org.spigotmc.WatchdogThread.doStop(); // Paper
+         if (!isSameThread()) {
+-            MinecraftServer.LOGGER.info("Stopping main thread (Ignore any thread death message you see! - DO NOT REPORT THREAD DEATH TO PURPUR)"); // Purpur
++            MinecraftServer.LOGGER.info("Stopping main thread (Ignore any thread death message you see! - DO NOT REPORT THREAD DEATH TO DIVINEMC)"); // DivineMC
+             while (this.getRunningThread().isAlive()) {
+                 this.getRunningThread().stop();
+                 try {
 diff --git a/src/main/java/net/minecraft/server/gui/MinecraftServerGui.java b/src/main/java/net/minecraft/server/gui/MinecraftServerGui.java
 index 8f74c2ec5252b6265549589310d742337c91cb2c..1f4c965531393dd81246de487bc86f6d6f73b723 100644
 --- a/src/main/java/net/minecraft/server/gui/MinecraftServerGui.java
@@ -213,6 +239,19 @@ index 8f74c2ec5252b6265549589310d742337c91cb2c..1f4c965531393dd81246de487bc86f6d
                      server.halt(true);
                      servergui.runFinalizers();
                  }
+diff --git a/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java b/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java
+index ca8ae8e1c51b937dac916e0b0dc94b5e2e61efeb..e68e13ac375a6418ad0785bc1c0f20af72bf6cf5 100644
+--- a/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java
++++ b/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java
+@@ -503,7 +503,7 @@ public class CraftScheduler implements BukkitScheduler {
+                 this.parsePending();
+             } else {
+                 // this.debugTail = this.debugTail.setNext(new CraftAsyncDebugger(currentTick + CraftScheduler.RECENT_TICKS, task.getOwner(), task.getTaskClass())); // Paper
+-                task.getOwner().getLogger().log(Level.SEVERE, "Unexpected Async Task in the Sync Scheduler. Report this to Purpur"); // Paper // Purpur
++                task.getOwner().getLogger().log(Level.SEVERE, "Unexpected Async Task in the Sync Scheduler. Report this to DivineMC"); // Paper // DivineMC
+                 // We don't need to parse pending
+                 // (async tasks must live with race-conditions if they attempt to cancel between these few lines of code)
+             }
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java b/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
 index 99597258e8e88cd9e2c901c4ac3ff7faeeabee2b..7bbbdf2895776f12ebc153dc83f4d53be8f06c7c 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
@@ -227,24 +266,48 @@ index 99597258e8e88cd9e2c901c4ac3ff7faeeabee2b..7bbbdf2895776f12ebc153dc83f4d53b
  
          if (stream != null) {
 diff --git a/src/main/java/org/spigotmc/WatchdogThread.java b/src/main/java/org/spigotmc/WatchdogThread.java
-index a353eb9f45af7b7f9bfd92a4a89403335b841840..20775a8c668c44111104b149a532dfedf691f405 100644
+index a353eb9f45af7b7f9bfd92a4a89403335b841840..3f3d158bb0f4b62dcf51402150e83d4efbbb8ca9 100644
 --- a/src/main/java/org/spigotmc/WatchdogThread.java
 +++ b/src/main/java/org/spigotmc/WatchdogThread.java
-@@ -184,7 +184,7 @@ public final class WatchdogThread extends io.papermc.paper.util.TickThread // Pa
+@@ -155,14 +155,14 @@ public final class WatchdogThread extends io.papermc.paper.util.TickThread // Pa
+                 if (isLongTimeout) {
+                 // Paper end
+                 log.log( Level.SEVERE, "------------------------------" );
+-                log.log( Level.SEVERE, "The server has stopped responding! This is (probably) not a Purpur bug." ); // Paper // Purpur
++                log.log( Level.SEVERE, "The server has stopped responding! This is (probably) not a DivineMC bug." ); // Paper // DivineMC
+                 log.log( Level.SEVERE, "If you see a plugin in the Server thread dump below, then please report it to that author" );
+                 log.log( Level.SEVERE, "\t *Especially* if it looks like HTTP or MySQL operations are occurring" );
+                 log.log( Level.SEVERE, "If you see a world save or edit, then it means you did far more than your server can handle at once" );
+                 log.log( Level.SEVERE, "\t If this is the case, consider increasing timeout-time in spigot.yml but note that this will replace the crash with LARGE lag spikes" );
+-                log.log( Level.SEVERE, "If you are unsure or still think this is a Purpur bug, please report this to https://github.com/PurpurMC/Purpur/issues" ); // Purpur
++                log.log( Level.SEVERE, "If you are unsure or still think this is a DivineMC bug, please report this to https://github.com/DivineMC/DivineMC/issues" ); // DivineMC
+                 log.log( Level.SEVERE, "Be sure to include ALL relevant console errors and Minecraft crash reports" );
+-                log.log( Level.SEVERE, "Purpur version: " + Bukkit.getServer().getVersion() ); // Purpur
++                log.log( Level.SEVERE, "DivineMC version: " + Bukkit.getServer().getVersion() ); // DivineMC
+                 //
+                 if ( net.minecraft.world.level.Level.lastPhysicsProblem != null )
+                 {
+@@ -184,12 +184,12 @@ public final class WatchdogThread extends io.papermc.paper.util.TickThread // Pa
                  // Paper end
                  } else
                  {
 -                    log.log(Level.SEVERE, "--- DO NOT REPORT THIS TO PURPUR - THIS IS NOT A BUG OR A CRASH  - " + Bukkit.getServer().getVersion() + " ---"); // Purpur
-+                    log.log(Level.SEVERE, "--- DO NOT REPORT THIS TO DIVINEMC - THIS IS NOT A BUG OR A CRASH  - " + Bukkit.getServer().getVersion() + " ---"); // Purpur // DivineMC
++                    log.log(Level.SEVERE, "--- DO NOT REPORT THIS TO DIVINEMC - THIS IS NOT A BUG OR A CRASH  - " + Bukkit.getServer().getVersion() + " ---"); // DivineMC
                      log.log(Level.SEVERE, "The server has not responded for " + (currentTime - lastTick) / 1000 + " seconds! Creating thread dump");
                  }
                  // Paper end - Different message for short timeout
+                 log.log( Level.SEVERE, "------------------------------" );
+-                log.log( Level.SEVERE, "Server thread dump (Look for plugins here before reporting to Purpur!):" ); // Paper // Purpur
++                log.log( Level.SEVERE, "Server thread dump (Look for plugins here before reporting to DivineMC!):" ); // Paper // DivineMC
+                 io.papermc.paper.chunk.system.scheduling.ChunkTaskScheduler.dumpAllChunkLoadInfo(isLongTimeout); // Paper - rewrite chunk system
+                 this.dumpTickingInfo(); // Paper - log detailed tick information
+                 WatchdogThread.dumpThread( ManagementFactory.getThreadMXBean().getThreadInfo( MinecraftServer.getServer().serverThread.getId(), Integer.MAX_VALUE ), log );
 @@ -205,7 +205,7 @@ public final class WatchdogThread extends io.papermc.paper.util.TickThread // Pa
                      WatchdogThread.dumpThread( thread, log );
                  }
                  } else {
 -                    log.log(Level.SEVERE, "--- DO NOT REPORT THIS TO PURPUR - THIS IS NOT A BUG OR A CRASH ---"); // Purpur
-+                    log.log(Level.SEVERE, "--- DO NOT REPORT THIS TO DIVINEMC - THIS IS NOT A BUG OR A CRASH ---"); // Purpur // DivineMC
++                    log.log(Level.SEVERE, "--- DO NOT REPORT THIS TO DIVINEMC - THIS IS NOT A BUG OR A CRASH ---"); // DivineMC
                  }
  
                  log.log( Level.SEVERE, "------------------------------" );
