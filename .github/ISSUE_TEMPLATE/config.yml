@@ -3,9 +3,6 @@ contact_links:
   - name: DivineMC Discord
     url: https://discord.gg/PrKTKfR579
     about: If you are having issues, come ask us on our Discord server!
-  - name: Ask Community
-    url: https://github.com/DivineMC/DivineMC/discussions
-    about: If you have a question, ask the community on the discussion page!
   - name: DivineMC Docs
-    url: https://divinemc.bxteam.gq/docs
-    about: You can find some Q&A at our DivineMC docs
+    url: https://divinemc.bx-team.space/docs/
+    about: You can find some info at our docs
