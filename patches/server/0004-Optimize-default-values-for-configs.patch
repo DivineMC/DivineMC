@@ -332,7 +332,7 @@ index 1cf6d4f854d89c515e48e1fb365eb95ff9340765..f9ba24d32f4170c641e420991e6c358f
  
      public int tileMaxTickTime;
 diff --git a/src/main/resources/configurations/bukkit.yml b/src/main/resources/configurations/bukkit.yml
-index eef7c125b2689f29cae5464659eacdf33f5695b2..8dbcf5f20dd99dba5d21ec6cd293a7534652c328 100644
+index eef7c125b2689f29cae5464659eacdf33f5695b2..c6b04acb5371a0ac454c5e377bccad5b0972aed8 100644
 --- a/src/main/resources/configurations/bukkit.yml
 +++ b/src/main/resources/configurations/bukkit.yml
 @@ -18,28 +18,28 @@ settings:
@@ -378,9 +378,7 @@ index eef7c125b2689f29cae5464659eacdf33f5695b2..8dbcf5f20dd99dba5d21ec6cd293a753
 +    axolotl-spawns: 400
 +    ambient-spawns: 400
      autosave: 6000
--aliases: now-in-commands.yml
-+aliases: now-in-commands.yml
-\ No newline at end of file
+ aliases: now-in-commands.yml
 diff --git a/src/main/resources/configurations/commands.yml b/src/main/resources/configurations/commands.yml
 index 18f54571200e2eca09a39b88f170fe7b99d8618f..1b57d51d92c5c69286800d10baeaa936fa208cae 100644
 --- a/src/main/resources/configurations/commands.yml
