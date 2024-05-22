@@ -189,6 +189,19 @@ index efc91ff91827872c62b8bd060282549ccdcf67dd..2b3075505f09c15cee350b7a7f5e7571
          public boolean disableEndCredits = false;
          public float maxLeashDistance = 10f;
          public boolean disableSprintInterruptionOnAttack = false;
+diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
+index f7db49d673853f31eacc76f5286b6a528b0390b6..3a4ce59ca5c2bae801a4f520650dad012357812f 100644
+--- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
++++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
+@@ -337,7 +337,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+         String proxyFlavor = (io.papermc.paper.configuration.GlobalConfiguration.get().proxies.velocity.enabled) ? "Velocity" : "BungeeCord";
+         String proxyLink = (io.papermc.paper.configuration.GlobalConfiguration.get().proxies.velocity.enabled) ? "https://docs.papermc.io/velocity/security" : "http://www.spigotmc.org/wiki/firewall-guide/";
+         // Paper end - Add Velocity IP Forwarding Support
+-        if (!this.usesAuthentication()) {
++        if (!io.papermc.paper.configuration.GlobalConfiguration.get().proxies.isProxyOnlineMode()) { // DivineMC - if server uses proxy (velocity or bungee), disable offline warning
+             DedicatedServer.LOGGER.warn("**** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!");
+             DedicatedServer.LOGGER.warn("The server will make no attempt to authenticate usernames. Beware.");
+             // Spigot start
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 index b5092184076946b7169b67086b9542a9685c15f3..3d37b1413187004df679ee7744d8be2aaaeec670 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
