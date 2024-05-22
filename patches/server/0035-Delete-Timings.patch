@@ -863,7 +863,7 @@ index 8c134a642ccaf3530022f2e675a858d726e1dda4..d6daa27a8d7aca00b181e90d789f4249
                      } catch (Exception exception) {
                          if (exception instanceof ReportedException) {
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index acb0e7d4cb383a37b18d5981ee55e78e08a66922..08ec1a1c9b4a044c2ae6da145f09645d89da96cb 100644
+index a57ea225fb9951421d2026928c26f351d1b58cca..9fa1c5d6a8f313cd3d0f99131da60b640fff5587 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -3,7 +3,6 @@ package net.minecraft.server;
@@ -883,7 +883,7 @@ index acb0e7d4cb383a37b18d5981ee55e78e08a66922..08ec1a1c9b4a044c2ae6da145f09645d
  public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTask> implements ServerInfo, CommandSource, AutoCloseable {
  
      private static MinecraftServer SERVER; // Paper
-@@ -978,7 +975,6 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -975,7 +972,6 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
  
          MinecraftServer.LOGGER.info("Stopping server");
          Commands.COMMAND_SENDING_POOL.shutdownNow(); // Paper - Perf: Async command map building; Shutdown and don't bother finishing
@@ -891,7 +891,7 @@ index acb0e7d4cb383a37b18d5981ee55e78e08a66922..08ec1a1c9b4a044c2ae6da145f09645d
          // Purpur start
          if (upnp) {
              if (dev.omega24.upnp4j.UPnP4J.close(this.getPort(), dev.omega24.upnp4j.util.Protocol.TCP)) {
-@@ -1490,34 +1486,29 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1487,34 +1483,29 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
              return;
          }
  
@@ -945,7 +945,7 @@ index acb0e7d4cb383a37b18d5981ee55e78e08a66922..08ec1a1c9b4a044c2ae6da145f09645d
          }
      }
      // Paper end - execute chunk tasks mid tick
-@@ -1592,15 +1583,14 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1589,15 +1580,14 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
      }
  
      public void tickServer(BooleanSupplier shouldKeepTicking) {
@@ -963,7 +963,7 @@ index acb0e7d4cb383a37b18d5981ee55e78e08a66922..08ec1a1c9b4a044c2ae6da145f09645d
          // Paper end
          new com.destroystokyo.paper.event.server.ServerTickStartEvent(this.tickCount+1).callEvent(); // Paper - Server Tick Events
  
-@@ -1637,9 +1627,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1634,9 +1624,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          // Paper end - Incremental chunk and player saving
          io.papermc.paper.util.CachedLists.reset(); // Paper
          // Paper start - move executeAll() into full server tick timing
@@ -974,7 +974,7 @@ index acb0e7d4cb383a37b18d5981ee55e78e08a66922..08ec1a1c9b4a044c2ae6da145f09645d
          // Paper end
          // Paper start - Server Tick Events
          long endTime = System.nanoTime();
-@@ -1662,7 +1650,6 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1659,7 +1647,6 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          this.logTickMethodTime(i);
          //this.profiler.pop(); // Purpur
          org.spigotmc.WatchdogThread.tick(); // Spigot
@@ -1168,7 +1168,7 @@ index 09a7b418ddf564c0be13297f7c216db2e7ae1578..1e26b1099139d76e49fce14ee72061e1
          this.scanRate = senseInterval;
          this.timeToTick = (long)RANDOM.nextInt(senseInterval);
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 02899e5bdb23d8e032c721beaac3f280201394b2..0011a17fa517c7540099829623db360940ee548c 100644
+index 3cef82714ce25d84d4f28da4d671b1fbcf5107a6..de44d842af2113af8dcd3791171c3a9d5ef88cde 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
 @@ -173,7 +173,6 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
@@ -1179,7 +1179,7 @@ index 02899e5bdb23d8e032c721beaac3f280201394b2..0011a17fa517c7540099829623db3609
      public static BlockPos lastPhysicsProblem; // Spigot
      private int tileTickPosition;
      public final Map<Explosion.CacheKey, Float> explosionDensityCache = new HashMap<>(); // Paper - Optimize explosions
-@@ -339,7 +338,6 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+@@ -330,7 +329,6 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
              public void onBorderSetDamageSafeZOne(WorldBorder border, double safeZoneRadius) {}
          });
          // CraftBukkit end
@@ -1187,7 +1187,7 @@ index 02899e5bdb23d8e032c721beaac3f280201394b2..0011a17fa517c7540099829623db3609
          this.chunkPacketBlockController = this.paperConfig().anticheat.antiXray.enabled ? new com.destroystokyo.paper.antixray.ChunkPacketBlockControllerAntiXray(this, executor) : com.destroystokyo.paper.antixray.ChunkPacketBlockController.NO_OPERATION_INSTANCE; // Paper - Anti-Xray
          // Paper start - optimise collisions
          this.minSection = io.papermc.paper.util.WorldUtil.getMinSection(this);
-@@ -1342,9 +1340,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+@@ -1333,9 +1331,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
          }
          this.blockEntityTickers.removeAll(toRemove); // Paper - Fix MC-117075
  

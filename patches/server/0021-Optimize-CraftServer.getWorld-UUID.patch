@@ -6,7 +6,7 @@ Subject: [PATCH] Optimize CraftServer.getWorld(UUID)
 Original code by MultiPaper - https://github.com/MultiPaper/MultiPaper
 
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index dd0f1013f3de00d67e6b3d69ed09176176bc6a0b..9d3d7118bae9315b08291e3f5a2052e2100c0037 100644
+index ab9065c2d21f713b366e5cfd1534538fd2617782..318cc15ec0a1a70d32e2637b08c48677d38d14a3 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -264,6 +264,7 @@ import javax.annotation.Nullable; // Paper
@@ -25,7 +25,7 @@ index dd0f1013f3de00d67e6b3d69ed09176176bc6a0b..9d3d7118bae9315b08291e3f5a2052e2
      private YamlConfiguration configuration;
      private YamlConfiguration commandsConfiguration;
      private final Yaml yaml = new Yaml(new SafeConstructor(new LoaderOptions()));
-@@ -1469,6 +1471,7 @@ public final class CraftServer implements Server {
+@@ -1464,6 +1466,7 @@ public final class CraftServer implements Server {
              this.getLogger().log(Level.SEVERE, null, ex);
          }
  
@@ -33,7 +33,7 @@ index dd0f1013f3de00d67e6b3d69ed09176176bc6a0b..9d3d7118bae9315b08291e3f5a2052e2
          this.worlds.remove(world.getName().toLowerCase(java.util.Locale.ENGLISH));
          this.console.removeLevel(handle);
          return true;
-@@ -1487,6 +1490,7 @@ public final class CraftServer implements Server {
+@@ -1482,6 +1485,7 @@ public final class CraftServer implements Server {
  
      @Override
      public World getWorld(UUID uid) {
@@ -41,7 +41,7 @@ index dd0f1013f3de00d67e6b3d69ed09176176bc6a0b..9d3d7118bae9315b08291e3f5a2052e2
          for (World world : this.worlds.values()) {
              if (world.getUID().equals(uid)) {
                  return world;
-@@ -1510,6 +1514,7 @@ public final class CraftServer implements Server {
+@@ -1505,6 +1509,7 @@ public final class CraftServer implements Server {
              System.out.println("World " + world.getName() + " is a duplicate of another world and has been prevented from loading. Please delete the uid.dat file from " + world.getName() + "'s world directory if you want to be able to load the duplicate world.");
              return;
          }
