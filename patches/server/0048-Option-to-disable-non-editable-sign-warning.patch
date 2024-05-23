@@ -1,0 +1,33 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Thu, 23 May 2024 15:39:18 +0300
+Subject: [PATCH] Option to disable non editable sign warning
+
+
+diff --git a/src/main/java/net/minecraft/world/level/block/entity/SignBlockEntity.java b/src/main/java/net/minecraft/world/level/block/entity/SignBlockEntity.java
+index 8cd812a25b1cc05ea14675658bf9c1503ebebd51..5cdfd35218c424ffb7a900ef66f9b1cfe1ff4293 100644
+--- a/src/main/java/net/minecraft/world/level/block/entity/SignBlockEntity.java
++++ b/src/main/java/net/minecraft/world/level/block/entity/SignBlockEntity.java
+@@ -189,7 +189,7 @@ public class SignBlockEntity extends BlockEntity implements CommandSource { // C
+             this.setAllowedPlayerEditor((UUID) null);
+             this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);
+         } else {
+-            SignBlockEntity.LOGGER.warn("Player {} just tried to change non-editable sign", player.getName().getString());
++            if (!space.bxteam.divinemc.configuration.DivineConfig.disableNonEditableSignWarning) SignBlockEntity.LOGGER.warn("Player {} just tried to change non-editable sign", player.getName().getString()); // DivineMC - Option to disable warning
+             if (player.distanceToSqr(this.getBlockPos().getX(), this.getBlockPos().getY(), this.getBlockPos().getZ()) < 32 * 32) // Paper - Dont send far away sign update
+             ((ServerPlayer) player).connection.send(this.getUpdatePacket()); // CraftBukkit
+         }
+diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
+index 08c69524814f8581faa6dcf227f18500d4370e13..e40f472da48a10b2ca2bc0e9b976e15305bd7016 100644
+--- a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
++++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
+@@ -200,7 +200,9 @@ public class DivineConfig {
+     }
+ 
+     public static boolean useSecureSeed = false;
++    public static boolean disableNonEditableSignWarning = true;
+     private static void miscSettings() {
+         useSecureSeed = getBoolean("settings.misc.use-secure-seed", useSecureSeed);
++        disableNonEditableSignWarning = getBoolean("settings.misc.disable-non-editable-sign-warning", disableNonEditableSignWarning);
+     }
+ }

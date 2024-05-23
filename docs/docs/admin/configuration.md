@@ -50,9 +50,12 @@ Global settings affect all worlds on the server as well as the core server funct
     - **default**: 60
     - **description**: The time during which inactive threads will remain in the pool until they are completed after downtime, specified in seconds.
 - #### optimizations
-  - ##### recipe-manager-optimization
+  - ##### optimized-dragon-respawn
     - **default**: true
-    - **description**: Enables or disables optimization of recipe manager from the CarpetFixes mod. Optimized by taking out streams & doing extra early checks to quickly remove unrelated recipes
+    - **description**: Enables or disables optimization of better dragon respawn (from Carpet-AMS-Addition mod)
+  - ##### optimize-noise-generation
+    - **default**: true
+    - **description**: Enables or disables optimization of better perlin noise generation
   - ##### biome-manager-optimization
     - **default**: true
     - **description**: Enables or disables optimization of biomes from the CarpetFixes mod. Makes getBiome() method faster by 25% - 75%
@@ -60,10 +63,16 @@ Global settings affect all worlds on the server as well as the core server funct
     - **default**: true
     - **description**: Enables or disables optimization of sheep color choosing from the CarpetFixes mod. The game determines the child sheep's color by getting a wool block from the parents, putting them in a crafting
 recipe, getting the output wool and getting the color from that.
+  - ##### recipe-manager-optimization
+    - **default**: true
+    - **description**: Enables or disables optimization of recipe manager from the CarpetFixes mod. Optimized by taking out streams & doing extra early checks to quickly remove unrelated recipes
 - #### misc
   - ##### use-secure-seed
     - **default**: false
     - **description**: Enabling this, default 64-bit seed will be changed to a 1024-bit seed, making it almost impossible to crack the seed. 
+  - ##### disable-non-editable-sign-warning
+    - **default**: true
+    - **description**: This setting disables warning when player tries to change the non-editable sign
 - #### region-format
     ##### linear
     - ###### flush-frequency
