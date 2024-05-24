@@ -3,7 +3,7 @@ import io.papermc.paperweight.util.constants.PAPERCLIP_CONFIG
 plugins {
     java
     `maven-publish`
-    id("io.papermc.paperweight.patcher") version "1.7.1"
+    id("io.papermc.paperweight.patcher") version "1.7.2-SNAPSHOT"
 }
 
 val paperMavenPublicUrl = "https://repo.papermc.io/repository/maven-public/"
@@ -18,38 +18,32 @@ repositories {
 }
 
 dependencies {
-    remapper("net.fabricmc:tiny-remapper:0.10.2:fat")
+    remapper("net.fabricmc:tiny-remapper:0.10.3:fat")
     decompiler("org.vineflower:vineflower:1.10.1")
     paperclip("io.papermc:paperclip:3.0.3")
 }
 
-subprojects {
+allprojects  {
     apply(plugin = "java")
+    apply(plugin = "maven-publish")
 
     java {
         toolchain {
-            languageVersion.set(JavaLanguageVersion.of(21))
+            languageVersion = JavaLanguageVersion.of(21)
         }
     }
 }
 
 subprojects {
-    tasks.withType<JavaCompile>().configureEach {
-        options.encoding = "UTF-8"
+    tasks.withType<JavaCompile> {
+        options.encoding = Charsets.UTF_8.name()
         options.release.set(21)
     }
-
     tasks.withType<Javadoc> {
         options.encoding = Charsets.UTF_8.name()
     }
-
     tasks.withType<ProcessResources> {
         filteringCharset = Charsets.UTF_8.name()
-    }
-
-    tasks.withType<Test> {
-        minHeapSize = "2g"
-        maxHeapSize = "2g"
     }
 
     repositories {
@@ -61,7 +55,6 @@ subprojects {
         maven("https://repo.md-5.net/content/repositories/releases/")
         maven("https://hub.spigotmc.org/nexus/content/groups/public/")
         maven("https://jitpack.io")
-        maven("https://oss.sonatype.org/content/repositories/snapshots/")
     }
 }
 
@@ -76,7 +69,8 @@ paperweight {
         ref.set(providers.gradleProperty("purpurRef"))
 
         withStandardPatcher {
-            baseName("Purpur")
+            apiSourceDirPath.set("Purpur-API")
+            serverSourceDirPath.set("Purpur-Server")
 
             apiPatchDir.set(layout.projectDirectory.dir("patches/api"))
             apiOutputDir.set(layout.projectDirectory.dir("DivineMC-API"))
