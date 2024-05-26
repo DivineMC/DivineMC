@@ -22,3 +22,16 @@ index 7107eabf02d9d9b69d97c978ba421ad52031ec3f..f6005cb48750fdcf903609f3fb693895
      /**
       * Gets the {@code ServerBuildInfo}.
       *
+diff --git a/src/main/java/org/bukkit/command/defaults/VersionCommand.java b/src/main/java/org/bukkit/command/defaults/VersionCommand.java
+index 3d29c47ac0620af82d990faf5dfc266c6f0235f1..d1b71e11ddf1ad965f5631404dae12521c63bd3a 100644
+--- a/src/main/java/org/bukkit/command/defaults/VersionCommand.java
++++ b/src/main/java/org/bukkit/command/defaults/VersionCommand.java
+@@ -258,7 +258,7 @@ public class VersionCommand extends BukkitCommand {
+         // Purpur start
+         int distance = getVersionFetcher().distance();
+         final Component message = Component.join(net.kyori.adventure.text.JoinConfiguration.separator(Component.newline()),
+-            ChatColor.parseMM("<grey>Current Purpur Version: %s%s*", distance == 0 ? "<green>" : distance > 0 ? "<yellow>" : "<red>", Bukkit.getVersion()),
++            ChatColor.parseMM("<grey>Current DivineMC Version: %s%s*", distance == 0 ? "<green>" : distance > 0 ? "<yellow>" : "<red>", Bukkit.getVersion()), // DivineMC
+             // Purpur end
+             msg
+         );
