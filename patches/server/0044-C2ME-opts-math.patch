@@ -281,7 +281,7 @@ index 35820670837376bcad8891241724d5b946fbd31f..74a666a45289f0902b426ba57986cd93
  
      @Deprecated
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-index 18ab5de56a41e4d768e1946051f81c8cc4fb9556..0f02c57447e2c2d40ab1cd9da5d3a4bd5624c17e 100644
+index 579b189b6d1752f8a51ddc13f6d4390517541661..8db0e71ee1ef7827b24938008c416ff960ab6be4 100644
 --- a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 @@ -157,11 +157,13 @@ public class DivineConfig {
@@ -297,4 +297,4 @@ index 18ab5de56a41e4d768e1946051f81c8cc4fb9556..0f02c57447e2c2d40ab1cd9da5d3a4bd
 +        optimizeNoiseGeneration = getBoolean("settings.optimizations.optimize-noise-generation", optimizeNoiseGeneration);
      }
  
-     public static boolean chatMessageSignatures = true;
+     public static boolean noChatSign = true;

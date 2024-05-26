@@ -1,0 +1,175 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Sun, 12 May 2024 19:49:57 +0300
+Subject: [PATCH] No chat sign
+
+
+diff --git a/src/main/java/io/papermc/paper/adventure/ChatProcessor.java b/src/main/java/io/papermc/paper/adventure/ChatProcessor.java
+index e83f9517b31c5171b8dc75ab63a5bfe654221c84..d498a986bcdb0b21e1b35c2fb19d8a445090105d 100644
+--- a/src/main/java/io/papermc/paper/adventure/ChatProcessor.java
++++ b/src/main/java/io/papermc/paper/adventure/ChatProcessor.java
+@@ -317,7 +317,7 @@ public final class ChatProcessor {
+ 
+         private void sendToServer(final ChatType.Bound chatType, final @Nullable Function<Audience, net.minecraft.network.chat.Component> msgFunction) {
+             final PlayerChatMessage toConsoleMessage = msgFunction == null ? ChatProcessor.this.message : ChatProcessor.this.message.withUnsignedContent(msgFunction.apply(ChatProcessor.this.server.console));
+-            ChatProcessor.this.server.logChatMessage(toConsoleMessage.decoratedContent(), chatType, ChatProcessor.this.server.getPlayerList().verifyChatTrusted(toConsoleMessage) ? null : "Not Secure");
++            ChatProcessor.this.server.logChatMessage(toConsoleMessage.decoratedContent(), chatType, ChatProcessor.this.server.getPlayerList().verifyChatTrusted(toConsoleMessage) || space.bxteam.divinemc.configuration.DivineConfig.noChatSign ? null : "Not Secure"); // DivineMC - No chat sign
+         }
+     }
+ 
+diff --git a/src/main/java/net/minecraft/commands/arguments/ArgumentSignatures.java b/src/main/java/net/minecraft/commands/arguments/ArgumentSignatures.java
+index 479e6e2aa88a22ef7f8fccb06add6806f5b71d9d..370543f7f710971a37a0d05da8ef484a91d79f01 100644
+--- a/src/main/java/net/minecraft/commands/arguments/ArgumentSignatures.java
++++ b/src/main/java/net/minecraft/commands/arguments/ArgumentSignatures.java
+@@ -14,9 +14,16 @@ public record ArgumentSignatures(List<ArgumentSignatures.Entry> entries) {
+     private static final int MAX_ARGUMENT_NAME_LENGTH = 16;
+ 
+     public ArgumentSignatures(FriendlyByteBuf buf) {
+-        this(buf.readCollection(FriendlyByteBuf.limitValue(ArrayList::new, 8), ArgumentSignatures.Entry::new));
++        this(readSign(buf)); // DivineMC - No chat sign
+     }
+ 
++    // DivineMC start - No chat sign
++    private static List<ArgumentSignatures.Entry> readSign(FriendlyByteBuf buf) {
++        var entries = buf.readCollection(FriendlyByteBuf.limitValue(ArrayList::new, 8), Entry::new);
++        return space.bxteam.divinemc.configuration.DivineConfig.noChatSign ? List.of() : entries;
++    }
++    // DivineMC end
++
+     public void write(FriendlyByteBuf buf) {
+         buf.writeCollection(this.entries, (buf2, entry) -> entry.write(buf2));
+     }
+diff --git a/src/main/java/net/minecraft/network/FriendlyByteBuf.java b/src/main/java/net/minecraft/network/FriendlyByteBuf.java
+index aafeb9c61ddba6a8671f0238eda47b227619f1af..9d5a4b75728e51b23dfd769b2d1c91312fc5eddb 100644
+--- a/src/main/java/net/minecraft/network/FriendlyByteBuf.java
++++ b/src/main/java/net/minecraft/network/FriendlyByteBuf.java
+@@ -129,6 +129,16 @@ public class FriendlyByteBuf extends ByteBuf {
+         // Paper end - Adventure; add max length parameter
+         DataResult<JsonElement> dataresult = codec.encodeStart(JsonOps.INSTANCE, value);
+ 
++        // DivineMC start - No chat sign
++        if (codec == net.minecraft.network.protocol.status.ServerStatus.CODEC) {
++            JsonElement element = dataresult.getOrThrow(string -> new EncoderException("Failed to encode: " + string + " " + value));
++            element.getAsJsonObject().addProperty("preventsChatReports", space.bxteam.divinemc.configuration.DivineConfig.noChatSign);
++
++            this.writeUtf(GSON.toJson(element));
++            return;
++        }
++        // DivineMC end
++
+         this.writeUtf(FriendlyByteBuf.GSON.toJson((JsonElement) dataresult.getOrThrow((s) -> {
+             return new EncoderException("Failed to encode: " + s + " " + String.valueOf(value));
+         })), maxLength); // Paper - Adventure; add max length parameter
+diff --git a/src/main/java/net/minecraft/network/protocol/game/ServerboundChatPacket.java b/src/main/java/net/minecraft/network/protocol/game/ServerboundChatPacket.java
+index 07df3299f1d1aa5506e1f6f146347d53e0278d9c..02fafc64d6178f2ae0be36b38ed5de7e0c31448c 100644
+--- a/src/main/java/net/minecraft/network/protocol/game/ServerboundChatPacket.java
++++ b/src/main/java/net/minecraft/network/protocol/game/ServerboundChatPacket.java
+@@ -16,7 +16,7 @@ public record ServerboundChatPacket(String message, Instant timeStamp, long salt
+     );
+ 
+     private ServerboundChatPacket(FriendlyByteBuf buf) {
+-        this(buf.readUtf(256), buf.readInstant(), buf.readLong(), buf.readNullable(MessageSignature::read), new LastSeenMessages.Update(buf));
++        this(buf.readUtf(256), buf.readInstant(), buf.readLong(), buf.readNullable(ServerboundChatPacket::readSign), new LastSeenMessages.Update(buf)); // DivineMC - No chat sign
+     }
+ 
+     private void write(FriendlyByteBuf buf) {
+@@ -27,6 +27,14 @@ public record ServerboundChatPacket(String message, Instant timeStamp, long salt
+         this.lastSeenMessages.write(buf);
+     }
+ 
++    // DivineMC start - No chat sign
++    private static MessageSignature readSign(FriendlyByteBuf buf) {
++        byte[] bs = new byte[256];
++        buf.readBytes(bs);
++        return space.bxteam.divinemc.configuration.DivineConfig.noChatSign ? null : new MessageSignature(bs);
++    }
++    // DivineMC end
++
+     @Override
+     public PacketType<ServerboundChatPacket> type() {
+         return GamePacketTypes.SERVERBOUND_CHAT;
+diff --git a/src/main/java/net/minecraft/network/protocol/game/ServerboundChatSessionUpdatePacket.java b/src/main/java/net/minecraft/network/protocol/game/ServerboundChatSessionUpdatePacket.java
+index 5705cb920084b775cce4b361683b32c6b6e003ed..9c031dd0fa279a23405e5b7d77e4c11e5a762684 100644
+--- a/src/main/java/net/minecraft/network/protocol/game/ServerboundChatSessionUpdatePacket.java
++++ b/src/main/java/net/minecraft/network/protocol/game/ServerboundChatSessionUpdatePacket.java
+@@ -26,6 +26,11 @@ public record ServerboundChatSessionUpdatePacket(RemoteChatSession.Data chatSess
+ 
+     @Override
+     public void handle(ServerGamePacketListener listener) {
++        // DivineMC start - No chat sign
++        if (space.bxteam.divinemc.configuration.DivineConfig.noChatSign) {
++            return;
++        }
++        // DivineMC end
+         listener.handleChatSessionUpdate(this);
+     }
+ }
+diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
+index 3a4ce59ca5c2bae801a4f520650dad012357812f..d0b2491da0f072d9be53ad738549c0a962bcadec 100644
+--- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
++++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
+@@ -709,7 +709,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+         // Paper start - Add setting for proxy online mode status
+         return dedicatedserverproperties.enforceSecureProfile
+             && io.papermc.paper.configuration.GlobalConfiguration.get().proxies.isProxyOnlineMode()
+-            && this.services.canValidateProfileKeys();
++            && this.services.canValidateProfileKeys() && !DivineConfig.noChatSign; // DivineMC - No chat sign
+         // Paper end - Add setting for proxy online mode status
+     }
+ 
+diff --git a/src/main/java/net/minecraft/server/network/ServerCommonPacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerCommonPacketListenerImpl.java
+index b82a72775f9de5ad65ae46a8b97f93a7ef852265..d0d85ceb29ef0ee29f68e2a7b37a8a0cc3772f48 100644
+--- a/src/main/java/net/minecraft/server/network/ServerCommonPacketListenerImpl.java
++++ b/src/main/java/net/minecraft/server/network/ServerCommonPacketListenerImpl.java
+@@ -323,10 +323,24 @@ public abstract class ServerCommonPacketListenerImpl implements ServerCommonPack
+     }
+ 
+     public void send(Packet<?> packet) {
++        // DivineMC start - No chat sign
++        if (space.bxteam.divinemc.configuration.DivineConfig.noChatSign) {
++            if (this instanceof ServerGamePacketListenerImpl && packet instanceof net.minecraft.network.protocol.game.ClientboundPlayerChatPacket chat) {
++                packet = new net.minecraft.network.protocol.game.ClientboundSystemChatPacket(chat.chatType().decorate(chat.unsignedContent() != null ? chat.unsignedContent() : Component.literal(chat.body().content())), false);
++            }
++        }
++        // DivineMC end
+         this.send(packet, (PacketSendListener) null);
+     }
+ 
+     public void send(Packet<?> packet, @Nullable PacketSendListener callbacks) {
++        // DivineMC start - No chat sign
++        if (space.bxteam.divinemc.configuration.DivineConfig.noChatSign) {
++            if (packet instanceof net.minecraft.network.protocol.game.ClientboundPlayerChatPacket chat && callbacks != null) {
++                callbacks = null;
++            }
++        }
++        // DivineMC end
+         // CraftBukkit start
+         if (packet == null || this.processedDisconnect) { // Spigot
+             return;
+diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
+index b863f6fe65c796a1d3102cc3eddb5d6c5becd3ac..a8cd8e8b952ea41167156f07ac2d5dcca3325060 100644
+--- a/src/main/java/net/minecraft/server/players/PlayerList.java
++++ b/src/main/java/net/minecraft/server/players/PlayerList.java
+@@ -1497,7 +1497,7 @@ public abstract class PlayerList {
+     }
+ 
+     public boolean verifyChatTrusted(PlayerChatMessage message) { // Paper - private -> public
+-        return message.hasSignature() && !message.hasExpiredServer(Instant.now());
++        return space.bxteam.divinemc.configuration.DivineConfig.noChatSign || (message.hasSignature() && !message.hasExpiredServer(Instant.now())); // DivineMC - No chat sign
+     }
+ 
+     // CraftBukkit start
+diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
+index c176fdb912c62f355cf01ff98555a4760818aadb..a4c264cbc0039c9f9f9b11d7a332822480176471 100644
+--- a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
++++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
+@@ -161,4 +161,9 @@ public class DivineConfig {
+         sheepOptimization = getBoolean("settings.optimizations.sheep-optimization", sheepOptimization);
+         recipeManagerOptimization = getBoolean("settings.optimizations.recipe-manager-optimization", recipeManagerOptimization);
+     }
++
++    public static boolean noChatSign = true;
++    private static void chatMessageSignatures() {
++        noChatSign = getBoolean("settings.no-chat-sign", noChatSign);
++    }
+ }

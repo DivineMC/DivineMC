@@ -983,7 +983,7 @@ index a57ea225fb9951421d2026928c26f351d1b58cca..9fa1c5d6a8f313cd3d0f99131da60b64
  
      private void logTickMethodTime(long tickStartTime) {
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 66266f4eb3f7322afd743e15d384d3a617c7084d..06296e18d1edfda53ffa19d04f4d1b6d2cd84483 100644
+index d0b2491da0f072d9be53ad738549c0a962bcadec..7140adf3dcace6f082540663e2cfdf4773a9c0e5 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -64,9 +64,6 @@ import org.apache.logging.log4j.Level;
@@ -996,7 +996,7 @@ index 66266f4eb3f7322afd743e15d384d3a617c7084d..06296e18d1edfda53ffa19d04f4d1b6d
  import org.bukkit.event.server.ServerCommandEvent;
  import org.bukkit.craftbukkit.util.Waitable; // Paper
  import org.bukkit.event.server.RemoteServerCommandEvent;
-@@ -844,21 +841,9 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -843,21 +840,9 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
              }
              // Paper start
              command.set(event.getCommand());
@@ -1060,7 +1060,7 @@ index 7924e3c597164f71056cd58dd167ee8b1d41b9c3..90aa52efeb8ae92bf981a973415d1c11
          entity.postTick(); // CraftBukkit
          } else { entity.inactiveTick(); } // Paper - EAR 2
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 10d52cd97b292a38ee6bb809cdb40554a011bb78..5a5ab84a944693efa10a7deb31bd1c59a445af1e 100644
+index a8cd8e8b952ea41167156f07ac2d5dcca3325060..d2fba246a563aa1cff639129e3953439b985986a 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -1,6 +1,5 @@

@@ -722,12 +722,12 @@ index 226ff7c6048b510be2e71ecc5d5ff3581092aa5e..3e15ff8170d49577c0fff1e0d6abac25
                  file = world.getChunkSource().chunkMap.regionFileCache.getRegionFile(chunkPos, false);
              } catch (java.io.IOException ex) {
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-index 33e269fd807bc41c8070bf1e9a08246f45d55d7d..e20d608bf9e86a263ca7c80203fae4a3ce7cc71a 100644
+index a4c264cbc0039c9f9f9b11d7a332822480176471..e1e9a1749266546359d722f6e6b801bbddf76060 100644
 --- a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 @@ -166,4 +166,15 @@ public class DivineConfig {
      private static void chatMessageSignatures() {
-         chatMessageSignatures = getBoolean("settings.chat-message-signatures", chatMessageSignatures);
+         noChatSign = getBoolean("settings.no-chat-sign", noChatSign);
      }
 +
 +    public static int linearFlushFrequency = 10;

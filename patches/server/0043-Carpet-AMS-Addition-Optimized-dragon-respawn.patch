@@ -110,7 +110,7 @@ index 18a1b4325cac81b040596071dab99ef9bf6f3142..445dc3ca4586b39ccc2cebe922455d9f
              for (BlockPattern.BlockPatternMatch shapedetector_shapedetectorcollection = this.findExitPortal(); shapedetector_shapedetectorcollection != null; shapedetector_shapedetectorcollection = this.findExitPortal()) {
                  for (int i = 0; i < this.exitPortalPattern.getWidth(); ++i) {
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-index 228703c008c1fd549c33af935c9b29e5587961f6..18ab5de56a41e4d768e1946051f81c8cc4fb9556 100644
+index e2eac66da19b1e9bc5f776d85b487d769121a9b3..579b189b6d1752f8a51ddc13f6d4390517541661 100644
 --- a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 @@ -156,10 +156,12 @@ public class DivineConfig {
@@ -125,7 +125,7 @@ index 228703c008c1fd549c33af935c9b29e5587961f6..18ab5de56a41e4d768e1946051f81c8c
 +        optimizedDragonRespawn = getBoolean("settings.optimizations.optimized-dragon-respawn", optimizedDragonRespawn);
      }
  
-     public static boolean chatMessageSignatures = true;
+     public static boolean noChatSign = true;
 diff --git a/src/main/java/space/bxteam/divinemc/util/carpetams/BlockPatternHelper.java b/src/main/java/space/bxteam/divinemc/util/carpetams/BlockPatternHelper.java
 new file mode 100644
 index 0000000000000000000000000000000000000000..1bf8f3d814d513ea2806bba9c26d207d14533cbd
