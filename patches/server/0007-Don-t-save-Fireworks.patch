@@ -5,7 +5,7 @@ Subject: [PATCH] Don't save Fireworks
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/FireworkRocketEntity.java b/src/main/java/net/minecraft/world/entity/projectile/FireworkRocketEntity.java
-index 3df4005b6ddc075e5922c1e96e4ceb21d8b8ea43..aa9b734820b1e240e4ce7a323f6c328eaa563fdc 100644
+index 6671796d292fbc922a94271136f5a7a4bbdedaca..768daecf46aa77089ed7e0c4b0f5cfbf479d8d4e 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/FireworkRocketEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/projectile/FireworkRocketEntity.java
 @@ -345,6 +345,13 @@ public class FireworkRocketEntity extends Projectile implements ItemSupplier {
@@ -19,7 +19,7 @@ index 3df4005b6ddc075e5922c1e96e4ceb21d8b8ea43..aa9b734820b1e240e4ce7a323f6c328e
 +    }
 +    // DivineMC end
 +
-     private static ItemStack getDefaultItem() {
+     public static ItemStack getDefaultItem() {
          return new ItemStack(Items.FIREWORK_ROCKET);
      }
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java
