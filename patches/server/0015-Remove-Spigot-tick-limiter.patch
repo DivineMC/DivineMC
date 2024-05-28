@@ -7,10 +7,10 @@ Original code by Titaniumtown, modified by NONPLAYT
 You can find the original code on https://gitlab.com/Titaniumtown/JettPack
 
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index a128e56bb835e2c8f4551a235f4832fd00611273..3cef82714ce25d84d4f28da4d671b1fbcf5107a6 100644
+index 63629a36572cd83977886c016084fd5ebefab65c..0d2cc738559e8b241539b49a35195291e78a54f2 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
-@@ -175,8 +175,6 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+@@ -176,8 +176,6 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
      public final DivineWorldConfig divinemcConfig; // DivineMC
      public final co.aikar.timings.WorldTimingsHandler timings; // Paper
      public static BlockPos lastPhysicsProblem; // Spigot
@@ -19,7 +19,7 @@ index a128e56bb835e2c8f4551a235f4832fd00611273..3cef82714ce25d84d4f28da4d671b1fb
      private int tileTickPosition;
      public final Map<Explosion.CacheKey, Float> explosionDensityCache = new HashMap<>(); // Paper - Optimize explosions
      public java.util.ArrayDeque<net.minecraft.world.level.block.RedstoneTorchBlock.Toggle> redstoneUpdateInfos; // Paper - Faster redstone torch rapid clock removal; Move from Map in BlockRedstoneTorch to here
-@@ -333,8 +331,6 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+@@ -334,8 +332,6 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
          });
          // CraftBukkit end
          this.timings = new co.aikar.timings.WorldTimingsHandler(this); // Paper - code below can generate new world and access timings

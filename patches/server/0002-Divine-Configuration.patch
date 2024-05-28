@@ -34,7 +34,7 @@ index 957da64ddd0a56f457122a3f590b45e348f22382..f7db49d673853f31eacc76f5286b6a52
          this.setFlightAllowed(dedicatedserverproperties.allowFlight);
          this.setMotd(dedicatedserverproperties.motd);
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 487bb3e75afc5871a79506a54f0f4af806460b14..a128e56bb835e2c8f4551a235f4832fd00611273 100644
+index 4beada452d014ec7dc7c167466ec2af3c5bfcd33..63629a36572cd83977886c016084fd5ebefab65c 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
 @@ -81,6 +81,7 @@ import net.minecraft.world.level.storage.WritableLevelData;
@@ -45,7 +45,7 @@ index 487bb3e75afc5871a79506a54f0f4af806460b14..a128e56bb835e2c8f4551a235f4832fd
  
  // CraftBukkit start
  import java.util.HashMap;
-@@ -171,6 +172,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+@@ -172,6 +173,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
  
      public final com.destroystokyo.paper.antixray.ChunkPacketBlockController chunkPacketBlockController; // Paper - Anti-Xray
      public final org.purpurmc.purpur.PurpurWorldConfig purpurConfig; // Purpur
@@ -53,7 +53,7 @@ index 487bb3e75afc5871a79506a54f0f4af806460b14..a128e56bb835e2c8f4551a235f4832fd
      public final co.aikar.timings.WorldTimingsHandler timings; // Paper
      public static BlockPos lastPhysicsProblem; // Spigot
      private org.spigotmc.TickLimiter entityLimiter;
-@@ -252,6 +254,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+@@ -253,6 +255,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
          this.spigotConfig = new org.spigotmc.SpigotWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName()); // Spigot
          this.paperConfig = paperWorldConfigCreator.apply(this.spigotConfig); // Paper - create paper world config
          this.purpurConfig = new org.purpurmc.purpur.PurpurWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName(), env); // Purpur
@@ -62,7 +62,7 @@ index 487bb3e75afc5871a79506a54f0f4af806460b14..a128e56bb835e2c8f4551a235f4832fd
          this.generator = gen;
          this.world = new CraftWorld((ServerLevel) this, gen, biomeProvider, env);
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 6e78500a6265b0192095379704b1d661ef56ba32..ab9065c2d21f713b366e5cfd1534538fd2617782 100644
+index f6b6d0d753e81d58cd21ba41d1e2f3e63267b743..b2f45d888604cdf4b98e86a8040962af27e7feda 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -263,6 +263,8 @@ import net.md_5.bungee.api.chat.BaseComponent; // Spigot
@@ -98,7 +98,7 @@ index 6e78500a6265b0192095379704b1d661ef56ba32..ab9065c2d21f713b366e5cfd1534538f
          this.overrideAllCommandBlockCommands = this.commandsConfiguration.getStringList("command-block-overrides").contains("*");
          this.ignoreVanillaPermissions = this.commandsConfiguration.getBoolean("ignore-vanilla-permissions");
  
-@@ -3107,6 +3112,13 @@ public final class CraftServer implements Server {
+@@ -3108,6 +3113,13 @@ public final class CraftServer implements Server {
          }
          // Purpur end
  

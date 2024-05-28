@@ -163,7 +163,7 @@ index 0bb577ec9ba0d23a741ccf067ac35f6be68312ca..68b533cdaa53af2d76e9b8ab050dc335
      public Packet<ClientGamePacketListener> getAddEntityPacket() {
          return new ClientboundAddEntityPacket(this, this.hasPose(Pose.EMERGING) ? 1 : 0);
 diff --git a/src/main/java/net/minecraft/world/entity/vehicle/ChestBoat.java b/src/main/java/net/minecraft/world/entity/vehicle/ChestBoat.java
-index b04f7ce0805453f6c737fa9dc11c4129ca64e934..f36e20da4172e2128267cb37123dcf4105144fde 100644
+index e0aec3b3e04d603dc208029554f981c6b9e6b43e..5954b62ad5b2f09dd0bbf6aad35488711f0fa780 100644
 --- a/src/main/java/net/minecraft/world/entity/vehicle/ChestBoat.java
 +++ b/src/main/java/net/minecraft/world/entity/vehicle/ChestBoat.java
 @@ -34,6 +34,9 @@ import org.bukkit.entity.HumanEntity;
@@ -185,7 +185,7 @@ index b04f7ce0805453f6c737fa9dc11c4129ca64e934..f36e20da4172e2128267cb37123dcf41
      }
  
      public ChestBoat(Level world, double d0, double d1, double d2) {
-@@ -172,7 +175,7 @@ public class ChestBoat extends Boat implements HasCustomInventoryScreen, Contain
+@@ -170,7 +173,7 @@ public class ChestBoat extends Boat implements HasCustomInventoryScreen, Contain
  
      @Override
      public int getContainerSize() {
@@ -195,7 +195,7 @@ index b04f7ce0805453f6c737fa9dc11c4129ca64e934..f36e20da4172e2128267cb37123dcf41
  
      @Override
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-index a5dec9d6858fc19d6877a8ae93e51dcbccabd635..6263ef379b5078e04d1362b5ed1577d4abd5e72f 100644
+index 3d37b1413187004df679ee7744d8be2aaaeec670..6a200c5c8c847569f0ef2d13efd9ac91ac04a350 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 @@ -328,6 +328,7 @@ public class PurpurConfig {
@@ -215,7 +215,7 @@ index a5dec9d6858fc19d6877a8ae93e51dcbccabd635..6263ef379b5078e04d1362b5ed1577d4
          org.bukkit.event.inventory.InventoryType.ENDER_CHEST.setDefaultSize(enderChestSixRows ? 54 : 27);
          enderChestPermissionRows = getBoolean("settings.blocks.ender_chest.use-permissions-for-rows", enderChestPermissionRows);
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
-index d8de8710d9b8cf2ae5c434b2b0b27e76ffbbe4bf..da6018f80e695e390eb5f8f67542e3f8762ec3b1 100644
+index 6717941d18dbd6871b4613106b9787063e11722f..3fddce6242c5be160259b93f8527a8022a6adac6 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 @@ -1178,7 +1178,17 @@ public class PurpurWorldConfig {
