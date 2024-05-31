@@ -5,7 +5,7 @@ Subject: [PATCH] Snowball and Egg knockback
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/Snowball.java b/src/main/java/net/minecraft/world/entity/projectile/Snowball.java
-index 1b9d0e28e518c501b4b93ae385ddd64aeade97d5..727df038b20bb826a630d3f2c835c7ad7d9d651e 100644
+index 1b9d0e28e518c501b4b93ae385ddd64aeade97d5..373ad51fc22e8ecd362297561184ef9e7c48fc41 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/Snowball.java
 +++ b/src/main/java/net/minecraft/world/entity/projectile/Snowball.java
 @@ -3,6 +3,7 @@ package net.minecraft.world.entity.projectile;
@@ -24,14 +24,14 @@ index 1b9d0e28e518c501b4b93ae385ddd64aeade97d5..727df038b20bb826a630d3f2c835c7ad
 +        // DivineMC start - Snowball and Egg knockback
 +        if (this.level().divinemcConfig.snowballCanKnockback && entity instanceof ServerPlayer) {
 +            entity.hurt(this.damageSources().thrown(this, this.getOwner()), 0.0000001F);
-+            ((ServerPlayer) entity).knockback(0.4000000059604645D, this.getX() - entity.getX(), this.getZ() - entity.getZ(), this, org.bukkit.event.entity.EntityKnockbackEvent.KnockbackCause.DAMAGE);
++            ((ServerPlayer) entity).knockback(0.4000000059604645D, this.getX() - entity.getX(), this.getZ() - entity.getZ(), this, io.papermc.paper.event.entity.EntityKnockbackEvent.Cause.DAMAGE);
 +        }
 +        // DivineMC end
      }
  
      // Purpur start - borrowed and modified code from ThrownPotion#onHitBlock and ThrownPotion#dowseFire
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/ThrownEgg.java b/src/main/java/net/minecraft/world/entity/projectile/ThrownEgg.java
-index 82bb8004635865f5202578d5a6f520048e7269d5..f1ac568258170d76c242d4083c080ae5080cc368 100644
+index 82bb8004635865f5202578d5a6f520048e7269d5..e7a95a87378b9fb785d99dff2fd2d5ddb3fdd5b8 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/ThrownEgg.java
 +++ b/src/main/java/net/minecraft/world/entity/projectile/ThrownEgg.java
 @@ -46,7 +46,15 @@ public class ThrownEgg extends ThrowableItemProjectile {
@@ -44,7 +44,7 @@ index 82bb8004635865f5202578d5a6f520048e7269d5..f1ac568258170d76c242d4083c080ae5
 +        // DivineMC start - Snowball and Egg knockback
 +        if (this.level().divinemcConfig.eggCanKnockback && entity instanceof ServerPlayer) {
 +            entity.hurt(this.damageSources().thrown(this, this.getOwner()), 0.0000001F);
-+            ((ServerPlayer) entity).knockback(0.4000000059604645D, this.getX() - entity.getX(), this.getZ() - entity.getZ(), this, org.bukkit.event.entity.EntityKnockbackEvent.KnockbackCause.DAMAGE);
++            ((ServerPlayer) entity).knockback(0.4000000059604645D, this.getX() - entity.getX(), this.getZ() - entity.getZ(), this, io.papermc.paper.event.entity.EntityKnockbackEvent.Cause.DAMAGE);
 +        }
 +        // DivineMC end
      }
