@@ -7,10 +7,10 @@ Original code by CaffeineMC, licensed under LGPL v3
 You can find the original code on https://github.com/CaffeineMC/lithium-fabric (Yarn mappings)
 
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 8b946ed4f252c2ae881e179183559bb9aa98ea79..9a29daf32c31a33babb5526bbf21907aaa0aeca3 100644
+index 5d24cbb8a75cf3d3956e165fbe9111b42814b01c..a63a1b6901b03a446402593a8db7381158861e7c 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-@@ -2653,6 +2653,7 @@ public abstract class LivingEntity extends Entity implements Attackable {
+@@ -2646,6 +2646,7 @@ public abstract class LivingEntity extends Entity implements Attackable {
      }
  
      protected void updateSwingTime() {
@@ -18,7 +18,7 @@ index 8b946ed4f252c2ae881e179183559bb9aa98ea79..9a29daf32c31a33babb5526bbf21907a
          int i = this.getCurrentSwingDuration();
  
          if (this.swinging) {
-@@ -3626,6 +3627,7 @@ public abstract class LivingEntity extends Entity implements Attackable {
+@@ -3619,6 +3620,7 @@ public abstract class LivingEntity extends Entity implements Attackable {
      }
  
      private void updateFallFlying() {
