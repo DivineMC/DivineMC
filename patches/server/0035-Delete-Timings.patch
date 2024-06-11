@@ -1377,10 +1377,10 @@ index de3f413dc60ee501e540b68a7b3c1118c750ca0b..b8a2731cf0a3e194cdb82b250dc29b11
  
      @Override
 diff --git a/src/main/java/org/spigotmc/ActivationRange.java b/src/main/java/org/spigotmc/ActivationRange.java
-index de2b469f06f6679aed1d20156052bfbef5e7c30b..d429b2ad38db053f8906f38a2d7fdee0099f4d3a 100644
+index f7644c5045b1accae4c0aaf44df26286c6cc5125..57d424d69c4fa761e673b649ce7777b6f86634e5 100644
 --- a/src/main/java/org/spigotmc/ActivationRange.java
 +++ b/src/main/java/org/spigotmc/ActivationRange.java
-@@ -35,7 +35,6 @@ import net.minecraft.world.entity.projectile.FireworkRocketEntity;
+@@ -34,7 +34,6 @@ import net.minecraft.world.entity.projectile.FireworkRocketEntity;
  import net.minecraft.world.entity.projectile.ThrowableProjectile;
  import net.minecraft.world.entity.projectile.ThrownTrident;
  import net.minecraft.world.entity.raid.Raider;

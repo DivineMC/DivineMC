@@ -615,10 +615,10 @@ index 84c6a786658b16fe0535b4d99135ba58cec8d3a9..01d64dad1769d5585e9c51d93cd8ec6a
          }
      }
 diff --git a/src/main/java/net/minecraft/world/entity/monster/Drowned.java b/src/main/java/net/minecraft/world/entity/monster/Drowned.java
-index 15afee3c4f6307557321424560d2340e23cd472b..525b7c750604068aca1183dc19428a39674da9b4 100644
+index d1197b313f16f43f60ed242081a6164026e3c6a7..a785f86b20689f44f23941bfeee2c2ea42f0f3c4 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/Drowned.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/Drowned.java
-@@ -296,7 +296,7 @@ public class Drowned extends Zombie implements RangedAttackMob {
+@@ -295,7 +295,7 @@ public class Drowned extends Zombie implements RangedAttackMob {
      protected boolean closeToNextPos() {
          Path pathentity = this.getNavigation().getPath();
  
@@ -857,7 +857,7 @@ index 6308822f819d7cb84c8070c8a7eec1a3f822114b..3db838279e4407c28671bb1563fc96f9
  
      public SwimNodeEvaluator(boolean canJumpOutOfWater) {
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-index e20d608bf9e86a263ca7c80203fae4a3ce7cc71a..1934e6c1282c33f4f8e183a97fc67f2016593eb3 100644
+index e1e9a1749266546359d722f6e6b801bbddf76060..f0be52e3a72a7eaa5b7d840fa00b5be1edacf156 100644
 --- a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 @@ -177,4 +177,21 @@ public class DivineConfig {

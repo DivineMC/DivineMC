@@ -195,7 +195,7 @@ index e0aec3b3e04d603dc208029554f981c6b9e6b43e..5954b62ad5b2f09dd0bbf6aad3548871
  
      @Override
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-index 3d37b1413187004df679ee7744d8be2aaaeec670..6a200c5c8c847569f0ef2d13efd9ac91ac04a350 100644
+index 06dc1e8825ead872b668d357b0071c5429c2f09b..7cfa57300c9f94ef5a3ad23ce1728d938341a782 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 @@ -328,6 +328,7 @@ public class PurpurConfig {
@@ -206,7 +206,7 @@ index 3d37b1413187004df679ee7744d8be2aaaeec670..6a200c5c8c847569f0ef2d13efd9ac91
      public static boolean enderChestSixRows = false;
      public static boolean enderChestPermissionRows = false;
      public static boolean cryingObsidianValidForPortalFrame = false;
-@@ -368,6 +369,7 @@ public class PurpurConfig {
+@@ -370,6 +371,7 @@ public class PurpurConfig {
              case 1 -> 9;
              default -> 27;
          });
