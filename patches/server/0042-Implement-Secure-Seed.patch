@@ -72,7 +72,7 @@ index 842f382de43df5d5c321422372ec30ccdd7859d7..bd17ddefd6a9c640cc410cfa22859d32
              return GsonHelper.parse(!s1.isEmpty() ? s1 : "{}");
          }, new JsonObject()), (String) this.get("level-type", (s1) -> {
 diff --git a/src/main/java/net/minecraft/server/level/ServerChunkCache.java b/src/main/java/net/minecraft/server/level/ServerChunkCache.java
-index 476a04d87a61b021816d2970e86042bde32d95a2..728f8429ee779854de136e83809d9308d9a27c8c 100644
+index 25aff82dd74ee87f67632af48a2a8e7436fb1a84..e97f93d711aacee54c6aabd58ab76f42954f6aba 100644
 --- a/src/main/java/net/minecraft/server/level/ServerChunkCache.java
 +++ b/src/main/java/net/minecraft/server/level/ServerChunkCache.java
 @@ -44,6 +44,7 @@ import net.minecraft.world.level.levelgen.RandomState;
@@ -556,10 +556,10 @@ index 70dbf7267b43357578c07fcd46618f656410a8e2..c1ee25acabf60f78829176a77bfac377
          Rotation rotation = Rotation.getRandom(worldgenRandom);
          StructureTemplatePool structureTemplatePool = structurePool.unwrapKey()
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftChunk.java b/src/main/java/org/bukkit/craftbukkit/CraftChunk.java
-index 82b4bd669c57b18fb0b443bcd94495023cd5a528..4cf13d10f24be20b2f9c8b0338b6af3ddd96750b 100644
+index 92f1ea81b5e90529905d9c508aca18c31443ff6a..ae1a1d4b86a41d4a1c149caf9df42fa580da9957 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftChunk.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftChunk.java
-@@ -202,7 +202,10 @@ public class CraftChunk implements Chunk {
+@@ -203,7 +203,10 @@ public class CraftChunk implements Chunk {
      @Override
      public boolean isSlimeChunk() {
          // 987234911L is deterimined in EntitySlime when seeing if a slime can spawn in a chunk
@@ -572,10 +572,10 @@ index 82b4bd669c57b18fb0b443bcd94495023cd5a528..4cf13d10f24be20b2f9c8b0338b6af3d
  
      @Override
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index d14f612f2e73374cba8d2a9724d899a62e7cf5c8..2c5af5c226c386f8c2c31441f70e415d583a5829 100644
+index e21f1398c2efba9856718cb30328ac6ec5a4484e..1e0c88fa14819030376efe0208d09aebf47b4b09 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -265,6 +265,8 @@ import javax.annotation.Nonnull; // Paper
+@@ -266,6 +266,8 @@ import javax.annotation.Nonnull; // Paper
  
  import space.bxteam.divinemc.configuration.DivineConfig; // DivineMC
  import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap; // DivineMC
@@ -584,7 +584,7 @@ index d14f612f2e73374cba8d2a9724d899a62e7cf5c8..2c5af5c226c386f8c2c31441f70e415d
  
  public final class CraftServer implements Server {
      private final String serverName = io.papermc.paper.ServerBuildInfo.buildInfo().brandName(); // Paper
-@@ -1357,7 +1359,7 @@ public final class CraftServer implements Server {
+@@ -1380,7 +1382,7 @@ public final class CraftServer implements Server {
              iregistrycustom_dimension = leveldataanddimensions.dimensions().dimensionsRegistryAccess();
          } else {
              LevelSettings worldsettings;

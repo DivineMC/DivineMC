@@ -69,7 +69,7 @@ index 2096e57c025858519e7c46788993b9aac1ec60e8..4baff5a88450ed973bca9edd6cffe97d
              }
          }
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 9fa1c5d6a8f313cd3d0f99131da60b640fff5587..0fab6be4b5c5fcf539238b5f67cc9f8e0aac8af4 100644
+index d3ee7a004d17d47b778e85dd655aff931f0f980d..c9a6a3397d412e157c8b56b664b1e544eb4a5dc8 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -884,7 +884,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -691,10 +691,10 @@ index fa4f9afb421c7924557372cbb2f20caf9e13c81c..f8ce9630bbb486814e6c3ecd533555b8
  
      public CompletableFuture<Optional<CompoundTag>> read(ChunkPos pos) {
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-index 226ff7c6048b510be2e71ecc5d5ff3581092aa5e..3e15ff8170d49577c0fff1e0d6abac25265a2eaf 100644
+index 523a6afd7f1dcb0b4ddf5ede0415487c104296bc..ccb998675fb43da6c879e0c03d893c5d5e397e7c 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-@@ -584,7 +584,7 @@ public class CraftWorld extends CraftRegionAccessor implements World {
+@@ -609,7 +609,7 @@ public class CraftWorld extends CraftRegionAccessor implements World {
                  world.getChunk(x, z); // make sure we're at ticket level 32 or lower
                  return true;
              }

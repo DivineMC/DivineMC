@@ -863,7 +863,7 @@ index 8c134a642ccaf3530022f2e675a858d726e1dda4..d6daa27a8d7aca00b181e90d789f4249
                      } catch (Exception exception) {
                          if (exception instanceof ReportedException) {
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index a57ea225fb9951421d2026928c26f351d1b58cca..9fa1c5d6a8f313cd3d0f99131da60b640fff5587 100644
+index 105497ecdc207021febc3ba3156d2f9253f906f9..d3ee7a004d17d47b778e85dd655aff931f0f980d 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -3,7 +3,6 @@ package net.minecraft.server;
@@ -983,7 +983,7 @@ index a57ea225fb9951421d2026928c26f351d1b58cca..9fa1c5d6a8f313cd3d0f99131da60b64
  
      private void logTickMethodTime(long tickStartTime) {
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index d0b2491da0f072d9be53ad738549c0a962bcadec..7140adf3dcace6f082540663e2cfdf4773a9c0e5 100644
+index 1e74d2e2840dbe17c67e81683fdf451e2de8cd6f..7140adf3dcace6f082540663e2cfdf4773a9c0e5 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -64,9 +64,6 @@ import org.apache.logging.log4j.Level;
@@ -1000,7 +1000,7 @@ index d0b2491da0f072d9be53ad738549c0a962bcadec..7140adf3dcace6f082540663e2cfdf47
              }
              // Paper start
              command.set(event.getCommand());
--            if (event.getCommand().toLowerCase().startsWith("timings") && event.getCommand().toLowerCase().matches("timings (report|paste|get|merged|seperate)")) {
+-            if (event.getCommand().toLowerCase(java.util.Locale.ROOT).startsWith("timings") && event.getCommand().toLowerCase(java.util.Locale.ROOT).matches("timings (report|paste|get|merged|seperate)")) {
 -                org.bukkit.command.BufferedCommandSender sender = new org.bukkit.command.BufferedCommandSender();
 -                Waitable<String> waitable = new Waitable<>() {
 -                    @Override
@@ -1115,7 +1115,7 @@ index 8120f39a9689dae1233b243b74825e9ff110eac3..4203dae9628b0576cc0b9a9160dca985
          return this != EntityType.PLAYER && this != EntityType.LLAMA_SPIT && this != EntityType.WITHER && this != EntityType.BAT && this != EntityType.ITEM_FRAME && this != EntityType.GLOW_ITEM_FRAME && this != EntityType.LEASH_KNOT && this != EntityType.PAINTING && this != EntityType.END_CRYSTAL && this != EntityType.EVOKER_FANGS;
      }
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index a63a1b6901b03a446402593a8db7381158861e7c..fcb349860ef9d11db9a8f74a72e230000472937b 100644
+index def38ac6896ccdd7bab344cec13c76d74817e001..e79bab8808b113c36b3e89c977d067877b2bdd4f 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
 @@ -150,8 +150,6 @@ import org.bukkit.event.entity.EntityTeleportEvent;
@@ -1235,7 +1235,7 @@ index cd0e43f4c53a746dd6183a8406269f9b11ad3571..54657ac895fb2fa9c58910d5421f0082
      private static final CraftPersistentDataTypeRegistry DATA_TYPE_REGISTRY = new CraftPersistentDataTypeRegistry();
      public CraftPersistentDataContainer persistentDataContainer;
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index d62bb6611ec37ec9c35712810cc65a60cb88ed6e..93cf19c3bb09f4b639c60d1093181256b93d612a 100644
+index 6aff380ee0224a438b36fa83cfbede4b57996d06..e8fa33e0c8a8d9847218a45e9aceba3b88aee4f1 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -362,8 +362,10 @@ public class Main {
@@ -1355,10 +1355,10 @@ index d3ec817e95628f1fc8be4a29c9a0f13c7d5fd552..e9798517b9211c50a20ea5c69603aab3
      }
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
-index de3f413dc60ee501e540b68a7b3c1118c750ca0b..b8a2731cf0a3e194cdb82b250dc29b1175667f12 100644
+index e29826bdfcdde938c1e1ea4092efccda13f52218..a59e3de2e82ac6feecb34babb60c4192596e7ef7 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
 +++ b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
-@@ -219,7 +219,7 @@ public final class CraftMagicNumbers implements UnsafeValues {
+@@ -220,7 +220,7 @@ public final class CraftMagicNumbers implements UnsafeValues {
      // Paper start
      @Override
      public void reportTimings() {
@@ -1367,7 +1367,7 @@ index de3f413dc60ee501e540b68a7b3c1118c750ca0b..b8a2731cf0a3e194cdb82b250dc29b11
      }
      // Paper end
  
-@@ -498,7 +498,7 @@ public final class CraftMagicNumbers implements UnsafeValues {
+@@ -499,7 +499,7 @@ public final class CraftMagicNumbers implements UnsafeValues {
      // Paper start
      @Override
      public String getTimingsServerName() {
