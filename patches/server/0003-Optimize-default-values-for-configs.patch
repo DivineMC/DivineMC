@@ -5,10 +5,10 @@ Subject: [PATCH] Optimize default values for configs
 
 
 diff --git a/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java b/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
-index 2874bc3001c4e7d9191e47ba512c5a68369c21f1..17961dd8fbe306dfcb721db2830f0156db453a62 100644
+index b8499c1cea97a1a88a53053bc7da132f2fd3928d..69fbb3ff023db00fb82a1c0235c05afdacb47abd 100644
 --- a/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
 +++ b/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
-@@ -328,9 +328,9 @@ public class GlobalConfiguration extends ConfigurationPart {
+@@ -330,9 +330,9 @@ public class GlobalConfiguration extends ConfigurationPart {
          public boolean fixEntityPositionDesync = true;
          public boolean loadPermissionsYmlBeforePlugins = true;
          @Constraints.Min(4)
@@ -21,10 +21,10 @@ index 2874bc3001c4e7d9191e47ba512c5a68369c21f1..17961dd8fbe306dfcb721db2830f0156
          public boolean strictAdvancementDimensionCheck = false;
          public IntOr.Default compressionLevel = IntOr.Default.USE_DEFAULT;
 diff --git a/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java b/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
-index efc91ff91827872c62b8bd060282549ccdcf67dd..2b3075505f09c15cee350b7a7f5e7571600a930a 100644
+index 7509b17414f836e8b53fc62b02b386ba4e8c5ca9..3ace9f8cb1e04887b5d2fd7af76eb7686add9573 100644
 --- a/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
 +++ b/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
-@@ -150,9 +150,9 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -151,9 +151,9 @@ public class WorldConfiguration extends ConfigurationPart {
  
          public ArmorStands armorStands;
  
@@ -37,7 +37,7 @@ index efc91ff91827872c62b8bd060282549ccdcf67dd..2b3075505f09c15cee350b7a7f5e7571
          }
  
          public Markers markers;
-@@ -252,8 +252,8 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -253,8 +253,8 @@ public class WorldConfiguration extends ConfigurationPart {
          public Behavior behavior;
  
          public class Behavior extends ConfigurationPart {
@@ -48,7 +48,7 @@ index efc91ff91827872c62b8bd060282549ccdcf67dd..2b3075505f09c15cee350b7a7f5e7571
              public int experienceMergeMaxValue = -1;
              public boolean shouldRemoveDragon = false;
              public boolean zombiesTargetTurtleEggs = true;
-@@ -277,7 +277,7 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -278,7 +278,7 @@ public class WorldConfiguration extends ConfigurationPart {
              public int playerInsomniaStartTicks = 72000;
              public int phantomsSpawnAttemptMinSeconds = 60;
              public int phantomsSpawnAttemptMaxSeconds = 119;
@@ -57,7 +57,7 @@ index efc91ff91827872c62b8bd060282549ccdcf67dd..2b3075505f09c15cee350b7a7f5e7571
              @BelowZeroToEmpty
              public DoubleOr.Default zombieVillagerInfectionChance = DoubleOr.Default.USE_DEFAULT;
              public MobsCanAlwaysPickUpLoot mobsCanAlwaysPickUpLoot;
-@@ -288,7 +288,7 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -289,7 +289,7 @@ public class WorldConfiguration extends ConfigurationPart {
              }
  
              public boolean disablePlayerCrits = false;
@@ -66,7 +66,7 @@ index efc91ff91827872c62b8bd060282549ccdcf67dd..2b3075505f09c15cee350b7a7f5e7571
              public PillagerPatrols pillagerPatrols;
  
              public class PillagerPatrols extends ConfigurationPart {
-@@ -382,7 +382,7 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -383,7 +383,7 @@ public class WorldConfiguration extends ConfigurationPart {
      public class Environment extends ConfigurationPart {
          public boolean disableThunder = false;
          public boolean disableIceAndSnow = false;
@@ -75,7 +75,7 @@ index efc91ff91827872c62b8bd060282549ccdcf67dd..2b3075505f09c15cee350b7a7f5e7571
          public boolean disableExplosionKnockback = false;
          public boolean generateFlatBedrock = false;
          public FrostedIce frostedIce;
-@@ -428,7 +428,7 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -429,7 +429,7 @@ public class WorldConfiguration extends ConfigurationPart {
  
      public class Maps extends ConfigurationPart {
          public int itemFrameCursorLimit = 128;
@@ -84,7 +84,7 @@ index efc91ff91827872c62b8bd060282549ccdcf67dd..2b3075505f09c15cee350b7a7f5e7571
      }
  
      public Fixes fixes;
-@@ -454,7 +454,7 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -455,7 +455,7 @@ public class WorldConfiguration extends ConfigurationPart {
      public class Hopper extends ConfigurationPart {
          public boolean cooldownWhenFull = true;
          public boolean disableMoveEvent = false;
@@ -93,7 +93,7 @@ index efc91ff91827872c62b8bd060282549ccdcf67dd..2b3075505f09c15cee350b7a7f5e7571
      }
  
      public Collisions collisions;
-@@ -462,9 +462,9 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -463,9 +463,9 @@ public class WorldConfiguration extends ConfigurationPart {
      public class Collisions extends ConfigurationPart {
          public boolean onlyPlayersCollide = false;
          public boolean allowVehicleCollisions = true;
@@ -105,7 +105,7 @@ index efc91ff91827872c62b8bd060282549ccdcf67dd..2b3075505f09c15cee350b7a7f5e7571
          public boolean allowPlayerCrammingDamage = false;
      }
  
-@@ -472,18 +472,31 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -473,18 +473,31 @@ public class WorldConfiguration extends ConfigurationPart {
  
      public class Chunks extends ConfigurationPart {
          public AutosavePeriod autoSaveInterval = AutosavePeriod.def();
@@ -147,7 +147,7 @@ index efc91ff91827872c62b8bd060282549ccdcf67dd..2b3075505f09c15cee350b7a7f5e7571
          });
          public boolean flushRegionsOnSave = false;
      }
-@@ -498,13 +511,15 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -499,13 +512,15 @@ public class WorldConfiguration extends ConfigurationPart {
      public TickRates tickRates;
  
      public class TickRates extends ConfigurationPart {
@@ -168,7 +168,7 @@ index efc91ff91827872c62b8bd060282549ccdcf67dd..2b3075505f09c15cee350b7a7f5e7571
      }
  
      @Setting(FeatureSeedsGeneration.FEATURE_SEEDS_KEY)
-@@ -513,7 +528,7 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -514,7 +529,7 @@ public class WorldConfiguration extends ConfigurationPart {
      public class FeatureSeeds extends ConfigurationPart {
          @SuppressWarnings("unused") // Is used in FeatureSeedsGeneration
          @Setting(FeatureSeedsGeneration.GENERATE_KEY)
@@ -177,7 +177,7 @@ index efc91ff91827872c62b8bd060282549ccdcf67dd..2b3075505f09c15cee350b7a7f5e7571
          @Setting(FeatureSeedsGeneration.FEATURES_KEY)
          public Reference2LongMap<Holder<ConfiguredFeature<?, ?>>> features = new Reference2LongOpenHashMap<>();
  
-@@ -534,9 +549,9 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -535,9 +550,9 @@ public class WorldConfiguration extends ConfigurationPart {
  
      public class Misc extends ConfigurationPart {
          public int lightQueueSize = 20;
@@ -187,13 +187,13 @@ index efc91ff91827872c62b8bd060282549ccdcf67dd..2b3075505f09c15cee350b7a7f5e7571
 -        public RedstoneImplementation redstoneImplementation = RedstoneImplementation.VANILLA;
 +        public RedstoneImplementation redstoneImplementation = RedstoneImplementation.ALTERNATE_CURRENT; // DivineMC - optimize default values for configs
          public boolean disableEndCredits = false;
-         public float maxLeashDistance = 10f;
+         public double maxLeashDistance = Leashable.LEASH_TOO_FAR_DIST;
          public boolean disableSprintInterruptionOnAttack = false;
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index f7db49d673853f31eacc76f5286b6a528b0390b6..3a4ce59ca5c2bae801a4f520650dad012357812f 100644
+index 0956889c7b4fbba2ec615e222c52698cfb14db4c..d11f052f5432b75f25aefd967ebff936a72df4e1 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-@@ -337,7 +337,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -341,7 +341,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
          String proxyFlavor = (io.papermc.paper.configuration.GlobalConfiguration.get().proxies.velocity.enabled) ? "Velocity" : "BungeeCord";
          String proxyLink = (io.papermc.paper.configuration.GlobalConfiguration.get().proxies.velocity.enabled) ? "https://docs.papermc.io/velocity/security" : "http://www.spigotmc.org/wiki/firewall-guide/";
          // Paper end - Add Velocity IP Forwarding Support
@@ -203,10 +203,10 @@ index f7db49d673853f31eacc76f5286b6a528b0390b6..3a4ce59ca5c2bae801a4f520650dad01
              DedicatedServer.LOGGER.warn("The server will make no attempt to authenticate usernames. Beware.");
              // Spigot start
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-index b5092184076946b7169b67086b9542a9685c15f3..3d37b1413187004df679ee7744d8be2aaaeec670 100644
+index aea73061f4bd47c7307d6fdf0929765f5258cafc..73352e71d3743fc6b263d6fa5b23571785e2fc4c 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-@@ -241,7 +241,7 @@ public class PurpurConfig {
+@@ -243,7 +243,7 @@ public class PurpurConfig {
          laggingThreshold = getDouble("settings.lagging-threshold", laggingThreshold);
      }
  
@@ -216,7 +216,7 @@ index b5092184076946b7169b67086b9542a9685c15f3..3d37b1413187004df679ee7744d8be2a
          useAlternateKeepAlive = getBoolean("settings.use-alternate-keepalive", useAlternateKeepAlive);
      }
 diff --git a/src/main/java/org/spigotmc/SpigotConfig.java b/src/main/java/org/spigotmc/SpigotConfig.java
-index 6c2a3813e7d63d57f07a8fa2edbb9d231221d818..44ef1545f8e5a2d0785c139da48d7086922cf308 100644
+index db9c812cf7267adf0bfd8be7368140e91245d640..b8534797f15da80117d84f569fc54864ae453f86 100644
 --- a/src/main/java/org/spigotmc/SpigotConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotConfig.java
 @@ -335,7 +335,7 @@ public class SpigotConfig
@@ -242,7 +242,7 @@ index 6c2a3813e7d63d57f07a8fa2edbb9d231221d818..44ef1545f8e5a2d0785c139da48d7086
  
      public static boolean disablePlayerDataSaving;
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-index 1cf6d4f854d89c515e48e1fb365eb95ff9340765..f9ba24d32f4170c641e420991e6c358f6bd91be2 100644
+index dbfe355221fb2ee66b79442a749412d9288afc0d..77beb2258b3e16860f005d6ce1280d7fa4c80961 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
 @@ -150,14 +150,14 @@ public class SpigotWorldConfig
