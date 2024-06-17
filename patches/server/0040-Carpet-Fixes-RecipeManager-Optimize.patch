@@ -1,0 +1,43 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Sun, 12 May 2024 18:12:53 +0300
+Subject: [PATCH] Carpet-Fixes: RecipeManager Optimize
+
+Original project: https://github.com/fxmorin/carpet-fixes
+Improves: [Blast]Furnace/Campfire/Smoker/Stonecutter/Crafting/Sheep Color Choosing
+
+diff --git a/src/main/java/net/minecraft/world/item/crafting/RecipeManager.java b/src/main/java/net/minecraft/world/item/crafting/RecipeManager.java
+index de7c77c1b25680ecc65f0f43f2391aff269a974f..6d96e00d35be3d0d9fe7def5773c7f00d5951e99 100644
+--- a/src/main/java/net/minecraft/world/item/crafting/RecipeManager.java
++++ b/src/main/java/net/minecraft/world/item/crafting/RecipeManager.java
+@@ -21,6 +21,7 @@ import java.util.Map.Entry;
+ import java.util.Optional;
+ import java.util.stream.Collectors;
+ import java.util.stream.Stream;
++import java.util.ArrayList;
+ import javax.annotation.Nullable;
+ import net.minecraft.core.HolderLookup;
+ import net.minecraft.core.NonNullList;
+@@ -128,7 +129,7 @@ public class RecipeManager extends SimpleJsonResourceReloadListener {
+     }
+ 
+     public <I extends RecipeInput, T extends Recipe<I>> List<RecipeHolder<T>> getAllRecipesFor(RecipeType<T> type) {
+-        return List.copyOf(this.byType(type));
++        return space.bxteam.divinemc.configuration.DivineConfig.recipeManagerOptimization ? new ArrayList<>(this.byType(type)) : List.copyOf(this.byType(type)); // DivineMC - Carpet-Fixes: RecipeManager Optimize
+     }
+ 
+     public <I extends RecipeInput, T extends Recipe<I>> List<RecipeHolder<T>> getRecipesFor(RecipeType<T> type, I input, Level world) {
+diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
+index 58557370cd588c19faf54cb9fc402b1d0a0f687f..a126361a640d3aac85785f3f24f9e5f712d4d2fe 100644
+--- a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
++++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
+@@ -157,4 +157,9 @@ public class DivineConfig {
+     private static void miscSettings() {
+         disableNonEditableSignWarning = getBoolean("settings.misc.disable-non-editable-sign-warning", disableNonEditableSignWarning);
+     }
++
++    public static boolean recipeManagerOptimization = true;
++    private static void optimizations() {
++        recipeManagerOptimization = getBoolean("settings.optimizations.recipe-manager-optimization", recipeManagerOptimization);
++    }
+ }

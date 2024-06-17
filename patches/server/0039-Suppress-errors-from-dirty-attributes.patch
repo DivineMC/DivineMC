@@ -5,22 +5,22 @@ Subject: [PATCH] Suppress errors from dirty attributes
 
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerEntity.java b/src/main/java/net/minecraft/server/level/ServerEntity.java
-index dd6278fe99e2ee4daa95249c71ea935dd08b0025..7e2bd649b3525ccd5db052f83c9b8818d7f13d78 100644
+index b38207981751d96a7e769f7afb352a4540b18440..3117a5ea9ef02c523c9223252078cc40163e6ca4 100644
 --- a/src/main/java/net/minecraft/server/level/ServerEntity.java
 +++ b/src/main/java/net/minecraft/server/level/ServerEntity.java
-@@ -394,7 +394,10 @@ public class ServerEntity {
+@@ -402,7 +402,10 @@ public class ServerEntity {
          }
  
          if (this.entity instanceof LivingEntity) {
--            Set<AttributeInstance> set = ((LivingEntity) this.entity).getAttributes().getDirtyAttributes();
+-            Set<AttributeInstance> set = ((LivingEntity) this.entity).getAttributes().getAttributesToSync();
 +            // DivineMC start - Suppress errors from dirty attributes
-+            Set<AttributeInstance> attributes = ((LivingEntity) this.entity).getAttributes().getDirtyAttributes();
++            Set<AttributeInstance> attributes = ((LivingEntity) this.entity).getAttributes().getAttributesToSync();
 +            final Set<AttributeInstance> set = this.level.divinemcConfig.suppressErrorsFromDirtyAttributes ? Collections.synchronizedSet(attributes) : attributes;
 +            // DivineMC end
  
              if (!set.isEmpty()) {
                  // CraftBukkit start - Send scaled max health
-@@ -405,7 +408,7 @@ public class ServerEntity {
+@@ -413,7 +416,7 @@ public class ServerEntity {
                  this.broadcastAndSend(new ClientboundUpdateAttributesPacket(this.entity.getId(), set));
              }
  
