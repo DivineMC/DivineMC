@@ -5,7 +5,7 @@ Subject: [PATCH] Divine Branding
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index d23ecfabf6bf1e355fb2efe5abd80236259ce3c4..ba4a171468365dbfa95d50f4eb2830815eb167e3 100644
+index 0635aacceec1ba9c753b4dde057876b91336d416..dffee3fdef02135233bc9a915eebbb714830b889 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -13,7 +13,7 @@ configurations.named(log4jPlugins.compileClasspathConfigurationName) {
@@ -38,7 +38,7 @@ index d23ecfabf6bf1e355fb2efe5abd80236259ce3c4..ba4a171468365dbfa95d50f4eb283081
              "Build-Time" to Instant.now().toString(),
              "Git-Branch" to gitBranch, // Paper
 diff --git a/src/main/java/com/destroystokyo/paper/Metrics.java b/src/main/java/com/destroystokyo/paper/Metrics.java
-index 8cde30544e14f8fc2dac32966ae3c21f8cf3a551..8b06174a9c42ea1d5a1cc5a423a0d6f7304a06c4 100644
+index 308d80ca27aa0edd63fba87343b12b39675462bc..cd9bf4bde05228ce3c5e54a2c8e9a50f4150f958 100644
 --- a/src/main/java/com/destroystokyo/paper/Metrics.java
 +++ b/src/main/java/com/destroystokyo/paper/Metrics.java
 @@ -3,6 +3,7 @@ package com.destroystokyo.paper;
@@ -49,7 +49,7 @@ index 8cde30544e14f8fc2dac32966ae3c21f8cf3a551..8b06174a9c42ea1d5a1cc5a423a0d6f7
  import org.bukkit.craftbukkit.util.CraftMagicNumbers;
  import org.bukkit.plugin.Plugin;
  
-@@ -593,7 +594,7 @@ public class Metrics {
+@@ -588,7 +589,7 @@ public class Metrics {
              boolean logFailedRequests = config.getBoolean("logFailedRequests", false);
              // Only start Metrics, if it's enabled in the config
              if (config.getBoolean("enabled", true)) {
@@ -58,7 +58,7 @@ index 8cde30544e14f8fc2dac32966ae3c21f8cf3a551..8b06174a9c42ea1d5a1cc5a423a0d6f7
  
                  metrics.addCustomChart(new Metrics.SimplePie("minecraft_version", () -> {
                      String minecraftVersion = Bukkit.getVersion();
-@@ -604,6 +605,7 @@ public class Metrics {
+@@ -599,6 +600,7 @@ public class Metrics {
                  metrics.addCustomChart(new Metrics.SingleLineChart("players", () -> Bukkit.getOnlinePlayers().size()));
                  metrics.addCustomChart(new Metrics.SimplePie("online_mode", () -> Bukkit.getOnlineMode() ? "online" : (io.papermc.paper.configuration.GlobalConfiguration.get().proxies.isProxyOnlineMode() ? "bungee" : "offline"))); // Purpur
                  metrics.addCustomChart(new Metrics.SimplePie("purpur_version", () -> (org.bukkit.craftbukkit.Main.class.getPackage().getImplementationVersion() != null) ? org.bukkit.craftbukkit.Main.class.getPackage().getImplementationVersion() : "unknown")); // Purpur
@@ -183,31 +183,18 @@ index a6e5950b5875cafd734300cdfbf58f5d3736f3c8..7256e02150a2ddc2afd821299d36b1c7
              SharedConstants.getCurrentVersion().getName(),
              getManifestAttribute(manifest, ATTRIBUTE_BUILD_NUMBER)
 diff --git a/src/main/java/net/minecraft/CrashReport.java b/src/main/java/net/minecraft/CrashReport.java
-index c366d84518979e842a6f10f969a5951539ecac93..b44daf19e76e9729980a4c871edd31dc293143fd 100644
+index 7eabcb453ef655741c4802d2f574932d6d741631..c66f0bc0c92788ca06490672acc26227d268ea12 100644
 --- a/src/main/java/net/minecraft/CrashReport.java
 +++ b/src/main/java/net/minecraft/CrashReport.java
-@@ -127,7 +127,7 @@ public class CrashReport {
-         stringbuilder.append("---- Minecraft Crash Report ----\n");
-         // Purpur start
-         stringbuilder.append("// ");
--        stringbuilder.append("// DO NOT REPORT THIS TO PAPER! REPORT TO PURPUR INSTEAD!");
-+        stringbuilder.append("// DO NOT REPORT THIS TO PAPER! REPORT TO DIVINEMC INSTEAD!"); // DivineMC
-         // Purpur end
-         stringbuilder.append("// ");
-         stringbuilder.append(CrashReport.getErrorComment());
-diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 330bae815c0a332e3dc9fa7b224c9f92098199b9..a57ea225fb9951421d2026928c26f351d1b58cca 100644
---- a/src/main/java/net/minecraft/server/MinecraftServer.java
-+++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -959,7 +959,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
-         shutdownThread = Thread.currentThread();
-         org.spigotmc.WatchdogThread.doStop(); // Paper
-         if (!isSameThread()) {
--            MinecraftServer.LOGGER.info("Stopping main thread (Ignore any thread death message you see! - DO NOT REPORT THREAD DEATH TO PURPUR)"); // Purpur
-+            MinecraftServer.LOGGER.info("Stopping main thread (Ignore any thread death message you see! - DO NOT REPORT THREAD DEATH TO DIVINEMC)"); // DivineMC
-             while (this.getRunningThread().isAlive()) {
-                 this.getRunningThread().stop();
-                 try {
+@@ -32,7 +32,7 @@ public class CrashReport {
+     private boolean trackingStackTrace = true;
+     private StackTraceElement[] uncategorizedStackTrace = new StackTraceElement[0];
+     private final SystemReport systemReport = new SystemReport();
+-    private List<String> extraInfo = List.of("", "DO NOT REPORT THIS TO PAPER! REPORT TO PURPUR INSTEAD!", ""); // Purpur - Rebrand
++    private List<String> extraInfo = List.of("", "DO NOT REPORT THIS TO PAPER! REPORT TO DIVINEMC INSTEAD!", ""); // Purpur - Rebrand // DivineMC
+ 
+     public CrashReport(String message, Throwable cause) {
+         io.papermc.paper.util.StacktraceDeobfuscator.INSTANCE.deobfuscateThrowable(cause); // Paper
 diff --git a/src/main/java/net/minecraft/server/gui/MinecraftServerGui.java b/src/main/java/net/minecraft/server/gui/MinecraftServerGui.java
 index 8f74c2ec5252b6265549589310d742337c91cb2c..1f4c965531393dd81246de487bc86f6d6f73b723 100644
 --- a/src/main/java/net/minecraft/server/gui/MinecraftServerGui.java
@@ -266,10 +253,10 @@ index 99597258e8e88cd9e2c901c4ac3ff7faeeabee2b..7bbbdf2895776f12ebc153dc83f4d53b
  
          if (stream != null) {
 diff --git a/src/main/java/org/spigotmc/WatchdogThread.java b/src/main/java/org/spigotmc/WatchdogThread.java
-index a353eb9f45af7b7f9bfd92a4a89403335b841840..3f3d158bb0f4b62dcf51402150e83d4efbbb8ca9 100644
+index 101d1528d818a1c27080c973df5eee041f1ebc9e..dc062e94cd3a9fb57a60eb2c63f7f773f8cfddbf 100644
 --- a/src/main/java/org/spigotmc/WatchdogThread.java
 +++ b/src/main/java/org/spigotmc/WatchdogThread.java
-@@ -155,14 +155,14 @@ public final class WatchdogThread extends io.papermc.paper.util.TickThread // Pa
+@@ -80,14 +80,14 @@ public class WatchdogThread extends Thread
                  if (isLongTimeout) {
                  // Paper end
                  log.log( Level.SEVERE, "------------------------------" );
@@ -287,7 +274,7 @@ index a353eb9f45af7b7f9bfd92a4a89403335b841840..3f3d158bb0f4b62dcf51402150e83d4e
                  //
                  if ( net.minecraft.world.level.Level.lastPhysicsProblem != null )
                  {
-@@ -184,12 +184,12 @@ public final class WatchdogThread extends io.papermc.paper.util.TickThread // Pa
+@@ -109,12 +109,12 @@ public class WatchdogThread extends Thread
                  // Paper end
                  } else
                  {
@@ -298,11 +285,11 @@ index a353eb9f45af7b7f9bfd92a4a89403335b841840..3f3d158bb0f4b62dcf51402150e83d4e
                  // Paper end - Different message for short timeout
                  log.log( Level.SEVERE, "------------------------------" );
 -                log.log( Level.SEVERE, "Server thread dump (Look for plugins here before reporting to Purpur!):" ); // Paper // Purpur
-+                log.log( Level.SEVERE, "Server thread dump (Look for plugins here before reporting to DivineMC!):" ); // Paper // DivineMC
-                 io.papermc.paper.chunk.system.scheduling.ChunkTaskScheduler.dumpAllChunkLoadInfo(isLongTimeout); // Paper - rewrite chunk system
-                 this.dumpTickingInfo(); // Paper - log detailed tick information
++                log.log( Level.SEVERE, "Server thread dump (Look for plugins here before reporting to DivineMC!):" ); // Paper // Purpur // DivineMC
+                 ca.spottedleaf.moonrise.patches.chunk_system.scheduling.ChunkTaskScheduler.dumpAllChunkLoadInfo(isLongTimeout); // Paper - rewrite chunk system
                  WatchdogThread.dumpThread( ManagementFactory.getThreadMXBean().getThreadInfo( MinecraftServer.getServer().serverThread.getId(), Integer.MAX_VALUE ), log );
-@@ -205,7 +205,7 @@ public final class WatchdogThread extends io.papermc.paper.util.TickThread // Pa
+                 log.log( Level.SEVERE, "------------------------------" );
+@@ -129,7 +129,7 @@ public class WatchdogThread extends Thread
                      WatchdogThread.dumpThread( thread, log );
                  }
                  } else {
