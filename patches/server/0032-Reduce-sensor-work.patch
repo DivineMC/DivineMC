@@ -7,10 +7,10 @@ Original project: Bloom-host/Petal
 Link: https://github.com/Bloom-host/Petal
 
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 66c353e3dcca3704094ec71c38219bf74e7d7fbb..8b946ed4f252c2ae881e179183559bb9aa98ea79 100644
+index 48cc6ab18ffd5174d5d82a2aad468887abe2ebda..f740b190fc597b921e472719c1a2783d6961cc91 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-@@ -1068,20 +1068,19 @@ public abstract class LivingEntity extends Entity implements Attackable {
+@@ -1041,20 +1041,19 @@ public abstract class LivingEntity extends Entity implements Attackable {
          }
  
          if (entity != null) {

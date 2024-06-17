@@ -31,10 +31,10 @@ index 1b9d0e28e518c501b4b93ae385ddd64aeade97d5..373ad51fc22e8ecd362297561184ef9e
  
      // Purpur start - borrowed and modified code from ThrownPotion#onHitBlock and ThrownPotion#dowseFire
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/ThrownEgg.java b/src/main/java/net/minecraft/world/entity/projectile/ThrownEgg.java
-index 82bb8004635865f5202578d5a6f520048e7269d5..e7a95a87378b9fb785d99dff2fd2d5ddb3fdd5b8 100644
+index dbd60cc8c39f5d2d4c77e2de4f2567e7fa456cd2..e560ab2c1ebe48367b6991eca4ff2464172f64df 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/ThrownEgg.java
 +++ b/src/main/java/net/minecraft/world/entity/projectile/ThrownEgg.java
-@@ -46,7 +46,15 @@ public class ThrownEgg extends ThrowableItemProjectile {
+@@ -49,7 +49,15 @@ public class ThrownEgg extends ThrowableItemProjectile {
      @Override
      protected void onHitEntity(EntityHitResult entityHitResult) {
          super.onHitEntity(entityHitResult);

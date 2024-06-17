@@ -5,10 +5,10 @@ Subject: [PATCH] Boat Settings
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/vehicle/Boat.java b/src/main/java/net/minecraft/world/entity/vehicle/Boat.java
-index 13e1c7594bf304b35ce8dcab2951329c527d7dea..efb2fac41a546ba312f4925f206f0975a0336406 100644
+index 294b337ebbefa964975988be3a5476b21adced9e..45e803c67339abf9fe0dfc23173263b216ee4cf0 100644
 --- a/src/main/java/net/minecraft/world/entity/vehicle/Boat.java
 +++ b/src/main/java/net/minecraft/world/entity/vehicle/Boat.java
-@@ -331,7 +331,18 @@ public class Boat extends VehicleEntity implements VariantHolder<Boat.Type> {
+@@ -335,7 +335,18 @@ public class Boat extends VehicleEntity implements Leashable, VariantHolder<Boat
          }
  
          if (!this.level().isClientSide && this.outOfControlTicks >= 60.0F) {
@@ -28,22 +28,22 @@ index 13e1c7594bf304b35ce8dcab2951329c527d7dea..efb2fac41a546ba312f4925f206f0975
          }
  
          if (this.getHurtTime() > 0) {
-@@ -850,7 +861,13 @@ public class Boat extends VehicleEntity implements VariantHolder<Boat.Type> {
- 
-     @Override
+@@ -888,7 +899,13 @@ public class Boat extends VehicleEntity implements Leashable, VariantHolder<Boat
      public InteractionResult interact(Player player, InteractionHand hand) {
--        return player.isSecondaryUseActive() ? InteractionResult.PASS : (this.outOfControlTicks < 60.0F ? (!this.level().isClientSide ? (player.startRiding(this) ? InteractionResult.CONSUME : InteractionResult.PASS) : InteractionResult.SUCCESS) : InteractionResult.PASS);
+         InteractionResult enuminteractionresult = super.interact(player, hand);
+ 
+-        return enuminteractionresult != InteractionResult.PASS ? enuminteractionresult : (player.isSecondaryUseActive() ? InteractionResult.PASS : (this.outOfControlTicks < 60.0F ? (!this.level().isClientSide ? (player.startRiding(this) ? InteractionResult.CONSUME : InteractionResult.PASS) : InteractionResult.SUCCESS) : InteractionResult.PASS));
 +        // DivineMC start - always allow to enter the boat
 +        if (this.level().divinemcConfig.alwaysAllowToEnterTheBoat) {
-+            return player.isSecondaryUseActive() ? InteractionResult.PASS : (true || this.outOfControlTicks < 60.0F ? (!this.level().isClientSide ? (player.startRiding(this) ? InteractionResult.CONSUME : InteractionResult.PASS) : InteractionResult.SUCCESS) : InteractionResult.PASS);
++            return enuminteractionresult != InteractionResult.PASS ? enuminteractionresult : (player.isSecondaryUseActive() ? InteractionResult.PASS : (true || this.outOfControlTicks < 60.0F ? (!this.level().isClientSide ? (player.startRiding(this) ? InteractionResult.CONSUME : InteractionResult.PASS) : InteractionResult.SUCCESS) : InteractionResult.PASS));
 +        } else {
-+            return player.isSecondaryUseActive() ? InteractionResult.PASS : (this.outOfControlTicks < 60.0F ? (!this.level().isClientSide ? (player.startRiding(this) ? InteractionResult.CONSUME : InteractionResult.PASS) : InteractionResult.SUCCESS) : InteractionResult.PASS);
++            return enuminteractionresult != InteractionResult.PASS ? enuminteractionresult : (player.isSecondaryUseActive() ? InteractionResult.PASS : (this.outOfControlTicks < 60.0F ? (!this.level().isClientSide ? (player.startRiding(this) ? InteractionResult.CONSUME : InteractionResult.PASS) : InteractionResult.SUCCESS) : InteractionResult.PASS));
 +        }
 +        // DivineMC end
      }
  
      @Override
-@@ -922,7 +939,13 @@ public class Boat extends VehicleEntity implements VariantHolder<Boat.Type> {
+@@ -976,7 +993,13 @@ public class Boat extends VehicleEntity implements Leashable, VariantHolder<Boat
  
      @Override
      protected boolean canAddPassenger(Entity passenger) {
