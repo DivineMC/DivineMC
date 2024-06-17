@@ -7,24 +7,23 @@ Original code by RelativityMC, licensed under MIT
 You can find the original code on https://github.com/RelativityMC/VMP-fabric (Yarn mappings)
 
 diff --git a/src/main/java/net/minecraft/server/level/ChunkMap.java b/src/main/java/net/minecraft/server/level/ChunkMap.java
-index 345f143b0eeb77acb96e4bc716f3b23782ac782f..97545fd84b9b1716e9847cac9e233742ea7f9252 100644
+index 686f3d8c91e1ffc0c7ffe1cd9bcf5df5503cb938..da56e8d58f8b0391689f697807a4873fc759a26b 100644
 --- a/src/main/java/net/minecraft/server/level/ChunkMap.java
 +++ b/src/main/java/net/minecraft/server/level/ChunkMap.java
-@@ -110,6 +110,8 @@ import org.slf4j.Logger;
- import org.bukkit.craftbukkit.generator.CustomChunkGenerator;
- // CraftBukkit end
- 
+@@ -12,6 +12,7 @@ import com.mojang.datafixers.DataFixer;
+ import com.mojang.logging.LogUtils;
+ import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+ import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 +import it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap; // DivineMC - vmp: use linked map for entity trackers for faster iteration
-+
- public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider {
- 
-     private static final byte CHUNK_TYPE_REPLACEABLE = -1;
-@@ -254,7 +256,7 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
-         // Paper - rewrite chunk system
+ import it.unimi.dsi.fastutil.longs.Long2ByteMap;
+ import it.unimi.dsi.fastutil.longs.Long2ByteOpenHashMap;
+ import it.unimi.dsi.fastutil.longs.Long2LongMap;
+@@ -229,7 +230,7 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
+         this.toDrop = new LongOpenHashSet();
          this.tickingGenerated = new AtomicInteger();
          this.playerMap = new PlayerMap();
 -        this.entityMap = new Int2ObjectOpenHashMap();
 +        this.entityMap = new Int2ObjectLinkedOpenHashMap<>(); // DivineMC - vmp: use linked map for entity trackers for faster iteration
          this.chunkTypeCache = new Long2ByteOpenHashMap();
          this.chunkSaveCooldowns = new Long2LongOpenHashMap();
-         this.unloadQueue = Queues.newConcurrentLinkedQueue();
+         // Paper - rewrite chunk system

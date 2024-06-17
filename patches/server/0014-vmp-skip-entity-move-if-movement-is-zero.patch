@@ -7,10 +7,10 @@ Original code by RelativityMC, licensed under MIT
 You can find the original code on https://github.com/RelativityMC/VMP-fabric (Yarn mappings)
 
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index d220ed3592be8f8103bb02bbd761abf9bd8ad958..e71b24837f71839020a508971b3da161ace8fe7e 100644
+index 2892d3ad489f0fe2a1b11ef0eb7f8b5290f841a4..50a818fc10a717ddeaf35cb2c4455510bfd9cbad 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
-@@ -319,6 +319,7 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
+@@ -323,6 +323,7 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
      public float yRotO;
      public float xRotO;
      private AABB bb;
@@ -18,8 +18,8 @@ index d220ed3592be8f8103bb02bbd761abf9bd8ad958..e71b24837f71839020a508971b3da161
      public boolean onGround;
      public boolean horizontalCollision;
      public boolean verticalCollision;
-@@ -1152,6 +1153,12 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
-     // Paper end - detailed watchdog information
+@@ -1090,6 +1091,12 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
+     }
  
      public void move(MoverType movementType, Vec3 movement) {
 +        // DivineMC start - vmp: skip entity move if movement is zero
@@ -29,9 +29,9 @@ index d220ed3592be8f8103bb02bbd761abf9bd8ad958..e71b24837f71839020a508971b3da161
 +        }
 +        // DivineMC end
          final Vec3 originalMovement = movement; // Paper - Expose pre-collision velocity
-         // Paper start - detailed watchdog information
-         io.papermc.paper.util.TickThread.ensureTickThread("Cannot move an entity off-main");
-@@ -4222,6 +4229,7 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
+         if (this.noPhysics) {
+             this.setPos(this.getX() + movement.x, this.getY() + movement.y, this.getZ() + movement.z);
+@@ -4045,6 +4052,7 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
      }
  
      public final void setBoundingBox(AABB boundingBox) {

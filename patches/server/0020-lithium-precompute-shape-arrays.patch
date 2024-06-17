@@ -7,7 +7,7 @@ Original code by CaffeineMC, licensed under LGPL v3
 You can find the original code on https://github.com/CaffeineMC/lithium-fabric (Yarn mappings)
 
 diff --git a/src/main/java/net/minecraft/core/Direction.java b/src/main/java/net/minecraft/core/Direction.java
-index ab289a6ca85459e03acb2089c6b9e931caa9c873..377e327432ae2ba7edde7fac807d542f16568e3d 100644
+index 03c45ee77276462818a6f774b5945b25924aa3f0..7c56228639027d0bfcf8901a5f3c996c6b1faa8c 100644
 --- a/src/main/java/net/minecraft/core/Direction.java
 +++ b/src/main/java/net/minecraft/core/Direction.java
 @@ -46,7 +46,7 @@ public enum Direction implements StringRepresentable {
@@ -20,7 +20,7 @@ index ab289a6ca85459e03acb2089c6b9e931caa9c873..377e327432ae2ba7edde7fac807d542f
          .sorted(Comparator.comparingInt(direction -> direction.data3d))
          .toArray(Direction[]::new);
 diff --git a/src/main/java/net/minecraft/world/phys/shapes/CubePointRange.java b/src/main/java/net/minecraft/world/phys/shapes/CubePointRange.java
-index a544db042c8d2ecec8d323770552c4f10ca758a6..fc6a8b1cf33427320a60e3f2d9894ed2f0177bf7 100644
+index ad02cdb00360165f6405eb3044bd8320f01a7ef1..61f6f612470076c7b6930dcb63911a2ac6d45be1 100644
 --- a/src/main/java/net/minecraft/world/phys/shapes/CubePointRange.java
 +++ b/src/main/java/net/minecraft/world/phys/shapes/CubePointRange.java
 @@ -4,6 +4,7 @@ import it.unimi.dsi.fastutil.doubles.AbstractDoubleList;
@@ -29,7 +29,7 @@ index a544db042c8d2ecec8d323770552c4f10ca758a6..fc6a8b1cf33427320a60e3f2d9894ed2
      private final int parts;
 +    private double scale; // DivineMC - lithium: precompute shape arrays
  
-     CubePointRange(int sectionCount) {
+     public CubePointRange(int sectionCount) {
          if (sectionCount <= 0) {
 @@ -11,10 +12,11 @@ public class CubePointRange extends AbstractDoubleList {
          } else {
@@ -45,10 +45,10 @@ index a544db042c8d2ecec8d323770552c4f10ca758a6..fc6a8b1cf33427320a60e3f2d9894ed2
  
      public int size() {
 diff --git a/src/main/java/net/minecraft/world/phys/shapes/CubeVoxelShape.java b/src/main/java/net/minecraft/world/phys/shapes/CubeVoxelShape.java
-index b9af1d14c7815c99273bce8165cf384d669c1a75..16bf73856465c10e1ab84c17e7b317ef9081704d 100644
+index d812949c7329ae2696b38dc792fa011ba87decb9..98e218c65d489822f334c06fddd1ab608662597b 100644
 --- a/src/main/java/net/minecraft/world/phys/shapes/CubeVoxelShape.java
 +++ b/src/main/java/net/minecraft/world/phys/shapes/CubeVoxelShape.java
-@@ -5,6 +5,8 @@ import net.minecraft.core.Direction;
+@@ -5,13 +5,23 @@ import net.minecraft.core.Direction;
  import net.minecraft.util.Mth;
  
  public final class CubeVoxelShape extends VoxelShape {
@@ -56,11 +56,10 @@ index b9af1d14c7815c99273bce8165cf384d669c1a75..16bf73856465c10e1ab84c17e7b317ef
 +
      protected CubeVoxelShape(DiscreteVoxelShape voxels) {
          super(voxels);
-         this.initCache(); // Paper - optimise collisions
-@@ -12,7 +14,15 @@ public final class CubeVoxelShape extends VoxelShape {
+     }
  
      @Override
-     protected DoubleList getCoords(Direction.Axis axis) {
+     public DoubleList getCoords(Direction.Axis axis) {
 -        return new CubePointRange(this.shape.getSize(axis));
 +        // DivineMC start - lithium: precompute shape arrays
 +        if (this.list == null) {

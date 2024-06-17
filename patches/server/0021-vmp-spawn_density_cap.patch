@@ -7,7 +7,7 @@ Original code by RelativityMC, licensed under MIT
 You can find the original code on https://github.com/RelativityMC/VMP-fabric (Yarn mappings)
 
 diff --git a/src/main/java/net/minecraft/world/level/LocalMobCapCalculator.java b/src/main/java/net/minecraft/world/level/LocalMobCapCalculator.java
-index 09199c574169057ae6e52ee7df277c03fa6ba5c2..1124432a2ad0be2866c0d08e59cd697190c62347 100644
+index 2039b16e5e9bc0797b3f31081d221bb8b34a4dc7..4239fa40788fb92211cc52ed5e06236621195018 100644
 --- a/src/main/java/net/minecraft/world/level/LocalMobCapCalculator.java
 +++ b/src/main/java/net/minecraft/world/level/LocalMobCapCalculator.java
 @@ -3,8 +3,6 @@ package net.minecraft.world.level;

@@ -5,10 +5,10 @@ Subject: [PATCH] lithium: cached_hashcode
 
 
 diff --git a/src/main/java/net/minecraft/world/level/block/Block.java b/src/main/java/net/minecraft/world/level/block/Block.java
-index 22d38bd7a8434685f2af084f1c608f48e9e6c0c2..888f763bb0ac451d4166055c2308fd6b5f4f0f88 100644
+index 6d012ca724f1373bcf9e8d86d22194143f56d52b..daad0d67428bb49d7f0b37bec430ceb0d30564cf 100644
 --- a/src/main/java/net/minecraft/world/level/block/Block.java
 +++ b/src/main/java/net/minecraft/world/level/block/Block.java
-@@ -629,11 +629,19 @@ public class Block extends BlockBehaviour implements ItemLike {
+@@ -633,11 +633,19 @@ public class Block extends BlockBehaviour implements ItemLike {
          private final BlockState first;
          private final BlockState second;
          private final Direction direction;
@@ -28,7 +28,7 @@ index 22d38bd7a8434685f2af084f1c608f48e9e6c0c2..888f763bb0ac451d4166055c2308fd6b
          }
  
          public boolean equals(Object object) {
-@@ -649,11 +657,7 @@ public class Block extends BlockBehaviour implements ItemLike {
+@@ -653,11 +661,7 @@ public class Block extends BlockBehaviour implements ItemLike {
          }
  
          public int hashCode() {

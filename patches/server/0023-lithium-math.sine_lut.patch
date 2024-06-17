@@ -5,7 +5,7 @@ Subject: [PATCH] lithium: math.sine_lut
 
 
 diff --git a/src/main/java/net/minecraft/util/Mth.java b/src/main/java/net/minecraft/util/Mth.java
-index 990ea96de8e940390b67e9462fcfd6025f2f5770..41141bd08f3340ca20680641e315637ffa7cd331 100644
+index f298cdfcf1539e467f57f9f7789de3cf2ca54665..f83a544be66206ddd52f11524e84e821eb15343c 100644
 --- a/src/main/java/net/minecraft/util/Mth.java
 +++ b/src/main/java/net/minecraft/util/Mth.java
 @@ -29,7 +29,7 @@ public class Mth {
