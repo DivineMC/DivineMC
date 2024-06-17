@@ -1,0 +1,22 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Mon, 17 Jun 2024 17:15:13 +0300
+Subject: [PATCH] Fix MC-183518
+
+Issue on Mojira: https://bugs.mojang.com/browse/MC-183518
+P.S. Btw, I took this fix from this PR - https://github.com/Winds-Studio/Leaf/pull/69
+
+diff --git a/src/main/java/net/minecraft/util/thread/BlockableEventLoop.java b/src/main/java/net/minecraft/util/thread/BlockableEventLoop.java
+index 2510589400b3012b827efcab477c6483d9d55901..e64af5ac326786d006adf1ad6d31254cfddebcb1 100644
+--- a/src/main/java/net/minecraft/util/thread/BlockableEventLoop.java
++++ b/src/main/java/net/minecraft/util/thread/BlockableEventLoop.java
+@@ -142,8 +142,7 @@ public abstract class BlockableEventLoop<R extends Runnable> implements Profiler
+     }
+ 
+     public void waitForTasks() {
+-        Thread.yield();
+-        LockSupport.parkNanos("waiting for tasks", 100000L);
++        LockSupport.parkNanos("waiting for tasks", 2000000L); // DivineMC - Fix MC-183518
+     }
+ 
+     protected void doRunTask(R task) {
