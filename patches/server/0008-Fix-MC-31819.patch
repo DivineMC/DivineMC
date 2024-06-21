@@ -5,10 +5,10 @@ Subject: [PATCH] Fix MC-31819
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/player/Player.java b/src/main/java/net/minecraft/world/entity/player/Player.java
-index 92df67d9e1d32c8a7aaeaaa46c7641af600edc52..89e3eb5f2dd45a517ed2d6a869732b1f6b7b3bca 100644
+index b06eebbad2b20d4c59c9163388af220594ddf6b7..b8db58d25d91bc538fb310dfb801be4f05ec0b57 100644
 --- a/src/main/java/net/minecraft/world/entity/player/Player.java
 +++ b/src/main/java/net/minecraft/world/entity/player/Player.java
-@@ -1947,6 +1947,11 @@ public abstract class Player extends LivingEntity {
+@@ -1946,6 +1946,11 @@ public abstract class Player extends LivingEntity {
      }
  
      public void causeFoodExhaustion(float f, EntityExhaustionEvent.ExhaustionReason reason) {
