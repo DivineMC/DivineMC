@@ -25,9 +25,6 @@ features:
   - icon: 🐾
     title: Async Pathfinding
     details: Makes pathfinding-related work happen asynchronously.
-  - icon: 🏠
-    title: Linear region format 
-    details: Linear region format saves about 50% of disk space in Overworld and Nether and 95% in The End.
   - icon: 🔒
     title: Secure Seed
     details: A feature that changes default 64-bit seed to a 1024-bit seed, making it almost impossible to crack the seed
