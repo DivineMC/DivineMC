@@ -67,7 +67,7 @@ recipe, getting the output wool and getting the color from that.
     - **default**: true
     - **description**: Enables or disables optimization of recipe manager from the CarpetFixes mod. Optimized by taking out streams & doing extra early checks to quickly remove unrelated recipes
 - #### misc
-  - ##### use-secure-seed
+  - ##### use-secure-seed (temporarily absent)
     - **default**: false
     - **description**: Enabling this, default 64-bit seed will be changed to a 1024-bit seed, making it almost impossible to crack the seed. 
   - ##### disable-non-editable-sign-warning

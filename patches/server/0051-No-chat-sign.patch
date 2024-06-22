@@ -5,7 +5,7 @@ Subject: [PATCH] No chat sign
 
 
 diff --git a/src/main/java/io/papermc/paper/adventure/ChatProcessor.java b/src/main/java/io/papermc/paper/adventure/ChatProcessor.java
-index e83f9517b31c5171b8dc75ab63a5bfe654221c84..d498a986bcdb0b21e1b35c2fb19d8a445090105d 100644
+index 14e412ebf75b0e06ab53a1c8f9dd1be6ad1e2680..a643f3fb7bf6ae8394fa43adf5a2149137d46c4b 100644
 --- a/src/main/java/io/papermc/paper/adventure/ChatProcessor.java
 +++ b/src/main/java/io/papermc/paper/adventure/ChatProcessor.java
 @@ -317,7 +317,7 @@ public final class ChatProcessor {
@@ -40,7 +40,7 @@ index 479e6e2aa88a22ef7f8fccb06add6806f5b71d9d..370543f7f710971a37a0d05da8ef484a
          buf.writeCollection(this.entries, (buf2, entry) -> entry.write(buf2));
      }
 diff --git a/src/main/java/net/minecraft/network/FriendlyByteBuf.java b/src/main/java/net/minecraft/network/FriendlyByteBuf.java
-index aafeb9c61ddba6a8671f0238eda47b227619f1af..9d5a4b75728e51b23dfd769b2d1c91312fc5eddb 100644
+index 0cd6a50837efce87ca052a0e1e24db2b75761196..1f150b3b338d003fe44074801537b752069ee0c7 100644
 --- a/src/main/java/net/minecraft/network/FriendlyByteBuf.java
 +++ b/src/main/java/net/minecraft/network/FriendlyByteBuf.java
 @@ -129,6 +129,16 @@ public class FriendlyByteBuf extends ByteBuf {
@@ -105,7 +105,7 @@ index 5705cb920084b775cce4b361683b32c6b6e003ed..9c031dd0fa279a23405e5b7d77e4c11e
      }
  }
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 3a4ce59ca5c2bae801a4f520650dad012357812f..d0b2491da0f072d9be53ad738549c0a962bcadec 100644
+index 25e05b03892cf1f8844cc2111348787d137ede1f..527b062f2c041c18529802e2c86ff419b8a8f475 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -709,7 +709,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
@@ -118,10 +118,10 @@ index 3a4ce59ca5c2bae801a4f520650dad012357812f..d0b2491da0f072d9be53ad738549c0a9
      }
  
 diff --git a/src/main/java/net/minecraft/server/network/ServerCommonPacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerCommonPacketListenerImpl.java
-index b82a72775f9de5ad65ae46a8b97f93a7ef852265..d0d85ceb29ef0ee29f68e2a7b37a8a0cc3772f48 100644
+index fac2fb82c381d245f77b7288c34920660ac2c3af..b3ca62843b17c536840cb4edb700f9c2602c5371 100644
 --- a/src/main/java/net/minecraft/server/network/ServerCommonPacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerCommonPacketListenerImpl.java
-@@ -323,10 +323,24 @@ public abstract class ServerCommonPacketListenerImpl implements ServerCommonPack
+@@ -324,10 +324,24 @@ public abstract class ServerCommonPacketListenerImpl implements ServerCommonPack
      }
  
      public void send(Packet<?> packet) {
@@ -147,10 +147,10 @@ index b82a72775f9de5ad65ae46a8b97f93a7ef852265..d0d85ceb29ef0ee29f68e2a7b37a8a0c
          if (packet == null || this.processedDisconnect) { // Spigot
              return;
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index b863f6fe65c796a1d3102cc3eddb5d6c5becd3ac..a8cd8e8b952ea41167156f07ac2d5dcca3325060 100644
+index 969a5461316401950c8fba6ed6347164235a5af9..ba8b4da77156e241f8dbf48af3bc716bca775ee3 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
-@@ -1497,7 +1497,7 @@ public abstract class PlayerList {
+@@ -1436,7 +1436,7 @@ public abstract class PlayerList {
      }
  
      public boolean verifyChatTrusted(PlayerChatMessage message) { // Paper - private -> public
@@ -160,12 +160,12 @@ index b863f6fe65c796a1d3102cc3eddb5d6c5becd3ac..a8cd8e8b952ea41167156f07ac2d5dcc
  
      // CraftBukkit start
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-index c176fdb912c62f355cf01ff98555a4760818aadb..a4c264cbc0039c9f9f9b11d7a332822480176471 100644
+index 07249d5c81292cc17d71b559d84b1d29cb9a1452..777e67ed09bc92f9ce6f016550dd0cf8bc6a7511 100644
 --- a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-@@ -161,4 +161,9 @@ public class DivineConfig {
-         sheepOptimization = getBoolean("settings.optimizations.sheep-optimization", sheepOptimization);
-         recipeManagerOptimization = getBoolean("settings.optimizations.recipe-manager-optimization", recipeManagerOptimization);
+@@ -198,4 +198,9 @@ public class DivineConfig {
+         else
+             linearFlushThreads = Math.max(linearFlushThreads, 1);
      }
 +
 +    public static boolean noChatSign = true;

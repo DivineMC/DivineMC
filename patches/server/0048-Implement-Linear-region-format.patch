@@ -164,7 +164,7 @@ index e761b63eebc1e76b2bb1cb887d83d0b63ad6ec90..add6311e12bd74c336bb9592e75493b5
          try (DataInputStream out = new DataInputStream(new java.io.BufferedInputStream(new InflaterInputStream(Files.newInputStream(file))))) {
              return NbtIo.read((java.io.DataInput) out);
 diff --git a/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java b/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
-index 0615fd82b71efb9a397de01615050e6d906c2844..10fa990025da0b5d3c8eb8333be04e9bb6d8eb3d 100644
+index 64b2608ae81373acb67e3e0453c61822c0d03087..5e28f5e72e8c372a0a70062364139b6f6790492d 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
 @@ -21,7 +21,7 @@ public class RegionFileStorage implements AutoCloseable, ca.spottedleaf.moonrise
@@ -263,7 +263,7 @@ index 0615fd82b71efb9a397de01615050e6d906c2844..10fa990025da0b5d3c8eb8333be04e9b
              this.regionCache.putAndMoveToFirst(key, ret);
  
 @@ -149,7 +153,7 @@ public class RegionFileStorage implements AutoCloseable, ca.spottedleaf.moonrise
-         org.apache.logging.log4j.LogManager.getLogger().fatal(msg + " (" + file.toString().replaceAll(".+[\\\\/]", "") + " - " + x + "," + z + ") Go clean it up to remove this message. /minecraft:tp " + (x<<4)+" 128 "+(z<<4) + " - DO NOT REPORT THIS TO PAPER - You may ask for help on Discord, but do not file an issue. These error messages can not be removed.");
+         org.apache.logging.log4j.LogManager.getLogger().fatal(msg + " (" + file.toString().replaceAll(".+[\\\\/]", "") + " - " + x + "," + z + ") Go clean it up to remove this message. /minecraft:tp " + (x<<4)+" 128 "+(z<<4) + " - DO NOT REPORT THIS TO DIVINEMC - You may ask for help on Discord, but do not file an issue. These error messages can not be removed.");
      }
  
 -    private static CompoundTag readOversizedChunk(RegionFile regionfile, ChunkPos chunkCoordinate) throws IOException {
