@@ -15,7 +15,6 @@
 - **Based on [Purpur](https://github.com/PurpurMC/Purpur)** - Purpur is a fork of Paper with new fun and exciting gameplay features, and performance boost.
 - **Popular mods implemented** - Patches from mods such as Lithium, VMP, C2ME and others.
 - **Async Pathfinding** - Makes pathfinding-related work happen asynchronously (by [Petal](https://github.com/Bloom-host/Petal)).
-- **[Linear region format](https://github.com/xymb-endcrystalme/LinearRegionFileFormatTools)** - Linear region format saves about 50% of disk space in Overworld and Nether and 95% in The End.
 - **Secure Seed** - A feature that changes default 64-bit seed to a 1024-bit seed, making it almost impossible to crack the seed.
 - **Configurable chat reports** - Disallow players from reporting others messages to Mojang.
 - **Optimized Default Configuration** - The default configuration files is optimized.
