@@ -5,24 +5,24 @@ Subject: [PATCH] Improve biome temperature cache
 
 
 diff --git a/src/main/java/net/minecraft/world/level/biome/Biome.java b/src/main/java/net/minecraft/world/level/biome/Biome.java
-index 42af3888a155f114901a90d4028bafed5789f58f..25e44dbab2d758682ad89ed0038fd0ad055d3097 100644
+index 15f82c9a1ce1fef2e951d1b3c7a65e64b82061ea..b80135286ca41398cae9f0c96566cc7c126de453 100644
 --- a/src/main/java/net/minecraft/world/level/biome/Biome.java
 +++ b/src/main/java/net/minecraft/world/level/biome/Biome.java
-@@ -64,7 +64,7 @@ public final class Biome {
+@@ -63,7 +63,7 @@ public final class Biome {
+     private final BiomeGenerationSettings generationSettings;
      private final MobSpawnSettings mobSettings;
      private final BiomeSpecialEffects specialEffects;
-     // Pufferfish start - use our cache
--    private final ThreadLocal<gg.airplane.structs.Long2FloatAgingCache> temperatureCache = ThreadLocal.withInitial(() -> Util.make(() -> {
-+    private static final ThreadLocal<gg.airplane.structs.Long2FloatAgingCache> temperatureCache = ThreadLocal.withInitial(() -> Util.make(() -> {
-             /*
+-    private final ThreadLocal<Long2FloatLinkedOpenHashMap> temperatureCache = ThreadLocal.withInitial(() -> Util.make(() -> {
++    private static final ThreadLocal<Long2FloatLinkedOpenHashMap> temperatureCache = ThreadLocal.withInitial(() -> Util.make(() -> { // DivineMC
              Long2FloatLinkedOpenHashMap long2FloatLinkedOpenHashMap = new Long2FloatLinkedOpenHashMap(1024, 0.25F) {
                  protected void rehash(int i) {
-@@ -118,7 +118,7 @@ public final class Biome {
+                 }
+@@ -112,7 +112,7 @@ public final class Biome {
+     @Deprecated
      public float getTemperature(BlockPos blockPos) {
          long l = blockPos.asLong();
-         // Pufferfish start
--        gg.airplane.structs.Long2FloatAgingCache cache = this.temperatureCache.get();
-+        gg.airplane.structs.Long2FloatAgingCache cache = temperatureCache.get(); // DivineMC - Improve biome temperature cache
-         float f = cache.getValue(l);
+-        Long2FloatLinkedOpenHashMap long2FloatLinkedOpenHashMap = this.temperatureCache.get();
++        Long2FloatLinkedOpenHashMap long2FloatLinkedOpenHashMap = temperatureCache.get(); // DivineMC
+         float f = long2FloatLinkedOpenHashMap.get(l);
          if (!Float.isNaN(f)) {
              return f;
