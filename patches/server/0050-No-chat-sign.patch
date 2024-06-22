@@ -160,12 +160,12 @@ index 969a5461316401950c8fba6ed6347164235a5af9..ba8b4da77156e241f8dbf48af3bc716b
  
      // CraftBukkit start
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-index 07249d5c81292cc17d71b559d84b1d29cb9a1452..777e67ed09bc92f9ce6f016550dd0cf8bc6a7511 100644
+index 3f078251200bc9d9a9a8632637cfa75750463a0c..cc056202ff619eb2524a364c0f7a03343290e7c4 100644
 --- a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-@@ -198,4 +198,9 @@ public class DivineConfig {
+@@ -187,4 +187,9 @@ public class DivineConfig {
          else
-             linearFlushThreads = Math.max(linearFlushThreads, 1);
+             Bukkit.getLogger().log(Level.INFO, "Using " + asyncPathfindingMaxThreads + " threads for Async Pathfinding");
      }
 +
 +    public static boolean noChatSign = true;
