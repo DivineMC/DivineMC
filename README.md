@@ -84,6 +84,6 @@ Read our [documentation](https://divinemc.bx-team.space/docs/dev/contributing) t
 ### Compiling
 Use the command `./gradlew build` to build the API and server. Compiled JARs will be placed under `DivineMC-API/build/libs` and `DivineMC-Server/build/libs`. **These JARs are not used to start a server**.
 
-To compile a server-ready paperclip jar, run `./gradlew createReobfPaperclipJar`. The compiled paperclip jar will be in `build/libs/` in the main root.
+To compile a server-ready paperclip jar, run `./gradlew createMojmapPaperclipJar`. The compiled paperclip jar will be in `build/libs/` in the main root.
 
 ###### We don't steal logo from YatopiaMC! [List of all forks](https://gist.github.com/NONPLAYT/48742353af8ae36bcef5d1c36de9730a)
