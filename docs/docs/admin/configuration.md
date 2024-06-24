@@ -73,6 +73,9 @@ recipe, getting the output wool and getting the color from that.
   - ##### disable-non-editable-sign-warning
     - **default**: true
     - **description**: This setting disables warning when player tries to change the non-editable sign
+  - ##### remove-vanilla-username-check
+    - **default**: false
+    - **description**: Removes vanilla username check, allowing to join the server with any characters in username
 - #### region-format
     ##### linear
     - ###### flush-frequency

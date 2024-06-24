@@ -1,0 +1,48 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Mon, 24 Jun 2024 14:05:44 +0300
+Subject: [PATCH] Remove vanilla username check
+
+
+diff --git a/src/main/java/com/destroystokyo/paper/profile/CraftPlayerProfile.java b/src/main/java/com/destroystokyo/paper/profile/CraftPlayerProfile.java
+index cbe2789f8a055550dd7840a7bed980efd65eb9a1..1926d365fa613d0fb3eb34cf4d2df655de71dcd9 100644
+--- a/src/main/java/com/destroystokyo/paper/profile/CraftPlayerProfile.java
++++ b/src/main/java/com/destroystokyo/paper/profile/CraftPlayerProfile.java
+@@ -271,7 +271,7 @@ public class CraftPlayerProfile implements PlayerProfile, SharedPlayerProfile {
+ 
+     private static GameProfile createAuthLibProfile(UUID uniqueId, String name) {
+         Preconditions.checkArgument(name == null || name.length() <= 16, "Name cannot be longer than 16 characters");
+-        Preconditions.checkArgument(name == null || StringUtil.isValidPlayerName(name), "The name of the profile contains invalid characters: %s", name);
++        Preconditions.checkArgument(name == null || space.bxteam.divinemc.configuration.DivineConfig.removeVanillaUsernameCheck || StringUtil.isValidPlayerName(name), "The name of the profile contains invalid characters: %s", name); // DivineMC - Remove vanilla username check
+         return new GameProfile(
+             uniqueId != null ? uniqueId : Util.NIL_UUID,
+             name != null ? name : ""
+diff --git a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
+index 5edd8e6bcabe5714c89d4c88f672cc3130c27045..0a5156f1790f9b384ce158444f2f38037e8dd91f 100644
+--- a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
++++ b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
+@@ -169,7 +169,8 @@ public class ServerLoginPacketListenerImpl implements ServerLoginPacketListener,
+     public void handleHello(ServerboundHelloPacket packet) {
+         Validate.validState(this.state == ServerLoginPacketListenerImpl.State.HELLO, "Unexpected hello packet", new Object[0]);
+         // Paper start - Validate usernames
+-        if (io.papermc.paper.configuration.GlobalConfiguration.get().proxies.isProxyOnlineMode()
++        if (!space.bxteam.divinemc.configuration.DivineConfig.removeVanillaUsernameCheck // DivineMC - Remove vanilla username check
++            && io.papermc.paper.configuration.GlobalConfiguration.get().proxies.isProxyOnlineMode()
+             && io.papermc.paper.configuration.GlobalConfiguration.get().unsupportedSettings.performUsernameValidation
+             && !this.iKnowThisMayNotBeTheBestIdeaButPleaseDisableUsernameValidation) {
+             Validate.validState(StringUtil.isReasonablePlayerName(packet.name()), "Invalid characters in username", new Object[0]);
+diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
+index cc056202ff619eb2524a364c0f7a03343290e7c4..dacfb8d33b17ec86d7e45b9f88ca5303741eefee 100644
+--- a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
++++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
+@@ -154,8 +154,10 @@ public class DivineConfig {
+     }
+ 
+     public static boolean disableNonEditableSignWarning = true;
++    public static boolean removeVanillaUsernameCheck = false;
+     private static void miscSettings() {
+         disableNonEditableSignWarning = getBoolean("settings.misc.disable-non-editable-sign-warning", disableNonEditableSignWarning);
++        removeVanillaUsernameCheck = getBoolean("settings.misc.remove-vanilla-username-check", removeVanillaUsernameCheck);
+     }
+ 
+     public static boolean recipeManagerOptimization = true;
