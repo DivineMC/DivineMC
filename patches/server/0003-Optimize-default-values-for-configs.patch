@@ -190,7 +190,7 @@ index 7509b17414f836e8b53fc62b02b386ba4e8c5ca9..3ace9f8cb1e04887b5d2fd7af76eb768
          public double maxLeashDistance = Leashable.LEASH_TOO_FAR_DIST;
          public boolean disableSprintInterruptionOnAttack = false;
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 0956889c7b4fbba2ec615e222c52698cfb14db4c..d11f052f5432b75f25aefd967ebff936a72df4e1 100644
+index 6833a7710cfb2716c8522d8a841bee665d98fd05..386fe1aca665e745babe3ca24f393fcaee36c663 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -341,7 +341,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
@@ -203,7 +203,7 @@ index 0956889c7b4fbba2ec615e222c52698cfb14db4c..d11f052f5432b75f25aefd967ebff936
              DedicatedServer.LOGGER.warn("The server will make no attempt to authenticate usernames. Beware.");
              // Spigot start
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-index aea73061f4bd47c7307d6fdf0929765f5258cafc..73352e71d3743fc6b263d6fa5b23571785e2fc4c 100644
+index 54abd6874a64c669fc22448849febc9ef7c0f95e..59cf59bd127fd1fe1c8dbac2086ddbafcb296e4e 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 @@ -243,7 +243,7 @@ public class PurpurConfig {
@@ -242,14 +242,14 @@ index db9c812cf7267adf0bfd8be7368140e91245d640..b8534797f15da80117d84f569fc54864
  
      public static boolean disablePlayerDataSaving;
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-index dbfe355221fb2ee66b79442a749412d9288afc0d..77beb2258b3e16860f005d6ce1280d7fa4c80961 100644
+index 2c408fa4abcbe1171c58aee8799c8cf7867d0f0a..0e6b697c6e8503beeed9412abddad2b512246b37 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
 @@ -150,14 +150,14 @@ public class SpigotWorldConfig
      public double itemMerge;
      private void itemMerge()
      {
--        this.itemMerge = this.getDouble("merge-radius.item", 2.5 );
+-        this.itemMerge = this.getDouble("merge-radius.item", 0.5 );
 +        this.itemMerge = this.getDouble("merge-radius.item", 3.5 ); // DivineMC - optimize default values for configs
          this.log( "Item Merge Radius: " + this.itemMerge );
      }
@@ -257,7 +257,7 @@ index dbfe355221fb2ee66b79442a749412d9288afc0d..77beb2258b3e16860f005d6ce1280d7f
      public double expMerge;
      private void expMerge()
      {
--        this.expMerge = this.getDouble("merge-radius.exp", 3.0 );
+-        this.expMerge = this.getDouble("merge-radius.exp", -1 );
 +        this.expMerge = this.getDouble("merge-radius.exp", 4.0 ); // DivineMC - optimize default values for configs
          this.log( "Experience Merge Radius: " + this.expMerge );
      }
@@ -271,17 +271,20 @@ index dbfe355221fb2ee66b79442a749412d9288afc0d..77beb2258b3e16860f005d6ce1280d7f
          this.log( "Mob Spawn Range: " + this.mobSpawnRange );
      }
  
-@@ -207,14 +207,14 @@ public class SpigotWorldConfig
+@@ -207,14 +207,16 @@ public class SpigotWorldConfig
          this.log( "Item Despawn Rate: " + this.itemDespawnRate );
      }
  
 -    public int animalActivationRange = 32;
 -    public int monsterActivationRange = 32;
-+    public int animalActivationRange = 16; // DivineMC - optimize default values for configs
-+    public int monsterActivationRange = 24; // DivineMC - optimize default values for configs
-     public int raiderActivationRange = 48;
+-    public int raiderActivationRange = 64;
 -    public int miscActivationRange = 16;
-+    public int miscActivationRange = 8; // DivineMC - optimize default values for configs
++    // DivineMC start - optimize default values for configs
++    public int animalActivationRange = 16;
++    public int monsterActivationRange = 24;
++    public int raiderActivationRange = 48;
++    public int miscActivationRange = 8;
++    // DivineMC end
      // Paper start
      public int flyingMonsterActivationRange = 32;
 -    public int waterActivationRange = 16;
@@ -291,7 +294,7 @@ index dbfe355221fb2ee66b79442a749412d9288afc0d..77beb2258b3e16860f005d6ce1280d7f
      public int wakeUpInactiveAnimals = 4;
      public int wakeUpInactiveAnimalsEvery = 60*20;
      public int wakeUpInactiveAnimalsFor = 5*20;
-@@ -231,7 +231,7 @@ public class SpigotWorldConfig
+@@ -231,7 +233,7 @@ public class SpigotWorldConfig
      public int villagersWorkImmunityFor = 20;
      public boolean villagersActiveForPanic = true;
      // Paper end
@@ -300,7 +303,7 @@ index dbfe355221fb2ee66b79442a749412d9288afc0d..77beb2258b3e16860f005d6ce1280d7f
      public boolean ignoreSpectatorActivation = false;
      private void activationRange()
      {
-@@ -299,7 +299,7 @@ public class SpigotWorldConfig
+@@ -299,7 +301,7 @@ public class SpigotWorldConfig
          {
              this.set( "ticks-per.hopper-check", 1 );
          }
@@ -309,7 +312,7 @@ index dbfe355221fb2ee66b79442a749412d9288afc0d..77beb2258b3e16860f005d6ce1280d7f
          this.hopperAmount = this.getInt( "hopper-amount", 1 );
          this.hopperCanLoadChunks = this.getBoolean( "hopper-can-load-chunks", false );
          this.log( "Hopper Transfer: " + this.hopperTransfer + " Hopper Check: " + this.hopperCheck + " Hopper Amount: " + this.hopperAmount + " Hopper Can Load Chunks: " + this.hopperCanLoadChunks );
-@@ -309,7 +309,7 @@ public class SpigotWorldConfig
+@@ -309,7 +311,7 @@ public class SpigotWorldConfig
      public int tridentDespawnRate;
      private void arrowDespawnRate()
      {
@@ -318,7 +321,7 @@ index dbfe355221fb2ee66b79442a749412d9288afc0d..77beb2258b3e16860f005d6ce1280d7f
          this.tridentDespawnRate = this.getInt( "trident-despawn-rate", this.arrowDespawnRate );
          this.log( "Arrow Despawn Rate: " + this.arrowDespawnRate + " Trident Respawn Rate:" + this.tridentDespawnRate );
      }
-@@ -324,14 +324,14 @@ public class SpigotWorldConfig
+@@ -324,14 +326,14 @@ public class SpigotWorldConfig
      public boolean nerfSpawnerMobs;
      private void nerfSpawnerMobs()
      {
@@ -335,7 +338,7 @@ index dbfe355221fb2ee66b79442a749412d9288afc0d..77beb2258b3e16860f005d6ce1280d7f
          this.log( "Allow Zombie Pigmen to spawn from portal blocks: " + this.enableZombiePigmenPortalSpawns );
      }
  
-@@ -449,7 +449,7 @@ public class SpigotWorldConfig
+@@ -449,7 +451,7 @@ public class SpigotWorldConfig
      public int hangingTickFrequency;
      private void hangingTickFrequency()
      {

@@ -29,10 +29,10 @@ index 7438db40910f0d332fd82a67ad8396674e291dfa..20d9b85fdf6bcf570c97c9bbf9787918
          this.chunkPacketBlockController = this.paperConfig().anticheat.antiXray.enabled ? new com.destroystokyo.paper.antixray.ChunkPacketBlockControllerAntiXray(this, executor) : com.destroystokyo.paper.antixray.ChunkPacketBlockController.NO_OPERATION_INSTANCE; // Paper - Anti-Xray
      }
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-index 77beb2258b3e16860f005d6ce1280d7fa4c80961..8c01958a7f1b1250b4e627be867f0f44b5177485 100644
+index 0e6b697c6e8503beeed9412abddad2b512246b37..3ef20300c50bca5c1bc8a521fb1de53511d3a172 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-@@ -452,6 +452,7 @@ public class SpigotWorldConfig
+@@ -454,6 +454,7 @@ public class SpigotWorldConfig
          this.hangingTickFrequency = this.getInt( "hanging-tick-frequency", 200 ); // DivineMC - optimize default values for configs
      }
  
@@ -40,7 +40,7 @@ index 77beb2258b3e16860f005d6ce1280d7fa4c80961..8c01958a7f1b1250b4e627be867f0f44
      public int tileMaxTickTime;
      public int entityMaxTickTime;
      private void maxTickTimes()
-@@ -460,6 +461,7 @@ public class SpigotWorldConfig
+@@ -462,6 +463,7 @@ public class SpigotWorldConfig
          this.entityMaxTickTime = this.getInt("max-tick-time.entity", 50);
          this.log("Tile Max Tick Time: " + this.tileMaxTickTime + "ms Entity max Tick Time: " + this.entityMaxTickTime + "ms");
      }
