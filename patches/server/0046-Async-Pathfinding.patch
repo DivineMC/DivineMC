@@ -9,13 +9,13 @@ You can find the original code on https://github.com/Bloom-host/Petal
 Makes most pathfinding-related work happen asynchronously
 
 diff --git a/src/main/java/net/minecraft/world/entity/ai/behavior/AcquirePoi.java b/src/main/java/net/minecraft/world/entity/ai/behavior/AcquirePoi.java
-index 2638c5502016da62c54ec02a1d62834cba8e69d3..66dc3f0bcd0fd3961b6a867e34ce9af5ee3c2a29 100644
+index ecd1bbd17cb0134cf1f4e99a3fea9e205d38f46b..42eaa860860890b90dfa1b4deeee396ae87e00cf 100644
 --- a/src/main/java/net/minecraft/world/entity/ai/behavior/AcquirePoi.java
 +++ b/src/main/java/net/minecraft/world/entity/ai/behavior/AcquirePoi.java
-@@ -76,21 +76,54 @@ public class AcquirePoi {
-                                         )
-                                         .limit(5L)
-                                         .collect(Collectors.toSet());
+@@ -76,23 +76,56 @@ public class AcquirePoi {
+                                     io.papermc.paper.util.PoiAccess.findNearestPoiPositions(poiManager, poiPredicate, predicate2, entity.blockPosition(), world.purpurConfig.villagerAcquirePoiSearchRadius, world.purpurConfig.villagerAcquirePoiSearchRadius*world.purpurConfig.villagerAcquirePoiSearchRadius, PoiManager.Occupancy.HAS_SPACE, false, 5, poiposes); // Purpur
+                                     Set<Pair<Holder<PoiType>, BlockPos>> set = new java.util.HashSet<>(poiposes);
+                                     // Paper end - optimise POI access
 -                                    Path path = findPathToPois(entity, set);
 -                                    if (path != null && path.canReach()) {
 -                                        BlockPos blockPos = path.getTarget();
@@ -25,7 +25,7 @@ index 2638c5502016da62c54ec02a1d62834cba8e69d3..66dc3f0bcd0fd3961b6a867e34ce9af5
 -                                            entityStatus.ifPresent(status -> world.broadcastEntityEvent(entity, status));
 -                                            long2ObjectMap.clear();
 -                                            DebugPackets.sendPoiTicketCountPacket(world, blockPos);
-+                                    // DivineMC start - petal - Async Pathfinding
++                                    // DivineMC start - Async path processing
 +                                    if (space.bxteam.divinemc.configuration.DivineConfig.asyncPathfinding) {
 +                                        // await on path async
 +                                        Path possiblePath = findPathToPois(entity, set);
@@ -78,8 +78,11 @@ index 2638c5502016da62c54ec02a1d62834cba8e69d3..66dc3f0bcd0fd3961b6a867e34ce9af5
 +                                                );
 +                                            }
                                          }
-                                     }
+-                                    }
++                                    } // DivineMC
  
+                                     return true;
+                                 }
 diff --git a/src/main/java/net/minecraft/world/entity/ai/behavior/MoveToTargetSink.java b/src/main/java/net/minecraft/world/entity/ai/behavior/MoveToTargetSink.java
 index 2a7a26ca447cc78f24e61a2bf557411c31eb16b2..b7fa1c3c564d3c45ac559fd4ec73c3f9f6911576 100644
 --- a/src/main/java/net/minecraft/world/entity/ai/behavior/MoveToTargetSink.java
@@ -506,22 +509,23 @@ index ce7398a617abe6e800c1e014b3ac5c970eb15c8a..c37ec1c55b5104456788b270c1ceee7c
      }
  
 diff --git a/src/main/java/net/minecraft/world/entity/ai/sensing/NearestBedSensor.java b/src/main/java/net/minecraft/world/entity/ai/sensing/NearestBedSensor.java
-index 222c87e80cb089867ce9a7d2dceebe21b4bfe0de..7ef25a0627c4217caa40c67ee45f5b40c0525501 100644
+index 9104d7010bda6f9f73b478c11490ef9c53f76da2..4ff94a69f44df3582173be8254754484dca1936a 100644
 --- a/src/main/java/net/minecraft/world/entity/ai/sensing/NearestBedSensor.java
 +++ b/src/main/java/net/minecraft/world/entity/ai/sensing/NearestBedSensor.java
-@@ -57,15 +57,35 @@ public class NearestBedSensor extends Sensor<Mob> {
-                     holder -> holder.is(PoiTypes.HOME), predicate, entity.blockPosition(), world.purpurConfig.villagerNearestBedSensorSearchRadius, PoiManager.Occupancy.ANY
-                 )
-                 .collect(Collectors.toSet());
--            Path path = AcquirePoi.findPathToPois(entity, set);
+@@ -57,17 +57,37 @@ public class NearestBedSensor extends Sensor<Mob> {
+             java.util.List<Pair<Holder<PoiType>, BlockPos>> poiposes = new java.util.ArrayList<>();
+             // don't ask me why it's unbounded. ask mojang.
+             io.papermc.paper.util.PoiAccess.findAnyPoiPositions(poiManager, type -> type.is(PoiTypes.HOME), predicate, entity.blockPosition(), world.purpurConfig.villagerNearestBedSensorSearchRadius, PoiManager.Occupancy.ANY, false, Integer.MAX_VALUE, poiposes); // Purpur
+-            Path path = AcquirePoi.findPathToPois(entity, new java.util.HashSet<>(poiposes));
+-            // Paper end - optimise POI access
 -            if (path != null && path.canReach()) {
 -                BlockPos blockPos = path.getTarget();
 -                Optional<Holder<PoiType>> optional = poiManager.getType(blockPos);
 -                if (optional.isPresent()) {
 -                    entity.getBrain().setMemory(MemoryModuleType.NEAREST_BED, blockPos);
-+            // DivineMC start - Async Pathfinding
++            // DivineMC start - await on async path processing
 +            if (space.bxteam.divinemc.configuration.DivineConfig.asyncPathfinding) {
-+                Path possiblePath = AcquirePoi.findPathToPois(entity, set);
++                Path possiblePath = AcquirePoi.findPathToPois(entity, new java.util.HashSet<>(poiposes));
 +                space.bxteam.divinemc.pathfinding.AsyncPathProcessor.awaitProcessing(entity, possiblePath, path -> {
 +                    // read canReach check
 +                    if ((path == null || !path.canReach()) && this.triedCount < 5) {
@@ -538,7 +542,8 @@ index 222c87e80cb089867ce9a7d2dceebe21b4bfe0de..7ef25a0627c4217caa40c67ee45f5b40
 +                });
 +            } else {
 +                // DivineMC end
-+                Path path = AcquirePoi.findPathToPois(entity, set);
++                Path path = AcquirePoi.findPathToPois(entity, new java.util.HashSet<>(poiposes));
++                // Paper end - optimise POI access
 +                if (path != null && path.canReach()) {
 +                    BlockPos blockPos = path.getTarget();
 +                    Optional<Holder<PoiType>> optional = poiManager.getType(blockPos);
@@ -550,9 +555,11 @@ index 222c87e80cb089867ce9a7d2dceebe21b4bfe0de..7ef25a0627c4217caa40c67ee45f5b40
                  }
 -            } else if (this.triedCount < 5) {
 -                this.batchCache.long2LongEntrySet().removeIf(entry -> entry.getLongValue() < this.lastUpdate);
-             }
+-            }
++            } // DivineMC
          }
      }
+ }
 diff --git a/src/main/java/net/minecraft/world/entity/animal/Bee.java b/src/main/java/net/minecraft/world/entity/animal/Bee.java
 index 5f228ea02b8912283dfb9a7bd18b33802b1d77ab..b9945658239589ad840a2712db6c08175c9c8dc6 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/Bee.java

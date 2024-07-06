@@ -4,6 +4,23 @@ Date: Sat, 18 May 2024 01:10:38 +0300
 Subject: [PATCH] Divine Branding
 
 
+diff --git a/build.gradle.kts b/build.gradle.kts
+index ea3ad97909de951efa0ad322df766689339b8af6..ae3e7dca42037cfe0f90981724a9ecb217e8e4b7 100644
+--- a/build.gradle.kts
++++ b/build.gradle.kts
+@@ -223,3 +223,12 @@ tasks.check {
+     dependsOn(scanJarForOldGeneratedCode)
+ }
+ // Paper end
++
++// DivineMC start - Hide unnecessary compilation warnings
++tasks.withType<JavaCompile> {
++    val compilerArgs = options.compilerArgs
++    compilerArgs.add("-Xlint:-module")
++    compilerArgs.add("-Xlint:-removal")
++    compilerArgs.add("-Xlint:-dep-ann")
++}
++// DivineMC end
 diff --git a/src/main/java/io/papermc/paper/ServerBuildInfo.java b/src/main/java/io/papermc/paper/ServerBuildInfo.java
 index 7107eabf02d9d9b69d97c978ba421ad52031ec3f..f6005cb48750fdcf903609f3fb693895df229bc2 100644
 --- a/src/main/java/io/papermc/paper/ServerBuildInfo.java

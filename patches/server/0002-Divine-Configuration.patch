@@ -5,7 +5,7 @@ Subject: [PATCH] Divine Configuration
 
 
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 3e27a6c1d0e36d76d1ecdf52f642935b90d50d73..0956889c7b4fbba2ec615e222c52698cfb14db4c 100644
+index 39a7abeeff53a608774dc34226e9b5e12bd5b5d2..6833a7710cfb2716c8522d8a841bee665d98fd05 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -58,6 +58,7 @@ import net.minecraft.world.level.GameType;
@@ -34,7 +34,7 @@ index 3e27a6c1d0e36d76d1ecdf52f642935b90d50d73..0956889c7b4fbba2ec615e222c52698c
          this.setFlightAllowed(dedicatedserverproperties.allowFlight);
          this.setMotd(dedicatedserverproperties.motd);
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 629f35eda2f31b17025fd9d0e594cdebabc0a504..721fe9c6c3a6700d5d91d4078bfd79dd01ef32f3 100644
+index 743a3203b035846aecec1c329b66fe3a1cbf21f5..6002b41a3ad0da5c962d7845b39995ad280fc828 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
 @@ -82,6 +82,7 @@ import net.minecraft.world.level.storage.WritableLevelData;
@@ -53,7 +53,7 @@ index 629f35eda2f31b17025fd9d0e594cdebabc0a504..721fe9c6c3a6700d5d91d4078bfd79dd
      public final co.aikar.timings.WorldTimingsHandler timings; // Paper
      public static BlockPos lastPhysicsProblem; // Spigot
      private org.spigotmc.TickLimiter entityLimiter;
-@@ -306,6 +308,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
+@@ -311,6 +313,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
          this.spigotConfig = new org.spigotmc.SpigotWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName()); // Spigot
          this.paperConfig = paperWorldConfigCreator.apply(this.spigotConfig); // Paper - create paper world config
          this.purpurConfig = new org.purpurmc.purpur.PurpurWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName(), env); // Purpur
