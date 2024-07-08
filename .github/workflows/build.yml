@@ -1,6 +1,9 @@
 name: Build DivineMC
 on:
   push:
+    branches: [ "ver/1.21" ]
+  pull_request:
+    branches: [ "ver/1.21" ]
   workflow_dispatch:
 
 env:
