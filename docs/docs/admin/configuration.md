@@ -63,9 +63,6 @@ Global settings affect all worlds on the server as well as the core server funct
     - **default**: true
     - **description**: Enables or disables optimization of sheep color choosing from the CarpetFixes mod. The game determines the child sheep's color by getting a wool block from the parents, putting them in a crafting
 recipe, getting the output wool and getting the color from that.
-  - ##### recipe-manager-optimization
-    - **default**: true
-    - **description**: Enables or disables optimization of recipe manager from the CarpetFixes mod. Optimized by taking out streams & doing extra early checks to quickly remove unrelated recipes
 - #### misc
   - ##### use-secure-seed (temporarily absent)
     - **default**: false

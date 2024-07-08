@@ -28,10 +28,10 @@ index 0f9196cc26e5c670a7f3454326b762f0303f633c..a8d4e315d66f71538a3f5330509732ca
      protected Brain.Provider<Allay> brainProvider() {
          return Brain.provider(Allay.MEMORY_TYPES, Allay.SENSOR_TYPES);
 diff --git a/src/main/java/net/minecraft/world/entity/animal/camel/Camel.java b/src/main/java/net/minecraft/world/entity/animal/camel/Camel.java
-index 2fcf8301949ff420ae0955a5194b5db52f030454..464ac4e851a721ae0ed18700be03220a3574db05 100644
+index e88d6d691bb176e33afeb294d735dfb2cbac12ff..c84739e82b7e35ad95f145a48b0da290cb148561 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/camel/Camel.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/camel/Camel.java
-@@ -95,6 +95,18 @@ public class Camel extends AbstractHorse implements PlayerRideableJumping, Saddl
+@@ -98,6 +98,18 @@ public class Camel extends AbstractHorse implements PlayerRideableJumping, Saddl
      }
      // Purpur end
  
@@ -190,7 +190,7 @@ index 4cdf3b54187ebcb1f5ddfa6114386127a2846f01..72d146777a0310cb08157bf74e8b6625
  
      @Override
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-index 73352e71d3743fc6b263d6fa5b23571785e2fc4c..87e54aa5e14a0e92df88ea775966c0268ac9cb6e 100644
+index 59cf59bd127fd1fe1c8dbac2086ddbafcb296e4e..96e5a9120f41587a213c607b7f27e29fcfe247a8 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 @@ -330,6 +330,7 @@ public class PurpurConfig {

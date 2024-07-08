@@ -859,10 +859,10 @@ index 6308822f819d7cb84c8070c8a7eec1a3f822114b..3db838279e4407c28671bb1563fc96f9
  
      public SwimNodeEvaluator(boolean canJumpOutOfWater) {
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-index c09f32cb70a24a19a228fdf670d7815f619f6ddf..d8fdabba24db864671bb3e5ff5062a2a67703725 100644
+index 54beb2e8be073617638e62f22ae37942b75283d7..641a957cfda8de6f4114350393f441f2f3b9c8dd 100644
 --- a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-@@ -168,4 +168,21 @@ public class DivineConfig {
+@@ -166,4 +166,21 @@ public class DivineConfig {
          optimizedDragonRespawn = getBoolean("settings.optimizations.optimized-dragon-respawn", optimizedDragonRespawn);
          optimizeNoiseGeneration = getBoolean("settings.optimizations.optimize-noise-generation", optimizeNoiseGeneration);
      }

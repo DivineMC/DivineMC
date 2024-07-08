@@ -1009,7 +1009,7 @@ index b4f4addfd35a1961a237fc0ab83e6285a0faeaee..bdb70ffc77e763d449f4f550701900b0
          return this != EntityType.PLAYER && this != EntityType.LLAMA_SPIT && this != EntityType.WITHER && this != EntityType.BAT && this != EntityType.ITEM_FRAME && this != EntityType.GLOW_ITEM_FRAME && this != EntityType.LEASH_KNOT && this != EntityType.PAINTING && this != EntityType.END_CRYSTAL && this != EntityType.EVOKER_FANGS;
      }
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 487083d8dedd422fdb2a80710649932bf7bde9ac..8bac1c8c6347fd93761172657c9342331f2b8a6d 100644
+index c07f4de6808d05dc65ac51e17b0c21d94707378a..cbbeece6243746e6872879cc351c81f1054cebcb 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
 @@ -157,8 +157,6 @@ import org.bukkit.event.entity.EntityTeleportEvent;
@@ -1223,10 +1223,10 @@ index d3ec817e95628f1fc8be4a29c9a0f13c7d5fd552..e9798517b9211c50a20ea5c69603aab3
      }
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
-index aa38e21c30ae104e0f775bd29da4a49366d009f8..9a58c155ba65e905e85b0df02fb5c29b3a26f670 100644
+index eb5ca67ebfd008a0fcc3ab3fc2452a27d7b0a9f8..bdae2ce02a88f3a249d3562df53cd129d43999f1 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
 +++ b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
-@@ -220,7 +220,7 @@ public final class CraftMagicNumbers implements UnsafeValues {
+@@ -216,7 +216,7 @@ public final class CraftMagicNumbers implements UnsafeValues {
      // Paper start
      @Override
      public void reportTimings() {
@@ -1235,7 +1235,7 @@ index aa38e21c30ae104e0f775bd29da4a49366d009f8..9a58c155ba65e905e85b0df02fb5c29b
      }
      // Paper end
  
-@@ -499,7 +499,7 @@ public final class CraftMagicNumbers implements UnsafeValues {
+@@ -493,7 +493,7 @@ public final class CraftMagicNumbers implements UnsafeValues {
      // Paper start
      @Override
      public String getTimingsServerName() {

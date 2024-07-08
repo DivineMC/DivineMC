@@ -1,0 +1,83 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Mon, 8 Jul 2024 09:03:56 +0300
+Subject: [PATCH] Akarin: Save Json list asynchronously
+
+Original project: https://github.com/Akarin-project/Akarin
+
+diff --git a/src/main/java/net/minecraft/server/players/StoredUserList.java b/src/main/java/net/minecraft/server/players/StoredUserList.java
+index c038da20b76c0b7b1c18471b20be01e849d29f3a..e961374a6ba23c0e46b01e8fa01656c047989483 100644
+--- a/src/main/java/net/minecraft/server/players/StoredUserList.java
++++ b/src/main/java/net/minecraft/server/players/StoredUserList.java
+@@ -103,37 +103,47 @@ public abstract class StoredUserList<K, V extends StoredUserEntry<K>> {
+     }
+ 
+     public void save() throws IOException {
+-        this.removeExpired(); // Paper - remove expired values before saving
+-        JsonArray jsonarray = new JsonArray();
+-        Stream<JsonObject> stream = this.map.values().stream().map((jsonlistentry) -> { // CraftBukkit - decompile error
+-            JsonObject jsonobject = new JsonObject();
++        Runnable saveTask = () -> { // DivineMC - Save json list async
++            this.removeExpired(); // Paper - remove expired values before saving
++            JsonArray jsonarray = new JsonArray();
++            Stream<JsonObject> stream = this.map.values().stream().map((jsonlistentry) -> { // CraftBukkit - decompile error
++                JsonObject jsonobject = new JsonObject();
+ 
+-            Objects.requireNonNull(jsonlistentry);
+-            return (JsonObject) Util.make(jsonobject, jsonlistentry::serialize);
+-        });
++                Objects.requireNonNull(jsonlistentry);
++                return (JsonObject) Util.make(jsonobject, jsonlistentry::serialize);
++            });
+ 
+-        Objects.requireNonNull(jsonarray);
+-        stream.forEach(jsonarray::add);
+-        BufferedWriter bufferedwriter = Files.newWriter(this.file, StandardCharsets.UTF_8);
++            Objects.requireNonNull(jsonarray);
++            stream.forEach(jsonarray::add);
++
++            try { // DivineMC - Save json list async
++                BufferedWriter bufferedwriter = Files.newWriter(this.file, StandardCharsets.UTF_8);
+ 
+-        try {
+-            StoredUserList.GSON.toJson(jsonarray, StoredUserList.GSON.newJsonWriter(bufferedwriter));
+-        } catch (Throwable throwable) {
+-            if (bufferedwriter != null) {
+                 try {
+-                    bufferedwriter.close();
+-                } catch (Throwable throwable1) {
+-                    throwable.addSuppressed(throwable1);
+-                }
+-            }
++                    StoredUserList.GSON.toJson(jsonarray, StoredUserList.GSON.newJsonWriter(bufferedwriter));
++                } catch (Throwable throwable) {
++                    if (bufferedwriter != null) {
++                        try {
++                            bufferedwriter.close();
++                        } catch (Throwable throwable1) {
++                            throwable.addSuppressed(throwable1);
++                        }
++                    }
+ 
+-            throw throwable;
+-        }
++                    throw throwable;
++                }
+ 
+-        if (bufferedwriter != null) {
+-            bufferedwriter.close();
+-        }
++                if (bufferedwriter != null) {
++                    bufferedwriter.close();
++                }
+ 
++        // DivineMC start
++            } catch (Exception e) {
++                StoredUserList.LOGGER.warn("Failed to async save " + this.file, e);
++            }
++        };
++        io.papermc.paper.util.MCUtil.scheduleAsyncTask(saveTask);
++        // DivineMC end
+     }
+ 
+     public void load() throws IOException {

@@ -160,10 +160,10 @@ index 95dcf7743e69559bc99487f6b57986bbbb2512c6..d4541b7b3123c4be2af06152bc527ce3
  
      // CraftBukkit start
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-index 3f078251200bc9d9a9a8632637cfa75750463a0c..cc056202ff619eb2524a364c0f7a03343290e7c4 100644
+index 75adcde96d7924fa1892462e66ffe16476735658..09b74a2f07deee7ba38f99a7573e63b53adab057 100644
 --- a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-@@ -187,4 +187,9 @@ public class DivineConfig {
+@@ -185,4 +185,9 @@ public class DivineConfig {
          else
              Bukkit.getLogger().log(Level.INFO, "Using " + asyncPathfindingMaxThreads + " threads for Async Pathfinding");
      }

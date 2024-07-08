@@ -5,10 +5,10 @@ Subject: [PATCH] Fix MC-93826
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/animal/Animal.java b/src/main/java/net/minecraft/world/entity/animal/Animal.java
-index 27250278968233b3de05c365ae304a4121887160..dfbb879e5436dad8046932c92476c71d17b374a4 100644
+index 91c1093ecef7c8917b69674ffc936b4ae71871e2..a49f39a2e8bc17653f6b8f40bc56ec259f8759fd 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/Animal.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/Animal.java
-@@ -42,6 +42,8 @@ public abstract class Animal extends AgeableMob {
+@@ -43,6 +43,8 @@ public abstract class Animal extends AgeableMob {
      @Nullable
      public UUID loveCause;
      public ItemStack breedItem; // CraftBukkit - Add breedItem variable
@@ -17,7 +17,7 @@ index 27250278968233b3de05c365ae304a4121887160..dfbb879e5436dad8046932c92476c71d
      public abstract int getPurpurBreedTime(); // Purpur
  
      protected Animal(EntityType<? extends Animal> type, Level world) {
-@@ -73,7 +75,11 @@ public abstract class Animal extends AgeableMob {
+@@ -74,7 +76,11 @@ public abstract class Animal extends AgeableMob {
                  double d1 = this.random.nextGaussian() * 0.02D;
                  double d2 = this.random.nextGaussian() * 0.02D;
  

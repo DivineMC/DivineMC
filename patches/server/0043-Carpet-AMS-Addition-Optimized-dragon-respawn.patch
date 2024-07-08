@@ -110,16 +110,15 @@ index 18a1b4325cac81b040596071dab99ef9bf6f3142..445dc3ca4586b39ccc2cebe922455d9f
              for (BlockPattern.BlockPatternMatch shapedetector_shapedetectorcollection = this.findExitPortal(); shapedetector_shapedetectorcollection != null; shapedetector_shapedetectorcollection = this.findExitPortal()) {
                  for (int i = 0; i < this.exitPortalPattern.getWidth(); ++i) {
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-index b12578224a1ac9596a8e82c277efb71e1944c164..66df0b923a4dfe15479f93a65983c927c8dbf112 100644
+index fd0bbc99a151dd12d5522aaf8e3800b1a17500b6..d5f33c6bde58fd333fbdc474a288523bcb5557a1 100644
 --- a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-@@ -160,8 +160,10 @@ public class DivineConfig {
+@@ -159,7 +159,9 @@ public class DivineConfig {
+     }
  
-     public static boolean recipeManagerOptimization = true;
      public static boolean biomeManagerOptimization = true;
 +    public static boolean optimizedDragonRespawn = true;
      private static void optimizations() {
-         recipeManagerOptimization = getBoolean("settings.optimizations.recipe-manager-optimization", recipeManagerOptimization);
          biomeManagerOptimization = getBoolean("settings.optimizations.biome-manager-optimization", biomeManagerOptimization);
 +        optimizedDragonRespawn = getBoolean("settings.optimizations.optimized-dragon-respawn", optimizedDragonRespawn);
      }

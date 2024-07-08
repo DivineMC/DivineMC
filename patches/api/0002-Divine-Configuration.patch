@@ -5,10 +5,10 @@ Subject: [PATCH] Divine Configuration
 
 
 diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Server.java
-index ceb81148f5fd17f00d1a0fb2df1f31c45aa6807d..a27599cb3f3274fe0a4bf09b6477d93440c28bce 100644
+index 1d594c256200d46882fafce5d2b33e60f0fa3a59..b320778f75a31d05db3e426ffd9cb2c53831f5b7 100644
 --- a/src/main/java/org/bukkit/Server.java
 +++ b/src/main/java/org/bukkit/Server.java
-@@ -2263,6 +2263,13 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
+@@ -2266,6 +2266,13 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
          }
          // Purpur end
  

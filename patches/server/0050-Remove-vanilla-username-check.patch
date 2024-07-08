@@ -32,7 +32,7 @@ index 5edd8e6bcabe5714c89d4c88f672cc3130c27045..0a5156f1790f9b384ce158444f2f3803
              && !this.iKnowThisMayNotBeTheBestIdeaButPleaseDisableUsernameValidation) {
              Validate.validState(StringUtil.isReasonablePlayerName(packet.name()), "Invalid characters in username", new Object[0]);
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-index cc056202ff619eb2524a364c0f7a03343290e7c4..dacfb8d33b17ec86d7e45b9f88ca5303741eefee 100644
+index 09b74a2f07deee7ba38f99a7573e63b53adab057..2580a13c80f6a8f6bb35b4c82014628732660019 100644
 --- a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 @@ -154,8 +154,10 @@ public class DivineConfig {
@@ -45,4 +45,4 @@ index cc056202ff619eb2524a364c0f7a03343290e7c4..dacfb8d33b17ec86d7e45b9f88ca5303
 +        removeVanillaUsernameCheck = getBoolean("settings.misc.remove-vanilla-username-check", removeVanillaUsernameCheck);
      }
  
-     public static boolean recipeManagerOptimization = true;
+     public static boolean biomeManagerOptimization = true;

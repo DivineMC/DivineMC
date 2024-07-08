@@ -152,16 +152,16 @@ index 01352cc83b25eb0e30b7e0ff521fc7c1b3d5155b..c042287e12b5ce814afe8557e4dfa8e8
  
      public Holder<Biome> getNoiseBiomeAtPosition(double x, double y, double z) {
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-index a126361a640d3aac85785f3f24f9e5f712d4d2fe..b12578224a1ac9596a8e82c277efb71e1944c164 100644
+index 58557370cd588c19faf54cb9fc402b1d0a0f687f..fd0bbc99a151dd12d5522aaf8e3800b1a17500b6 100644
 --- a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-@@ -159,7 +159,9 @@ public class DivineConfig {
+@@ -157,4 +157,9 @@ public class DivineConfig {
+     private static void miscSettings() {
+         disableNonEditableSignWarning = getBoolean("settings.misc.disable-non-editable-sign-warning", disableNonEditableSignWarning);
      }
- 
-     public static boolean recipeManagerOptimization = true;
++
 +    public static boolean biomeManagerOptimization = true;
-     private static void optimizations() {
-         recipeManagerOptimization = getBoolean("settings.optimizations.recipe-manager-optimization", recipeManagerOptimization);
++    private static void optimizations() {
 +        biomeManagerOptimization = getBoolean("settings.optimizations.biome-manager-optimization", biomeManagerOptimization);
-     }
++    }
  }

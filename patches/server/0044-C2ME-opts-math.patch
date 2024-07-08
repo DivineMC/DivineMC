@@ -281,16 +281,15 @@ index 35820670837376bcad8891241724d5b946fbd31f..74a666a45289f0902b426ba57986cd93
  
      @Deprecated
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-index 66df0b923a4dfe15479f93a65983c927c8dbf112..c09f32cb70a24a19a228fdf670d7815f619f6ddf 100644
+index d5f33c6bde58fd333fbdc474a288523bcb5557a1..54beb2e8be073617638e62f22ae37942b75283d7 100644
 --- a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-@@ -161,9 +161,11 @@ public class DivineConfig {
-     public static boolean recipeManagerOptimization = true;
+@@ -160,8 +160,10 @@ public class DivineConfig {
+ 
      public static boolean biomeManagerOptimization = true;
      public static boolean optimizedDragonRespawn = true;
 +    public static boolean optimizeNoiseGeneration = true;
      private static void optimizations() {
-         recipeManagerOptimization = getBoolean("settings.optimizations.recipe-manager-optimization", recipeManagerOptimization);
          biomeManagerOptimization = getBoolean("settings.optimizations.biome-manager-optimization", biomeManagerOptimization);
          optimizedDragonRespawn = getBoolean("settings.optimizations.optimized-dragon-respawn", optimizedDragonRespawn);
 +        optimizeNoiseGeneration = getBoolean("settings.optimizations.optimize-noise-generation", optimizeNoiseGeneration);
