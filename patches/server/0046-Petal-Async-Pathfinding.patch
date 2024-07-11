@@ -1,7 +1,7 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
 Date: Sun, 14 Jan 2024 00:46:20 +0300
-Subject: [PATCH] Async Pathfinding
+Subject: [PATCH] Petal: Async Pathfinding
 
 Original code by Bloom-host, licensed under GPL v3
 You can find the original code on https://github.com/Bloom-host/Petal
