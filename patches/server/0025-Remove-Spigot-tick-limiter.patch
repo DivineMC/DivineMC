@@ -7,10 +7,10 @@ Original code by Titaniumtown, modified by NONPLAYT
 You can find the original code on https://gitlab.com/Titaniumtown/JettPack
 
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 6002b41a3ad0da5c962d7845b39995ad280fc828..8f55d3d2163b56eeaec7462396acfcd36c279a36 100644
+index 1adb68952ca18e9d3d5c382cd6bc5976f5c98660..ec7e7d0f4e50fa14aa9513ad36af9a7dd64d02a3 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
-@@ -177,8 +177,6 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
+@@ -178,8 +178,6 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
      public final DivineWorldConfig divinemcConfig; // DivineMC
      public final co.aikar.timings.WorldTimingsHandler timings; // Paper
      public static BlockPos lastPhysicsProblem; // Spigot
@@ -19,15 +19,15 @@ index 6002b41a3ad0da5c962d7845b39995ad280fc828..8f55d3d2163b56eeaec7462396acfcd3
      private int tileTickPosition;
      public final Map<Explosion.CacheKey, Float> explosionDensityCache = new HashMap<>(); // Paper - Optimize explosions
      public java.util.ArrayDeque<net.minecraft.world.level.block.RedstoneTorchBlock.Toggle> redstoneUpdateInfos; // Paper - Faster redstone torch rapid clock removal; Move from Map in BlockRedstoneTorch to here
-@@ -392,8 +390,6 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
+@@ -769,8 +767,6 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
          });
          // CraftBukkit end
          this.timings = new co.aikar.timings.WorldTimingsHandler(this); // Paper - code below can generate new world and access timings
 -        this.entityLimiter = new org.spigotmc.TickLimiter(this.spigotConfig.entityMaxTickTime);
 -        this.tileLimiter = new org.spigotmc.TickLimiter(this.spigotConfig.tileMaxTickTime);
          this.entityLookup = new ca.spottedleaf.moonrise.patches.chunk_system.level.entity.dfl.DefaultEntityLookup(this); // Paper - rewrite chunk system
-         this.chunkPacketBlockController = this.paperConfig().anticheat.antiXray.enabled ? new com.destroystokyo.paper.antixray.ChunkPacketBlockControllerAntiXray(this, executor) : com.destroystokyo.paper.antixray.ChunkPacketBlockController.NO_OPERATION_INSTANCE; // Paper - Anti-Xray
-     }
+         // Paper start - optimise collisions
+         this.minSection = ca.spottedleaf.moonrise.common.util.WorldUtil.getMinSection(this);
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
 index 0e6b697c6e8503beeed9412abddad2b512246b37..3ef20300c50bca5c1bc8a521fb1de53511d3a172 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java

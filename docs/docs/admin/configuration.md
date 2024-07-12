@@ -73,6 +73,9 @@ recipe, getting the output wool and getting the color from that.
   - ##### remove-vanilla-username-check
     - **default**: false
     - **description**: Removes vanilla username check, allowing to join the server with any characters in username
+  - ##### disable-moved-wrongly-threshold
+    - **default**: false
+    - **description**: Disable moved quickly/wrongly checks warns in console
 - #### region-format
     ##### linear
     - ###### flush-frequency

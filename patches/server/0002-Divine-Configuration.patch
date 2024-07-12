@@ -34,18 +34,18 @@ index 39a7abeeff53a608774dc34226e9b5e12bd5b5d2..6833a7710cfb2716c8522d8a841bee66
          this.setFlightAllowed(dedicatedserverproperties.allowFlight);
          this.setMotd(dedicatedserverproperties.motd);
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 743a3203b035846aecec1c329b66fe3a1cbf21f5..6002b41a3ad0da5c962d7845b39995ad280fc828 100644
+index 9571f6fc685fff5f4be469099ce8e6c85292a53a..1adb68952ca18e9d3d5c382cd6bc5976f5c98660 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
-@@ -82,6 +82,7 @@ import net.minecraft.world.level.storage.WritableLevelData;
- import net.minecraft.world.phys.AABB;
+@@ -83,6 +83,7 @@ import net.minecraft.world.phys.AABB;
  import net.minecraft.world.phys.Vec3;
+ import net.minecraft.world.phys.shapes.VoxelShape;
  import net.minecraft.world.scores.Scoreboard;
 +import space.bxteam.divinemc.configuration.DivineWorldConfig; // DivineMC
  
  // CraftBukkit start
  import java.util.HashMap;
-@@ -173,6 +174,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
+@@ -174,6 +175,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
  
      public final com.destroystokyo.paper.antixray.ChunkPacketBlockController chunkPacketBlockController; // Paper - Anti-Xray
      public final org.purpurmc.purpur.PurpurWorldConfig purpurConfig; // Purpur
@@ -53,7 +53,7 @@ index 743a3203b035846aecec1c329b66fe3a1cbf21f5..6002b41a3ad0da5c962d7845b39995ad
      public final co.aikar.timings.WorldTimingsHandler timings; // Paper
      public static BlockPos lastPhysicsProblem; // Spigot
      private org.spigotmc.TickLimiter entityLimiter;
-@@ -311,6 +313,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
+@@ -688,6 +690,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
          this.spigotConfig = new org.spigotmc.SpigotWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName()); // Spigot
          this.paperConfig = paperWorldConfigCreator.apply(this.spigotConfig); // Paper - create paper world config
          this.purpurConfig = new org.purpurmc.purpur.PurpurWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName(), env); // Purpur
@@ -113,7 +113,7 @@ index 002a3ee08d7e009ef1e4bd3bc274aa608846b219..7c6af53de9b3b7552bf69aaef6ce2ff1
          public void restart() {
              org.spigotmc.RestartCommand.restart();
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 930614ebfd3d6b6e011a58bbd5310620c02582db..ecb5105f4bebb897d098e4a82eb8dfa1b97218fa 100644
+index f0e7f729e58fa1b297ae07edcf808f6211262189..33a5a64b1dfea4d284f45fd80867144d3cdec501 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -184,6 +184,14 @@ public class Main {

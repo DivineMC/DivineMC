@@ -7,7 +7,7 @@ Original code by RelativityMC, licensed under MIT
 You can find the original code on https://github.com/RelativityMC/VMP-fabric (Yarn mappings)
 
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 4bacfd3370115a2343af777b20291b207f194f5f..30e4d362d195a57cb502f2fb92f50dc1d7c0043c 100644
+index 476bf0c7f1d2a398caf69152638dbe56a64a1d43..c9e712466434de366bb8072126eee092ec01f60e 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -324,6 +324,7 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
@@ -18,8 +18,8 @@ index 4bacfd3370115a2343af777b20291b207f194f5f..30e4d362d195a57cb502f2fb92f50dc1
      public boolean onGround;
      public boolean horizontalCollision;
      public boolean verticalCollision;
-@@ -1091,6 +1092,12 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
-     }
+@@ -1136,6 +1137,12 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
+     // Paper end - detailed watchdog information
  
      public void move(MoverType movementType, Vec3 movement) {
 +        // DivineMC start - vmp: skip entity move if movement is zero
@@ -29,9 +29,9 @@ index 4bacfd3370115a2343af777b20291b207f194f5f..30e4d362d195a57cb502f2fb92f50dc1
 +        }
 +        // DivineMC end
          final Vec3 originalMovement = movement; // Paper - Expose pre-collision velocity
-         if (this.noPhysics) {
-             this.setPos(this.getX() + movement.x, this.getY() + movement.y, this.getZ() + movement.z);
-@@ -4046,6 +4053,7 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
+         // Paper start - detailed watchdog information
+         io.papermc.paper.util.TickThread.ensureTickThread("Cannot move an entity off-main");
+@@ -4206,6 +4213,7 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
      }
  
      public final void setBoundingBox(AABB boundingBox) {

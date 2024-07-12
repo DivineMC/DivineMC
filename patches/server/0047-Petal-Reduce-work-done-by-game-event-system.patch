@@ -34,7 +34,7 @@ index a74732902c0494c67e6acf2fc04581ff9c46b832..42752cf9aa9668f4f813adc177b7ef97
              LivingEntity entityliving1 = deadEntity.getLastHurtByMob();
  
 diff --git a/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java b/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
-index 7238f28b7d4b40359a28970a7a53018c242af6e2..109ef6440af8f5611b4570bb647052cb0b19c08e 100644
+index 7411e3d132dddde4599c182384f317679de1f2bf..f8fce0fa89ab383050fc7dd373fa964242df2bcd 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
 @@ -82,7 +82,18 @@ public class LevelChunk extends ChunkAccess implements ca.spottedleaf.moonrise.p
@@ -66,7 +66,7 @@ index 7238f28b7d4b40359a28970a7a53018c242af6e2..109ef6440af8f5611b4570bb647052cb
          Heightmap.Types[] aheightmap_type = Heightmap.Types.values();
          int j = aheightmap_type.length;
  
-@@ -198,9 +209,23 @@ public class LevelChunk extends ChunkAccess implements ca.spottedleaf.moonrise.p
+@@ -220,9 +231,23 @@ public class LevelChunk extends ChunkAccess implements ca.spottedleaf.moonrise.p
          Level world = this.level;
  
          if (world instanceof ServerLevel worldserver) {
@@ -93,7 +93,7 @@ index 7238f28b7d4b40359a28970a7a53018c242af6e2..109ef6440af8f5611b4570bb647052cb
          } else {
              return super.getListenerRegistry(ySectionCoord);
          }
-@@ -589,7 +614,7 @@ public class LevelChunk extends ChunkAccess implements ca.spottedleaf.moonrise.p
+@@ -611,7 +636,7 @@ public class LevelChunk extends ChunkAccess implements ca.spottedleaf.moonrise.p
      }
  
      private void removeGameEventListenerRegistry(int ySectionCoord) {
