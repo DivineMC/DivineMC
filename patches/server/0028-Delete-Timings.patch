@@ -939,7 +939,7 @@ index c0e19a44de942ed82cdcd5bb1688be2b4cbc0d23..49cd0d502a897b32c185e1437d8fb7eb
  import com.google.common.collect.ImmutableList.Builder;
  import com.google.common.collect.Iterables;
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index b3ddd5eba13f03d30104c9a163da835126b29115..140c5cea309427c3df0a69ee83c02e036b2f170f 100644
+index b3ddd5eba13f03d30104c9a163da835126b29115..dacec2cc57d0de60430bd82d6bca137259dc6a06 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -1,7 +1,6 @@
@@ -950,25 +950,17 @@ index b3ddd5eba13f03d30104c9a163da835126b29115..140c5cea309427c3df0a69ee83c02e03
  import com.google.common.collect.Lists;
  import com.mojang.datafixers.DataFixer;
  import com.mojang.datafixers.util.Pair;
-@@ -1284,6 +1283,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ca.spottedleaf.
-     // Paper end - log detailed entity tick information
- 
-     public void tickNonPassenger(Entity entity) {
-+        /* // DivineMC
-         // Paper start - log detailed entity tick information
-         io.papermc.paper.util.TickThread.ensureTickThread("Cannot tick an entity off-main");
-         try {
-@@ -1292,8 +1292,8 @@ public class ServerLevel extends Level implements WorldGenLevel, ca.spottedleaf.
+@@ -1291,9 +1290,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ca.spottedleaf.
+                 currentlyTickingEntity.lazySet(entity);
              }
              // Paper end - log detailed entity tick information
-         ++TimingHistory.entityTicks; // Paper - timings
-+         */
+-        ++TimingHistory.entityTicks; // Paper - timings
          // Spigot start
 -        co.aikar.timings.Timing timer; // Paper
          /*if (!org.spigotmc.ActivationRange.checkIfActive(entity)) { // Paper - comment out - EAR 2, reimplement below
              entity.tickCount++;
              timer = entity.getType().inactiveTickTimer.startTiming(); try { // Paper - timings
-@@ -1316,7 +1316,6 @@ public class ServerLevel extends Level implements WorldGenLevel, ca.spottedleaf.
+@@ -1316,7 +1313,6 @@ public class ServerLevel extends Level implements WorldGenLevel, ca.spottedleaf.
          });*/ // Purpur
          //gameprofilerfiller.incrementCounter("tickNonPassenger"); // Purpur
          if (isActive) { // Paper - EAR 2
