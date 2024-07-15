@@ -939,7 +939,7 @@ index c0e19a44de942ed82cdcd5bb1688be2b4cbc0d23..49cd0d502a897b32c185e1437d8fb7eb
  import com.google.common.collect.ImmutableList.Builder;
  import com.google.common.collect.Iterables;
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index b3ddd5eba13f03d30104c9a163da835126b29115..dacec2cc57d0de60430bd82d6bca137259dc6a06 100644
+index 0f28eabc50366f35b3804b16db8cc4c38777de6e..60a0977aaa43025e22fb7014ceee3d7dd729a3e7 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -1,7 +1,6 @@
@@ -1061,7 +1061,7 @@ index 09a7b418ddf564c0be13297f7c216db2e7ae1578..1e26b1099139d76e49fce14ee72061e1
          this.scanRate = senseInterval;
          this.timeToTick = (long)RANDOM.nextInt(senseInterval);
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index ec7e7d0f4e50fa14aa9513ad36af9a7dd64d02a3..7246dfe88f36c261e5780cd5a0958bbb887e1e71 100644
+index 2e60f4d92b8d26eff7efe9c99480c33649bec789..16cd246d7d24a211c09b13aedf2286cb3fdf3c49 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
 @@ -176,7 +176,6 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
@@ -1072,7 +1072,7 @@ index ec7e7d0f4e50fa14aa9513ad36af9a7dd64d02a3..7246dfe88f36c261e5780cd5a0958bbb
      public static BlockPos lastPhysicsProblem; // Spigot
      private int tileTickPosition;
      public final Map<Explosion.CacheKey, Float> explosionDensityCache = new HashMap<>(); // Paper - Optimize explosions
-@@ -766,7 +765,6 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
+@@ -768,7 +767,6 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
              public void onBorderSetDamageSafeZOne(WorldBorder border, double safeZoneRadius) {}
          });
          // CraftBukkit end
@@ -1080,7 +1080,7 @@ index ec7e7d0f4e50fa14aa9513ad36af9a7dd64d02a3..7246dfe88f36c261e5780cd5a0958bbb
          this.entityLookup = new ca.spottedleaf.moonrise.patches.chunk_system.level.entity.dfl.DefaultEntityLookup(this); // Paper - rewrite chunk system
          // Paper start - optimise collisions
          this.minSection = ca.spottedleaf.moonrise.common.util.WorldUtil.getMinSection(this);
-@@ -1409,9 +1407,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
+@@ -1411,9 +1409,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
          }
          this.blockEntityTickers.removeAll(toRemove); // Paper - Fix MC-117075
  

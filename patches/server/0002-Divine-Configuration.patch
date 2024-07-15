@@ -34,7 +34,7 @@ index 39a7abeeff53a608774dc34226e9b5e12bd5b5d2..6833a7710cfb2716c8522d8a841bee66
          this.setFlightAllowed(dedicatedserverproperties.allowFlight);
          this.setMotd(dedicatedserverproperties.motd);
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 9571f6fc685fff5f4be469099ce8e6c85292a53a..1adb68952ca18e9d3d5c382cd6bc5976f5c98660 100644
+index 5ab33a2531cd7853d4a33fa1569d0181d967bac6..2dec9557c6f9e33b4cecb5c53ce3fa3ff2304c15 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
 @@ -83,6 +83,7 @@ import net.minecraft.world.phys.AABB;
@@ -53,7 +53,7 @@ index 9571f6fc685fff5f4be469099ce8e6c85292a53a..1adb68952ca18e9d3d5c382cd6bc5976
      public final co.aikar.timings.WorldTimingsHandler timings; // Paper
      public static BlockPos lastPhysicsProblem; // Spigot
      private org.spigotmc.TickLimiter entityLimiter;
-@@ -688,6 +690,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
+@@ -690,6 +692,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
          this.spigotConfig = new org.spigotmc.SpigotWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName()); // Spigot
          this.paperConfig = paperWorldConfigCreator.apply(this.spigotConfig); // Paper - create paper world config
          this.purpurConfig = new org.purpurmc.purpur.PurpurWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName(), env); // Purpur
