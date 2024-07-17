@@ -209,19 +209,6 @@ index 710477ae27ebc5afdf0012ef0867d05efd293c24..972391f88d9a5fbf6e28ddbf853d610b
  
      public CrashReport(String message, Throwable cause) {
          io.papermc.paper.util.StacktraceDeobfuscator.INSTANCE.deobfuscateThrowable(cause); // Paper
-diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 7115c04cacfd373b2d9ce0e34460aa695bb65bcd..f2a099a3ff87789a2138cc1d6b7506d0f68bf628 100644
---- a/src/main/java/net/minecraft/server/MinecraftServer.java
-+++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -1032,7 +1032,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
-         shutdownThread = Thread.currentThread();
-         org.spigotmc.WatchdogThread.doStop(); // Paper
-         if (!isSameThread()) {
--            MinecraftServer.LOGGER.info("Stopping main thread (Ignore any thread death message you see! - DO NOT REPORT THREAD DEATH TO PURPUR)"); // Purpur
-+            MinecraftServer.LOGGER.info("Stopping main thread (Ignore any thread death message you see! - DO NOT REPORT THREAD DEATH TO DIVINEMC)"); // DivineMC
-             while (this.getRunningThread().isAlive()) {
-                 this.getRunningThread().stop();
-                 try {
 diff --git a/src/main/java/net/minecraft/server/gui/MinecraftServerGui.java b/src/main/java/net/minecraft/server/gui/MinecraftServerGui.java
 index 8f74c2ec5252b6265549589310d742337c91cb2c..1f4c965531393dd81246de487bc86f6d6f73b723 100644
 --- a/src/main/java/net/minecraft/server/gui/MinecraftServerGui.java
@@ -254,10 +241,10 @@ index 8f74c2ec5252b6265549589310d742337c91cb2c..1f4c965531393dd81246de487bc86f6d
                      servergui.runFinalizers();
                  }
 diff --git a/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java b/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
-index 0615fd82b71efb9a397de01615050e6d906c2844..64b2608ae81373acb67e3e0453c61822c0d03087 100644
+index 40689256711cc94a806ca1da346f4f62eda31526..f1beaa44a0f24b829923c351d0a0687b8138b6f9 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
-@@ -146,7 +146,7 @@ public class RegionFileStorage implements AutoCloseable, ca.spottedleaf.moonrise
+@@ -177,7 +177,7 @@ public class RegionFileStorage implements AutoCloseable, ca.spottedleaf.moonrise
  
      // Paper start
      private static void printOversizedLog(String msg, Path file, int x, int z) {

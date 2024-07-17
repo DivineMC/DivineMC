@@ -7,7 +7,7 @@ Original code by Titaniumtown, modified by NONPLAYT
 You can find the original code on https://gitlab.com/Titaniumtown/JettPack
 
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 2dec9557c6f9e33b4cecb5c53ce3fa3ff2304c15..2e60f4d92b8d26eff7efe9c99480c33649bec789 100644
+index 27a52e96f5bc97c1e1aceb88088595db93a35b20..24511ef4a618348b7a6fceefc5e6cdb359bb6655 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
 @@ -178,8 +178,6 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
@@ -19,7 +19,7 @@ index 2dec9557c6f9e33b4cecb5c53ce3fa3ff2304c15..2e60f4d92b8d26eff7efe9c99480c336
      private int tileTickPosition;
      public final Map<Explosion.CacheKey, Float> explosionDensityCache = new HashMap<>(); // Paper - Optimize explosions
      public java.util.ArrayDeque<net.minecraft.world.level.block.RedstoneTorchBlock.Toggle> redstoneUpdateInfos; // Paper - Faster redstone torch rapid clock removal; Move from Map in BlockRedstoneTorch to here
-@@ -771,8 +769,6 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
+@@ -813,8 +811,6 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
          });
          // CraftBukkit end
          this.timings = new co.aikar.timings.WorldTimingsHandler(this); // Paper - code below can generate new world and access timings

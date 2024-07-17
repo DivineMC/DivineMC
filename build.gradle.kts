@@ -87,3 +87,23 @@ paperweight {
         }
     }
 }
+
+tasks.generateDevelopmentBundle {
+    apiCoordinates = "space.bxteam.divinemc:divinemc-api"
+    libraryRepositories.set(
+        listOf(
+            "https://repo.maven.apache.org/maven2/",
+            paperMavenPublicUrl
+        )
+    )
+}
+
+publishing {
+    if (project.providers.gradleProperty("publishDevBundle").isPresent) {
+        publications.create<MavenPublication>("devBundle") {
+            artifact(tasks.generateDevelopmentBundle) {
+                artifactId = "dev-bundle"
+            }
+        }
+    }
+}

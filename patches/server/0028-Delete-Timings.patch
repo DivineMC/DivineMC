@@ -730,7 +730,7 @@ index 24121a43aeb5e9bce013f30c92dddd15f99736c6..791cb04a13597eee4dbd28fabe2835ab
              String content = context.getRange().get(context.getInput());
              String[] args = org.apache.commons.lang3.StringUtils.split(content, ' '); // fix adjacent spaces (from console/plugins) causing empty array elements
 diff --git a/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java b/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
-index 69fbb3ff023db00fb82a1c0235c05afdacb47abd..9d7f21cbd3ecaf5a4da3dceb43b223ff086b245b 100644
+index ea48befad95da428751dc4a0991f34e6dc7f6d04..e2dd123792983c3ad56702b9f5b807600afa2f2a 100644
 --- a/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
 +++ b/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
 @@ -1,6 +1,5 @@
@@ -740,7 +740,7 @@ index 69fbb3ff023db00fb82a1c0235c05afdacb47abd..9d7f21cbd3ecaf5a4da3dceb43b223ff
  import com.mojang.logging.LogUtils;
  import io.papermc.paper.configuration.constraint.Constraints;
  import io.papermc.paper.configuration.type.number.IntOr;
-@@ -91,28 +90,7 @@ public class GlobalConfiguration extends ConfigurationPart {
+@@ -91,29 +90,6 @@ public class GlobalConfiguration extends ConfigurationPart {
          public boolean useDisplayNameInQuitMessage = false;
      }
  
@@ -749,7 +749,7 @@ index 69fbb3ff023db00fb82a1c0235c05afdacb47abd..9d7f21cbd3ecaf5a4da3dceb43b223ff
 -
 -    @Deprecated(forRemoval = true)
 -    public class Timings extends ConfigurationPart {
--        public boolean enabled = true;
+-        public boolean enabled = false;
 -        public boolean verbose = true;
 -        public String url = "https://timings.aikar.co/";
 -        public boolean serverNamePrivacy = false;
@@ -766,10 +766,10 @@ index 69fbb3ff023db00fb82a1c0235c05afdacb47abd..9d7f21cbd3ecaf5a4da3dceb43b223ff
 -            MinecraftTimings.processConfig(this);
 -        }
 -    }
-+    // DivineMC - Remove timings configuration section
- 
+-
      public Proxies proxies;
  
+     public class Proxies extends ConfigurationPart {
 diff --git a/src/main/java/io/papermc/paper/plugin/manager/PaperEventManager.java b/src/main/java/io/papermc/paper/plugin/manager/PaperEventManager.java
 index 0e3bed7a75f8f4611f9f44a1f78fd70cc06eaa54..126ed4bd24d993b598c112c2dbfcb9d662038925 100644
 --- a/src/main/java/io/papermc/paper/plugin/manager/PaperEventManager.java
@@ -826,7 +826,7 @@ index 01efbc507b3d58f13f78ee286f93df40cdc3f0cb..1f7f68aad97ee73763c042837f239bdc
                      } catch (Exception exception) {
                          if (exception instanceof ReportedException) {
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index f2a099a3ff87789a2138cc1d6b7506d0f68bf628..2deb7dc0e5f8337ead5c850729b15c811942040a 100644
+index b8628e9ab434feaae40c65f0fa016f6d57352f38..de06e4c2f846179be391f13edf6fb7a64718ff0c 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -3,7 +3,6 @@ package net.minecraft.server;
@@ -846,7 +846,7 @@ index f2a099a3ff87789a2138cc1d6b7506d0f68bf628..2deb7dc0e5f8337ead5c850729b15c81
  public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTask> implements ServerInfo, ChunkIOErrorReporter, CommandSource, AutoCloseable, ca.spottedleaf.moonrise.patches.chunk_system.server.ChunkSystemMinecraftServer { // Paper - rewrite chunk system
  
      private static MinecraftServer SERVER; // Paper
-@@ -1048,7 +1045,6 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1039,7 +1036,6 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
  
          MinecraftServer.LOGGER.info("Stopping server");
          Commands.COMMAND_SENDING_POOL.shutdownNow(); // Paper - Perf: Async command map building; Shutdown and don't bother finishing
@@ -854,7 +854,7 @@ index f2a099a3ff87789a2138cc1d6b7506d0f68bf628..2deb7dc0e5f8337ead5c850729b15c81
          // Purpur start
          if (upnp) {
              if (dev.omega24.upnp4j.UPnP4J.close(this.getPort(), dev.omega24.upnp4j.util.Protocol.TCP)) {
-@@ -1620,15 +1616,14 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1611,15 +1607,14 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
      }
  
      public void tickServer(BooleanSupplier shouldKeepTicking) {
@@ -872,8 +872,8 @@ index f2a099a3ff87789a2138cc1d6b7506d0f68bf628..2deb7dc0e5f8337ead5c850729b15c81
          // Paper end
          new com.destroystokyo.paper.event.server.ServerTickStartEvent(this.tickCount+1).callEvent(); // Paper - Server Tick Events
  
-@@ -1653,9 +1648,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
-         }
+@@ -1656,9 +1651,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+         // Paper end - Incremental chunk and player saving
          io.papermc.paper.util.CachedLists.reset(); // Paper
          // Paper start - move executeAll() into full server tick timing
 -        //try (co.aikar.timings.Timing ignored = MinecraftTimings.processTasksTimer.startTiming()) { // Purpur
@@ -883,7 +883,7 @@ index f2a099a3ff87789a2138cc1d6b7506d0f68bf628..2deb7dc0e5f8337ead5c850729b15c81
          // Paper end
          // Paper start - Server Tick Events
          long endTime = System.nanoTime();
-@@ -1678,7 +1671,6 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1681,7 +1674,6 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          this.logTickMethodTime(i);
          //this.profiler.pop(); // Purpur
          org.spigotmc.WatchdogThread.tick(); // Spigot
@@ -939,7 +939,7 @@ index c0e19a44de942ed82cdcd5bb1688be2b4cbc0d23..49cd0d502a897b32c185e1437d8fb7eb
  import com.google.common.collect.ImmutableList.Builder;
  import com.google.common.collect.Iterables;
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 0f28eabc50366f35b3804b16db8cc4c38777de6e..60a0977aaa43025e22fb7014ceee3d7dd729a3e7 100644
+index 665d45ba1129a72a1fb393d524bfa845b7a8189d..aed0e61f9249bb9c3cd966e48322830fe2e646e8 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -1,7 +1,6 @@
@@ -950,7 +950,7 @@ index 0f28eabc50366f35b3804b16db8cc4c38777de6e..60a0977aaa43025e22fb7014ceee3d7d
  import com.google.common.collect.Lists;
  import com.mojang.datafixers.DataFixer;
  import com.mojang.datafixers.util.Pair;
-@@ -1291,9 +1290,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ca.spottedleaf.
+@@ -1311,9 +1310,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ca.spottedleaf.
                  currentlyTickingEntity.lazySet(entity);
              }
              // Paper end - log detailed entity tick information
@@ -960,7 +960,7 @@ index 0f28eabc50366f35b3804b16db8cc4c38777de6e..60a0977aaa43025e22fb7014ceee3d7d
          /*if (!org.spigotmc.ActivationRange.checkIfActive(entity)) { // Paper - comment out - EAR 2, reimplement below
              entity.tickCount++;
              timer = entity.getType().inactiveTickTimer.startTiming(); try { // Paper - timings
-@@ -1316,7 +1313,6 @@ public class ServerLevel extends Level implements WorldGenLevel, ca.spottedleaf.
+@@ -1336,7 +1333,6 @@ public class ServerLevel extends Level implements WorldGenLevel, ca.spottedleaf.
          });*/ // Purpur
          //gameprofilerfiller.incrementCounter("tickNonPassenger"); // Purpur
          if (isActive) { // Paper - EAR 2
@@ -969,7 +969,7 @@ index 0f28eabc50366f35b3804b16db8cc4c38777de6e..60a0977aaa43025e22fb7014ceee3d7d
          entity.postTick(); // CraftBukkit
          } else { entity.inactiveTick(); } // Paper - EAR 2
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 74c6f43a26ca1b36e7121dddd9f065b2a9254493..95dcf7743e69559bc99487f6b57986bbbb2512c6 100644
+index b14e56c6b117b28c604259ad179d10e79f7c4cdd..65a4cb29bb99058e144ee7958970e41f7842c28a 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -1,6 +1,5 @@
@@ -1061,7 +1061,7 @@ index 09a7b418ddf564c0be13297f7c216db2e7ae1578..1e26b1099139d76e49fce14ee72061e1
          this.scanRate = senseInterval;
          this.timeToTick = (long)RANDOM.nextInt(senseInterval);
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 2e60f4d92b8d26eff7efe9c99480c33649bec789..16cd246d7d24a211c09b13aedf2286cb3fdf3c49 100644
+index 24511ef4a618348b7a6fceefc5e6cdb359bb6655..6241647a1d85073942c821f66a4812bef15543f2 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
 @@ -176,7 +176,6 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
@@ -1072,7 +1072,7 @@ index 2e60f4d92b8d26eff7efe9c99480c33649bec789..16cd246d7d24a211c09b13aedf2286cb
      public static BlockPos lastPhysicsProblem; // Spigot
      private int tileTickPosition;
      public final Map<Explosion.CacheKey, Float> explosionDensityCache = new HashMap<>(); // Paper - Optimize explosions
-@@ -768,7 +767,6 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
+@@ -810,7 +809,6 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
              public void onBorderSetDamageSafeZOne(WorldBorder border, double safeZoneRadius) {}
          });
          // CraftBukkit end
@@ -1080,7 +1080,7 @@ index 2e60f4d92b8d26eff7efe9c99480c33649bec789..16cd246d7d24a211c09b13aedf2286cb
          this.entityLookup = new ca.spottedleaf.moonrise.patches.chunk_system.level.entity.dfl.DefaultEntityLookup(this); // Paper - rewrite chunk system
          // Paper start - optimise collisions
          this.minSection = ca.spottedleaf.moonrise.common.util.WorldUtil.getMinSection(this);
-@@ -1411,9 +1409,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
+@@ -1453,9 +1451,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
          }
          this.blockEntityTickers.removeAll(toRemove); // Paper - Fix MC-117075
  

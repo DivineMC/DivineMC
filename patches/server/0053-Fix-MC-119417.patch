@@ -7,10 +7,10 @@ Original bug on Mojira: https://bugs.mojang.com/browse/MC-119417
 Took here: https://github.com/Winds-Studio/Leaf/blob/ver/1.21/patches/server/0082-Fix-MC-119417.patch
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerPlayer.java b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-index c8ccf4b847ba3803b48c26ad6e6acecb327c76c5..3751cd99e408fe02b0c8d0a065a0129e1872a9c2 100644
+index 4b5d0ccd37534bd987d997338033e363a7a56b76..ee616d091d4755c6959e3aee19ecd08fa148a799 100644
 --- a/src/main/java/net/minecraft/server/level/ServerPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-@@ -2254,6 +2254,7 @@ public class ServerPlayer extends net.minecraft.world.entity.player.Player imple
+@@ -2255,6 +2255,7 @@ public class ServerPlayer extends net.minecraft.world.entity.player.Player imple
              this.connection.send(new ClientboundGameEventPacket(ClientboundGameEventPacket.CHANGE_GAME_MODE, (float) gameMode.getId()));
              if (gameMode == GameType.SPECTATOR) {
                  this.removeEntitiesOnShoulder();
