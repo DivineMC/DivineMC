@@ -5,7 +5,7 @@ Subject: [PATCH] Optimize default values for configs
 
 
 diff --git a/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java b/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
-index b8499c1cea97a1a88a53053bc7da132f2fd3928d..69fbb3ff023db00fb82a1c0235c05afdacb47abd 100644
+index 379452394679c466a09441d4c12882d0d00d9ef3..ea48befad95da428751dc4a0991f34e6dc7f6d04 100644
 --- a/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
 +++ b/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
 @@ -330,9 +330,9 @@ public class GlobalConfiguration extends ConfigurationPart {
@@ -216,7 +216,7 @@ index 54abd6874a64c669fc22448849febc9ef7c0f95e..59cf59bd127fd1fe1c8dbac2086ddbaf
          useAlternateKeepAlive = getBoolean("settings.use-alternate-keepalive", useAlternateKeepAlive);
      }
 diff --git a/src/main/java/org/spigotmc/SpigotConfig.java b/src/main/java/org/spigotmc/SpigotConfig.java
-index db9c812cf7267adf0bfd8be7368140e91245d640..b8534797f15da80117d84f569fc54864ae453f86 100644
+index 0507182aa6d47da9693363f6b0fadd40d06d66b4..91e3c172140dd0ff30d2ffba2b937d3b87db3cce 100644
 --- a/src/main/java/org/spigotmc/SpigotConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotConfig.java
 @@ -335,7 +335,7 @@ public class SpigotConfig
@@ -228,7 +228,7 @@ index db9c812cf7267adf0bfd8be7368140e91245d640..b8534797f15da80117d84f569fc54864
      }
  
      public static double movedWronglyThreshold;
-@@ -396,8 +396,10 @@ public class SpigotConfig
+@@ -399,8 +399,10 @@ public class SpigotConfig
      public static boolean logVillagerDeaths;
      public static boolean logNamedDeaths;
      private static void logDeaths() {
