@@ -1,11 +1,11 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
-Date: Sat, 22 Jun 2024 15:15:46 +0300
+Date: Wed, 10 Jul 2024 02:40:08 +0300
 Subject: [PATCH] Implement Linear region format
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index dffee3fdef02135233bc9a915eebbb714830b889..4c65a8d8fed430b505fbaa28a3bb756a2b472776 100644
+index 435e8c4674399114bd085d7362d03d79a203e13f..961761b61fec4723f5e58929b2e5c16b49663359 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -30,6 +30,10 @@ dependencies {
@@ -35,7 +35,7 @@ index 73df26b27146bbad2106d57b22dd3c792ed3dd1d..a4d16996fae07f943ee078ce3d2e7b22
  
  }
 diff --git a/src/main/java/ca/spottedleaf/moonrise/patches/chunk_system/io/RegionFileIOThread.java b/src/main/java/ca/spottedleaf/moonrise/patches/chunk_system/io/RegionFileIOThread.java
-index c833f78d083b8f661087471c35bc90f65af1b525..cdc2bc217b19765c7a732b285138c2dc60f3f456 100644
+index c833f78d083b8f661087471c35bc90f65af1b525..494c2593a10f660f9ae30d7258c84b9f0616e7b1 100644
 --- a/src/main/java/ca/spottedleaf/moonrise/patches/chunk_system/io/RegionFileIOThread.java
 +++ b/src/main/java/ca/spottedleaf/moonrise/patches/chunk_system/io/RegionFileIOThread.java
 @@ -1042,9 +1042,9 @@ public final class RegionFileIOThread extends PrioritisedQueueExecutorThread {
@@ -58,15 +58,15 @@ index c833f78d083b8f661087471c35bc90f65af1b525..cdc2bc217b19765c7a732b285138c2dc
 +        public <T> T computeForRegionFileIfLoaded(final int chunkX, final int chunkZ, final Function<space.bxteam.divinemc.region.AbstractRegionFile, T> function) { // DivineMC
              final RegionFileStorage cache = this.getCache();
 -            final RegionFile regionFile;
-+            final space.bxteam.divinemc.region.AbstractRegionFile regionFile; // DivineMC
++            final space.bxteam.divinemc.region.AbstractRegionFile regionFile;
  
              synchronized (cache) {
                  regionFile = ((ChunkSystemRegionFileStorage)(Object)cache).moonrise$getRegionFileIfLoaded(chunkX, chunkZ);
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 3df813c086c2a8dfc29c08cb884c099ee698f412..254de097b4a4590d12c16c68d98748a3c9736938 100644
+index 3e5368dbf43e2cc7e01cfd376e0651f681d5d844..59b77a83ab03570f58d9528effb2fc5c42eb9043 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -915,10 +915,10 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -977,10 +977,10 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
              while (iterator1.hasNext()) {
                  ServerLevel worldserver2 = (ServerLevel) iterator1.next();
  
@@ -80,7 +80,7 @@ index 3df813c086c2a8dfc29c08cb884c099ee698f412..254de097b4a4590d12c16c68d98748a3
  
          return flag3;
 diff --git a/src/main/java/net/minecraft/util/worldupdate/WorldUpgrader.java b/src/main/java/net/minecraft/util/worldupdate/WorldUpgrader.java
-index 0382b6597a130d746f8954a93a756a9d1ac81d50..ec7acc1eb614e062656f6401a49fd6efe360f43c 100644
+index 0382b6597a130d746f8954a93a756a9d1ac81d50..bc7693e0c1d56f3afa7ea65a2c048757e82d9c86 100644
 --- a/src/main/java/net/minecraft/util/worldupdate/WorldUpgrader.java
 +++ b/src/main/java/net/minecraft/util/worldupdate/WorldUpgrader.java
 @@ -76,7 +76,7 @@ public class WorldUpgrader {
@@ -115,7 +115,7 @@ index 0382b6597a130d746f8954a93a756a9d1ac81d50..ec7acc1eb614e062656f6401a49fd6ef
          protected abstract boolean tryProcessOnePosition(T storage, ChunkPos chunkPos, ResourceKey<Level> worldKey);
  
 -        private void onFileFinished(RegionFile regionFile) {
-+        private void onFileFinished(space.bxteam.divinemc.region.AbstractRegionFile regionFile) {
++        private void onFileFinished(space.bxteam.divinemc.region.AbstractRegionFile regionFile) { // DivineMC
              if (WorldUpgrader.this.recreateRegionFiles) {
                  if (this.previousWriteFuture != null) {
                      this.previousWriteFuture.join();
@@ -164,7 +164,7 @@ index e761b63eebc1e76b2bb1cb887d83d0b63ad6ec90..add6311e12bd74c336bb9592e75493b5
          try (DataInputStream out = new DataInputStream(new java.io.BufferedInputStream(new InflaterInputStream(Files.newInputStream(file))))) {
              return NbtIo.read((java.io.DataInput) out);
 diff --git a/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java b/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
-index 64b2608ae81373acb67e3e0453c61822c0d03087..5e28f5e72e8c372a0a70062364139b6f6790492d 100644
+index 64b2608ae81373acb67e3e0453c61822c0d03087..04fa3b7789186f9eb1631cd81e7c04d1e1f322e0 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
 @@ -21,7 +21,7 @@ public class RegionFileStorage implements AutoCloseable, ca.spottedleaf.moonrise
@@ -176,41 +176,37 @@ index 64b2608ae81373acb67e3e0453c61822c0d03087..5e28f5e72e8c372a0a70062364139b6f
      private final RegionStorageInfo info;
      private final Path folder;
      private final boolean sync;
-@@ -30,9 +30,13 @@ public class RegionFileStorage implements AutoCloseable, ca.spottedleaf.moonrise
+@@ -30,7 +30,9 @@ public class RegionFileStorage implements AutoCloseable, ca.spottedleaf.moonrise
      private static final int REGION_SHIFT = 5;
      private static final int MAX_NON_EXISTING_CACHE = 1024 * 64;
      private final it.unimi.dsi.fastutil.longs.LongLinkedOpenHashSet nonExistingRegionFiles = new it.unimi.dsi.fastutil.longs.LongLinkedOpenHashSet(MAX_NON_EXISTING_CACHE+1);
 -    private static String getRegionFileName(final int chunkX, final int chunkZ) {
-+    // DivineMC start - Linear region format
 +    private static String getRegionFileName(final RegionStorageInfo info, final int chunkX, final int chunkZ) {
 +        if (info.regionFormat().equals(space.bxteam.divinemc.region.RegionFileFormat.LINEAR))
-+            return "r." + (chunkX >> REGION_SHIFT) + "." + (chunkZ >> REGION_SHIFT) + ".linear";
++            return "r." + (chunkX >> REGION_SHIFT) + "." + (chunkZ >> REGION_SHIFT) + ".linear"; // DivineMC - linear
          return "r." + (chunkX >> REGION_SHIFT) + "." + (chunkZ >> REGION_SHIFT) + ".mca";
      }
-+    // DivineMC end
  
-     private boolean doesRegionFilePossiblyExist(final long position) {
-         synchronized (this.nonExistingRegionFiles) {
-@@ -66,15 +70,15 @@ public class RegionFileStorage implements AutoCloseable, ca.spottedleaf.moonrise
+@@ -66,15 +68,15 @@ public class RegionFileStorage implements AutoCloseable, ca.spottedleaf.moonrise
      }
  
      @Override
 -    public synchronized final RegionFile moonrise$getRegionFileIfLoaded(final int chunkX, final int chunkZ) {
-+    public synchronized final space.bxteam.divinemc.region.AbstractRegionFile moonrise$getRegionFileIfLoaded(final int chunkX, final int chunkZ) {
++    public synchronized final space.bxteam.divinemc.region.AbstractRegionFile moonrise$getRegionFileIfLoaded(final int chunkX, final int chunkZ) { // DivineMC
          return this.regionCache.getAndMoveToFirst(ChunkPos.asLong(chunkX >> REGION_SHIFT, chunkZ >> REGION_SHIFT));
      }
  
      @Override
 -    public synchronized final RegionFile moonrise$getRegionFileIfExists(final int chunkX, final int chunkZ) throws IOException {
-+    public synchronized final space.bxteam.divinemc.region.AbstractRegionFile moonrise$getRegionFileIfExists(final int chunkX, final int chunkZ) throws IOException {
++    public synchronized final space.bxteam.divinemc.region.AbstractRegionFile moonrise$getRegionFileIfExists(final int chunkX, final int chunkZ) throws IOException { // DivineMC
          final long key = ChunkPos.asLong(chunkX >> REGION_SHIFT, chunkZ >> REGION_SHIFT);
  
 -        RegionFile ret = this.regionCache.getAndMoveToFirst(key);
-+        space.bxteam.divinemc.region.AbstractRegionFile ret = this.regionCache.getAndMoveToFirst(key);
++        space.bxteam.divinemc.region.AbstractRegionFile ret = this.regionCache.getAndMoveToFirst(key); // DivineMC
          if (ret != null) {
              return ret;
          }
-@@ -87,7 +91,7 @@ public class RegionFileStorage implements AutoCloseable, ca.spottedleaf.moonrise
+@@ -87,7 +89,7 @@ public class RegionFileStorage implements AutoCloseable, ca.spottedleaf.moonrise
              this.regionCache.removeLast().close();
          }
  
@@ -219,7 +215,7 @@ index 64b2608ae81373acb67e3e0453c61822c0d03087..5e28f5e72e8c372a0a70062364139b6f
  
          if (!java.nio.file.Files.exists(regionPath)) {
              this.markNonExisting(key);
-@@ -98,7 +102,7 @@ public class RegionFileStorage implements AutoCloseable, ca.spottedleaf.moonrise
+@@ -98,7 +100,7 @@ public class RegionFileStorage implements AutoCloseable, ca.spottedleaf.moonrise
  
          FileUtil.createDirectoriesSafe(this.folder);
  
@@ -228,7 +224,7 @@ index 64b2608ae81373acb67e3e0453c61822c0d03087..5e28f5e72e8c372a0a70062364139b6f
  
          this.regionCache.putAndMoveToFirst(key, ret);
  
-@@ -112,7 +116,7 @@ public class RegionFileStorage implements AutoCloseable, ca.spottedleaf.moonrise
+@@ -112,7 +114,7 @@ public class RegionFileStorage implements AutoCloseable, ca.spottedleaf.moonrise
          this.info = storageKey;
      }
  
@@ -237,7 +233,7 @@ index 64b2608ae81373acb67e3e0453c61822c0d03087..5e28f5e72e8c372a0a70062364139b6f
          // Paper start - rewrite chunk system
          if (existingOnly) {
              return this.moonrise$getRegionFileIfExists(chunkcoordintpair.x, chunkcoordintpair.z);
-@@ -120,7 +124,7 @@ public class RegionFileStorage implements AutoCloseable, ca.spottedleaf.moonrise
+@@ -120,7 +122,7 @@ public class RegionFileStorage implements AutoCloseable, ca.spottedleaf.moonrise
          synchronized (this) {
              final long key = ChunkPos.asLong(chunkcoordintpair.x >> REGION_SHIFT, chunkcoordintpair.z >> REGION_SHIFT);
  
@@ -246,7 +242,7 @@ index 64b2608ae81373acb67e3e0453c61822c0d03087..5e28f5e72e8c372a0a70062364139b6f
              if (ret != null) {
                  return ret;
              }
-@@ -129,13 +133,13 @@ public class RegionFileStorage implements AutoCloseable, ca.spottedleaf.moonrise
+@@ -129,13 +131,13 @@ public class RegionFileStorage implements AutoCloseable, ca.spottedleaf.moonrise
                  this.regionCache.removeLast().close();
              }
  
@@ -262,7 +258,7 @@ index 64b2608ae81373acb67e3e0453c61822c0d03087..5e28f5e72e8c372a0a70062364139b6f
  
              this.regionCache.putAndMoveToFirst(key, ret);
  
-@@ -149,7 +153,7 @@ public class RegionFileStorage implements AutoCloseable, ca.spottedleaf.moonrise
+@@ -149,7 +151,7 @@ public class RegionFileStorage implements AutoCloseable, ca.spottedleaf.moonrise
          org.apache.logging.log4j.LogManager.getLogger().fatal(msg + " (" + file.toString().replaceAll(".+[\\\\/]", "") + " - " + x + "," + z + ") Go clean it up to remove this message. /minecraft:tp " + (x<<4)+" 128 "+(z<<4) + " - DO NOT REPORT THIS TO DIVINEMC - You may ask for help on Discord, but do not file an issue. These error messages can not be removed.");
      }
  
@@ -271,7 +267,7 @@ index 64b2608ae81373acb67e3e0453c61822c0d03087..5e28f5e72e8c372a0a70062364139b6f
          synchronized (regionfile) {
              try (DataInputStream datainputstream = regionfile.getChunkDataInputStream(chunkCoordinate)) {
                  CompoundTag oversizedData = regionfile.getOversizedData(chunkCoordinate.x, chunkCoordinate.z);
-@@ -184,7 +188,7 @@ public class RegionFileStorage implements AutoCloseable, ca.spottedleaf.moonrise
+@@ -184,7 +186,7 @@ public class RegionFileStorage implements AutoCloseable, ca.spottedleaf.moonrise
      @Nullable
      public CompoundTag read(ChunkPos pos) throws IOException {
          // CraftBukkit start - SPIGOT-5680: There's no good reason to preemptively create files on read, save that for writing
@@ -280,7 +276,7 @@ index 64b2608ae81373acb67e3e0453c61822c0d03087..5e28f5e72e8c372a0a70062364139b6f
          if (regionfile == null) {
              return null;
          }
-@@ -235,7 +239,7 @@ public class RegionFileStorage implements AutoCloseable, ca.spottedleaf.moonrise
+@@ -235,7 +237,7 @@ public class RegionFileStorage implements AutoCloseable, ca.spottedleaf.moonrise
  
      public void scanChunk(ChunkPos chunkPos, StreamTagVisitor scanner) throws IOException {
          // CraftBukkit start - SPIGOT-5680: There's no good reason to preemptively create files on read, save that for writing
@@ -289,7 +285,7 @@ index 64b2608ae81373acb67e3e0453c61822c0d03087..5e28f5e72e8c372a0a70062364139b6f
          if (regionfile == null) {
              return;
          }
-@@ -265,7 +269,7 @@ public class RegionFileStorage implements AutoCloseable, ca.spottedleaf.moonrise
+@@ -265,7 +267,7 @@ public class RegionFileStorage implements AutoCloseable, ca.spottedleaf.moonrise
      }
  
      public void write(ChunkPos pos, @Nullable CompoundTag nbt) throws IOException { // Paper - public
@@ -298,7 +294,7 @@ index 64b2608ae81373acb67e3e0453c61822c0d03087..5e28f5e72e8c372a0a70062364139b6f
          // Paper start - rewrite chunk system
          if (regionfile == null) {
              // if the RegionFile doesn't exist, no point in deleting from it
-@@ -324,7 +328,7 @@ public class RegionFileStorage implements AutoCloseable, ca.spottedleaf.moonrise
+@@ -324,7 +326,7 @@ public class RegionFileStorage implements AutoCloseable, ca.spottedleaf.moonrise
          // Paper start - rewrite chunk system
          synchronized (this) {
              final ExceptionCollector<IOException> exceptionCollector = new ExceptionCollector<>();
@@ -307,7 +303,7 @@ index 64b2608ae81373acb67e3e0453c61822c0d03087..5e28f5e72e8c372a0a70062364139b6f
                  try {
                      regionFile.close();
                  } catch (final IOException ex) {
-@@ -341,7 +345,7 @@ public class RegionFileStorage implements AutoCloseable, ca.spottedleaf.moonrise
+@@ -341,7 +343,7 @@ public class RegionFileStorage implements AutoCloseable, ca.spottedleaf.moonrise
          // Paper start - rewrite chunk system
          synchronized (this) {
              final ExceptionCollector<IOException> exceptionCollector = new ExceptionCollector<>();
@@ -317,51 +313,45 @@ index 64b2608ae81373acb67e3e0453c61822c0d03087..5e28f5e72e8c372a0a70062364139b6f
                      regionFile.flush();
                  } catch (final IOException ex) {
 diff --git a/src/main/java/net/minecraft/world/level/chunk/storage/RegionStorageInfo.java b/src/main/java/net/minecraft/world/level/chunk/storage/RegionStorageInfo.java
-index 6111631c6673948b266286894603cc5e30451b02..b3d8d46ae1e5d4f6309ac85ac0adad8a03bbde16 100644
+index 6111631c6673948b266286894603cc5e30451b02..8bfc0fe2b8389359a682458fde5ef1b0670f7a2d 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/storage/RegionStorageInfo.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/storage/RegionStorageInfo.java
-@@ -2,9 +2,27 @@ package net.minecraft.world.level.chunk.storage;
- 
- import net.minecraft.resources.ResourceKey;
- import net.minecraft.world.level.Level;
-+import org.bukkit.Bukkit;
-+import org.bukkit.craftbukkit.CraftWorld;
- 
- public record RegionStorageInfo(String level, ResourceKey<Level> dimension, String type) {
+@@ -7,4 +7,20 @@ public record RegionStorageInfo(String level, ResourceKey<Level> dimension, Stri
      public RegionStorageInfo withTypeSuffix(String suffix) {
          return new RegionStorageInfo(this.level, this.dimension, this.type + suffix);
      }
 +
 +    // DivineMC start
 +    public space.bxteam.divinemc.region.RegionFileFormat regionFormat() {
-+        return ((CraftWorld) Bukkit.getWorld(level))
++        return ((org.bukkit.craftbukkit.CraftWorld) org.bukkit.Bukkit.getWorld(level))
 +                .getHandle()
 +                .divinemcConfig
-+                .regionFormatName;
++                .regionFormat;
 +    }
 +
 +    public int linearCompressionLevel() {
-+        return ((CraftWorld) Bukkit.getWorld(level))
++        return ((org.bukkit.craftbukkit.CraftWorld) org.bukkit.Bukkit.getWorld(level))
 +                .getHandle()
 +                .divinemcConfig
-+                .regionFormatLinearCompressionLevel;
++                .linearCompressionLevel;
 +    }
 +    // DivineMC end
  }
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-index d8fdabba24db864671bb3e5ff5062a2a67703725..f13a8dc3f11924fff0c9ab3d84a02ac315819f78 100644
+index 2580a13c80f6a8f6bb35b4c82014628732660019..047d44a8d47a6c7e1ab166fdd0d42e25374cbaee 100644
 --- a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-@@ -185,4 +185,15 @@ public class DivineConfig {
-         else
-             Bukkit.getLogger().log(Level.INFO, "Using " + asyncPathfindingMaxThreads + " threads for Async Pathfinding");
+@@ -192,4 +192,16 @@ public class DivineConfig {
+     private static void chatMessageSignatures() {
+         noChatSign = getBoolean("settings.no-chat-sign", noChatSign);
      }
 +
 +    public static int linearFlushFrequency = 10;
 +    public static int linearFlushThreads = 1;
-+    private static void regionFormatSettings() {
++    private static void linearSettings() {
 +        linearFlushFrequency = getInt("region-format.linear.flush-frequency", linearFlushFrequency);
 +        linearFlushThreads = getInt("region-format.linear.flush-max-threads", linearFlushThreads);
++
 +        if (linearFlushThreads < 0)
 +            linearFlushThreads = Math.max(Runtime.getRuntime().availableProcessors() + linearFlushThreads, 1);
 +        else
@@ -369,7 +359,7 @@ index d8fdabba24db864671bb3e5ff5062a2a67703725..f13a8dc3f11924fff0c9ab3d84a02ac3
 +    }
  }
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java
-index d94c51ea18d299dd52b9a8521a9cdc0d95b79356..e2daa71b44421d1801117d1b6baeb1c6eba7b177 100644
+index d94c51ea18d299dd52b9a8521a9cdc0d95b79356..f216f728dd5ca6e7b67f4f1384ce73faf9814384 100644
 --- a/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java
 @@ -3,10 +3,12 @@ package space.bxteam.divinemc.configuration;
@@ -385,25 +375,26 @@ index d94c51ea18d299dd52b9a8521a9cdc0d95b79356..e2daa71b44421d1801117d1b6baeb1c6
  
  import static space.bxteam.divinemc.configuration.DivineConfig.log;
  
-@@ -106,4 +108,21 @@ public class DivineWorldConfig {
+@@ -106,4 +108,22 @@ public class DivineWorldConfig {
      private void suppressErrorsFromDirtyAttributes() {
          suppressErrorsFromDirtyAttributes = getBoolean("suppress-errors-from-dirty-attributes", suppressErrorsFromDirtyAttributes);
      }
 +
-+    public RegionFileFormat regionFormatName = RegionFileFormat.ANVIL;
-+    public int regionFormatLinearCompressionLevel = 1;
++    public RegionFileFormat regionFormat = RegionFileFormat.ANVIL;
++    public int linearCompressionLevel = 1;
 +    private void regionFormatSettings() {
-+        regionFormatName = RegionFileFormat.fromString(getString("region-format.format", regionFormatName.name()));
-+        if (regionFormatName.equals(RegionFileFormat.INVALID)) {
-+            log(Level.SEVERE, "Unknown region format in divinemc.yml: " + regionFormatName);
++        regionFormat = RegionFileFormat.fromString(getString("region-format.format", regionFormat.name()));
++        if (regionFormat.equals(RegionFileFormat.INVALID)) {
++            log(Level.SEVERE, "Unknown region format in linear.yml: " + regionFormat);
 +            log(Level.SEVERE, "Falling back to ANVIL region file format.");
-+            regionFormatName = RegionFileFormat.ANVIL;
++            regionFormat = RegionFileFormat.ANVIL;
 +        }
-+        regionFormatLinearCompressionLevel = getInt("region-format.linear.compression-level", regionFormatLinearCompressionLevel);
-+        if (regionFormatLinearCompressionLevel > 23 || regionFormatLinearCompressionLevel < 1) {
-+            log(Level.SEVERE, "Linear region compression level should be between 1 and 22 in divinemc.yml: " + regionFormatLinearCompressionLevel);
++
++        linearCompressionLevel = getInt("region-format.linear.compression-level", linearCompressionLevel);
++        if (linearCompressionLevel > 23 || linearCompressionLevel < 1) {
++            log(Level.SEVERE, "Linear region compression level should be between 1 and 22 in linear.yml: " + linearCompressionLevel);
 +            log(Level.SEVERE, "Falling back to compression level 1.");
-+            regionFormatLinearCompressionLevel = 1;
++            linearCompressionLevel = 1;
 +        }
 +    }
  }
@@ -440,10 +431,10 @@ index 0000000000000000000000000000000000000000..15ef37b50b153cfc89cfd8c0a5855dd5
 +}
 diff --git a/src/main/java/space/bxteam/divinemc/region/AbstractRegionFileFactory.java b/src/main/java/space/bxteam/divinemc/region/AbstractRegionFileFactory.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..8ea1d287ad76ba6e0505e61de1c8e81f62ec90f5
+index 0000000000000000000000000000000000000000..eb019b4863c2f812902318bdc8f3ab34ddb7aac5
 --- /dev/null
 +++ b/src/main/java/space/bxteam/divinemc/region/AbstractRegionFileFactory.java
-@@ -0,0 +1,21 @@
+@@ -0,0 +1,22 @@
 +package space.bxteam.divinemc.region;
 +
 +import java.io.IOException;
@@ -453,6 +444,7 @@ index 0000000000000000000000000000000000000000..8ea1d287ad76ba6e0505e61de1c8e81f
 +import net.minecraft.world.level.chunk.storage.RegionStorageInfo;
 +
 +public class AbstractRegionFileFactory {
++
 +    public static AbstractRegionFile getAbstractRegionFile(RegionStorageInfo storageKey, Path directory, Path path, boolean dsync) throws IOException {
 +        return getAbstractRegionFile(storageKey, directory, path, RegionFileVersion.getCompressionFormat(), dsync);
 +    }
@@ -467,7 +459,7 @@ index 0000000000000000000000000000000000000000..8ea1d287ad76ba6e0505e61de1c8e81f
 +}
 diff --git a/src/main/java/space/bxteam/divinemc/region/LinearRegionFile.java b/src/main/java/space/bxteam/divinemc/region/LinearRegionFile.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..e1bc33e6679c73bbcf26b14089bdb1ea001e6430
+index 0000000000000000000000000000000000000000..253dbd86a2b2febb4f3790dc6762a2afe9530950
 --- /dev/null
 +++ b/src/main/java/space/bxteam/divinemc/region/LinearRegionFile.java
 @@ -0,0 +1,300 @@
@@ -771,10 +763,9 @@ index 0000000000000000000000000000000000000000..e1bc33e6679c73bbcf26b14089bdb1ea
 +        }
 +    }
 +}
-\ No newline at end of file
 diff --git a/src/main/java/space/bxteam/divinemc/region/LinearRegionFileFlusher.java b/src/main/java/space/bxteam/divinemc/region/LinearRegionFileFlusher.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..2fba2a0004e689afc36ad1c9737d5b259a68ec45
+index 0000000000000000000000000000000000000000..731dd3516a597e9cb97596bb7647db6c94363a9a
 --- /dev/null
 +++ b/src/main/java/space/bxteam/divinemc/region/LinearRegionFileFlusher.java
 @@ -0,0 +1,50 @@
@@ -828,7 +819,6 @@ index 0000000000000000000000000000000000000000..2fba2a0004e689afc36ad1c9737d5b25
 +        scheduler.shutdown();
 +    }
 +}
-\ No newline at end of file
 diff --git a/src/main/java/space/bxteam/divinemc/region/RegionFileFormat.java b/src/main/java/space/bxteam/divinemc/region/RegionFileFormat.java
 new file mode 100644
 index 0000000000000000000000000000000000000000..a799c9b2bb262b86be3872ba2a920ca3e8cb9d02
