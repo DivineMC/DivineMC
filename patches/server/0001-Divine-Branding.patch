@@ -254,10 +254,10 @@ index 40689256711cc94a806ca1da346f4f62eda31526..f1beaa44a0f24b829923c351d0a0687b
  
      private static CompoundTag readOversizedChunk(RegionFile regionfile, ChunkPos chunkCoordinate) throws IOException {
 diff --git a/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java b/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java
-index ca8ae8e1c51b937dac916e0b0dc94b5e2e61efeb..e68e13ac375a6418ad0785bc1c0f20af72bf6cf5 100644
+index 48999a860a3b9ed691691c355beaf3e0674acb95..3cef3e99e0db3582465309b8bf485145acb5aa7b 100644
 --- a/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java
 +++ b/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java
-@@ -503,7 +503,7 @@ public class CraftScheduler implements BukkitScheduler {
+@@ -492,7 +492,7 @@ public class CraftScheduler implements BukkitScheduler {
                  this.parsePending();
              } else {
                  // this.debugTail = this.debugTail.setNext(new CraftAsyncDebugger(currentTick + CraftScheduler.RECENT_TICKS, task.getOwner(), task.getTaskClass())); // Paper

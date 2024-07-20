@@ -190,7 +190,7 @@ index 7509b17414f836e8b53fc62b02b386ba4e8c5ca9..3ace9f8cb1e04887b5d2fd7af76eb768
          public double maxLeashDistance = Leashable.LEASH_TOO_FAR_DIST;
          public boolean disableSprintInterruptionOnAttack = false;
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 6833a7710cfb2716c8522d8a841bee665d98fd05..386fe1aca665e745babe3ca24f393fcaee36c663 100644
+index ccde063ef8a5ee2dc5714c16aeda31f963745173..31a2779ede1595bbadb7b3dfe2c764ed4a53bfea 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -341,7 +341,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
@@ -216,10 +216,10 @@ index 54abd6874a64c669fc22448849febc9ef7c0f95e..59cf59bd127fd1fe1c8dbac2086ddbaf
          useAlternateKeepAlive = getBoolean("settings.use-alternate-keepalive", useAlternateKeepAlive);
      }
 diff --git a/src/main/java/org/spigotmc/SpigotConfig.java b/src/main/java/org/spigotmc/SpigotConfig.java
-index 0507182aa6d47da9693363f6b0fadd40d06d66b4..91e3c172140dd0ff30d2ffba2b937d3b87db3cce 100644
+index 4dbb109d0526afee99b9190fc256585121aac9b5..85a5d8e26832c88afc212c3f600e686076596fbb 100644
 --- a/src/main/java/org/spigotmc/SpigotConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotConfig.java
-@@ -335,7 +335,7 @@ public class SpigotConfig
+@@ -331,7 +331,7 @@ public class SpigotConfig
      public static boolean saveUserCacheOnStopOnly;
      private static void saveUserCacheOnStopOnly()
      {
@@ -228,7 +228,7 @@ index 0507182aa6d47da9693363f6b0fadd40d06d66b4..91e3c172140dd0ff30d2ffba2b937d3b
      }
  
      public static double movedWronglyThreshold;
-@@ -399,8 +399,10 @@ public class SpigotConfig
+@@ -395,8 +395,10 @@ public class SpigotConfig
      public static boolean logVillagerDeaths;
      public static boolean logNamedDeaths;
      private static void logDeaths() {

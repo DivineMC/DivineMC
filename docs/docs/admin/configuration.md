@@ -64,7 +64,7 @@ Global settings affect all worlds on the server as well as the core server funct
     - **description**: Enables or disables optimization of sheep color choosing from the CarpetFixes mod. The game determines the child sheep's color by getting a wool block from the parents, putting them in a crafting
 recipe, getting the output wool and getting the color from that.
 - #### misc
-  - ##### use-secure-seed (temporarily absent)
+  - ##### enable-secure-seed
     - **default**: false
     - **description**: Enabling this, default 64-bit seed will be changed to a 1024-bit seed, making it almost impossible to crack the seed. 
   - ##### disable-non-editable-sign-warning
