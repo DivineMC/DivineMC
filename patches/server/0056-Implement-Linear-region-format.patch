@@ -5,7 +5,7 @@ Subject: [PATCH] Implement Linear region format
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 435e8c4674399114bd085d7362d03d79a203e13f..961761b61fec4723f5e58929b2e5c16b49663359 100644
+index 1df6dc41069d05e7d6aea5a42bfcc61ea9e5ccbb..1ee39b06a054f891ece81b53095772c72dd24ed0 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -30,6 +30,10 @@ dependencies {
@@ -63,10 +63,10 @@ index 3218cbf84f54daf06e84442d5eb1a36d8da6b215..0db1f8f64a261780e6692755669fa573
              synchronized (cache) {
                  regionFile = ((ChunkSystemRegionFileStorage)(Object)cache).moonrise$getRegionFileIfLoaded(chunkX, chunkZ);
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 9f48bf88be9136bd358019f959a0039827a16484..15f3cadf19407bba6f9783aed8c2ff7ad52af570 100644
+index acc5f1b758ce8810f93ad832519b7287cd282409..d5b02acf6322563c74553bd466979ff054582e62 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -978,10 +978,10 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -980,10 +980,10 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
              while (iterator1.hasNext()) {
                  ServerLevel worldserver2 = (ServerLevel) iterator1.next();
  

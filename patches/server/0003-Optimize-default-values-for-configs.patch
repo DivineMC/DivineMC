@@ -5,10 +5,10 @@ Subject: [PATCH] Optimize default values for configs
 
 
 diff --git a/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java b/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
-index 379452394679c466a09441d4c12882d0d00d9ef3..ea48befad95da428751dc4a0991f34e6dc7f6d04 100644
+index d20969e18984c9b93483477f31b079686977b1db..cb64b9874c5c5aa71588acd31f91988b8b5e9c73 100644
 --- a/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
 +++ b/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
-@@ -330,9 +330,9 @@ public class GlobalConfiguration extends ConfigurationPart {
+@@ -337,9 +337,9 @@ public class GlobalConfiguration extends ConfigurationPart {
          public boolean fixEntityPositionDesync = true;
          public boolean loadPermissionsYmlBeforePlugins = true;
          @Constraints.Min(4)
@@ -190,10 +190,10 @@ index 7509b17414f836e8b53fc62b02b386ba4e8c5ca9..3ace9f8cb1e04887b5d2fd7af76eb768
          public double maxLeashDistance = Leashable.LEASH_TOO_FAR_DIST;
          public boolean disableSprintInterruptionOnAttack = false;
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index ccde063ef8a5ee2dc5714c16aeda31f963745173..31a2779ede1595bbadb7b3dfe2c764ed4a53bfea 100644
+index 8eb5101eece8be63899366c0e54938a4feebd5b3..514520c33c6f0a239055a37ddc7cae563b56f748 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-@@ -341,7 +341,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -343,7 +343,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
          String proxyFlavor = (io.papermc.paper.configuration.GlobalConfiguration.get().proxies.velocity.enabled) ? "Velocity" : "BungeeCord";
          String proxyLink = (io.papermc.paper.configuration.GlobalConfiguration.get().proxies.velocity.enabled) ? "https://docs.papermc.io/velocity/security" : "http://www.spigotmc.org/wiki/firewall-guide/";
          // Paper end - Add Velocity IP Forwarding Support

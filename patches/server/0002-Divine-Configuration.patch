@@ -5,7 +5,7 @@ Subject: [PATCH] Divine Configuration
 
 
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 39a7abeeff53a608774dc34226e9b5e12bd5b5d2..6833a7710cfb2716c8522d8a841bee665d98fd05 100644
+index 744cfc91fa8b78794f1edab1f81035b21bf0c83f..8eb5101eece8be63899366c0e54938a4feebd5b3 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -58,6 +58,7 @@ import net.minecraft.world.level.GameType;
@@ -16,7 +16,7 @@ index 39a7abeeff53a608774dc34226e9b5e12bd5b5d2..6833a7710cfb2716c8522d8a841bee66
  
  // CraftBukkit start
  import net.minecraft.server.WorldLoader;
-@@ -248,6 +249,16 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -250,6 +251,16 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
          // Purpur end
          com.destroystokyo.paper.VersionHistoryManager.INSTANCE.getClass(); // Paper - load version history now
  
@@ -62,7 +62,7 @@ index ed313b0424b2e1e1335ee3e3bd4d9cfd15f24b39..4d2e285657ad2c060c384e1e4027e00d
          this.generator = gen;
          this.world = new CraftWorld((ServerLevel) this, gen, biomeProvider, env);
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 2e440d3c0b4bd42d6bc8409778473f574e22c54b..7257d1052746d90662bb2a796b2f437fc0a2e9ab 100644
+index d87ecd6e7552ab537c9d9e8a10a471814e61632d..3a2da4b1275df762f0a4c0e40c416896062a29a7 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -265,6 +265,8 @@ import net.md_5.bungee.api.chat.BaseComponent; // Spigot
@@ -74,7 +74,7 @@ index 2e440d3c0b4bd42d6bc8409778473f574e22c54b..7257d1052746d90662bb2a796b2f437f
  public final class CraftServer implements Server {
      private final String serverName = io.papermc.paper.ServerBuildInfo.buildInfo().brandName(); // Paper
      private final String serverVersion;
-@@ -1083,6 +1085,7 @@ public final class CraftServer implements Server {
+@@ -1085,6 +1087,7 @@ public final class CraftServer implements Server {
          org.spigotmc.SpigotConfig.init((File) this.console.options.valueOf("spigot-settings")); // Spigot
          this.console.paperConfigurations.reloadConfigs(this.console);
          org.purpurmc.purpur.PurpurConfig.init((File) console.options.valueOf("purpur-settings")); // Purpur
@@ -82,7 +82,7 @@ index 2e440d3c0b4bd42d6bc8409778473f574e22c54b..7257d1052746d90662bb2a796b2f437f
          for (ServerLevel world : this.console.getAllLevels()) {
              // world.serverLevelData.setDifficulty(config.difficulty); // Paper - per level difficulty
              world.setSpawnSettings(world.serverLevelData.getDifficulty() != Difficulty.PEACEFUL && config.spawnMonsters, config.spawnAnimals); // Paper - per level difficulty (from MinecraftServer#setDifficulty(ServerLevel, Difficulty, boolean))
-@@ -1099,6 +1102,7 @@ public final class CraftServer implements Server {
+@@ -1101,6 +1104,7 @@ public final class CraftServer implements Server {
              }
              world.spigotConfig.init(); // Spigot
              world.purpurConfig.init(); // Purpur
@@ -90,15 +90,15 @@ index 2e440d3c0b4bd42d6bc8409778473f574e22c54b..7257d1052746d90662bb2a796b2f437f
          }
  
          Plugin[] pluginClone = pluginManager.getPlugins().clone(); // Paper
-@@ -1116,6 +1120,7 @@ public final class CraftServer implements Server {
-         org.spigotmc.SpigotConfig.registerCommands(); // Spigot
+@@ -1119,6 +1123,7 @@ public final class CraftServer implements Server {
          io.papermc.paper.command.PaperCommands.registerCommands(this.console); // Paper
+         this.spark.registerCommandBeforePlugins(this); // Paper - spark
          org.purpurmc.purpur.PurpurConfig.registerCommands(); // Purpur
 +        DivineConfig.registerCommands(); // DivineMC
          this.overrideAllCommandBlockCommands = this.commandsConfiguration.getStringList("command-block-overrides").contains("*");
          this.ignoreVanillaPermissions = this.commandsConfiguration.getBoolean("ignore-vanilla-permissions");
  
-@@ -3065,6 +3070,13 @@ public final class CraftServer implements Server {
+@@ -3069,6 +3074,13 @@ public final class CraftServer implements Server {
          }
          // Purpur end
  
@@ -113,7 +113,7 @@ index 2e440d3c0b4bd42d6bc8409778473f574e22c54b..7257d1052746d90662bb2a796b2f437f
          public void restart() {
              org.spigotmc.RestartCommand.restart();
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 577b2f19e625ca71b13477eb96e42e04954fa449..52fb3f237a986b79339e2e1142d33a8d5291bdce 100644
+index 260f79affee997adbe8d08f2a2cb3aa68083f497..2db58e41ec075c7c09a310c3271a0a8c01d77f0f 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -184,6 +184,14 @@ public class Main {

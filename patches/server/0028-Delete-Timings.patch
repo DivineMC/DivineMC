@@ -730,7 +730,7 @@ index 24121a43aeb5e9bce013f30c92dddd15f99736c6..791cb04a13597eee4dbd28fabe2835ab
              String content = context.getRange().get(context.getInput());
              String[] args = org.apache.commons.lang3.StringUtils.split(content, ' '); // fix adjacent spaces (from console/plugins) causing empty array elements
 diff --git a/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java b/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
-index ea48befad95da428751dc4a0991f34e6dc7f6d04..e2dd123792983c3ad56702b9f5b807600afa2f2a 100644
+index cb64b9874c5c5aa71588acd31f91988b8b5e9c73..ae41148efd607ce6cd8828da264ecaf22a9cab13 100644
 --- a/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
 +++ b/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
 @@ -1,6 +1,5 @@
@@ -740,8 +740,8 @@ index ea48befad95da428751dc4a0991f34e6dc7f6d04..e2dd123792983c3ad56702b9f5b80760
  import com.mojang.logging.LogUtils;
  import io.papermc.paper.configuration.constraint.Constraints;
  import io.papermc.paper.configuration.type.number.IntOr;
-@@ -91,29 +90,6 @@ public class GlobalConfiguration extends ConfigurationPart {
-         public boolean useDisplayNameInQuitMessage = false;
+@@ -98,29 +97,6 @@ public class GlobalConfiguration extends ConfigurationPart {
+         public boolean enableImmediately = false;
      }
  
 -    @Deprecated(forRemoval = true)
@@ -826,7 +826,7 @@ index 01efbc507b3d58f13f78ee286f93df40cdc3f0cb..1f7f68aad97ee73763c042837f239bdc
                      } catch (Exception exception) {
                          if (exception instanceof ReportedException) {
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 932283d2385923c1777975970b631875aa7b4187..9f48bf88be9136bd358019f959a0039827a16484 100644
+index d0c31849b67e19e9a14593b3907266a3759acb61..acc5f1b758ce8810f93ad832519b7287cd282409 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -3,7 +3,6 @@ package net.minecraft.server;
@@ -846,15 +846,15 @@ index 932283d2385923c1777975970b631875aa7b4187..9f48bf88be9136bd358019f959a00398
  public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTask> implements ServerInfo, ChunkIOErrorReporter, CommandSource, AutoCloseable, ca.spottedleaf.moonrise.patches.chunk_system.server.ChunkSystemMinecraftServer { // Paper - rewrite chunk system
  
      private static MinecraftServer SERVER; // Paper
-@@ -1039,7 +1036,6 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1041,7 +1038,6 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
  
          MinecraftServer.LOGGER.info("Stopping server");
          Commands.COMMAND_SENDING_POOL.shutdownNow(); // Paper - Perf: Async command map building; Shutdown and don't bother finishing
 -        MinecraftTimings.stopServer(); // Paper
+         this.server.spark.disable(); // Paper - spark
          // Purpur start
          if (upnp) {
-             if (dev.omega24.upnp4j.UPnP4J.close(this.getPort(), dev.omega24.upnp4j.util.Protocol.TCP)) {
-@@ -1610,15 +1606,14 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1615,15 +1611,14 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
      }
  
      public void tickServer(BooleanSupplier shouldKeepTicking) {
@@ -870,9 +870,9 @@ index 932283d2385923c1777975970b631875aa7b4187..9f48bf88be9136bd358019f959a00398
 -        //isOversleep = false;MinecraftTimings.serverOversleep.stopTiming(); // Purpur
 +        isOversleep = false;
          // Paper end
+         this.server.spark.tickStart(); // Paper - spark
          new com.destroystokyo.paper.event.server.ServerTickStartEvent(this.tickCount+1).callEvent(); // Paper - Server Tick Events
- 
-@@ -1654,9 +1649,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1660,9 +1655,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          //this.profiler.pop(); // Purpur
          // Paper end - Incremental chunk and player saving
          // Paper start - move executeAll() into full server tick timing
@@ -883,7 +883,7 @@ index 932283d2385923c1777975970b631875aa7b4187..9f48bf88be9136bd358019f959a00398
          // Paper end
          // Paper start - Server Tick Events
          long endTime = System.nanoTime();
-@@ -1679,7 +1672,6 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1686,7 +1679,6 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          this.logTickMethodTime(i);
          //this.profiler.pop(); // Purpur
          org.spigotmc.WatchdogThread.tick(); // Spigot
@@ -892,7 +892,7 @@ index 932283d2385923c1777975970b631875aa7b4187..9f48bf88be9136bd358019f959a00398
  
      private void logTickMethodTime(long tickStartTime) {
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 31a2779ede1595bbadb7b3dfe2c764ed4a53bfea..9f39dea0e21057850c18903ce3d1cbabe60a114c 100644
+index 514520c33c6f0a239055a37ddc7cae563b56f748..cdb2860ebfc7341f7d08251f9931d20471655f09 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -66,9 +66,6 @@ import org.apache.logging.log4j.Level;
@@ -905,7 +905,7 @@ index 31a2779ede1595bbadb7b3dfe2c764ed4a53bfea..9f39dea0e21057850c18903ce3d1cbab
  import org.bukkit.event.server.ServerCommandEvent;
  import org.bukkit.craftbukkit.util.Waitable; // Paper
  import org.bukkit.event.server.RemoteServerCommandEvent;
-@@ -846,21 +843,9 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -848,21 +845,9 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
              }
              // Paper start
              command.set(event.getCommand());

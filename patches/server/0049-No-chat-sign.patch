@@ -105,10 +105,10 @@ index 5705cb920084b775cce4b361683b32c6b6e003ed..9c031dd0fa279a23405e5b7d77e4c11e
      }
  }
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 9f39dea0e21057850c18903ce3d1cbabe60a114c..17f3bc4ebd326c0a338c9dca4e156c5753214b1f 100644
+index cdb2860ebfc7341f7d08251f9931d20471655f09..9744abd3ef2e5fb25b92c6e3580fac243678bfc7 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-@@ -709,7 +709,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -711,7 +711,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
          // Paper start - Add setting for proxy online mode status
          return dedicatedserverproperties.enforceSecureProfile
              && io.papermc.paper.configuration.GlobalConfiguration.get().proxies.isProxyOnlineMode()
