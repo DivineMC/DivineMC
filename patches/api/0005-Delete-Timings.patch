@@ -6,10 +6,10 @@ Subject: [PATCH] Delete Timings
 
 diff --git a/src/main/java/co/aikar/timings/FullServerTickHandler.java b/src/main/java/co/aikar/timings/FullServerTickHandler.java
 deleted file mode 100644
-index 36b8fe86335df851f9c85d6bb2a91368b4d945d1..0000000000000000000000000000000000000000
+index 3e747abde6fefae90f1c15cb00158bc5303cbe50..0000000000000000000000000000000000000000
 --- a/src/main/java/co/aikar/timings/FullServerTickHandler.java
 +++ /dev/null
-@@ -1,86 +0,0 @@
+@@ -1,89 +0,0 @@
 -package co.aikar.timings;
 -
 -import static co.aikar.timings.TimingsManager.*;
@@ -17,6 +17,9 @@ index 36b8fe86335df851f9c85d6bb2a91368b4d945d1..00000000000000000000000000000000
 -import org.bukkit.Bukkit;
 -import org.jetbrains.annotations.NotNull;
 -
+-/**
+- * @deprecated Timings will be removed in the future
+- */
 -@Deprecated(forRemoval = true)
 -public class FullServerTickHandler extends TimingHandler {
 -    private static final TimingIdentifier IDENTITY = new TimingIdentifier("Minecraft", "Full Server Tick", null);
@@ -98,10 +101,10 @@ index 36b8fe86335df851f9c85d6bb2a91368b4d945d1..00000000000000000000000000000000
 -}
 diff --git a/src/main/java/co/aikar/timings/NullTimingHandler.java b/src/main/java/co/aikar/timings/NullTimingHandler.java
 deleted file mode 100644
-index 81671cf40feeed2844ee8d92348d48062aaf2c46..0000000000000000000000000000000000000000
+index 42e7e712403676171d34d5f2be27e48e7a071ebd..0000000000000000000000000000000000000000
 --- a/src/main/java/co/aikar/timings/NullTimingHandler.java
 +++ /dev/null
-@@ -1,69 +0,0 @@
+@@ -1,72 +0,0 @@
 -/*
 - * This file is licensed under the MIT License (MIT).
 - *
@@ -130,6 +133,9 @@ index 81671cf40feeed2844ee8d92348d48062aaf2c46..00000000000000000000000000000000
 -import org.jetbrains.annotations.NotNull;
 -import org.jetbrains.annotations.Nullable;
 -
+-/**
+- * @deprecated Timings will be removed in the future
+- */
 -@Deprecated(forRemoval = true)
 -public final class NullTimingHandler implements Timing {
 -    public static final Timing NULL = new NullTimingHandler();
@@ -173,10 +179,10 @@ index 81671cf40feeed2844ee8d92348d48062aaf2c46..00000000000000000000000000000000
 -}
 diff --git a/src/main/java/co/aikar/timings/TimedEventExecutor.java b/src/main/java/co/aikar/timings/TimedEventExecutor.java
 deleted file mode 100644
-index 6fbc64e0f214d0c8e5afcbe385e414a4e1fe1c72..0000000000000000000000000000000000000000
+index 438a9c76381ea3f5b774e2232ff56c5dc6f82586..0000000000000000000000000000000000000000
 --- a/src/main/java/co/aikar/timings/TimedEventExecutor.java
 +++ /dev/null
-@@ -1,90 +0,0 @@
+@@ -1,93 +0,0 @@
 -/*
 - * This file is licensed under the MIT License (MIT).
 - *
@@ -213,6 +219,9 @@ index 6fbc64e0f214d0c8e5afcbe385e414a4e1fe1c72..00000000000000000000000000000000
 -import org.jetbrains.annotations.NotNull;
 -import org.jetbrains.annotations.Nullable;
 -
+-/**
+- * @deprecated Timings will be removed in the future
+- */
 -@Deprecated(forRemoval = true)
 -public class TimedEventExecutor implements EventExecutor {
 -
@@ -269,7 +278,7 @@ index 6fbc64e0f214d0c8e5afcbe385e414a4e1fe1c72..00000000000000000000000000000000
 -}
 diff --git a/src/main/java/co/aikar/timings/Timing.java b/src/main/java/co/aikar/timings/Timing.java
 deleted file mode 100644
-index 1d866e980abc542bdfee1ce082cd9cdd7761e9f7..0000000000000000000000000000000000000000
+index 8709c955bac34bc546a8e022cfac808bc61ee793..0000000000000000000000000000000000000000
 --- a/src/main/java/co/aikar/timings/Timing.java
 +++ /dev/null
 @@ -1,92 +0,0 @@
@@ -304,7 +313,7 @@ index 1d866e980abc542bdfee1ce082cd9cdd7761e9f7..00000000000000000000000000000000
 -/**
 - * Provides an ability to time sections of code within the Minecraft Server
 - *
-- * @deprecated Timings will likely be replaced with Spark in the future
+- * @deprecated Timings will be removed in the future
 - */
 -@Deprecated(forRemoval = true)
 -public interface Timing extends AutoCloseable {
@@ -727,10 +736,10 @@ index 199789d56d22fcb1b77ebd56805cc28aa5a5ab0a..00000000000000000000000000000000
 -}
 diff --git a/src/main/java/co/aikar/timings/TimingHistory.java b/src/main/java/co/aikar/timings/TimingHistory.java
 deleted file mode 100644
-index 2d87237ea99d42c6ce896d52a1b2e5c3ec4d4568..0000000000000000000000000000000000000000
+index 6f6eb1a2e6c8d49014a7ae44540ee282bae5200e..0000000000000000000000000000000000000000
 --- a/src/main/java/co/aikar/timings/TimingHistory.java
 +++ /dev/null
-@@ -1,352 +0,0 @@
+@@ -1,357 +0,0 @@
 -/*
 - * This file is licensed under the MIT License (MIT).
 - *
@@ -783,6 +792,11 @@ index 2d87237ea99d42c6ce896d52a1b2e5c3ec4d4568..00000000000000000000000000000000
 -import static co.aikar.timings.TimingsManager.MINUTE_REPORTS;
 -import static co.aikar.util.JSONUtil.*;
 -
+-/**
+- * Internal.
+- *
+- * @deprecated Timings will be removed in the future
+- */
 -@Deprecated(forRemoval = true)
 -@SuppressWarnings({"deprecation", "SuppressionAnnotation", "Convert2Lambda", "Anonymous2MethodRef"})
 -public class TimingHistory {
@@ -1271,7 +1285,7 @@ index df142a89b8c43acb81eb383eac0ef048a1f49a6e..00000000000000000000000000000000
 -}
 diff --git a/src/main/java/co/aikar/timings/Timings.java b/src/main/java/co/aikar/timings/Timings.java
 deleted file mode 100644
-index 7e730a5c6f9bd23befe030a897884b7d0c653859..0000000000000000000000000000000000000000
+index 3d663104c8e3089abdb9dc4d7309f873ac182e98..0000000000000000000000000000000000000000
 --- a/src/main/java/co/aikar/timings/Timings.java
 +++ /dev/null
 @@ -1,333 +0,0 @@
@@ -1318,7 +1332,7 @@ index 7e730a5c6f9bd23befe030a897884b7d0c653859..00000000000000000000000000000000
 -import org.jetbrains.annotations.Nullable;
 -
 -/**
-- * @deprecated Timings will likely be replaced with Spark in the future
+- * @deprecated Timings will be removed in the future
 - */
 -@Deprecated(forRemoval = true)
 -@SuppressWarnings({"UnusedDeclaration", "WeakerAccess", "SameParameterValue"})
@@ -1610,10 +1624,10 @@ index 7e730a5c6f9bd23befe030a897884b7d0c653859..00000000000000000000000000000000
 -
 diff --git a/src/main/java/co/aikar/timings/TimingsCommand.java b/src/main/java/co/aikar/timings/TimingsCommand.java
 deleted file mode 100644
-index 1abfcee0f6d632f4cd8d74b4994a90c9ea9d254c..0000000000000000000000000000000000000000
+index b831a23999c94cb1bdf7f5d2cd719d0b846242ad..0000000000000000000000000000000000000000
 --- a/src/main/java/co/aikar/timings/TimingsCommand.java
 +++ /dev/null
-@@ -1,128 +0,0 @@
+@@ -1,130 +0,0 @@
 -/*
 - * This file is licensed under the MIT License (MIT).
 - *
@@ -1652,7 +1666,9 @@ index 1abfcee0f6d632f4cd8d74b4994a90c9ea9d254c..00000000000000000000000000000000
 -
 -import static net.kyori.adventure.text.Component.text;
 -
--
+-/**
+- * @deprecated Timings will be removed in the future
+- */
 -@Deprecated(forRemoval = true)
 -public class TimingsCommand extends BukkitCommand {
 -    private static final List<String> TIMINGS_SUBCOMMANDS = ImmutableList.of("report", "reset", "on", "off", "paste", "verbon", "verboff");
@@ -1744,7 +1760,7 @@ index 1abfcee0f6d632f4cd8d74b4994a90c9ea9d254c..00000000000000000000000000000000
 -}
 diff --git a/src/main/java/co/aikar/timings/TimingsManager.java b/src/main/java/co/aikar/timings/TimingsManager.java
 deleted file mode 100644
-index 5e1558ca3ffeeaf2645fa003965474a442d650bf..0000000000000000000000000000000000000000
+index e72ad05abada04426e32a73d02b21cb69079d268..0000000000000000000000000000000000000000
 --- a/src/main/java/co/aikar/timings/TimingsManager.java
 +++ /dev/null
 @@ -1,192 +0,0 @@
@@ -1790,7 +1806,7 @@ index 5e1558ca3ffeeaf2645fa003965474a442d650bf..00000000000000000000000000000000
 -import org.jetbrains.annotations.Nullable;
 -
 -/**
-- * @deprecated Timings will likely be replaced with Spark in the future
+- * @deprecated Timings will be removed in the future
 - */
 -@Deprecated(forRemoval = true)
 -public final class TimingsManager {
@@ -1942,10 +1958,10 @@ index 5e1558ca3ffeeaf2645fa003965474a442d650bf..00000000000000000000000000000000
 -}
 diff --git a/src/main/java/co/aikar/timings/TimingsReportListener.java b/src/main/java/co/aikar/timings/TimingsReportListener.java
 deleted file mode 100644
-index 3af5b8ea795311582044c712de50d29412024b77..0000000000000000000000000000000000000000
+index df066d6f8d55afbc0c1897c486d638657a5f8df9..0000000000000000000000000000000000000000
 --- a/src/main/java/co/aikar/timings/TimingsReportListener.java
 +++ /dev/null
-@@ -1,87 +0,0 @@
+@@ -1,90 +0,0 @@
 -package co.aikar.timings;
 -
 -import com.google.common.base.Preconditions;
@@ -1960,6 +1976,9 @@ index 3af5b8ea795311582044c712de50d29412024b77..00000000000000000000000000000000
 -
 -import java.util.List;
 -
+-/**
+- * @deprecated Timings will be removed in the future
+- */
 -@Deprecated(forRemoval = true)
 -@SuppressWarnings("WeakerAccess")
 -public class TimingsReportListener implements net.kyori.adventure.audience.ForwardingAudience, MessageCommandSender {
@@ -2093,14 +2112,18 @@ index 632c4961515f5052551f841cfa840e60bba7a257..00000000000000000000000000000000
 -    }
 -}
 diff --git a/src/main/java/org/bukkit/command/Command.java b/src/main/java/org/bukkit/command/Command.java
-index c7cdc2ad8a2c43e8c0fcaa1761d3b81726c5ebcb..3ab75d571be4032e1bcfc5bb38168b81af63f0ad 100644
+index 0a26fffe9b1e5080b5639767a03af11006108b4a..c55bc18316d4be79bd610128f0592b13325cf534 100644
 --- a/src/main/java/org/bukkit/command/Command.java
 +++ b/src/main/java/org/bukkit/command/Command.java
-@@ -33,7 +33,6 @@ public abstract class Command {
-     protected String usageMessage;
-     private String permission;
-     private net.kyori.adventure.text.Component permissionMessage; // Paper
+@@ -37,11 +37,6 @@ public abstract class Command {
+      * @deprecated Timings will be removed in the future
+      */
+     @Deprecated(forRemoval = true)
 -    public co.aikar.timings.Timing timings; // Paper
+-    /**
+-     * @deprecated Timings will be removed in the future
+-     */
+-    @Deprecated(forRemoval = true)
      @NotNull public String getTimingName() {return getName();} // Paper
  
      protected Command(@NotNull String name) {
