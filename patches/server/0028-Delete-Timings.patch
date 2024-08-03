@@ -826,7 +826,7 @@ index 01efbc507b3d58f13f78ee286f93df40cdc3f0cb..1f7f68aad97ee73763c042837f239bdc
                      } catch (Exception exception) {
                          if (exception instanceof ReportedException) {
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index d0c31849b67e19e9a14593b3907266a3759acb61..acc5f1b758ce8810f93ad832519b7287cd282409 100644
+index c56ffd2307b9c92742f760a51e16e48f3205f793..072ef5e693ca26c702bd221755613d0754a811ee 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -3,7 +3,6 @@ package net.minecraft.server;
@@ -846,7 +846,7 @@ index d0c31849b67e19e9a14593b3907266a3759acb61..acc5f1b758ce8810f93ad832519b7287
  public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTask> implements ServerInfo, ChunkIOErrorReporter, CommandSource, AutoCloseable, ca.spottedleaf.moonrise.patches.chunk_system.server.ChunkSystemMinecraftServer { // Paper - rewrite chunk system
  
      private static MinecraftServer SERVER; // Paper
-@@ -1041,7 +1038,6 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1042,7 +1039,6 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
  
          MinecraftServer.LOGGER.info("Stopping server");
          Commands.COMMAND_SENDING_POOL.shutdownNow(); // Paper - Perf: Async command map building; Shutdown and don't bother finishing
@@ -854,7 +854,7 @@ index d0c31849b67e19e9a14593b3907266a3759acb61..acc5f1b758ce8810f93ad832519b7287
          this.server.spark.disable(); // Paper - spark
          // Purpur start
          if (upnp) {
-@@ -1615,15 +1611,14 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1616,15 +1612,14 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
      }
  
      public void tickServer(BooleanSupplier shouldKeepTicking) {
@@ -872,7 +872,7 @@ index d0c31849b67e19e9a14593b3907266a3759acb61..acc5f1b758ce8810f93ad832519b7287
          // Paper end
          this.server.spark.tickStart(); // Paper - spark
          new com.destroystokyo.paper.event.server.ServerTickStartEvent(this.tickCount+1).callEvent(); // Paper - Server Tick Events
-@@ -1660,9 +1655,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1661,9 +1656,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          //this.profiler.pop(); // Purpur
          // Paper end - Incremental chunk and player saving
          // Paper start - move executeAll() into full server tick timing
@@ -883,7 +883,7 @@ index d0c31849b67e19e9a14593b3907266a3759acb61..acc5f1b758ce8810f93ad832519b7287
          // Paper end
          // Paper start - Server Tick Events
          long endTime = System.nanoTime();
-@@ -1686,7 +1679,6 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1687,7 +1680,6 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          this.logTickMethodTime(i);
          //this.profiler.pop(); // Purpur
          org.spigotmc.WatchdogThread.tick(); // Spigot
@@ -928,7 +928,7 @@ index 514520c33c6f0a239055a37ddc7cae563b56f748..cdb2860ebfc7341f7d08251f9931d204
          // Paper start
          if (waitableArray[0] != null) {
 diff --git a/src/main/java/net/minecraft/server/level/ChunkMap.java b/src/main/java/net/minecraft/server/level/ChunkMap.java
-index 64777b3431a0078c332e7b67566a61211722c59b..5beb5f883dfb465e431220b7d39dbe589c30937b 100644
+index fa2fbdb3d5e1e1ee37cc5aed081c0eccd6711203..0db7ceacb99f94e0ac902472652b31d55a083885 100644
 --- a/src/main/java/net/minecraft/server/level/ChunkMap.java
 +++ b/src/main/java/net/minecraft/server/level/ChunkMap.java
 @@ -1,6 +1,5 @@
@@ -939,7 +939,7 @@ index 64777b3431a0078c332e7b67566a61211722c59b..5beb5f883dfb465e431220b7d39dbe58
  import com.google.common.collect.ImmutableList.Builder;
  import com.google.common.collect.Iterables;
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index a4ea3eca166510e05bc53504d2f1040e3bead39a..87368cc8ed4746073a04521d221713f00ece4e6f 100644
+index 2c15fc6e4f46c5873cc5ce67edf10b730a4e922e..4f7975af6b8b7953732342c1883d7a03363cdcfd 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -1,7 +1,6 @@
@@ -950,7 +950,7 @@ index a4ea3eca166510e05bc53504d2f1040e3bead39a..87368cc8ed4746073a04521d221713f0
  import com.google.common.collect.Lists;
  import com.mojang.datafixers.DataFixer;
  import com.mojang.datafixers.util.Pair;
-@@ -1330,9 +1329,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ca.spottedleaf.
+@@ -1287,9 +1286,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ca.spottedleaf.
                  currentlyTickingEntity.lazySet(entity);
              }
              // Paper end - log detailed entity tick information
@@ -960,7 +960,7 @@ index a4ea3eca166510e05bc53504d2f1040e3bead39a..87368cc8ed4746073a04521d221713f0
          /*if (!org.spigotmc.ActivationRange.checkIfActive(entity)) { // Paper - comment out - EAR 2, reimplement below
              entity.tickCount++;
              timer = entity.getType().inactiveTickTimer.startTiming(); try { // Paper - timings
-@@ -1355,7 +1352,6 @@ public class ServerLevel extends Level implements WorldGenLevel, ca.spottedleaf.
+@@ -1312,7 +1309,6 @@ public class ServerLevel extends Level implements WorldGenLevel, ca.spottedleaf.
          });*/ // Purpur
          //gameprofilerfiller.incrementCounter("tickNonPassenger"); // Purpur
          if (isActive) { // Paper - EAR 2

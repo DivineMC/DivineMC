@@ -63,10 +63,10 @@ index 3218cbf84f54daf06e84442d5eb1a36d8da6b215..0db1f8f64a261780e6692755669fa573
              synchronized (cache) {
                  regionFile = ((ChunkSystemRegionFileStorage)(Object)cache).moonrise$getRegionFileIfLoaded(chunkX, chunkZ);
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index acc5f1b758ce8810f93ad832519b7287cd282409..d5b02acf6322563c74553bd466979ff054582e62 100644
+index 072ef5e693ca26c702bd221755613d0754a811ee..26bbd73a0dc0abecdd961b0c19eb7a4433dc1d0e 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -980,10 +980,10 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -981,10 +981,10 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
              while (iterator1.hasNext()) {
                  ServerLevel worldserver2 = (ServerLevel) iterator1.next();
  
