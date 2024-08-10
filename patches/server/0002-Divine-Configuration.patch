@@ -62,7 +62,7 @@ index ed313b0424b2e1e1335ee3e3bd4d9cfd15f24b39..4d2e285657ad2c060c384e1e4027e00d
          this.generator = gen;
          this.world = new CraftWorld((ServerLevel) this, gen, biomeProvider, env);
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index d87ecd6e7552ab537c9d9e8a10a471814e61632d..3a2da4b1275df762f0a4c0e40c416896062a29a7 100644
+index 4414d96702ac13b2759127fb4ce98c4e5439f471..1f3f999c3362c5b5130bf269d1219a7ada26204a 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -265,6 +265,8 @@ import net.md_5.bungee.api.chat.BaseComponent; // Spigot
@@ -113,7 +113,7 @@ index d87ecd6e7552ab537c9d9e8a10a471814e61632d..3a2da4b1275df762f0a4c0e40c416896
          public void restart() {
              org.spigotmc.RestartCommand.restart();
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 260f79affee997adbe8d08f2a2cb3aa68083f497..2db58e41ec075c7c09a310c3271a0a8c01d77f0f 100644
+index 316c5e1460ccf3386c4c8623eabb7f087df8c4b9..5823144e8a987c401126a4a0750e91fa6e83ba1a 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -184,6 +184,14 @@ public class Main {
@@ -205,7 +205,7 @@ index 0000000000000000000000000000000000000000..06af4af987859081bcf23e91da02b295
 +}
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..8380fd40b19ea1b4bff6ba78648408fbd3c662d0
+index 0000000000000000000000000000000000000000..8251cf1e42f159e3be874e4cc34498e6dcdec539
 --- /dev/null
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 @@ -0,0 +1,155 @@
@@ -239,7 +239,7 @@ index 0000000000000000000000000000000000000000..8380fd40b19ea1b4bff6ba78648408fb
 +            + "join us in our Discord server.\n"
 +            + "\n"
 +            + "Discord: https://discord.gg/p7cxhw7E2M \n"
-+            + "Docs: https://divinemc.bx-team.space/docs \n"
++            + "Docs: https://docs.bx-team.space/divinemc \n"
 +            + "New builds: https://github.com/DivineMC/DivineMC/releases/latest";
 +    private static File CONFIG_FILE;
 +    public static YamlConfiguration config;

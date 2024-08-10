@@ -1,4 +1,4 @@
-# Purpur-API and Purpur-Server changes + paper-api-generator
+# DivineMC-API and DivineMC-Server changes + paper-api-generator
 DivineMC-API
 DivineMC-Server
 paper-api-generator/*
@@ -8,11 +8,6 @@ build
 .gradle
 run
 .idea
-
-# VitePress (docs)
-node_modules
-docs/.vitepress/cache
-docs/.vitepress/dist
 
 # Other files and folders
 build-data/dev-imports.txt

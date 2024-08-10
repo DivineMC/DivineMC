@@ -79,7 +79,7 @@ After that, project is ready to use and editing it.
 ### Creating a patch
 Patches are effectively just commits in either `DivineMC-API` or `DivineMC-Server`. To create one, just add a commit to either repo and run `./gradlew rebuildPatches`, and a patch will be placed in the patches folder. Modifying commits will also modify its corresponding patch file.
 
-Read our [documentation](https://divinemc.bx-team.space/docs/dev/contributing) to learn more about patches
+Read our [documentation](https://docs.bx-team.space/divinemc/dev/contributing) to learn more about patches
 
 ### Compiling
 Use the command `./gradlew build` to build the API and server. Compiled JARs will be placed under `DivineMC-API/build/libs` and `DivineMC-Server/build/libs`. **These JARs are not used to start a server**.
