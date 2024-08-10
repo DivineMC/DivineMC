@@ -34,7 +34,7 @@ index a74732902c0494c67e6acf2fc04581ff9c46b832..42752cf9aa9668f4f813adc177b7ef97
              LivingEntity entityliving1 = deadEntity.getLastHurtByMob();
  
 diff --git a/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java b/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
-index 3ec4ba40f6ff44365eaa4b33ac447c191670f259..9da1dbda23d01d6e63d7ed4e18664e9f46a7c8cb 100644
+index 4666b51278dbe65b8e4911bcf1dbb867110c146f..260091921b7df2773b86ccf46a2e32cb2ca5c85d 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
 @@ -82,7 +82,18 @@ public class LevelChunk extends ChunkAccess implements ca.spottedleaf.moonrise.p
@@ -93,7 +93,7 @@ index 3ec4ba40f6ff44365eaa4b33ac447c191670f259..9da1dbda23d01d6e63d7ed4e18664e9f
          } else {
              return super.getListenerRegistry(ySectionCoord);
          }
-@@ -622,7 +647,7 @@ public class LevelChunk extends ChunkAccess implements ca.spottedleaf.moonrise.p
+@@ -627,7 +652,7 @@ public class LevelChunk extends ChunkAccess implements ca.spottedleaf.moonrise.p
      }
  
      private void removeGameEventListenerRegistry(int ySectionCoord) {
