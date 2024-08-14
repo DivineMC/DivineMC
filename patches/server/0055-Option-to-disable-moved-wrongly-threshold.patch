@@ -5,7 +5,7 @@ Subject: [PATCH] Option to disable moved wrongly threshold
 
 
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 5365ce5da2b78be0001e3dba39feb969801603e0..4621945946d1495b8f038c96891722a21067c0c5 100644
+index cbaa7df3a292134e9e19f565a4f1a8f025d829da..fbd6471eebabd601ad972ea2bc245c5b0397a2b2 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -585,7 +585,7 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
@@ -26,7 +26,7 @@ index 5365ce5da2b78be0001e3dba39feb969801603e0..4621945946d1495b8f038c96891722a2
                      flag2 = true;
                      ServerGamePacketListenerImpl.LOGGER.warn("{} (vehicle of {}) moved wrongly! {}", new Object[]{entity.getName().getString(), this.player.getName().getString(), Math.sqrt(d10)});
                  }
-@@ -1438,7 +1438,7 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
+@@ -1432,7 +1432,7 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
                                          io.papermc.paper.event.player.PlayerFailMoveEvent event = fireFailMove(io.papermc.paper.event.player.PlayerFailMoveEvent.FailReason.MOVED_TOO_QUICKLY,
                                              toX, toY, toZ, toYaw, toPitch, true);
                                          if (!event.isAllowed()) {
@@ -35,7 +35,7 @@ index 5365ce5da2b78be0001e3dba39feb969801603e0..4621945946d1495b8f038c96891722a2
                                                  ServerGamePacketListenerImpl.LOGGER.warn("{} moved too quickly! {},{},{}", new Object[]{this.player.getName().getString(), d6, d7, d8});
                                              this.teleport(this.player.getX(), this.player.getY(), this.player.getZ(), this.player.getYRot(), this.player.getXRot());
                                              return;
-@@ -1507,7 +1507,7 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
+@@ -1501,7 +1501,7 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
                              d10 = d6 * d6 + d7 * d7 + d8 * d8;
                              boolean movedWrongly = false; // Paper - Add fail move event; rename
  
@@ -45,7 +45,7 @@ index 5365ce5da2b78be0001e3dba39feb969801603e0..4621945946d1495b8f038c96891722a2
                                  io.papermc.paper.event.player.PlayerFailMoveEvent event = fireFailMove(io.papermc.paper.event.player.PlayerFailMoveEvent.FailReason.MOVED_WRONGLY,
                                      toX, toY, toZ, toYaw, toPitch, true);
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-index 2580a13c80f6a8f6bb35b4c82014628732660019..9d3d52e4798451ec4f30f735bcdef0ef4dde0cbf 100644
+index 883e3a0c281a4872c74df96e2ce51993f5c4ccee..acf4a5287ba8d1ec8b4157426aa5794211654b7b 100644
 --- a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 @@ -155,9 +155,11 @@ public class DivineConfig {
