@@ -2178,10 +2178,10 @@ index 7740ad53796d08584bb0110f99af5639993e4d71..f0da5a8ae7e989e120f9d5ef2a417a98
              server.getPluginManager().callEvent(new com.destroystokyo.paper.event.server.ServerExceptionEvent(new com.destroystokyo.paper.exception.ServerCommandException(ex, target, sender, args))); // Paper
              //target.timings.stopTiming(); // Spigot // Paper
 diff --git a/src/main/java/org/bukkit/plugin/SimplePluginManager.java b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
-index 003bece642b682985625db93cad93026352bfc66..a5dbfdf1a67cac61a3f5770db26b21307ea3594d 100644
+index e8ba4f1108f2548a487877027e37d81fc150e042..a19a9d25996860455a229c4cc2503eeb5ac7ef4b 100644
 --- a/src/main/java/org/bukkit/plugin/SimplePluginManager.java
 +++ b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
-@@ -720,12 +720,7 @@ public final class SimplePluginManager implements PluginManager {
+@@ -724,12 +724,7 @@ public final class SimplePluginManager implements PluginManager {
              throw new IllegalPluginAccessException("Plugin attempted to register " + event + " while not enabled");
          }
  
@@ -2195,7 +2195,7 @@ index 003bece642b682985625db93cad93026352bfc66..a5dbfdf1a67cac61a3f5770db26b2130
      }
  
      @NotNull
-@@ -955,8 +950,7 @@ public final class SimplePluginManager implements PluginManager {
+@@ -959,8 +954,7 @@ public final class SimplePluginManager implements PluginManager {
  
      @Override
      public boolean useTimings() {
@@ -2205,7 +2205,7 @@ index 003bece642b682985625db93cad93026352bfc66..a5dbfdf1a67cac61a3f5770db26b2130
      }
  
      /**
-@@ -965,7 +959,7 @@ public final class SimplePluginManager implements PluginManager {
+@@ -969,7 +963,7 @@ public final class SimplePluginManager implements PluginManager {
       * @param use True if per event timing code should be used
       */
      public void useTimings(boolean use) {
@@ -2215,7 +2215,7 @@ index 003bece642b682985625db93cad93026352bfc66..a5dbfdf1a67cac61a3f5770db26b2130
  
      // Paper start
 diff --git a/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java b/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
-index f1e58639213be0c43cd2ff090b625e7d0a67e8be..473bf7997f1793dea48aa9001ae6b553bc58f2b3 100644
+index 0c6ca7588fb3d6b6497ddf032fe75e5c6c9719e5..5a8548bcc8b969cf5251e91dbe523543b57d6a3a 100644
 --- a/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
 +++ b/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
 @@ -43,7 +43,6 @@ import org.bukkit.plugin.TimedRegisteredListener;

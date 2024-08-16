@@ -5,10 +5,10 @@ Subject: [PATCH] Fix MC-167242
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/npc/Villager.java b/src/main/java/net/minecraft/world/entity/npc/Villager.java
-index 88972d9f07eb9088c139d9dbc974b2e61943f292..fc31f4e62f06e950b14a314838badcdf67836574 100644
+index d58f845dc814011b8126cc641476b6e4e25bc328..45f3b7fa89d8004608efa402e64619bf40464d2e 100644
 --- a/src/main/java/net/minecraft/world/entity/npc/Villager.java
 +++ b/src/main/java/net/minecraft/world/entity/npc/Villager.java
-@@ -997,6 +997,11 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
+@@ -999,6 +999,11 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
                  world.addFreshEntityWithPassengers(entitywitch, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.LIGHTNING);
                  // CraftBukkit end
                  this.releaseAllPois();

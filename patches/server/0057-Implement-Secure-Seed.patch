@@ -52,10 +52,10 @@ index 9ebe1f1797b5be562bc4f6d92b9a4d6022ca2151..e29aae167eba565caf143645fd12fc20
              return GsonHelper.parse(!s1.isEmpty() ? s1 : "{}");
          }, new JsonObject()), (String) this.get("level-type", (s1) -> {
 diff --git a/src/main/java/net/minecraft/server/level/ServerChunkCache.java b/src/main/java/net/minecraft/server/level/ServerChunkCache.java
-index 548549817ab5a835c1ea66676bc75fa53f7efd45..d73f2ab3ea1b65fe7f51d685085244a6e8ba9a1a 100644
+index ebe872c4643038f0c99b289d4d5afdbedd76c6ef..c83ed213739ba2cb4e2213b82880f6c310293e10 100644
 --- a/src/main/java/net/minecraft/server/level/ServerChunkCache.java
 +++ b/src/main/java/net/minecraft/server/level/ServerChunkCache.java
-@@ -575,6 +575,7 @@ public class ServerChunkCache extends ChunkSource implements ca.spottedleaf.moon
+@@ -617,6 +617,7 @@ public class ServerChunkCache extends ChunkSource implements ca.spottedleaf.moon
      }
  
      public ChunkGenerator getGenerator() {
@@ -64,7 +64,7 @@ index 548549817ab5a835c1ea66676bc75fa53f7efd45..d73f2ab3ea1b65fe7f51d685085244a6
      }
  
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 4f7975af6b8b7953732342c1883d7a03363cdcfd..158986bb767bed84b10dfe1ca30c21f95b28bb5b 100644
+index 657801f794bdf25c2401a1b81a5243063e2b7852..9252d438b22484f9097ffcdac9dbb87686e31054 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -557,6 +557,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ca.spottedleaf.
@@ -451,7 +451,7 @@ index 45e262308aebafa377a2353661acdd122933b99e..dd78e5231e465957308a4e1b56b14e9e
  
      @Override
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index f3c4f33e68f6b41a53c751900acd1e530f9970f6..1114000bddc0e07939fb894a626068637ed63807 100644
+index 1b3e5a0d55f80e67f1923a44682d1caf8c0ebe44..2a8817fc6c0f73634d56835835245008e60557fa 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -1396,7 +1396,11 @@ public final class CraftServer implements Server {
@@ -468,7 +468,7 @@ index f3c4f33e68f6b41a53c751900acd1e530f9970f6..1114000bddc0e07939fb894a62606863
  
              DedicatedServerProperties.WorldDimensionData properties = new DedicatedServerProperties.WorldDimensionData(GsonHelper.parse((creator.generatorSettings().isEmpty()) ? "{}" : creator.generatorSettings()), creator.type().name().toLowerCase(Locale.ROOT));
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-index 0dd1fb7bfcf8e8b475987c5e46a1fbd3431a121c..2070e5e83c764b38351a2e28844b92dc4d37a308 100644
+index e8cbdcc5c41acfc18fa040997421fb712de801cb..2fae4c1d1093d0e7c2c52a04b600da971018ad30 100644
 --- a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 @@ -156,10 +156,12 @@ public class DivineConfig {

@@ -105,10 +105,10 @@ index 5705cb920084b775cce4b361683b32c6b6e003ed..9c031dd0fa279a23405e5b7d77e4c11e
      }
  }
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index cdb2860ebfc7341f7d08251f9931d20471655f09..9744abd3ef2e5fb25b92c6e3580fac243678bfc7 100644
+index cf3a4f60f8cbf40cc7448fd80979f55c0c7cc6ed..08879875184a0335243ad477f208033487a4abf5 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-@@ -711,7 +711,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -715,7 +715,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
          // Paper start - Add setting for proxy online mode status
          return dedicatedserverproperties.enforceSecureProfile
              && io.papermc.paper.configuration.GlobalConfiguration.get().proxies.isProxyOnlineMode()
@@ -160,7 +160,7 @@ index f31d71b2afa12676e56dd0d5c67bfb7a79961f25..3af9bd57eea12a8dffab248631e290b3
  
      // CraftBukkit start
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-index 75adcde96d7924fa1892462e66ffe16476735658..09b74a2f07deee7ba38f99a7573e63b53adab057 100644
+index ae15ef065617d3399ce6fa5924f120539625eb40..5d16e0269bbdeb5086dbce9f1d51a4dc45150909 100644
 --- a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 @@ -185,4 +185,9 @@ public class DivineConfig {

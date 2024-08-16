@@ -583,10 +583,10 @@ index 5f228ea02b8912283dfb9a7bd18b33802b1d77ab..b9945658239589ad840a2712db6c0817
          }
      }
 diff --git a/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java b/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java
-index 84c6a786658b16fe0535b4d99135ba58cec8d3a9..01d64dad1769d5585e9c51d93cd8ec6a4cac457c 100644
+index 418e8b9227789cc100c5972901bbe8c939c652d3..cad95339c2c2e5a8139e57fb761cd47be6edd1a4 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java
-@@ -485,6 +485,17 @@ public class Frog extends Animal implements VariantHolder<Holder<FrogVariant>> {
+@@ -486,6 +486,17 @@ public class Frog extends Animal implements VariantHolder<Holder<FrogVariant>> {
              super(frog, world);
          }
  
@@ -604,7 +604,7 @@ index 84c6a786658b16fe0535b4d99135ba58cec8d3a9..01d64dad1769d5585e9c51d93cd8ec6a
          @Override
          public boolean canCutCorner(PathType nodeType) {
              return nodeType != PathType.WATER_BORDER && super.canCutCorner(nodeType);
-@@ -494,6 +505,11 @@ public class Frog extends Animal implements VariantHolder<Holder<FrogVariant>> {
+@@ -495,6 +506,11 @@ public class Frog extends Animal implements VariantHolder<Holder<FrogVariant>> {
          protected PathFinder createPathFinder(int range) {
              this.nodeEvaluator = new Frog.FrogNodeEvaluator(true);
              this.nodeEvaluator.setCanPassDoors(true);
@@ -661,10 +661,10 @@ index 70650cc6f76bed79a31a9e8c86205910994a920f..2340f207c0e741ace9b2f5e008e59d58
          }
  
 diff --git a/src/main/java/net/minecraft/world/entity/monster/warden/Warden.java b/src/main/java/net/minecraft/world/entity/monster/warden/Warden.java
-index e2bb33de1bd9f281941063f06c3f1decbfcecd3b..221afdc05ded68fbd62a3d7865b144849d0cdc4b 100644
+index e7c82656e46201ae144629945dcd33f14774b9de..8fda8e6eef03d87298f2173271aa8894cb729a62 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/warden/Warden.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/warden/Warden.java
-@@ -632,6 +632,16 @@ public class Warden extends Monster implements VibrationSystem {
+@@ -634,6 +634,16 @@ public class Warden extends Monster implements VibrationSystem {
              protected PathFinder createPathFinder(int range) {
                  this.nodeEvaluator = new WalkNodeEvaluator();
                  this.nodeEvaluator.setCanPassDoors(true);
@@ -859,7 +859,7 @@ index 6308822f819d7cb84c8070c8a7eec1a3f822114b..3db838279e4407c28671bb1563fc96f9
  
      public SwimNodeEvaluator(boolean canJumpOutOfWater) {
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-index 54beb2e8be073617638e62f22ae37942b75283d7..641a957cfda8de6f4114350393f441f2f3b9c8dd 100644
+index 77e07052a923c46ba28d79d531b43dcccf4cd546..acff9dc2f10ecbd3c219e4eaa0c29a259f2192c7 100644
 --- a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 @@ -166,4 +166,21 @@ public class DivineConfig {

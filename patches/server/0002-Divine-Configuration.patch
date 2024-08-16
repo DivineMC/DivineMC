@@ -5,7 +5,7 @@ Subject: [PATCH] Divine Configuration
 
 
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 744cfc91fa8b78794f1edab1f81035b21bf0c83f..8eb5101eece8be63899366c0e54938a4feebd5b3 100644
+index 2762f54515b352271feb4b26f506b06cd0fb1909..35ee62f6298b4d3bc2e294c263e7ffc862a176fa 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -58,6 +58,7 @@ import net.minecraft.world.level.GameType;
@@ -16,9 +16,9 @@ index 744cfc91fa8b78794f1edab1f81035b21bf0c83f..8eb5101eece8be63899366c0e54938a4
  
  // CraftBukkit start
  import net.minecraft.server.WorldLoader;
-@@ -250,6 +251,16 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
-         // Purpur end
-         com.destroystokyo.paper.VersionHistoryManager.INSTANCE.getClass(); // Paper - load version history now
+@@ -253,6 +254,16 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+         gg.pufferfish.pufferfish.PufferfishConfig.load(); // Pufferfish
+         gg.pufferfish.pufferfish.PufferfishCommand.init(); // Pufferfish
  
 +        // DivineMC start
 +        try {
@@ -34,7 +34,7 @@ index 744cfc91fa8b78794f1edab1f81035b21bf0c83f..8eb5101eece8be63899366c0e54938a4
          this.setFlightAllowed(dedicatedserverproperties.allowFlight);
          this.setMotd(dedicatedserverproperties.motd);
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index ed313b0424b2e1e1335ee3e3bd4d9cfd15f24b39..4d2e285657ad2c060c384e1e4027e00d9cf25346 100644
+index 26fbc981ec9acafc7ba1753759375c142261b6ab..fd18ffa8a9d2fb43656f518c879da58611b7045a 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
 @@ -83,6 +83,7 @@ import net.minecraft.world.phys.AABB;
@@ -113,11 +113,11 @@ index 4414d96702ac13b2759127fb4ce98c4e5439f471..1f3f999c3362c5b5130bf269d1219a7a
          public void restart() {
              org.spigotmc.RestartCommand.restart();
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 316c5e1460ccf3386c4c8623eabb7f087df8c4b9..5823144e8a987c401126a4a0750e91fa6e83ba1a 100644
+index e35a562eec4b65335723c50180fe1471f858ae60..58cecb0253d191410aefac5d3ec18410b8c6728f 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
-@@ -184,6 +184,14 @@ public class Main {
-                     .describedAs("Yml file");
+@@ -190,6 +190,14 @@ public class Main {
+                         .describedAs("Yml file");
                  // Purpur end
  
 +                // DivineMC start

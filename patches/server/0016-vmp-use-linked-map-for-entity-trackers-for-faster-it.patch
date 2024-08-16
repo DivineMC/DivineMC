@@ -7,7 +7,7 @@ Original code by RelativityMC, licensed under MIT
 You can find the original code on https://github.com/RelativityMC/VMP-fabric (Yarn mappings)
 
 diff --git a/src/main/java/net/minecraft/server/level/ChunkMap.java b/src/main/java/net/minecraft/server/level/ChunkMap.java
-index 989ba0fa3b928866d5a7163d1663d30d276e1264..34aa16cdfb12f20dba4e8e43cf9c1a0fb4061361 100644
+index 66ee6ca56897c9646605f5907ce895e54bc30d96..37b50001ea83481610f789dd718eab8fb79ea250 100644
 --- a/src/main/java/net/minecraft/server/level/ChunkMap.java
 +++ b/src/main/java/net/minecraft/server/level/ChunkMap.java
 @@ -12,6 +12,7 @@ import com.mojang.datafixers.DataFixer;
@@ -18,7 +18,7 @@ index 989ba0fa3b928866d5a7163d1663d30d276e1264..34aa16cdfb12f20dba4e8e43cf9c1a0f
  import it.unimi.dsi.fastutil.longs.Long2ByteMap;
  import it.unimi.dsi.fastutil.longs.Long2ByteOpenHashMap;
  import it.unimi.dsi.fastutil.longs.Long2LongMap;
-@@ -179,7 +180,7 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
+@@ -183,7 +184,7 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
          this.toDrop = new LongOpenHashSet();
          this.tickingGenerated = new AtomicInteger();
          this.playerMap = new PlayerMap();

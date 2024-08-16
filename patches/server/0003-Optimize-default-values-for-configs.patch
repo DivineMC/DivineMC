@@ -190,10 +190,10 @@ index 4bcf27f98765abf693e535cfc1756c27a10cb316..58dd2f3ffed21eb752e757b7b7d5114f
          public double maxLeashDistance = Leashable.LEASH_TOO_FAR_DIST;
          public boolean disableSprintInterruptionOnAttack = false;
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 8eb5101eece8be63899366c0e54938a4feebd5b3..514520c33c6f0a239055a37ddc7cae563b56f748 100644
+index 35ee62f6298b4d3bc2e294c263e7ffc862a176fa..c3b39063f4cca69ecf71708e2ad5d92bbafa5ea8 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-@@ -343,7 +343,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -346,7 +346,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
          String proxyFlavor = (io.papermc.paper.configuration.GlobalConfiguration.get().proxies.velocity.enabled) ? "Velocity" : "BungeeCord";
          String proxyLink = (io.papermc.paper.configuration.GlobalConfiguration.get().proxies.velocity.enabled) ? "https://docs.papermc.io/velocity/security" : "http://www.spigotmc.org/wiki/firewall-guide/";
          // Paper end - Add Velocity IP Forwarding Support
