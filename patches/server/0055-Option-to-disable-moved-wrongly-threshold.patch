@@ -5,7 +5,7 @@ Subject: [PATCH] Option to disable moved wrongly threshold
 
 
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index e06f914dca5625efe232440097cd6b36c02ed986..ef90caee6fb8d3d274fb51a4f080ee7b721f88d9 100644
+index 4bdcd831f81379a464320851ff8772b9fe00b734..f9dd408ab11f706f3df561e704ba635e672b4dbc 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -585,7 +585,7 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
@@ -17,16 +17,18 @@ index e06f914dca5625efe232440097cd6b36c02ed986..ef90caee6fb8d3d274fb51a4f080ee7b
                  // CraftBukkit end
                      ServerGamePacketListenerImpl.LOGGER.warn("{} (vehicle of {}) moved too quickly! {},{},{}", new Object[]{entity.getName().getString(), this.player.getName().getString(), d6, d7, d8});
                      this.send(new ClientboundMoveVehiclePacket(entity));
-@@ -620,7 +620,7 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
+@@ -621,8 +621,8 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
                  d10 = d6 * d6 + d7 * d7 + d8 * d8;
                  boolean flag2 = false;
  
 -                if (d10 > org.spigotmc.SpigotConfig.movedWronglyThreshold) { // Spigot
+-                    flag2 = true; // Paper - diff on change, this should be moved wrongly
 +                if (!space.bxteam.divinemc.configuration.DivineConfig.disableMovedWronglyThreshold && d10 > org.spigotmc.SpigotConfig.movedWronglyThreshold) { // Spigot // DivineMC - Option to disable moved wrongly threshold
-                     flag2 = true;
++                    flag2 = true;// Paper - diff on change, this should be moved wrongly
                      ServerGamePacketListenerImpl.LOGGER.warn("{} (vehicle of {}) moved wrongly! {}", new Object[]{entity.getName().getString(), this.player.getName().getString(), Math.sqrt(d10)});
                  }
-@@ -1433,7 +1433,7 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
+ 
+@@ -1467,7 +1467,7 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
                                          io.papermc.paper.event.player.PlayerFailMoveEvent event = fireFailMove(io.papermc.paper.event.player.PlayerFailMoveEvent.FailReason.MOVED_TOO_QUICKLY,
                                              toX, toY, toZ, toYaw, toPitch, true);
                                          if (!event.isAllowed()) {
@@ -35,7 +37,7 @@ index e06f914dca5625efe232440097cd6b36c02ed986..ef90caee6fb8d3d274fb51a4f080ee7b
                                                  ServerGamePacketListenerImpl.LOGGER.warn("{} moved too quickly! {},{},{}", new Object[]{this.player.getName().getString(), d6, d7, d8});
                                              this.teleport(this.player.getX(), this.player.getY(), this.player.getZ(), this.player.getYRot(), this.player.getXRot());
                                              return;
-@@ -1502,7 +1502,7 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
+@@ -1537,7 +1537,7 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
                              d10 = d6 * d6 + d7 * d7 + d8 * d8;
                              boolean movedWrongly = false; // Paper - Add fail move event; rename
  

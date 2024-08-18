@@ -970,7 +970,7 @@ index 29e31ed2d09aee3b668816a683ab0f89026fdf4f..657801f794bdf25c2401a1b81a524306
          entity.postTick(); // CraftBukkit
          } else { entity.inactiveTick(); } // Paper - EAR 2
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 1b1008ffd544dcddc31238e10c06df0d7aa68793..f31d71b2afa12676e56dd0d5c67bfb7a79961f25 100644
+index 1babe6756b904fd2e5b2d62f6adfa153e3b772f1..c4698cadb76164131a612c0906704b847ca7a0e8 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -1,6 +1,5 @@
@@ -1091,10 +1091,10 @@ index b273790be3d478a2aa431ba26edf8ad47164d6d7..c22f667473032c2ec861759ea9ae2de3
          this.spigotConfig.currentPrimedTnt = 0; // Spigot
      }
 diff --git a/src/main/java/net/minecraft/world/level/block/Block.java b/src/main/java/net/minecraft/world/level/block/Block.java
-index 5c96e33326e395cb26c8cc51411fd34b20f3bbbc..7841feef56fc7179e5d6e6541baad5fb3e655ef0 100644
+index 26dd81b4a6fb929f2b4304442f79e7f3f6c46aa3..4f913e7af8de027f8745832ae3cad11780ded84b 100644
 --- a/src/main/java/net/minecraft/world/level/block/Block.java
 +++ b/src/main/java/net/minecraft/world/level/block/Block.java
-@@ -107,13 +107,6 @@ public class Block extends BlockBehaviour implements ItemLike {
+@@ -106,13 +106,6 @@ public class Block extends BlockBehaviour implements ItemLike {
              this != Blocks.STRUCTURE_BLOCK &&
              this != Blocks.JIGSAW;
      }

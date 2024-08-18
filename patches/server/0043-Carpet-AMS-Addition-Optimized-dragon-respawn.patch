@@ -18,7 +18,7 @@ index ee99519ebd46b1db3e76e7eb86e5cc121c867dc4..43174e6b5bd306273736d1c2971f976c
              for (int j = 0; j < this.height; j++) {
                  for (int k = 0; k < this.depth; k++) {
 diff --git a/src/main/java/net/minecraft/world/level/dimension/end/EndDragonFight.java b/src/main/java/net/minecraft/world/level/dimension/end/EndDragonFight.java
-index 18a1b4325cac81b040596071dab99ef9bf6f3142..445dc3ca4586b39ccc2cebe922455d9fac3d6ea1 100644
+index 84300f2f7b7be4f5281edd8e263646dbcbb3ba07..e9d74c2afe848b4dcbd70fc251dfaa2411c18591 100644
 --- a/src/main/java/net/minecraft/world/level/dimension/end/EndDragonFight.java
 +++ b/src/main/java/net/minecraft/world/level/dimension/end/EndDragonFight.java
 @@ -45,6 +45,7 @@ import net.minecraft.world.entity.boss.enderdragon.phases.EnderDragonPhase;
@@ -29,7 +29,7 @@ index 18a1b4325cac81b040596071dab99ef9bf6f3142..445dc3ca4586b39ccc2cebe922455d9f
  import net.minecraft.world.level.block.entity.TheEndPortalBlockEntity;
  import net.minecraft.world.level.block.state.pattern.BlockInWorld;
  import net.minecraft.world.level.block.state.pattern.BlockPattern;
-@@ -289,8 +290,67 @@ public class EndDragonFight {
+@@ -291,8 +292,67 @@ public class EndDragonFight {
          return false;
      }
  
@@ -97,7 +97,7 @@ index 18a1b4325cac81b040596071dab99ef9bf6f3142..445dc3ca4586b39ccc2cebe922455d9f
          ChunkPos chunkcoordintpair = new ChunkPos(this.origin);
  
          int i;
-@@ -619,6 +679,11 @@ public class EndDragonFight {
+@@ -621,6 +681,11 @@ public class EndDragonFight {
      }
  
      public boolean respawnDragon(List<EndCrystal> list) { // CraftBukkit - return boolean
@@ -110,7 +110,7 @@ index 18a1b4325cac81b040596071dab99ef9bf6f3142..445dc3ca4586b39ccc2cebe922455d9f
              for (BlockPattern.BlockPatternMatch shapedetector_shapedetectorcollection = this.findExitPortal(); shapedetector_shapedetectorcollection != null; shapedetector_shapedetectorcollection = this.findExitPortal()) {
                  for (int i = 0; i < this.exitPortalPattern.getWidth(); ++i) {
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-index fd0bbc99a151dd12d5522aaf8e3800b1a17500b6..d5f33c6bde58fd333fbdc474a288523bcb5557a1 100644
+index d499ec5f19db4e2dcd40e940380bffa5196957ee..4a134013b79120ce2a659d9071424bb1d7bd3297 100644
 --- a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 @@ -159,7 +159,9 @@ public class DivineConfig {

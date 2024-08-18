@@ -21,10 +21,10 @@ index 214ea75502d4abf9ebbc99a3811e4d2f8465227e..70ae8cd69935d6bc446bb3e425c7982b
          public boolean strictAdvancementDimensionCheck = false;
          public IntOr.Default compressionLevel = IntOr.Default.USE_DEFAULT;
 diff --git a/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java b/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
-index 4bcf27f98765abf693e535cfc1756c27a10cb316..58dd2f3ffed21eb752e757b7b7d5114f4968b445 100644
+index 95e96fe8aa93efbbb2e0a7dd98377fdc4fe0e6dd..a8db2aba503de72aafb04c3ca2b2f06c1404b91e 100644
 --- a/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
 +++ b/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
-@@ -152,9 +152,9 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -153,9 +153,9 @@ public class WorldConfiguration extends ConfigurationPart {
  
          public ArmorStands armorStands;
  
@@ -37,7 +37,7 @@ index 4bcf27f98765abf693e535cfc1756c27a10cb316..58dd2f3ffed21eb752e757b7b7d5114f
          }
  
          public Markers markers;
-@@ -254,8 +254,8 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -261,8 +261,8 @@ public class WorldConfiguration extends ConfigurationPart {
          public Behavior behavior;
  
          public class Behavior extends ConfigurationPart {
@@ -48,7 +48,7 @@ index 4bcf27f98765abf693e535cfc1756c27a10cb316..58dd2f3ffed21eb752e757b7b7d5114f
              public int experienceMergeMaxValue = -1;
              public boolean shouldRemoveDragon = false;
              public boolean zombiesTargetTurtleEggs = true;
-@@ -279,7 +279,7 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -286,7 +286,7 @@ public class WorldConfiguration extends ConfigurationPart {
              public int playerInsomniaStartTicks = 72000;
              public int phantomsSpawnAttemptMinSeconds = 60;
              public int phantomsSpawnAttemptMaxSeconds = 119;
@@ -57,7 +57,7 @@ index 4bcf27f98765abf693e535cfc1756c27a10cb316..58dd2f3ffed21eb752e757b7b7d5114f
              @BelowZeroToEmpty
              public DoubleOr.Default zombieVillagerInfectionChance = DoubleOr.Default.USE_DEFAULT;
              public MobsCanAlwaysPickUpLoot mobsCanAlwaysPickUpLoot;
-@@ -290,7 +290,7 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -297,7 +297,7 @@ public class WorldConfiguration extends ConfigurationPart {
              }
  
              public boolean disablePlayerCrits = false;
@@ -66,7 +66,7 @@ index 4bcf27f98765abf693e535cfc1756c27a10cb316..58dd2f3ffed21eb752e757b7b7d5114f
              @Comment("Prevents merging items that are not on the same y level, preventing potential visual artifacts.")
              public boolean onlyMergeItemsHorizontally = false;
              public PillagerPatrols pillagerPatrols;
-@@ -386,7 +386,7 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -393,7 +393,7 @@ public class WorldConfiguration extends ConfigurationPart {
      public class Environment extends ConfigurationPart {
          public boolean disableThunder = false;
          public boolean disableIceAndSnow = false;
@@ -75,7 +75,7 @@ index 4bcf27f98765abf693e535cfc1756c27a10cb316..58dd2f3ffed21eb752e757b7b7d5114f
          public boolean disableExplosionKnockback = false;
          public boolean generateFlatBedrock = false;
          public FrostedIce frostedIce;
-@@ -432,7 +432,7 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -439,7 +439,7 @@ public class WorldConfiguration extends ConfigurationPart {
  
      public class Maps extends ConfigurationPart {
          public int itemFrameCursorLimit = 128;
@@ -84,7 +84,7 @@ index 4bcf27f98765abf693e535cfc1756c27a10cb316..58dd2f3ffed21eb752e757b7b7d5114f
      }
  
      public Fixes fixes;
-@@ -458,7 +458,7 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -465,7 +465,7 @@ public class WorldConfiguration extends ConfigurationPart {
      public class Hopper extends ConfigurationPart {
          public boolean cooldownWhenFull = true;
          public boolean disableMoveEvent = false;
@@ -93,7 +93,7 @@ index 4bcf27f98765abf693e535cfc1756c27a10cb316..58dd2f3ffed21eb752e757b7b7d5114f
      }
  
      public Collisions collisions;
-@@ -466,9 +466,9 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -473,9 +473,9 @@ public class WorldConfiguration extends ConfigurationPart {
      public class Collisions extends ConfigurationPart {
          public boolean onlyPlayersCollide = false;
          public boolean allowVehicleCollisions = true;
@@ -105,7 +105,7 @@ index 4bcf27f98765abf693e535cfc1756c27a10cb316..58dd2f3ffed21eb752e757b7b7d5114f
          public boolean allowPlayerCrammingDamage = false;
      }
  
-@@ -476,18 +476,31 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -483,18 +483,31 @@ public class WorldConfiguration extends ConfigurationPart {
  
      public class Chunks extends ConfigurationPart {
          public AutosavePeriod autoSaveInterval = AutosavePeriod.def();
@@ -147,7 +147,7 @@ index 4bcf27f98765abf693e535cfc1756c27a10cb316..58dd2f3ffed21eb752e757b7b7d5114f
          });
          public boolean flushRegionsOnSave = false;
      }
-@@ -502,13 +515,15 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -509,13 +522,15 @@ public class WorldConfiguration extends ConfigurationPart {
      public TickRates tickRates;
  
      public class TickRates extends ConfigurationPart {
@@ -168,7 +168,7 @@ index 4bcf27f98765abf693e535cfc1756c27a10cb316..58dd2f3ffed21eb752e757b7b7d5114f
      }
  
      @Setting(FeatureSeedsGeneration.FEATURE_SEEDS_KEY)
-@@ -517,7 +532,7 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -524,7 +539,7 @@ public class WorldConfiguration extends ConfigurationPart {
      public class FeatureSeeds extends ConfigurationPart {
          @SuppressWarnings("unused") // Is used in FeatureSeedsGeneration
          @Setting(FeatureSeedsGeneration.GENERATE_KEY)
@@ -177,7 +177,7 @@ index 4bcf27f98765abf693e535cfc1756c27a10cb316..58dd2f3ffed21eb752e757b7b7d5114f
          @Setting(FeatureSeedsGeneration.FEATURES_KEY)
          public Reference2LongMap<Holder<ConfiguredFeature<?, ?>>> features = new Reference2LongOpenHashMap<>();
  
-@@ -538,9 +553,9 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -545,9 +560,9 @@ public class WorldConfiguration extends ConfigurationPart {
  
      public class Misc extends ConfigurationPart {
          public int lightQueueSize = 20;
