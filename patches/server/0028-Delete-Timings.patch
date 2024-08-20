@@ -731,7 +731,7 @@ index 24121a43aeb5e9bce013f30c92dddd15f99736c6..791cb04a13597eee4dbd28fabe2835ab
              String content = context.getRange().get(context.getInput());
              String[] args = org.apache.commons.lang3.StringUtils.split(content, ' '); // fix adjacent spaces (from console/plugins) causing empty array elements
 diff --git a/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java b/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
-index 70ae8cd69935d6bc446bb3e425c7982b6fd1c978..6e2b758b2697baf6082d071cc126fe6cfb01f8da 100644
+index e5eecd15040d4c0a7c8a0de166e5dddb84f35974..9367886f9a313691b7bce16674f609e7b4975659 100644
 --- a/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
 +++ b/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
 @@ -1,6 +1,5 @@
@@ -741,7 +741,7 @@ index 70ae8cd69935d6bc446bb3e425c7982b6fd1c978..6e2b758b2697baf6082d071cc126fe6c
  import com.mojang.logging.LogUtils;
  import io.papermc.paper.configuration.constraint.Constraints;
  import io.papermc.paper.configuration.type.number.DoubleOr;
-@@ -99,29 +98,6 @@ public class GlobalConfiguration extends ConfigurationPart {
+@@ -100,29 +99,6 @@ public class GlobalConfiguration extends ConfigurationPart {
          public boolean enableImmediately = false;
      }
  
