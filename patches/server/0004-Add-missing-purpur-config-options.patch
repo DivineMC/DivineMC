@@ -5,7 +5,7 @@ Subject: [PATCH] Add missing purpur config options
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java b/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java
-index 0f9196cc26e5c670a7f3454326b762f0303f633c..a8d4e315d66f71538a3f5330509732ca38d78907 100644
+index 62c62fd26660d8405378340315042d7b95ac7046..db8adf098181b5a40f1599fecc09ee7b0cf5310a 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java
 @@ -160,6 +160,18 @@ public class Allay extends PathfinderMob implements InventoryCarrier, VibrationS
@@ -51,7 +51,7 @@ index e88d6d691bb176e33afeb294d735dfb2cbac12ff..c84739e82b7e35ad95f145a48b0da290
      public void addAdditionalSaveData(CompoundTag nbt) {
          super.addAdditionalSaveData(nbt);
 diff --git a/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java b/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java
-index ee8c232ddaa518377bdfa54e83ffc04f7a2f2c9a..84c6a786658b16fe0535b4d99135ba58cec8d3a9 100644
+index 4c861b18fbfbae3cb2f1e3563393cfcf4005591c..418e8b9227789cc100c5972901bbe8c939c652d3 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java
 @@ -166,6 +166,23 @@ public class Frog extends Animal implements VariantHolder<Holder<FrogVariant>> {
@@ -79,7 +79,7 @@ index ee8c232ddaa518377bdfa54e83ffc04f7a2f2c9a..84c6a786658b16fe0535b4d99135ba58
      protected Brain.Provider<Frog> brainProvider() {
          return Brain.provider(MEMORY_TYPES, SENSOR_TYPES);
 diff --git a/src/main/java/net/minecraft/world/entity/animal/frog/Tadpole.java b/src/main/java/net/minecraft/world/entity/animal/frog/Tadpole.java
-index 0656e03bdd71f5d81853e817e136c8f11667c76e..51f12adc5f798ffb9de4ab87dc10728ee049497b 100644
+index 5cd69dd546f42e80a3d3e3a674f65c2ac39f3af9..12a7b075765c9cad88801547eace67c7002095f0 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/frog/Tadpole.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/frog/Tadpole.java
 @@ -95,6 +95,23 @@ public class Tadpole extends AbstractFish {
@@ -130,7 +130,7 @@ index b6f5281705ce4c7a755e3818cf6c4a2235a024f9..13d73b88e33d279ae96bf160fa25d47c
      protected void defineSynchedData(SynchedEntityData.Builder builder) {
          super.defineSynchedData(builder);
 diff --git a/src/main/java/net/minecraft/world/entity/monster/warden/Warden.java b/src/main/java/net/minecraft/world/entity/monster/warden/Warden.java
-index 6ee394c1616db9b0203b3e52e39234d064438654..e2bb33de1bd9f281941063f06c3f1decbfcecd3b 100644
+index 8e24cd9ed03e2f11da6f4fb2dd58dd9b9e5d7a06..e7c82656e46201ae144629945dcd33f14774b9de 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/warden/Warden.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/warden/Warden.java
 @@ -150,6 +150,23 @@ public class Warden extends Monster implements VibrationSystem {
@@ -158,7 +158,7 @@ index 6ee394c1616db9b0203b3e52e39234d064438654..e2bb33de1bd9f281941063f06c3f1dec
      public Packet<ClientGamePacketListener> getAddEntityPacket(ServerEntity entityTrackerEntry) {
          return new ClientboundAddEntityPacket(this, entityTrackerEntry, this.hasPose(Pose.EMERGING) ? 1 : 0);
 diff --git a/src/main/java/net/minecraft/world/entity/vehicle/ChestBoat.java b/src/main/java/net/minecraft/world/entity/vehicle/ChestBoat.java
-index 4cdf3b54187ebcb1f5ddfa6114386127a2846f01..72d146777a0310cb08157bf74e8b662598abeb3c 100644
+index c14019a131c90c699b8a76bada82592b66f0fa89..6f3fede6a51c6854dd93fe1462097ab38dd11123 100644
 --- a/src/main/java/net/minecraft/world/entity/vehicle/ChestBoat.java
 +++ b/src/main/java/net/minecraft/world/entity/vehicle/ChestBoat.java
 @@ -34,6 +34,9 @@ import org.bukkit.entity.HumanEntity;
@@ -180,7 +180,7 @@ index 4cdf3b54187ebcb1f5ddfa6114386127a2846f01..72d146777a0310cb08157bf74e8b6625
      }
  
      public ChestBoat(Level world, double d0, double d1, double d2) {
-@@ -178,7 +181,7 @@ public class ChestBoat extends Boat implements HasCustomInventoryScreen, Contain
+@@ -177,7 +180,7 @@ public class ChestBoat extends Boat implements HasCustomInventoryScreen, Contain
  
      @Override
      public int getContainerSize() {
