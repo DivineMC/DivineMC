@@ -21,10 +21,10 @@ index 690086adcb1f87adc0b3ab664fde735ad3e1093a..e5eecd15040d4c0a7c8a0de166e5dddb
          public boolean strictAdvancementDimensionCheck = false;
          public IntOr.Default compressionLevel = IntOr.Default.USE_DEFAULT;
 diff --git a/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java b/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
-index f1b74f7b12fc7b35815886501937725b65f8a8e3..5227e17dc150feba6ae42eb60c721bb6f36d6565 100644
+index 790e3167cfa2511ef2fc707d9b9aa681a78d8ba0..98f9607dc0020df4e3739147252678617cb987f2 100644
 --- a/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
 +++ b/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
-@@ -154,9 +154,9 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -153,9 +153,9 @@ public class WorldConfiguration extends ConfigurationPart {
  
          public ArmorStands armorStands;
  
@@ -37,7 +37,7 @@ index f1b74f7b12fc7b35815886501937725b65f8a8e3..5227e17dc150feba6ae42eb60c721bb6
          }
  
          public Markers markers;
-@@ -273,8 +273,8 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -272,8 +272,8 @@ public class WorldConfiguration extends ConfigurationPart {
          public Behavior behavior;
  
          public class Behavior extends ConfigurationPart {
@@ -48,7 +48,7 @@ index f1b74f7b12fc7b35815886501937725b65f8a8e3..5227e17dc150feba6ae42eb60c721bb6
              public int experienceMergeMaxValue = -1;
              public boolean shouldRemoveDragon = false;
              public boolean zombiesTargetTurtleEggs = true;
-@@ -298,7 +298,7 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -297,7 +297,7 @@ public class WorldConfiguration extends ConfigurationPart {
              public int playerInsomniaStartTicks = 72000;
              public int phantomsSpawnAttemptMinSeconds = 60;
              public int phantomsSpawnAttemptMaxSeconds = 119;
@@ -57,7 +57,7 @@ index f1b74f7b12fc7b35815886501937725b65f8a8e3..5227e17dc150feba6ae42eb60c721bb6
              @BelowZeroToEmpty
              public DoubleOr.Default zombieVillagerInfectionChance = DoubleOr.Default.USE_DEFAULT;
              public MobsCanAlwaysPickUpLoot mobsCanAlwaysPickUpLoot;
-@@ -309,7 +309,7 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -308,7 +308,7 @@ public class WorldConfiguration extends ConfigurationPart {
              }
  
              public boolean disablePlayerCrits = false;

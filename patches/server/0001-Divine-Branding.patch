@@ -5,7 +5,7 @@ Subject: [PATCH] Divine Branding
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 97a4a54dfa74df7aafd9df5a0f2fdac72471c2d5..2d98802c9f9bcc07458f6c44d4ba73d44fe943de 100644
+index 299881d2c9fb7321f4b29c019e9088e024b64689..b2c08943267f0254daad5f58e1a9472faa5d12a1 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -13,7 +13,7 @@ configurations.named(log4jPlugins.compileClasspathConfigurationName) {
@@ -160,10 +160,10 @@ index 6d36fc6d8e22d9b68dea3830f6ecc8763184c343..4d2a8974546016b80182ca30e34a1d85
      private static int fetchDistanceFromGitHub(final String repo, final String branch, final String hash) {
          try {
 diff --git a/src/main/java/com/destroystokyo/paper/console/PaperConsole.java b/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
-index 3cb56595822799926a8141e60a42f5d1edfc6de5..05478a1ea04ec0396bc8c97090edef4a2aced2a9 100644
+index 90b3526479320064378f2cde6c2f2b8e48a59ba6..43ff8842f697106d8d1ea4e58097243bf10f4d17 100644
 --- a/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
 +++ b/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
-@@ -17,7 +17,7 @@ public final class PaperConsole extends SimpleTerminalConsole {
+@@ -20,7 +20,7 @@ public final class PaperConsole extends SimpleTerminalConsole {
      @Override
      protected LineReader buildReader(LineReaderBuilder builder) {
          builder

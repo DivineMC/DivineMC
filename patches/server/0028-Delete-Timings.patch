@@ -929,7 +929,7 @@ index c3b39063f4cca69ecf71708e2ad5d92bbafa5ea8..cf3a4f60f8cbf40cc7448fd80979f55c
          // Paper start
          if (waitableArray[0] != null) {
 diff --git a/src/main/java/net/minecraft/server/level/ChunkMap.java b/src/main/java/net/minecraft/server/level/ChunkMap.java
-index 37b50001ea83481610f789dd718eab8fb79ea250..acf6ef9168033784a640294d97dc738a0756afcc 100644
+index 857c8bd79b2d9a634db25408d7305968e29f9846..82c7563de4c947c7ee3331112720ad7160f362b8 100644
 --- a/src/main/java/net/minecraft/server/level/ChunkMap.java
 +++ b/src/main/java/net/minecraft/server/level/ChunkMap.java
 @@ -1,6 +1,5 @@
@@ -940,7 +940,7 @@ index 37b50001ea83481610f789dd718eab8fb79ea250..acf6ef9168033784a640294d97dc738a
  import com.google.common.collect.ImmutableList.Builder;
  import com.google.common.collect.Iterables;
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 29e31ed2d09aee3b668816a683ab0f89026fdf4f..657801f794bdf25c2401a1b81a5243063e2b7852 100644
+index c601061d1abb8f4a66dd5e478cf69a872a4d0f6f..ab0f96229a79e3832b19e9becbfaaceeab34254b 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -1,7 +1,6 @@
@@ -970,7 +970,7 @@ index 29e31ed2d09aee3b668816a683ab0f89026fdf4f..657801f794bdf25c2401a1b81a524306
          entity.postTick(); // CraftBukkit
          } else { entity.inactiveTick(); } // Paper - EAR 2
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 1babe6756b904fd2e5b2d62f6adfa153e3b772f1..c4698cadb76164131a612c0906704b847ca7a0e8 100644
+index e4978abcc79ee51fa95442b82d9079c8ee1e60d6..73c6b53ef3db85aa3b2ac31013340878e2dd158d 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -1,6 +1,5 @@
@@ -1009,7 +1009,7 @@ index d3de0362dd1ef3954d05c4d8fa56a25edfe1bb2b..6ac3dfab99cfb0b51c81cc20e71da126
          return this != EntityType.PLAYER && this != EntityType.LLAMA_SPIT && this != EntityType.WITHER && this != EntityType.BAT && this != EntityType.ITEM_FRAME && this != EntityType.GLOW_ITEM_FRAME && this != EntityType.LEASH_KNOT && this != EntityType.PAINTING && this != EntityType.END_CRYSTAL && this != EntityType.EVOKER_FANGS;
      }
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 5fa5e8d5d71adb5c364e1aede36855dbcfdaa367..74518b87c82aa4f2a5a7a668d8d4579459dcdeed 100644
+index 9385a5a61fdd2e623e7a3ced7bec8cae8013e419..cb2885da87d0b2073d8dbd35353f16983120b57e 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
 @@ -157,7 +157,6 @@ import org.bukkit.event.entity.EntityTeleportEvent;
@@ -1214,7 +1214,7 @@ index d3ec817e95628f1fc8be4a29c9a0f13c7d5fd552..e9798517b9211c50a20ea5c69603aab3
      }
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
-index d6aae48a5920ccad0ee6c7ff2bacaa1ac7d8353b..0dd6d59739a2cd72e5720d289aad3ecb8a6e6b18 100644
+index af7e7ad028b169bfc80adf32b0194b3988551b52..a37dae20efb5af46fde27af3a53e3cc6e6c7e042 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
 +++ b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
 @@ -200,7 +200,7 @@ public final class CraftMagicNumbers implements UnsafeValues {
@@ -1226,7 +1226,7 @@ index d6aae48a5920ccad0ee6c7ff2bacaa1ac7d8353b..0dd6d59739a2cd72e5720d289aad3ecb
      }
      // Paper end
  
-@@ -482,7 +482,7 @@ public final class CraftMagicNumbers implements UnsafeValues {
+@@ -478,7 +478,7 @@ public final class CraftMagicNumbers implements UnsafeValues {
      // Paper start
      @Override
      public String getTimingsServerName() {
