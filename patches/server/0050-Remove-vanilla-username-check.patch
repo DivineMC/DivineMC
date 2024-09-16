@@ -5,10 +5,10 @@ Subject: [PATCH] Remove vanilla username check
 
 
 diff --git a/src/main/java/com/destroystokyo/paper/profile/CraftPlayerProfile.java b/src/main/java/com/destroystokyo/paper/profile/CraftPlayerProfile.java
-index cbe2789f8a055550dd7840a7bed980efd65eb9a1..1926d365fa613d0fb3eb34cf4d2df655de71dcd9 100644
+index 23181027bb077417655913c29377bed720c9e9c1..429a1b2cd3d479894f91c6b64b5a7f6ee8d59950 100644
 --- a/src/main/java/com/destroystokyo/paper/profile/CraftPlayerProfile.java
 +++ b/src/main/java/com/destroystokyo/paper/profile/CraftPlayerProfile.java
-@@ -271,7 +271,7 @@ public class CraftPlayerProfile implements PlayerProfile, SharedPlayerProfile {
+@@ -293,7 +293,7 @@ public class CraftPlayerProfile implements PlayerProfile, SharedPlayerProfile {
  
      private static GameProfile createAuthLibProfile(UUID uniqueId, String name) {
          Preconditions.checkArgument(name == null || name.length() <= 16, "Name cannot be longer than 16 characters");
@@ -18,10 +18,10 @@ index cbe2789f8a055550dd7840a7bed980efd65eb9a1..1926d365fa613d0fb3eb34cf4d2df655
              uniqueId != null ? uniqueId : Util.NIL_UUID,
              name != null ? name : ""
 diff --git a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
-index 5edd8e6bcabe5714c89d4c88f672cc3130c27045..0a5156f1790f9b384ce158444f2f38037e8dd91f 100644
+index 19d3423644a6a394743c09eb6935bb7633a329a2..de85c108cfc6cfe3357fc381d145851f5bafdf47 100644
 --- a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
-@@ -169,7 +169,8 @@ public class ServerLoginPacketListenerImpl implements ServerLoginPacketListener,
+@@ -174,7 +174,8 @@ public class ServerLoginPacketListenerImpl implements ServerLoginPacketListener,
      public void handleHello(ServerboundHelloPacket packet) {
          Validate.validState(this.state == ServerLoginPacketListenerImpl.State.HELLO, "Unexpected hello packet", new Object[0]);
          // Paper start - Validate usernames
@@ -32,7 +32,7 @@ index 5edd8e6bcabe5714c89d4c88f672cc3130c27045..0a5156f1790f9b384ce158444f2f3803
              && !this.iKnowThisMayNotBeTheBestIdeaButPleaseDisableUsernameValidation) {
              Validate.validState(StringUtil.isReasonablePlayerName(packet.name()), "Invalid characters in username", new Object[0]);
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-index 09b74a2f07deee7ba38f99a7573e63b53adab057..2580a13c80f6a8f6bb35b4c82014628732660019 100644
+index 5d16e0269bbdeb5086dbce9f1d51a4dc45150909..883e3a0c281a4872c74df96e2ce51993f5c4ccee 100644
 --- a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 @@ -154,8 +154,10 @@ public class DivineConfig {
