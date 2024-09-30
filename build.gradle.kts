@@ -3,7 +3,7 @@ import io.papermc.paperweight.util.constants.PAPERCLIP_CONFIG
 plugins {
     java
     `maven-publish`
-    id("io.papermc.paperweight.patcher") version "1.7.2-SNAPSHOT"
+    id("io.papermc.paperweight.patcher") version "1.7.3"
 }
 
 val paperMavenPublicUrl = "https://repo.papermc.io/repository/maven-public/"

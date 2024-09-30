@@ -731,7 +731,7 @@ index 24121a43aeb5e9bce013f30c92dddd15f99736c6..791cb04a13597eee4dbd28fabe2835ab
              String content = context.getRange().get(context.getInput());
              String[] args = org.apache.commons.lang3.StringUtils.split(content, ' '); // fix adjacent spaces (from console/plugins) causing empty array elements
 diff --git a/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java b/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
-index e5eecd15040d4c0a7c8a0de166e5dddb84f35974..9367886f9a313691b7bce16674f609e7b4975659 100644
+index 06b75003e88363aa3902cfef97b3bd3efc43fec9..3bbd408290e1058d6dfcdc797eb4e3a5e93b747a 100644
 --- a/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
 +++ b/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
 @@ -1,6 +1,5 @@
@@ -827,7 +827,7 @@ index 01efbc507b3d58f13f78ee286f93df40cdc3f0cb..1f7f68aad97ee73763c042837f239bdc
                      } catch (Exception exception) {
                          if (exception instanceof ReportedException) {
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 6fb35c36d964c96a42911b8a9e11590aaa5cca59..78967841b5f9bc7d1a45684d5fd85d8f5542899b 100644
+index 4bcb20cd6cd971f25327ec1322bb172f036a54a4..704f8509ca70d8e1961c87090858a8a3cab4c886 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -3,7 +3,6 @@ package net.minecraft.server;
@@ -847,7 +847,7 @@ index 6fb35c36d964c96a42911b8a9e11590aaa5cca59..78967841b5f9bc7d1a45684d5fd85d8f
  public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTask> implements ServerInfo, ChunkIOErrorReporter, CommandSource, AutoCloseable, ca.spottedleaf.moonrise.patches.chunk_system.server.ChunkSystemMinecraftServer { // Paper - rewrite chunk system
  
      private static MinecraftServer SERVER; // Paper
-@@ -1043,7 +1040,6 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1042,7 +1039,6 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
  
          MinecraftServer.LOGGER.info("Stopping server");
          Commands.COMMAND_SENDING_POOL.shutdownNow(); // Paper - Perf: Async command map building; Shutdown and don't bother finishing
@@ -855,7 +855,7 @@ index 6fb35c36d964c96a42911b8a9e11590aaa5cca59..78967841b5f9bc7d1a45684d5fd85d8f
          this.server.spark.disable(); // Paper - spark
          // Purpur start
          if (upnp) {
-@@ -1617,15 +1613,14 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1615,15 +1611,14 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
      }
  
      public void tickServer(BooleanSupplier shouldKeepTicking) {
@@ -873,7 +873,7 @@ index 6fb35c36d964c96a42911b8a9e11590aaa5cca59..78967841b5f9bc7d1a45684d5fd85d8f
          // Paper end
          this.server.spark.tickStart(); // Paper - spark
          new com.destroystokyo.paper.event.server.ServerTickStartEvent(this.tickCount+1).callEvent(); // Paper - Server Tick Events
-@@ -1662,9 +1657,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1660,9 +1655,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          //this.profiler.pop(); // Purpur
          // Paper end - Incremental chunk and player saving
          // Paper start - move executeAll() into full server tick timing
@@ -884,7 +884,7 @@ index 6fb35c36d964c96a42911b8a9e11590aaa5cca59..78967841b5f9bc7d1a45684d5fd85d8f
          // Paper end
          // Paper start - Server Tick Events
          long endTime = System.nanoTime();
-@@ -1688,7 +1681,6 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1686,7 +1679,6 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          this.logTickMethodTime(i);
          //this.profiler.pop(); // Purpur
          org.spigotmc.WatchdogThread.tick(); // Spigot
@@ -940,7 +940,7 @@ index 857c8bd79b2d9a634db25408d7305968e29f9846..82c7563de4c947c7ee3331112720ad71
  import com.google.common.collect.ImmutableList.Builder;
  import com.google.common.collect.Iterables;
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index c601061d1abb8f4a66dd5e478cf69a872a4d0f6f..ab0f96229a79e3832b19e9becbfaaceeab34254b 100644
+index 067b10134b087626e05596225744b905211e8b63..c093aa5f957083cf288843ea0cb4a5ae77c7fa69 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -1,7 +1,6 @@
@@ -970,7 +970,7 @@ index c601061d1abb8f4a66dd5e478cf69a872a4d0f6f..ab0f96229a79e3832b19e9becbfaacee
          entity.postTick(); // CraftBukkit
          } else { entity.inactiveTick(); } // Paper - EAR 2
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index e4978abcc79ee51fa95442b82d9079c8ee1e60d6..73c6b53ef3db85aa3b2ac31013340878e2dd158d 100644
+index 6f4e471c45195996a1cdd93c7dfb64e68156212f..26ea6c68ed79f07c1fc17a248663c111780417ec 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -1,6 +1,5 @@
@@ -1009,7 +1009,7 @@ index d3de0362dd1ef3954d05c4d8fa56a25edfe1bb2b..6ac3dfab99cfb0b51c81cc20e71da126
          return this != EntityType.PLAYER && this != EntityType.LLAMA_SPIT && this != EntityType.WITHER && this != EntityType.BAT && this != EntityType.ITEM_FRAME && this != EntityType.GLOW_ITEM_FRAME && this != EntityType.LEASH_KNOT && this != EntityType.PAINTING && this != EntityType.END_CRYSTAL && this != EntityType.EVOKER_FANGS;
      }
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 9385a5a61fdd2e623e7a3ced7bec8cae8013e419..cb2885da87d0b2073d8dbd35353f16983120b57e 100644
+index b3977acc926657847d76f098420189b8b3d6ad74..1960aacbc7f12e675e0ba58aa7b5c29a6f0f7791 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
 @@ -157,7 +157,6 @@ import org.bukkit.event.entity.EntityTeleportEvent;
@@ -1061,7 +1061,7 @@ index 09a7b418ddf564c0be13297f7c216db2e7ae1578..1e26b1099139d76e49fce14ee72061e1
          this.scanRate = senseInterval;
          this.timeToTick = (long)RANDOM.nextInt(senseInterval);
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index b273790be3d478a2aa431ba26edf8ad47164d6d7..c22f667473032c2ec861759ea9ae2de30e7037be 100644
+index e90304a1bd97709e8e639835ef062da154092ed1..fb484fe2f491898917965bbd865e1540ddf92c98 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
 @@ -176,7 +176,6 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
