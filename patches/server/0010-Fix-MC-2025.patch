@@ -7,10 +7,10 @@ Original post on Mojira: https://bugs.mojang.com/browse/MC-2025
 Fix taken from Reddit: https://redd.it/8pgd4q
 
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index e3e71558d9d99fa878511f051d1d8592f8684ac0..ec22afe908a303e3b0a27b387e59d11efe2eebf3 100644
+index 7aadcaa1785c6560eb1ce2f1179225facca47d84..bdfeabbfd180c08dd58f807c63adc82e4720e172 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
-@@ -2594,6 +2594,17 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
+@@ -2596,6 +2596,17 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
                  nbttagcompound.putBoolean("Purpur.FireImmune", immuneToFire);
              }
              // Purpur end
@@ -28,7 +28,7 @@ index e3e71558d9d99fa878511f051d1d8592f8684ac0..ec22afe908a303e3b0a27b387e59d11e
              return nbttagcompound;
          } catch (Throwable throwable) {
              CrashReport crashreport = CrashReport.forThrowable(throwable, "Saving entity NBT");
-@@ -2671,6 +2682,14 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
+@@ -2673,6 +2684,14 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
                          this.reapplyPosition();
                      }
  

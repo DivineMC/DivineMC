@@ -5,7 +5,7 @@ Subject: [PATCH] Bump Dependencies
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 4f7615ee07531867bda77cb3e871fbe1d4aa78a1..5f7ec80627408cb93d88fee61a851aba000d66d4 100644
+index b72c89b3fea64d229a072f1fddffc7a71800d228..26577e6602f9eed52ee30d785f6994be6f1cf77a 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -12,8 +12,8 @@ java {
@@ -48,7 +48,7 @@ index 4f7615ee07531867bda77cb3e871fbe1d4aa78a1..5f7ec80627408cb93d88fee61a851aba
      apiAndDocs(platform("net.kyori:adventure-bom:$adventureVersion"))
      apiAndDocs("net.kyori:adventure-api")
      apiAndDocs("net.kyori:adventure-text-minimessage")
-@@ -58,24 +64,24 @@ dependencies {
+@@ -58,25 +64,25 @@ dependencies {
      implementation("org.ow2.asm:asm-commons:9.7")
      // Paper end
  
@@ -69,6 +69,7 @@ index 4f7615ee07531867bda77cb3e871fbe1d4aa78a1..5f7ec80627408cb93d88fee61a851aba
      compileOnlyApi(checkerQual)
      testCompileOnly(checkerQual)
      // Paper end
+     api("org.jspecify:jspecify:1.0.0") // Paper - add jspecify
  
 -    testImplementation("org.apache.commons:commons-lang3:3.12.0")
 -    testImplementation("org.junit.jupiter:junit-jupiter:5.10.2")
@@ -80,7 +81,7 @@ index 4f7615ee07531867bda77cb3e871fbe1d4aa78a1..5f7ec80627408cb93d88fee61a851aba
      testImplementation("org.ow2.asm:asm-tree:9.7")
  }
  
-@@ -157,12 +163,12 @@ tasks.withType<Javadoc> {
+@@ -158,12 +164,12 @@ tasks.withType<Javadoc> {
      options.use()
      options.isDocFilesSubDirs = true
      options.links(
@@ -93,9 +94,9 @@ index 4f7615ee07531867bda77cb3e871fbe1d4aa78a1..5f7ec80627408cb93d88fee61a851aba
 -        "https://javadoc.io/doc/org.joml/joml/1.10.5/index.html",
 +        "https://javadoc.io/doc/org.joml/joml/latest/index.html", // DivineMC - Bump Dependencies
          "https://www.javadoc.io/doc/com.google.code.gson/gson/2.10.1",
+         "https://jspecify.dev/docs/api/",
          // Paper end
-         // Paper start
-@@ -174,9 +180,9 @@ tasks.withType<Javadoc> {
+@@ -176,9 +182,9 @@ tasks.withType<Javadoc> {
          "https://jd.advntr.dev/text-serializer-plain/$adventureVersion/",
          "https://jd.advntr.dev/text-logger-slf4j/$adventureVersion/",
          "https://javadoc.io/doc/org.slf4j/slf4j-api/$slf4jVersion/",

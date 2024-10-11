@@ -5,10 +5,10 @@ Subject: [PATCH] Remove vanilla username check
 
 
 diff --git a/src/main/java/com/destroystokyo/paper/profile/CraftPlayerProfile.java b/src/main/java/com/destroystokyo/paper/profile/CraftPlayerProfile.java
-index 23181027bb077417655913c29377bed720c9e9c1..429a1b2cd3d479894f91c6b64b5a7f6ee8d59950 100644
+index 8849862b45ccbbc635a1c316e9870bca81e55c04..85b7c7742a2cc678aec317487fc811b9680e87d6 100644
 --- a/src/main/java/com/destroystokyo/paper/profile/CraftPlayerProfile.java
 +++ b/src/main/java/com/destroystokyo/paper/profile/CraftPlayerProfile.java
-@@ -293,7 +293,7 @@ public class CraftPlayerProfile implements PlayerProfile, SharedPlayerProfile {
+@@ -295,7 +295,7 @@ public class CraftPlayerProfile implements PlayerProfile, SharedPlayerProfile {
  
      private static GameProfile createAuthLibProfile(UUID uniqueId, String name) {
          Preconditions.checkArgument(name == null || name.length() <= 16, "Name cannot be longer than 16 characters");

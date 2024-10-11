@@ -5,10 +5,10 @@ Subject: [PATCH] Divine Branding
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index b7d584c8b96eb7699e5df90ed04bf22ee256d571..8b1de4e68aa844856af757f6dd0e2c44b8b2db30 100644
+index f68a447f309bc9d45c275bbfee1c237f6fb0d680..5c0bf1662176a1293444dcaa0b8c7ad274a65a66 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
-@@ -231,3 +231,12 @@ tasks.check {
+@@ -233,3 +233,12 @@ tasks.check {
      dependsOn(scanJarForOldGeneratedCode)
  }
  // Paper end
@@ -22,10 +22,10 @@ index b7d584c8b96eb7699e5df90ed04bf22ee256d571..8b1de4e68aa844856af757f6dd0e2c44
 +}
 +// DivineMC end
 diff --git a/src/main/java/io/papermc/paper/ServerBuildInfo.java b/src/main/java/io/papermc/paper/ServerBuildInfo.java
-index 8c2c5ea14a839c8767bbf120ae5512f65475cbb0..4d71d7fb74b424e267cf547a4f89d6229ff9e680 100644
+index 7196594e07af19a14c320d77df893978525fe386..6811f38a2eaf614c8237190800a48d101c39cd99 100644
 --- a/src/main/java/io/papermc/paper/ServerBuildInfo.java
 +++ b/src/main/java/io/papermc/paper/ServerBuildInfo.java
-@@ -32,6 +32,13 @@ public interface ServerBuildInfo {
+@@ -33,6 +33,13 @@ public interface ServerBuildInfo {
      Key BRAND_PURPUR_ID = Key.key("purpurmc", "purpur");
      // Purpur end
  

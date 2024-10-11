@@ -827,7 +827,7 @@ index 01efbc507b3d58f13f78ee286f93df40cdc3f0cb..1f7f68aad97ee73763c042837f239bdc
                      } catch (Exception exception) {
                          if (exception instanceof ReportedException) {
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 4bcb20cd6cd971f25327ec1322bb172f036a54a4..704f8509ca70d8e1961c87090858a8a3cab4c886 100644
+index d78cb68c3a53b277aa26186062efc716c8f80f36..8658296b919fd6fa28e64a64186060d3704271db 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -3,7 +3,6 @@ package net.minecraft.server;
@@ -855,7 +855,7 @@ index 4bcb20cd6cd971f25327ec1322bb172f036a54a4..704f8509ca70d8e1961c87090858a8a3
          this.server.spark.disable(); // Paper - spark
          // Purpur start
          if (upnp) {
-@@ -1615,15 +1611,14 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1624,15 +1620,14 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
      }
  
      public void tickServer(BooleanSupplier shouldKeepTicking) {
@@ -873,7 +873,7 @@ index 4bcb20cd6cd971f25327ec1322bb172f036a54a4..704f8509ca70d8e1961c87090858a8a3
          // Paper end
          this.server.spark.tickStart(); // Paper - spark
          new com.destroystokyo.paper.event.server.ServerTickStartEvent(this.tickCount+1).callEvent(); // Paper - Server Tick Events
-@@ -1660,9 +1655,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1669,9 +1664,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          //this.profiler.pop(); // Purpur
          // Paper end - Incremental chunk and player saving
          // Paper start - move executeAll() into full server tick timing
@@ -884,7 +884,7 @@ index 4bcb20cd6cd971f25327ec1322bb172f036a54a4..704f8509ca70d8e1961c87090858a8a3
          // Paper end
          // Paper start - Server Tick Events
          long endTime = System.nanoTime();
-@@ -1686,7 +1679,6 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1695,7 +1688,6 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          this.logTickMethodTime(i);
          //this.profiler.pop(); // Purpur
          org.spigotmc.WatchdogThread.tick(); // Spigot
@@ -893,7 +893,7 @@ index 4bcb20cd6cd971f25327ec1322bb172f036a54a4..704f8509ca70d8e1961c87090858a8a3
  
      private void logTickMethodTime(long tickStartTime) {
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index c3b39063f4cca69ecf71708e2ad5d92bbafa5ea8..cf3a4f60f8cbf40cc7448fd80979f55c0c7cc6ed 100644
+index 37b77f5c1205d5ffdbb78564bba79373c0ae5885..9d80e8464abc73b1120d3812baace1f2591bf324 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -66,9 +66,6 @@ import org.apache.logging.log4j.Level;
@@ -970,7 +970,7 @@ index 067b10134b087626e05596225744b905211e8b63..c093aa5f957083cf288843ea0cb4a5ae
          entity.postTick(); // CraftBukkit
          } else { entity.inactiveTick(); } // Paper - EAR 2
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 6f4e471c45195996a1cdd93c7dfb64e68156212f..26ea6c68ed79f07c1fc17a248663c111780417ec 100644
+index 0ea07da1b4bd420cd6765577b4719a2368b5740c..fa795cf24e0af1ea9e8142a09d1aa62a8f323666 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -1,6 +1,5 @@
@@ -1009,7 +1009,7 @@ index d3de0362dd1ef3954d05c4d8fa56a25edfe1bb2b..6ac3dfab99cfb0b51c81cc20e71da126
          return this != EntityType.PLAYER && this != EntityType.LLAMA_SPIT && this != EntityType.WITHER && this != EntityType.BAT && this != EntityType.ITEM_FRAME && this != EntityType.GLOW_ITEM_FRAME && this != EntityType.LEASH_KNOT && this != EntityType.PAINTING && this != EntityType.END_CRYSTAL && this != EntityType.EVOKER_FANGS;
      }
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index b3977acc926657847d76f098420189b8b3d6ad74..1960aacbc7f12e675e0ba58aa7b5c29a6f0f7791 100644
+index f3a9aa64d2b9d2dfb4c1a4d9e79c7eead34da45a..7cbe457b65c65e6b72e7deb3a6868c0af13d8497 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
 @@ -157,7 +157,6 @@ import org.bukkit.event.entity.EntityTeleportEvent;
@@ -1214,7 +1214,7 @@ index d3ec817e95628f1fc8be4a29c9a0f13c7d5fd552..e9798517b9211c50a20ea5c69603aab3
      }
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
-index af7e7ad028b169bfc80adf32b0194b3988551b52..a37dae20efb5af46fde27af3a53e3cc6e6c7e042 100644
+index 83a27e7bf9513eb5461cd30d1b7217128a2da268..0aaddf32ed87bd075c4bfe31be00086b73802f23 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
 +++ b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
 @@ -200,7 +200,7 @@ public final class CraftMagicNumbers implements UnsafeValues {

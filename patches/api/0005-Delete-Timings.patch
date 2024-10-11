@@ -1624,10 +1624,10 @@ index 3d663104c8e3089abdb9dc4d7309f873ac182e98..00000000000000000000000000000000
 -
 diff --git a/src/main/java/co/aikar/timings/TimingsCommand.java b/src/main/java/co/aikar/timings/TimingsCommand.java
 deleted file mode 100644
-index b831a23999c94cb1bdf7f5d2cd719d0b846242ad..0000000000000000000000000000000000000000
+index 9e165525c4c4c07c783ae2899e07c37ae49ec2de..0000000000000000000000000000000000000000
 --- a/src/main/java/co/aikar/timings/TimingsCommand.java
 +++ /dev/null
-@@ -1,130 +0,0 @@
+@@ -1,132 +0,0 @@
 -/*
 - * This file is licensed under the MIT License (MIT).
 - *
@@ -1686,12 +1686,14 @@ index b831a23999c94cb1bdf7f5d2cd719d0b846242ad..00000000000000000000000000000000
 -        if (!testPermission(sender)) {
 -            return true;
 -        }
+-        // Purpur start
 -        if (true) {
 -            net.kyori.adventure.text.minimessage.MiniMessage mm = net.kyori.adventure.text.minimessage.MiniMessage.miniMessage();
 -            sender.sendMessage(mm.deserialize("<gold>Purpur has removed timings to save your performance. Please use <click:suggest_command:'/spark'><grey>/spark</grey></click> instead"));
 -            sender.sendMessage(mm.deserialize("<gold>For more information, view its documentation at"));
 -            sender.sendMessage(mm.deserialize("<gold><click:open_url:'https://spark.lucko.me/docs/Command-Usage'>https://spark.lucko.me/docs/Command-Usage</click>"));
 -            return true;
+-        // Purpur end
 -        }
 -        if (args.length < 1) {
 -            sender.sendMessage(text("Usage: " + this.usageMessage, NamedTextColor.RED));
