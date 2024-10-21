@@ -5,7 +5,7 @@ Subject: [PATCH] Option to disable non editable sign warning
 
 
 diff --git a/src/main/java/net/minecraft/world/level/block/entity/SignBlockEntity.java b/src/main/java/net/minecraft/world/level/block/entity/SignBlockEntity.java
-index 8cd812a25b1cc05ea14675658bf9c1503ebebd51..5cdfd35218c424ffb7a900ef66f9b1cfe1ff4293 100644
+index c9a1c071780351b584ad8e071ddc26f9a27e5964..5806cff8edc49cad4679b450ae651564d62fbc52 100644
 --- a/src/main/java/net/minecraft/world/level/block/entity/SignBlockEntity.java
 +++ b/src/main/java/net/minecraft/world/level/block/entity/SignBlockEntity.java
 @@ -189,7 +189,7 @@ public class SignBlockEntity extends BlockEntity implements CommandSource { // C
@@ -18,7 +18,7 @@ index 8cd812a25b1cc05ea14675658bf9c1503ebebd51..5cdfd35218c424ffb7a900ef66f9b1cf
              ((ServerPlayer) player).connection.send(this.getUpdatePacket()); // CraftBukkit
          }
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-index 8380fd40b19ea1b4bff6ba78648408fbd3c662d0..58557370cd588c19faf54cb9fc402b1d0a0f687f 100644
+index 8251cf1e42f159e3be874e4cc34498e6dcdec539..109396069426c4ae290cf20b52589e3649ed4543 100644
 --- a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 @@ -152,4 +152,9 @@ public class DivineConfig {

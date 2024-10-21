@@ -152,7 +152,7 @@ index 01352cc83b25eb0e30b7e0ff521fc7c1b3d5155b..c042287e12b5ce814afe8557e4dfa8e8
  
      public Holder<Biome> getNoiseBiomeAtPosition(double x, double y, double z) {
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-index 58557370cd588c19faf54cb9fc402b1d0a0f687f..fd0bbc99a151dd12d5522aaf8e3800b1a17500b6 100644
+index 109396069426c4ae290cf20b52589e3649ed4543..d499ec5f19db4e2dcd40e940380bffa5196957ee 100644
 --- a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 @@ -157,4 +157,9 @@ public class DivineConfig {

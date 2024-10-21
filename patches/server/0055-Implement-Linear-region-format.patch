@@ -5,7 +5,7 @@ Subject: [PATCH] Implement Linear region format
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 8ef05c4ba140586c8ce8ba892dfb9b658d4b604f..b8cdedc81a2ac5128f2c6ea7eb4d5df22c136748 100644
+index 3e2a092c797ec7918f5c4b838f28b0778c70531c..bb44922202e3cdb705a4773ea7c9ec807b5f3de2 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -30,6 +30,10 @@ dependencies {
@@ -17,7 +17,7 @@ index 8ef05c4ba140586c8ce8ba892dfb9b658d4b604f..b8cdedc81a2ac5128f2c6ea7eb4d5df2
 +    implementation("org.lz4:lz4-java:1.8.0")
 +    // DivineMC end
      implementation("org.apache.logging.log4j:log4j-iostreams:2.22.1") // Paper - remove exclusion
-     implementation("org.ow2.asm:asm-commons:9.7")
+     implementation("org.ow2.asm:asm-commons:9.7.1")
      implementation("org.spongepowered:configurate-yaml:4.2.0-SNAPSHOT") // Paper - config files
 diff --git a/src/main/java/ca/spottedleaf/moonrise/patches/chunk_system/io/ChunkSystemRegionFileStorage.java b/src/main/java/ca/spottedleaf/moonrise/patches/chunk_system/io/ChunkSystemRegionFileStorage.java
 index 73df26b27146bbad2106d57b22dd3c792ed3dd1d..a4d16996fae07f943ee078ce3d2e7b22747fc2d1 100644
@@ -63,7 +63,7 @@ index 3218cbf84f54daf06e84442d5eb1a36d8da6b215..0db1f8f64a261780e6692755669fa573
              synchronized (cache) {
                  regionFile = ((ChunkSystemRegionFileStorage)(Object)cache).moonrise$getRegionFileIfLoaded(chunkX, chunkZ);
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 704f8509ca70d8e1961c87090858a8a3cab4c886..c437a1c6a80a2f870f01c8c824fa43c693586552 100644
+index 8658296b919fd6fa28e64a64186060d3704271db..52bdfd853cf9d42a6c58f0616faf031c8e91fed8 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -981,10 +981,10 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa

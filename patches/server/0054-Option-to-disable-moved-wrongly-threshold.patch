@@ -5,7 +5,7 @@ Subject: [PATCH] Option to disable moved wrongly threshold
 
 
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 4e844772b0343633ba44299544e77c012a1de888..67b45e363dcc985797b689ce50b8ca3e6a61586c 100644
+index c81a8ea2431290fdd3c343fefca18ef276cf8e18..26811a1e1eea3726a7b3e0f8dd65c7cba584e23c 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -585,7 +585,7 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl

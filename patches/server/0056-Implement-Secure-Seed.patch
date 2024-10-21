@@ -64,7 +64,7 @@ index ebe872c4643038f0c99b289d4d5afdbedd76c6ef..c83ed213739ba2cb4e2213b82880f6c3
      }
  
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 657801f794bdf25c2401a1b81a5243063e2b7852..9252d438b22484f9097ffcdac9dbb87686e31054 100644
+index c093aa5f957083cf288843ea0cb4a5ae77c7fa69..65ea4e9ee736e2ef0d7bc10130211fe635c2a443 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -557,6 +557,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ca.spottedleaf.
@@ -451,10 +451,10 @@ index 45e262308aebafa377a2353661acdd122933b99e..dd78e5231e465957308a4e1b56b14e9e
  
      @Override
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 1b3e5a0d55f80e67f1923a44682d1caf8c0ebe44..2a8817fc6c0f73634d56835835245008e60557fa 100644
+index a132b7e64f551dc28432e57b3e17a80760b51210..57a4d95df6e6044eef01201b494417789090f010 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -1396,7 +1396,11 @@ public final class CraftServer implements Server {
+@@ -1398,7 +1398,11 @@ public final class CraftServer implements Server {
              iregistrycustom_dimension = leveldataanddimensions.dimensions().dimensionsRegistryAccess();
          } else {
              LevelSettings worldsettings;

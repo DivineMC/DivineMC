@@ -60,7 +60,7 @@ index 17b49186293578c06144a476473324a9a1f6fcbb..f073d0657855e70f70c33ec7c7bf8238
  
      private static CraftingInput makeCraftInput(DyeColor firstColor, DyeColor secondColor) {
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-index 641a957cfda8de6f4114350393f441f2f3b9c8dd..75adcde96d7924fa1892462e66ffe16476735658 100644
+index acff9dc2f10ecbd3c219e4eaa0c29a259f2192c7..ae15ef065617d3399ce6fa5924f120539625eb40 100644
 --- a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 @@ -161,10 +161,12 @@ public class DivineConfig {

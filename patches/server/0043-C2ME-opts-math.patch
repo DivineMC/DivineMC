@@ -281,7 +281,7 @@ index 35820670837376bcad8891241724d5b946fbd31f..74a666a45289f0902b426ba57986cd93
  
      @Deprecated
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-index d5f33c6bde58fd333fbdc474a288523bcb5557a1..54beb2e8be073617638e62f22ae37942b75283d7 100644
+index 4a134013b79120ce2a659d9071424bb1d7bd3297..77e07052a923c46ba28d79d531b43dcccf4cd546 100644
 --- a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 @@ -160,8 +160,10 @@ public class DivineConfig {
