@@ -1,0 +1,68 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Wed, 17 Apr 2024 02:02:02 +0300
+Subject: [PATCH] Snowball and Egg knockback
+
+
+diff --git a/src/main/java/net/minecraft/world/entity/projectile/Snowball.java b/src/main/java/net/minecraft/world/entity/projectile/Snowball.java
+index 0db58e7d63a5c1b43a2224c247979f23a1d3f899..632e9c255fa7e30bb99d070e0a456d90f3c25b61 100644
+--- a/src/main/java/net/minecraft/world/entity/projectile/Snowball.java
++++ b/src/main/java/net/minecraft/world/entity/projectile/Snowball.java
+@@ -3,6 +3,7 @@ package net.minecraft.world.entity.projectile;
+ import net.minecraft.core.particles.ItemParticleOption;
+ import net.minecraft.core.particles.ParticleOptions;
+ import net.minecraft.core.particles.ParticleTypes;
++import net.minecraft.server.level.ServerPlayer;
+ import net.minecraft.world.entity.Entity;
+ import net.minecraft.world.entity.EntityType;
+ import net.minecraft.world.entity.LivingEntity;
+@@ -61,6 +62,13 @@ public class Snowball extends ThrowableItemProjectile {
+         int i = entity.level().purpurConfig.snowballDamage >= 0 ? entity.level().purpurConfig.snowballDamage : entity instanceof Blaze ? 3 : 0; // Purpur
+ 
+         entity.hurt(this.damageSources().thrown(this, this.getOwner()), (float) i);
++
++        // DivineMC start - Snowball and Egg knockback
++        if (this.level().divinemcConfig.snowballCanKnockback && entity instanceof ServerPlayer) {
++            entity.hurt(this.damageSources().thrown(this, this.getOwner()), 0.0000001F);
++            ((ServerPlayer) entity).knockback(0.4000000059604645D, this.getX() - entity.getX(), this.getZ() - entity.getZ(), this, io.papermc.paper.event.entity.EntityKnockbackEvent.Cause.DAMAGE);
++        }
++        // DivineMC end
+     }
+ 
+     // Purpur start - borrowed and modified code from ThrownPotion#onHitBlock and ThrownPotion#dowseFire
+diff --git a/src/main/java/net/minecraft/world/entity/projectile/ThrownEgg.java b/src/main/java/net/minecraft/world/entity/projectile/ThrownEgg.java
+index 155c2bbd35adacb7c3668fbe81a7c454e5102c8b..8c48ad7b52bc7914531abe0319b30aebac38c6e6 100644
+--- a/src/main/java/net/minecraft/world/entity/projectile/ThrownEgg.java
++++ b/src/main/java/net/minecraft/world/entity/projectile/ThrownEgg.java
+@@ -51,7 +51,15 @@ public class ThrownEgg extends ThrowableItemProjectile {
+     @Override
+     protected void onHitEntity(EntityHitResult entityHitResult) {
+         super.onHitEntity(entityHitResult);
++        Entity entity = entityHitResult.getEntity(); // DivineMC
+         entityHitResult.getEntity().hurt(this.damageSources().thrown(this, this.getOwner()), 0.0F);
++
++        // DivineMC start - Snowball and Egg knockback
++        if (this.level().divinemcConfig.eggCanKnockback && entity instanceof ServerPlayer) {
++            entity.hurt(this.damageSources().thrown(this, this.getOwner()), 0.0000001F);
++            ((ServerPlayer) entity).knockback(0.4000000059604645D, this.getX() - entity.getX(), this.getZ() - entity.getZ(), this, io.papermc.paper.event.entity.EntityKnockbackEvent.Cause.DAMAGE);
++        }
++        // DivineMC end
+     }
+ 
+     @Override
+diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java
+index 7e62ee9418d5add5b0b4ddb885d3a1745ce799b2..242da697c957508c8e75bfd232c44ea34ba3a62a 100644
+--- a/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java
++++ b/src/main/java/space/bxteam/divinemc/configuration/DivineWorldConfig.java
+@@ -94,4 +94,11 @@ public class DivineWorldConfig {
+     private void despawnShulkerBulletsOnOwnerDeath() {
+         despawnShulkerBulletsOnOwnerDeath = getBoolean("gameplay-mechanics.mob.shulker.despawn-bullets-on-player-death", despawnShulkerBulletsOnOwnerDeath);
+     }
++
++    public boolean snowballCanKnockback = true;
++    public boolean eggCanKnockback = true;
++    private void setSnowballAndEggKnockback() {
++        snowballCanKnockback = getBoolean("gameplay-mechanics.projectiles.snowball.knockback", snowballCanKnockback);
++        eggCanKnockback = getBoolean("gameplay-mechanics.projectiles.egg.knockback", eggCanKnockback);
++    }
+ }

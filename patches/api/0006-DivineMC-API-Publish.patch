@@ -5,10 +5,10 @@ Subject: [PATCH] DivineMC API Publish
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 5c0bf1662176a1293444dcaa0b8c7ad274a65a66..b72c89b3fea64d229a072f1fddffc7a71800d228 100644
+index 92a2b2494cc181e76528af403cd866f82e3de736..f459d04e10c7162405cea4ce39c94073dfa0b9d5 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
-@@ -242,3 +242,14 @@ tasks.withType<JavaCompile> {
+@@ -246,3 +246,14 @@ tasks.withType<JavaCompile> {
      compilerArgs.add("-Xlint:-dep-ann")
  }
  // DivineMC end

@@ -1,0 +1,37 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Sat, 10 Jun 2023 19:43:52 +0300
+Subject: [PATCH] Reduce sensor work
+
+Original project: Bloom-host/Petal
+Link: https://github.com/Bloom-host/Petal
+
+diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
+index 014d4daf0bb4059ad304e309daf20e4abbcd2c0d..8c4e685c4758c24aa8ad6b08e823729815654029 100644
+--- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
++++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
+@@ -1066,20 +1066,19 @@ public abstract class LivingEntity extends Entity implements Attackable {
+         }
+ 
+         if (entity != null) {
+-            ItemStack itemstack = this.getItemBySlot(EquipmentSlot.HEAD);
+             EntityType<?> entitytypes = entity.getType();
+ 
+             // Purpur start
+-            if (entitytypes == EntityType.SKELETON && itemstack.is(Items.SKELETON_SKULL)) {
++            if (entitytypes == EntityType.SKELETON && this.getItemBySlot(EquipmentSlot.HEAD).is(Items.SKELETON_SKULL)) { // DivineMC - Reduce sensor work
+                 d0 *= entity.level().purpurConfig.skeletonHeadVisibilityPercent;
+             }
+-            else if (entitytypes == EntityType.ZOMBIE && itemstack.is(Items.ZOMBIE_HEAD)) {
++            else if (entitytypes == EntityType.ZOMBIE && this.getItemBySlot(EquipmentSlot.HEAD).is(Items.ZOMBIE_HEAD)) { // DivineMC - Reduce sensor work
+                 d0 *= entity.level().purpurConfig.zombieHeadVisibilityPercent;
+             }
+-            else if (entitytypes == EntityType.CREEPER && itemstack.is(Items.CREEPER_HEAD)) {
++            else if (entitytypes == EntityType.CREEPER && this.getItemBySlot(EquipmentSlot.HEAD).is(Items.CREEPER_HEAD)) { // DivineMC - Reduce sensor work
+                 d0 *= entity.level().purpurConfig.creeperHeadVisibilityPercent;
+             }
+-            else if ((entitytypes == EntityType.PIGLIN || entitytypes == EntityType.PIGLIN_BRUTE) && itemstack.is(Items.PIGLIN_HEAD)) {
++            else if ((entitytypes == EntityType.PIGLIN || entitytypes == EntityType.PIGLIN_BRUTE) && this.getItemBySlot(EquipmentSlot.HEAD).is(Items.PIGLIN_HEAD)) { // DivineMC - Reduce sensor work
+                 d0 *= entity.level().purpurConfig.piglinHeadVisibilityPercent;
+             }
+             // Purpur end

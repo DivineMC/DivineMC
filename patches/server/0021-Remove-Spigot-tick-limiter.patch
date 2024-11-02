@@ -1,0 +1,76 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Fri, 31 Mar 2023 23:05:12 +0300
+Subject: [PATCH] Remove Spigot tick limiter
+
+Original code by Titaniumtown, modified by NONPLAYT
+You can find the original code on https://gitlab.com/Titaniumtown/JettPack
+
+diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
+index 9fd40654eeacf9c5a8fe136e2b58b8a86768588b..9771aee811ddfe1078ca4111f46c3010a8737604 100644
+--- a/src/main/java/net/minecraft/world/level/Level.java
++++ b/src/main/java/net/minecraft/world/level/Level.java
+@@ -178,8 +178,6 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
+     public final org.purpurmc.purpur.PurpurWorldConfig purpurConfig; // Purpur
+     public final DivineWorldConfig divinemcConfig; // DivineMC
+     public static BlockPos lastPhysicsProblem; // Spigot
+-    private org.spigotmc.TickLimiter entityLimiter;
+-    private org.spigotmc.TickLimiter tileLimiter;
+     private int tileTickPosition;
+     public final Map<ServerExplosion.CacheKey, Float> explosionDensityCache = new HashMap<>(); // Paper - Optimize explosions
+     public java.util.ArrayDeque<net.minecraft.world.level.block.RedstoneTorchBlock.Toggle> redstoneUpdateInfos; // Paper - Faster redstone torch rapid clock removal; Move from Map in BlockRedstoneTorch to here
+@@ -966,8 +964,6 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
+             public void onBorderSetDamageSafeZOne(WorldBorder border, double safeZoneRadius) {}
+         });
+         // CraftBukkit end
+-        this.entityLimiter = new org.spigotmc.TickLimiter(this.spigotConfig.entityMaxTickTime);
+-        this.tileLimiter = new org.spigotmc.TickLimiter(this.spigotConfig.tileMaxTickTime);
+         this.chunkPacketBlockController = this.paperConfig().anticheat.antiXray.enabled ? new com.destroystokyo.paper.antixray.ChunkPacketBlockControllerAntiXray(this, executor) : com.destroystokyo.paper.antixray.ChunkPacketBlockController.NO_OPERATION_INSTANCE; // Paper - Anti-Xray
+         this.entityLookup = new ca.spottedleaf.moonrise.patches.chunk_system.level.entity.dfl.DefaultEntityLookup(this); // Paper - rewrite chunk system
+     }
+diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
+index 0e6b697c6e8503beeed9412abddad2b512246b37..c8c0b7f092886bf50fc9d07df974ec32e95b27e2 100644
+--- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
++++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
+@@ -454,6 +454,7 @@ public class SpigotWorldConfig
+         this.hangingTickFrequency = this.getInt( "hanging-tick-frequency", 200 ); // DivineMC - optimize default values for configs
+     }
+ 
++    /* DivineMC - remove tick limiter
+     public int tileMaxTickTime;
+     public int entityMaxTickTime;
+     private void maxTickTimes()
+@@ -462,6 +463,7 @@ public class SpigotWorldConfig
+         this.entityMaxTickTime = this.getInt("max-tick-time.entity", 50);
+         this.log("Tile Max Tick Time: " + this.tileMaxTickTime + "ms Entity max Tick Time: " + this.entityMaxTickTime + "ms");
+     }
++     */
+ 
+     public int thunderChance;
+     private void thunderChance()
+diff --git a/src/main/java/org/spigotmc/TickLimiter.java b/src/main/java/org/spigotmc/TickLimiter.java
+deleted file mode 100644
+index 4074538ea6090bf99d8ab04b1e98c2832a0e9a98..0000000000000000000000000000000000000000
+--- a/src/main/java/org/spigotmc/TickLimiter.java
++++ /dev/null
+@@ -1,20 +0,0 @@
+-package org.spigotmc;
+-
+-public class TickLimiter {
+-
+-    private final int maxTime;
+-    private long startTime;
+-
+-    public TickLimiter(int maxtime) {
+-        this.maxTime = maxtime;
+-    }
+-
+-    public void initTick() {
+-        this.startTime = System.currentTimeMillis();
+-    }
+-
+-    public boolean shouldContinue() {
+-        long remaining = System.currentTimeMillis() - this.startTime;
+-        return remaining < this.maxTime;
+-    }
+-}

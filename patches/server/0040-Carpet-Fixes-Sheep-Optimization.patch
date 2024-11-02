@@ -1,0 +1,131 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Sat, 13 Jan 2024 20:59:28 +0300
+Subject: [PATCH] Carpet-Fixes: Sheep Optimization
+
+Original project: https://github.com/fxmorin/carpet-fixes
+
+diff --git a/src/main/java/net/minecraft/world/entity/animal/Sheep.java b/src/main/java/net/minecraft/world/entity/animal/Sheep.java
+index a13ce089bacfb6644eea81fbe7c6d640aedaea96..9cde7eafbf6d8dbb13087379e567bc0dfd24f4a6 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/Sheep.java
++++ b/src/main/java/net/minecraft/world/entity/animal/Sheep.java
+@@ -60,6 +60,7 @@ import net.minecraft.world.item.DyeItem;
+ import net.minecraft.world.item.Item;
+ import org.bukkit.craftbukkit.event.CraftEventFactory;
+ import org.bukkit.event.entity.SheepRegrowWoolEvent;
++import space.bxteam.divinemc.util.carpetfixes.ProperDyeMixin; // DivineMC
+ // CraftBukkit end
+ 
+ public class Sheep extends Animal implements Shearable {
+@@ -376,21 +377,30 @@ public class Sheep extends Animal implements Shearable {
+         return super.finalizeSpawn(world, difficulty, spawnReason, entityData);
+     }
+ 
++    // DivineMC start - Carpet-Fixes: Sheep Optimization
+     private DyeColor getOffspringColor(ServerLevel world, Sheep firstParent, Sheep secondParent) {
+-        DyeColor enumcolor = firstParent.getColor();
+-        DyeColor enumcolor1 = secondParent.getColor();
+-        CraftingInput craftinginput = Sheep.makeCraftInput(enumcolor, enumcolor1);
+-        Optional<Item> optional = world.recipeAccess().getRecipeFor(RecipeType.CRAFTING, craftinginput, world).map((recipeholder) -> { // CraftBukkit - decompile error
+-            return ((CraftingRecipe) recipeholder.value()).assemble(craftinginput, world.registryAccess());
+-        }).map(ItemStack::getItem);
+-
+-        Objects.requireNonNull(DyeItem.class);
+-        optional = optional.filter(DyeItem.class::isInstance);
+-        Objects.requireNonNull(DyeItem.class);
+-        return (DyeColor) optional.map(DyeItem.class::cast).map(DyeItem::getDyeColor).orElseGet(() -> {
+-            return world.random.nextBoolean() ? enumcolor : enumcolor1;
+-        });
++        DyeColor firstColor = firstParent.getColor();
++        DyeColor secondColor = secondParent.getColor();
++
++        if (space.bxteam.divinemc.configuration.DivineConfig.sheepOptimization) {
++            DyeColor col = ProperDyeMixin.properDye(firstColor, secondColor);
++            if (col == null) col = world.random.nextBoolean() ? firstColor : secondColor;
++            return col;
++        } else {
++            CraftingInput craftinginput = Sheep.makeCraftInput(firstColor, secondColor);
++            Optional<Item> optional = world.recipeAccess().getRecipeFor(RecipeType.CRAFTING, craftinginput, world).map((recipeholder) -> { // CraftBukkit - decompile error
++                return ((CraftingRecipe) recipeholder.value()).assemble(craftinginput, world.registryAccess());
++            }).map(ItemStack::getItem);
++
++            Objects.requireNonNull(DyeItem.class);
++            optional = optional.filter(DyeItem.class::isInstance);
++            Objects.requireNonNull(DyeItem.class);
++            return (DyeColor) optional.map(DyeItem.class::cast).map(DyeItem::getDyeColor).orElseGet(() -> {
++                return world.random.nextBoolean() ? firstColor : secondColor;
++            });
++        }
+     }
++    // DivineMC end
+ 
+     private static CraftingInput makeCraftInput(DyeColor firstColor, DyeColor secondColor) {
+         return CraftingInput.of(2, 1, List.of(new ItemStack(DyeItem.byColor(firstColor)), new ItemStack(DyeItem.byColor(secondColor))));
+diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
+index 77e07052a923c46ba28d79d531b43dcccf4cd546..d077a9eb5a4720186b25b2a10246576bc0e300d1 100644
+--- a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
++++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
+@@ -161,9 +161,11 @@ public class DivineConfig {
+     public static boolean biomeManagerOptimization = true;
+     public static boolean optimizedDragonRespawn = true;
+     public static boolean optimizeNoiseGeneration = true;
++    public static boolean sheepOptimization = true;
+     private static void optimizations() {
+         biomeManagerOptimization = getBoolean("settings.optimizations.biome-manager-optimization", biomeManagerOptimization);
+         optimizedDragonRespawn = getBoolean("settings.optimizations.optimized-dragon-respawn", optimizedDragonRespawn);
+         optimizeNoiseGeneration = getBoolean("settings.optimizations.optimize-noise-generation", optimizeNoiseGeneration);
++        sheepOptimization = getBoolean("settings.optimizations.sheep-optimization", sheepOptimization);
+     }
+ }
+diff --git a/src/main/java/space/bxteam/divinemc/util/carpetfixes/ProperDyeMixin.java b/src/main/java/space/bxteam/divinemc/util/carpetfixes/ProperDyeMixin.java
+new file mode 100644
+index 0000000000000000000000000000000000000000..6cbcf1580312a9275e41813a26b36e42a2481a2c
+--- /dev/null
++++ b/src/main/java/space/bxteam/divinemc/util/carpetfixes/ProperDyeMixin.java
+@@ -0,0 +1,46 @@
++package space.bxteam.divinemc.util.carpetfixes;
++
++import net.minecraft.world.item.DyeColor;
++
++public class ProperDyeMixin {
++    public static DyeColor properDye(DyeColor firstColor, DyeColor secondColor) {
++        if (firstColor.equals(secondColor)) return firstColor;
++        switch (firstColor) {
++            case WHITE -> {
++                switch (secondColor) {
++                    case BLUE -> {return DyeColor.LIGHT_BLUE;}
++                    case GRAY -> {return DyeColor.LIGHT_GRAY;}
++                    case BLACK -> {return DyeColor.GRAY;}
++                    case GREEN -> {return DyeColor.LIME;}
++                    case RED -> {return DyeColor.PINK;}
++                }
++            }
++            case BLUE -> {
++                switch (secondColor) {
++                    case WHITE -> {return DyeColor.LIGHT_BLUE;}
++                    case GREEN -> {return DyeColor.CYAN;}
++                    case RED -> {return DyeColor.PURPLE;}
++                }
++            }
++            case RED -> {
++                switch (secondColor) {
++                    case YELLOW -> {return DyeColor.ORANGE;}
++                    case WHITE -> {return DyeColor.PINK;}
++                    case BLUE -> {return DyeColor.PURPLE;}
++                }
++            }
++            case GREEN -> {
++                switch (secondColor) {
++                    case BLUE -> {return DyeColor.CYAN;}
++                    case WHITE -> {return DyeColor.LIME;}
++                }
++            }
++            case YELLOW -> {if (secondColor.equals(DyeColor.RED)) return DyeColor.ORANGE;}
++            case PURPLE -> {if (secondColor.equals(DyeColor.PINK)) return DyeColor.MAGENTA;}
++            case PINK -> {if (secondColor.equals(DyeColor.PURPLE)) return DyeColor.MAGENTA;}
++            case GRAY -> {if (secondColor.equals(DyeColor.WHITE)) return DyeColor.LIGHT_GRAY;}
++            case BLACK -> {if (secondColor.equals(DyeColor.WHITE)) return DyeColor.GRAY;}
++        }
++        return null;
++    }
++}

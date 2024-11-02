@@ -5,7 +5,7 @@ Subject: [PATCH] Bump Dependencies
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 5ac6f10c0441c8903c11dfcb9a2a1e252f9c06bf..7a111ee5d65f0196c7fa4f04d9eb465b1556a587 100644
+index f459d04e10c7162405cea4ce39c94073dfa0b9d5..b6cfcd33f79171ff34fd598babc8956f04d37410 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -12,8 +12,8 @@ java {
@@ -78,7 +78,7 @@ index 5ac6f10c0441c8903c11dfcb9a2a1e252f9c06bf..7a111ee5d65f0196c7fa4f04d9eb465b
      testImplementation("org.hamcrest:hamcrest:2.2")
      testImplementation("org.mockito:mockito-core:5.14.1")
      testImplementation("org.ow2.asm:asm-tree:9.7.1")
-@@ -158,12 +164,12 @@ tasks.withType<Javadoc> {
+@@ -162,12 +168,12 @@ tasks.withType<Javadoc> {
      options.use()
      options.isDocFilesSubDirs = true
      options.links(
@@ -93,7 +93,7 @@ index 5ac6f10c0441c8903c11dfcb9a2a1e252f9c06bf..7a111ee5d65f0196c7fa4f04d9eb465b
          "https://www.javadoc.io/doc/com.google.code.gson/gson/2.10.1",
          "https://jspecify.dev/docs/api/",
          // Paper end
-@@ -176,9 +182,9 @@ tasks.withType<Javadoc> {
+@@ -180,9 +186,9 @@ tasks.withType<Javadoc> {
          "https://jd.advntr.dev/text-serializer-plain/$adventureVersion/",
          "https://jd.advntr.dev/text-logger-slf4j/$adventureVersion/",
          "https://javadoc.io/doc/org.slf4j/slf4j-api/$slf4jVersion/",

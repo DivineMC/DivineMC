@@ -1,0 +1,32 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Sat, 10 Jun 2023 12:44:58 +0300
+Subject: [PATCH] Fix MC-93826
+
+
+diff --git a/src/main/java/net/minecraft/world/entity/animal/Animal.java b/src/main/java/net/minecraft/world/entity/animal/Animal.java
+index 9987d28ea145f6d0126cb4ea22001e0922fb51bd..792c509a1d2ad342df2e047e71196c892bbc20e7 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/Animal.java
++++ b/src/main/java/net/minecraft/world/entity/animal/Animal.java
+@@ -49,6 +49,8 @@ public abstract class Animal extends AgeableMob {
+     @Nullable
+     public UUID loveCause;
+     public ItemStack breedItem; // CraftBukkit - Add breedItem variable
++    private Object level;
++
+     public abstract int getPurpurBreedTime(); // Purpur
+ 
+     protected Animal(EntityType<? extends Animal> type, Level world) {
+@@ -84,7 +86,11 @@ public abstract class Animal extends AgeableMob {
+                 double d1 = this.random.nextGaussian() * 0.02D;
+                 double d2 = this.random.nextGaussian() * 0.02D;
+ 
+-                this.level().addParticle(ParticleTypes.HEART, this.getRandomX(1.0D), this.getRandomY() + 0.5D, this.getRandomZ(1.0D), d0, d1, d2);
++                // DivineMC start - Fix MC-93826
++                if (this.level instanceof ServerLevel serverLevel) {
++                    serverLevel.sendParticles(ParticleTypes.HEART, this.getRandomX(1.0D), this.getRandomY() + 0.5D, this.getRandomZ(1.0D), 1, d0, d1, d2, 0);
++                }
++                // DivineMC end
+             }
+         }
+ 

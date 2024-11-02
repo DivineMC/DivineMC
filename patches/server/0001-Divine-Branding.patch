@@ -5,7 +5,7 @@ Subject: [PATCH] Divine Branding
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 535b0c6a750cc77fb9340d6e080932f3eb3bde17..3e2a092c797ec7918f5c4b838f28b0778c70531c 100644
+index ccb31eb5993db028d0cbf104261205c9462f8734..fdddaf24a7d5cd650579f0dd828ff120f64b64d1 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -13,7 +13,7 @@ configurations.named(log4jPlugins.compileClasspathConfigurationName) {
@@ -17,7 +17,7 @@ index 535b0c6a750cc77fb9340d6e080932f3eb3bde17..3e2a092c797ec7918f5c4b838f28b077
      // Paper start
      implementation("org.jline:jline-terminal-jansi:3.21.0")
      implementation("net.minecrell:terminalconsoleappender:1.3.0")
-@@ -104,14 +104,14 @@ tasks.jar {
+@@ -89,14 +89,14 @@ tasks.jar {
          val gitBranch = git("rev-parse", "--abbrev-ref", "HEAD").getText().trim() // Paper
          attributes(
              "Main-Class" to "org.bukkit.craftbukkit.Main",
@@ -37,7 +37,7 @@ index 535b0c6a750cc77fb9340d6e080932f3eb3bde17..3e2a092c797ec7918f5c4b838f28b077
              "Build-Number" to (build ?: ""),
              "Build-Time" to Instant.now().toString(),
              "Git-Branch" to gitBranch, // Paper
-@@ -251,3 +251,12 @@ tasks.registerRunTask("runReobfPaperclip") {
+@@ -236,3 +236,12 @@ tasks.registerRunTask("runReobfPaperclip") {
      classpath(rootProject.tasks.named<io.papermc.paperweight.tasks.CreatePaperclipJar>("createReobfPaperclipJar").flatMap { it.outputZip })
      mainClass.set(null as String?)
  }
@@ -173,18 +173,18 @@ index 90b3526479320064378f2cde6c2f2b8e48a59ba6..43ff8842f697106d8d1ea4e58097243b
                  .completer(new ConsoleCommandCompleter(this.server))
                  .option(LineReader.Option.COMPLETE_IN_WORD, true);
 diff --git a/src/main/java/io/papermc/paper/ServerBuildInfoImpl.java b/src/main/java/io/papermc/paper/ServerBuildInfoImpl.java
-index 3099c21ee589acf6edff5903a23673adf489024f..70c407cc8c6fb28ba6fcde1b8d5a66154ed71223 100644
+index a6e5950b5875cafd734300cdfbf58f5d3736f3c8..7256e02150a2ddc2afd821299d36b1c71b7930b6 100644
 --- a/src/main/java/io/papermc/paper/ServerBuildInfoImpl.java
 +++ b/src/main/java/io/papermc/paper/ServerBuildInfoImpl.java
-@@ -33,6 +33,7 @@ public record ServerBuildInfoImpl(
+@@ -32,6 +32,7 @@ public record ServerBuildInfoImpl(
+ 
      private static final String BRAND_PAPER_NAME = "Paper";
-     private static final String BRAND_PUFFERFISH_NAME = "Pufferfish"; // Purpur
      private static final String BRAND_PURPUR_NAME = "Purpur"; // Purpur
 +    private static final String BRAND_DIVINEMC_NAME = "DivineMC"; // DivineMC
  
      private static final String BUILD_DEV = "DEV";
  
-@@ -44,9 +45,9 @@ public record ServerBuildInfoImpl(
+@@ -43,9 +44,9 @@ public record ServerBuildInfoImpl(
          this(
              getManifestAttribute(manifest, ATTRIBUTE_BRAND_ID)
                  .map(Key::key)
@@ -241,10 +241,10 @@ index 8f74c2ec5252b6265549589310d742337c91cb2c..1f4c965531393dd81246de487bc86f6d
                      servergui.runFinalizers();
                  }
 diff --git a/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java b/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
-index 4c178b234bc1118a577d0e016f4b986e9197e99d..e623bb14c44a734607e7c6365620d59a3db9f1da 100644
+index 0dde7cd71a32e6c0cde6cbbaef585896a3d7dae7..490c4cf1067fe0f68a681511e60264134063d876 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
-@@ -177,7 +177,7 @@ public class RegionFileStorage implements AutoCloseable, ca.spottedleaf.moonrise
+@@ -274,7 +274,7 @@ public class RegionFileStorage implements AutoCloseable, ca.spottedleaf.moonrise
  
      // Paper start
      private static void printOversizedLog(String msg, Path file, int x, int z) {
@@ -254,13 +254,13 @@ index 4c178b234bc1118a577d0e016f4b986e9197e99d..e623bb14c44a734607e7c6365620d59a
  
      private static CompoundTag readOversizedChunk(RegionFile regionfile, ChunkPos chunkCoordinate) throws IOException {
 diff --git a/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java b/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java
-index 48999a860a3b9ed691691c355beaf3e0674acb95..3cef3e99e0db3582465309b8bf485145acb5aa7b 100644
+index c914e1e13c4f64f24efa5f825e58efb69632bfa6..137b1358ae73d93595eb4d702f44fc3ca3c0d54c 100644
 --- a/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java
 +++ b/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java
-@@ -492,7 +492,7 @@ public class CraftScheduler implements BukkitScheduler {
+@@ -491,7 +491,7 @@ public class CraftScheduler implements BukkitScheduler {
                  this.parsePending();
              } else {
-                 // this.debugTail = this.debugTail.setNext(new CraftAsyncDebugger(currentTick + CraftScheduler.RECENT_TICKS, task.getOwner(), task.getTaskClass())); // Paper
+                 // this.debugTail = this.debugTail.setNext(new CraftAsyncDebugger(this.currentTick + CraftScheduler.RECENT_TICKS, task.getOwner(), task.getTaskClass())); // Paper
 -                task.getOwner().getLogger().log(Level.SEVERE, "Unexpected Async Task in the Sync Scheduler. Report this to Purpur"); // Paper // Purpur
 +                task.getOwner().getLogger().log(Level.SEVERE, "Unexpected Async Task in the Sync Scheduler. Report this to DivineMC"); // Paper // DivineMC
                  // We don't need to parse pending

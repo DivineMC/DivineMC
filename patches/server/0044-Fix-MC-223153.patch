@@ -1,0 +1,20 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Thu, 11 Jul 2024 19:11:08 +0300
+Subject: [PATCH] Fix MC-223153
+
+Original bug on Mojira: https://bugs.mojang.com/browse/MC-223153
+Took here: https://github.com/Winds-Studio/Leaf/blob/ver/1.21/patches/server/0083-Fix-MC-223153.patch
+
+diff --git a/src/main/java/net/minecraft/world/level/block/Blocks.java b/src/main/java/net/minecraft/world/level/block/Blocks.java
+index 63d67d46d30ed8ed57cdc0e59b6cb6b75ab22c1f..247cae73841500dbf161edd0f60f4ea61dd3e8d9 100644
+--- a/src/main/java/net/minecraft/world/level/block/Blocks.java
++++ b/src/main/java/net/minecraft/world/level/block/Blocks.java
+@@ -6611,6 +6611,7 @@ public class Blocks {
+             .mapColor(MapColor.COLOR_ORANGE)
+             .instrument(NoteBlockInstrument.BASEDRUM)
+             .requiresCorrectToolForDrops()
++            .sound(SoundType.COPPER) // DivineMC - Fix MC-223153
+             .strength(5.0F, 6.0F)
+     );
+     public static final Block RAW_GOLD_BLOCK = register(

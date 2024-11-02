@@ -5,10 +5,10 @@ Subject: [PATCH] Add missing purpur config options
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java b/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java
-index 62c62fd26660d8405378340315042d7b95ac7046..db8adf098181b5a40f1599fecc09ee7b0cf5310a 100644
+index 5904b82b87bcdbe41367843885f7c1bd1272d1f1..c6e2543f81f0d10f00296b3425a2b9345fce842b 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java
-@@ -160,6 +160,18 @@ public class Allay extends PathfinderMob implements InventoryCarrier, VibrationS
+@@ -162,6 +162,18 @@ public class Allay extends PathfinderMob implements InventoryCarrier, VibrationS
      }
      // Purpur end
  
@@ -28,10 +28,10 @@ index 62c62fd26660d8405378340315042d7b95ac7046..db8adf098181b5a40f1599fecc09ee7b
      protected Brain.Provider<Allay> brainProvider() {
          return Brain.provider(Allay.MEMORY_TYPES, Allay.SENSOR_TYPES);
 diff --git a/src/main/java/net/minecraft/world/entity/animal/camel/Camel.java b/src/main/java/net/minecraft/world/entity/animal/camel/Camel.java
-index e88d6d691bb176e33afeb294d735dfb2cbac12ff..c84739e82b7e35ad95f145a48b0da290cb148561 100644
+index dbce71f45c008da883b6d244a06343d83ae25e7e..4551fd70a30c7309468a701f92ba92acc8fe7e36 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/camel/Camel.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/camel/Camel.java
-@@ -98,6 +98,18 @@ public class Camel extends AbstractHorse implements PlayerRideableJumping, Saddl
+@@ -98,6 +98,18 @@ public class Camel extends AbstractHorse {
      }
      // Purpur end
  
@@ -51,10 +51,10 @@ index e88d6d691bb176e33afeb294d735dfb2cbac12ff..c84739e82b7e35ad95f145a48b0da290
      public void addAdditionalSaveData(CompoundTag nbt) {
          super.addAdditionalSaveData(nbt);
 diff --git a/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java b/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java
-index 4c861b18fbfbae3cb2f1e3563393cfcf4005591c..418e8b9227789cc100c5972901bbe8c939c652d3 100644
+index 49915ec0ee5fb6e7d25b079e0410942d44aa1e33..049e6838035d447e31371806e1b0247b6acce739 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java
-@@ -166,6 +166,23 @@ public class Frog extends Animal implements VariantHolder<Holder<FrogVariant>> {
+@@ -169,6 +169,23 @@ public class Frog extends Animal implements VariantHolder<Holder<FrogVariant>> {
          return this.level().purpurConfig.frogBreedingTicks;
      }
  
@@ -79,7 +79,7 @@ index 4c861b18fbfbae3cb2f1e3563393cfcf4005591c..418e8b9227789cc100c5972901bbe8c9
      protected Brain.Provider<Frog> brainProvider() {
          return Brain.provider(MEMORY_TYPES, SENSOR_TYPES);
 diff --git a/src/main/java/net/minecraft/world/entity/animal/frog/Tadpole.java b/src/main/java/net/minecraft/world/entity/animal/frog/Tadpole.java
-index 5cd69dd546f42e80a3d3e3a674f65c2ac39f3af9..12a7b075765c9cad88801547eace67c7002095f0 100644
+index fb91677fb03b7bc1decdf181b7b15d971ffacdc2..431fb29b39426e9404da331ab58a0d14232069a5 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/frog/Tadpole.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/frog/Tadpole.java
 @@ -95,6 +95,23 @@ public class Tadpole extends AbstractFish {
@@ -107,10 +107,10 @@ index 5cd69dd546f42e80a3d3e3a674f65c2ac39f3af9..12a7b075765c9cad88801547eace67c7
      protected PathNavigation createNavigation(Level world) {
          return new WaterBoundPathNavigation(this, world);
 diff --git a/src/main/java/net/minecraft/world/entity/animal/sniffer/Sniffer.java b/src/main/java/net/minecraft/world/entity/animal/sniffer/Sniffer.java
-index b6f5281705ce4c7a755e3818cf6c4a2235a024f9..13d73b88e33d279ae96bf160fa25d47c88dd6a55 100644
+index 464a16df15d8759d66f94ad080d1ea28b3f6474c..3742917207572f0698c779a262b887c04e11c8d8 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/sniffer/Sniffer.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/sniffer/Sniffer.java
-@@ -122,6 +122,18 @@ public class Sniffer extends Animal {
+@@ -118,6 +118,18 @@ public class Sniffer extends Animal {
      }
      // Purpur end
  
@@ -130,10 +130,10 @@ index b6f5281705ce4c7a755e3818cf6c4a2235a024f9..13d73b88e33d279ae96bf160fa25d47c
      protected void defineSynchedData(SynchedEntityData.Builder builder) {
          super.defineSynchedData(builder);
 diff --git a/src/main/java/net/minecraft/world/entity/monster/warden/Warden.java b/src/main/java/net/minecraft/world/entity/monster/warden/Warden.java
-index 8e24cd9ed03e2f11da6f4fb2dd58dd9b9e5d7a06..e7c82656e46201ae144629945dcd33f14774b9de 100644
+index fcfea2cdd5df9fe505df3f7c866cd8d27ad9b249..aa663c0e4f392f8c1579862f75accf82e558bb54 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/warden/Warden.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/warden/Warden.java
-@@ -150,6 +150,23 @@ public class Warden extends Monster implements VibrationSystem {
+@@ -153,6 +153,23 @@ public class Warden extends Monster implements VibrationSystem {
      }
      // Purpur end
  
@@ -157,43 +157,46 @@ index 8e24cd9ed03e2f11da6f4fb2dd58dd9b9e5d7a06..e7c82656e46201ae144629945dcd33f1
      @Override
      public Packet<ClientGamePacketListener> getAddEntityPacket(ServerEntity entityTrackerEntry) {
          return new ClientboundAddEntityPacket(this, entityTrackerEntry, this.hasPose(Pose.EMERGING) ? 1 : 0);
-diff --git a/src/main/java/net/minecraft/world/entity/vehicle/ChestBoat.java b/src/main/java/net/minecraft/world/entity/vehicle/ChestBoat.java
-index c14019a131c90c699b8a76bada82592b66f0fa89..6f3fede6a51c6854dd93fe1462097ab38dd11123 100644
---- a/src/main/java/net/minecraft/world/entity/vehicle/ChestBoat.java
-+++ b/src/main/java/net/minecraft/world/entity/vehicle/ChestBoat.java
-@@ -34,6 +34,9 @@ import org.bukkit.entity.HumanEntity;
+diff --git a/src/main/java/net/minecraft/world/entity/vehicle/AbstractChestBoat.java b/src/main/java/net/minecraft/world/entity/vehicle/AbstractChestBoat.java
+index 1f4cc08e84a23213bb9786ea09ad77caeec2d336..a9941d8b9dbe80f77f27c2166f8c2ec9f34077c4 100644
+--- a/src/main/java/net/minecraft/world/entity/vehicle/AbstractChestBoat.java
++++ b/src/main/java/net/minecraft/world/entity/vehicle/AbstractChestBoat.java
+@@ -35,10 +35,10 @@ import org.bukkit.entity.HumanEntity;
  import org.bukkit.event.entity.EntityRemoveEvent;
  import org.bukkit.inventory.InventoryHolder;
  // CraftBukkit end
-+// DivineMC start
-+import org.purpurmc.purpur.PurpurConfig;
-+// DivineMC end
++import org.purpurmc.purpur.PurpurConfig; // DivineMC - Add missing purpur config options
  
- public class ChestBoat extends Boat implements HasCustomInventoryScreen, ContainerEntity {
+ public abstract class AbstractChestBoat extends AbstractBoat implements HasCustomInventoryScreen, ContainerEntity {
+-
+-    private static final int CONTAINER_SIZE = 27;
++    private static final int CONTAINER_SIZE = PurpurConfig.chestBoatRows * 9; // DivineMC - Add missing purpur config options
+     private NonNullList<ItemStack> itemStacks;
+     @Nullable
+     private ResourceKey<LootTable> lootTable;
+@@ -46,7 +46,7 @@ public abstract class AbstractChestBoat extends AbstractBoat implements HasCusto
  
-@@ -45,7 +48,7 @@ public class ChestBoat extends Boat implements HasCustomInventoryScreen, Contain
- 
-     public ChestBoat(EntityType<? extends Boat> type, Level world) {
-         super(type, world);
+     public AbstractChestBoat(EntityType<? extends AbstractChestBoat> type, Level world, Supplier<Item> itemSupplier) {
+         super(type, world, itemSupplier);
 -        this.itemStacks = NonNullList.withSize(27, ItemStack.EMPTY);
-+        this.itemStacks = NonNullList.withSize(PurpurConfig.chestBoatRows * 9, ItemStack.EMPTY); // DivineMC start - Add missing purpur config options
++        this.itemStacks = NonNullList.withSize(PurpurConfig.chestBoatRows * 9, ItemStack.EMPTY); // DivineMC - Add missing purpur config options
      }
  
-     public ChestBoat(Level world, double d0, double d1, double d2) {
-@@ -177,7 +180,7 @@ public class ChestBoat extends Boat implements HasCustomInventoryScreen, Contain
+     @Override
+@@ -142,7 +142,7 @@ public abstract class AbstractChestBoat extends AbstractBoat implements HasCusto
  
      @Override
      public int getContainerSize() {
 -        return 27;
-+        return PurpurConfig.chestBoatRows * 9; // DivineMC - Add missing purpur config options
++        return PurpurConfig.chestBoatRows * 9;  // DivineMC - Add missing purpur config options
      }
  
      @Override
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-index 713bb7a718c8663ff1d05f71ef22bf3046245b55..48895d1edcfa56b1fd61ef19c95028fcc67e8303 100644
+index 4933dc4d6e8e6920feed37f3a68adf74730fee1e..21126e3122ffc5ecd64293e108a181cf9de8cfb0 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-@@ -330,6 +330,7 @@ public class PurpurConfig {
+@@ -331,6 +331,7 @@ public class PurpurConfig {
      }
  
      public static int barrelRows = 3;
@@ -201,7 +204,7 @@ index 713bb7a718c8663ff1d05f71ef22bf3046245b55..48895d1edcfa56b1fd61ef19c95028fc
      public static boolean enderChestSixRows = false;
      public static boolean enderChestPermissionRows = false;
      public static boolean cryingObsidianValidForPortalFrame = false;
-@@ -372,6 +373,7 @@ public class PurpurConfig {
+@@ -373,6 +374,7 @@ public class PurpurConfig {
              case 1 -> 9;
              default -> 27;
          });
@@ -210,7 +213,7 @@ index 713bb7a718c8663ff1d05f71ef22bf3046245b55..48895d1edcfa56b1fd61ef19c95028fc
          org.bukkit.event.inventory.InventoryType.ENDER_CHEST.setDefaultSize(enderChestSixRows ? 54 : 27);
          enderChestPermissionRows = getBoolean("settings.blocks.ender_chest.use-permissions-for-rows", enderChestPermissionRows);
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
-index 3bcbf5e2dbb991a8416d827ddfe59e04f701ebf7..7f2c89928031301fcd50a70a2ef18fcb005784bc 100644
+index d39a0d455f10189054ebc894c55188c5cbc000d2..7809b6c148aca026088f81a3e0517a13960b1053 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 @@ -1135,12 +1135,20 @@ public class PurpurWorldConfig {
@@ -250,7 +253,7 @@ index 3bcbf5e2dbb991a8416d827ddfe59e04f701ebf7..7f2c89928031301fcd50a70a2ef18fcb
          camelRidableInWater = getBoolean("mobs.camel.ridable-in-water", camelRidableInWater);
          camelMaxHealthMin = getDouble("mobs.camel.attributes.max_health.min", camelMaxHealthMin);
          camelMaxHealthMax = getDouble("mobs.camel.attributes.max_health.max", camelMaxHealthMax);
-@@ -1744,7 +1760,17 @@ public class PurpurWorldConfig {
+@@ -1742,7 +1758,17 @@ public class PurpurWorldConfig {
      public boolean frogControllable = true;
      public float frogRidableJumpHeight = 0.65F;
      public int frogBreedingTicks = 6000;
@@ -268,7 +271,7 @@ index 3bcbf5e2dbb991a8416d827ddfe59e04f701ebf7..7f2c89928031301fcd50a70a2ef18fcb
          frogRidable = getBoolean("mobs.frog.ridable", frogRidable);
          frogRidableInWater = getBoolean("mobs.frog.ridable-in-water", frogRidableInWater);
          frogControllable = getBoolean("mobs.frog.controllable", frogControllable);
-@@ -2756,7 +2782,15 @@ public class PurpurWorldConfig {
+@@ -2754,7 +2780,15 @@ public class PurpurWorldConfig {
      public double snifferMaxHealth = 14.0D;
      public double snifferScale = 1.0D;
      public int snifferBreedingTicks = 6000;
@@ -284,7 +287,7 @@ index 3bcbf5e2dbb991a8416d827ddfe59e04f701ebf7..7f2c89928031301fcd50a70a2ef18fcb
          snifferRidable = getBoolean("mobs.sniffer.ridable", snifferRidable);
          snifferRidableInWater = getBoolean("mobs.sniffer.ridable-in-water", snifferRidableInWater);
          snifferControllable = getBoolean("mobs.sniffer.controllable", snifferControllable);
-@@ -2864,7 +2898,17 @@ public class PurpurWorldConfig {
+@@ -2862,7 +2896,17 @@ public class PurpurWorldConfig {
      public boolean tadpoleRidable = false;
      public boolean tadpoleRidableInWater = true;
      public boolean tadpoleControllable = true;
@@ -302,7 +305,7 @@ index 3bcbf5e2dbb991a8416d827ddfe59e04f701ebf7..7f2c89928031301fcd50a70a2ef18fcb
          tadpoleRidable = getBoolean("mobs.tadpole.ridable", tadpoleRidable);
          tadpoleRidableInWater = getBoolean("mobs.tadpole.ridable-in-water", tadpoleRidableInWater);
          tadpoleControllable = getBoolean("mobs.tadpole.controllable", tadpoleControllable);
-@@ -3092,7 +3136,17 @@ public class PurpurWorldConfig {
+@@ -3090,7 +3134,17 @@ public class PurpurWorldConfig {
      public boolean wardenRidable = false;
      public boolean wardenRidableInWater = true;
      public boolean wardenControllable = true;

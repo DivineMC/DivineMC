@@ -6,7 +6,7 @@ Subject: [PATCH] Delete Timings
 
 diff --git a/src/main/java/co/aikar/timings/FullServerTickHandler.java b/src/main/java/co/aikar/timings/FullServerTickHandler.java
 deleted file mode 100644
-index 3e747abde6fefae90f1c15cb00158bc5303cbe50..0000000000000000000000000000000000000000
+index 73b125979e2f2dfd13cbf689a90b29cc68a36e09..0000000000000000000000000000000000000000
 --- a/src/main/java/co/aikar/timings/FullServerTickHandler.java
 +++ /dev/null
 @@ -1,89 +0,0 @@
@@ -92,7 +92,7 @@ index 3e747abde6fefae90f1c15cb00158bc5303cbe50..00000000000000000000000000000000
 -            TimingsManager.HISTORY.add(new TimingHistory());
 -            TimingsManager.resetTimings();
 -        }
--        Bukkit.getUnsafe().reportTimings();
+-        //Bukkit.getUnsafe().reportTimings();
 -    }
 -
 -    boolean isViolated() {
@@ -1285,10 +1285,10 @@ index df142a89b8c43acb81eb383eac0ef048a1f49a6e..00000000000000000000000000000000
 -}
 diff --git a/src/main/java/co/aikar/timings/Timings.java b/src/main/java/co/aikar/timings/Timings.java
 deleted file mode 100644
-index 3d663104c8e3089abdb9dc4d7309f873ac182e98..0000000000000000000000000000000000000000
+index 27a02f0c3261067d8e4ee6169c62cecbbfe50d42..0000000000000000000000000000000000000000
 --- a/src/main/java/co/aikar/timings/Timings.java
 +++ /dev/null
-@@ -1,333 +0,0 @@
+@@ -1,325 +0,0 @@
 -/*
 - * This file is licensed under the MIT License (MIT).
 - *
@@ -1436,16 +1436,8 @@ index 3d663104c8e3089abdb9dc4d7309f873ac182e98..00000000000000000000000000000000
 -     * @param enabled Should timings be reported
 -     */
 -    public static void setTimingsEnabled(boolean enabled) {
--        // Purpur start - we don't do that here...
--        timingsEnabled = false;
--        //warnAboutDeprecationOnEnable();
--        //reset();
--        // Purpur end
--    }
--
--    private static void warnAboutDeprecationOnEnable() {
--        if (timingsEnabled && !warnedAboutDeprecationOnEnable) {
--            Bukkit.getLogger().warning(PlainTextComponentSerializer.plainText().serialize(deprecationMessage()));
+-        if (enabled && !warnedAboutDeprecationOnEnable) {
+-            //Bukkit.getLogger().severe(PlainTextComponentSerializer.plainText().serialize(deprecationMessage()));
 -            warnedAboutDeprecationOnEnable = true;
 -        }
 -    }
@@ -1453,7 +1445,7 @@ index 3d663104c8e3089abdb9dc4d7309f873ac182e98..00000000000000000000000000000000
 -    public static Component deprecationMessage() {
 -        return Component.text()
 -            .color(TextColor.color(0xffc93a))
--            .append(Component.text("[!] The timings profiler has been enabled but has been scheduled for removal from Paper in the future."))
+-            .append(Component.text("[!] The timings profiler is in no-op mode and will be fully removed in a later update."))
 -            .append(Component.newline())
 -            .append(Component.text("    We recommend migrating to the spark profiler."))
 -            .append(Component.newline())
@@ -1624,10 +1616,10 @@ index 3d663104c8e3089abdb9dc4d7309f873ac182e98..00000000000000000000000000000000
 -
 diff --git a/src/main/java/co/aikar/timings/TimingsCommand.java b/src/main/java/co/aikar/timings/TimingsCommand.java
 deleted file mode 100644
-index 9e165525c4c4c07c783ae2899e07c37ae49ec2de..0000000000000000000000000000000000000000
+index f28eec202237461cb489a2b13289d813381a25bc..0000000000000000000000000000000000000000
 --- a/src/main/java/co/aikar/timings/TimingsCommand.java
 +++ /dev/null
-@@ -1,132 +0,0 @@
+@@ -1,130 +0,0 @@
 -/*
 - * This file is licensed under the MIT License (MIT).
 - *
@@ -1686,14 +1678,12 @@ index 9e165525c4c4c07c783ae2899e07c37ae49ec2de..00000000000000000000000000000000
 -        if (!testPermission(sender)) {
 -            return true;
 -        }
--        // Purpur start
 -        if (true) {
 -            net.kyori.adventure.text.minimessage.MiniMessage mm = net.kyori.adventure.text.minimessage.MiniMessage.miniMessage();
 -            sender.sendMessage(mm.deserialize("<gold>Purpur has removed timings to save your performance. Please use <click:suggest_command:'/spark'><grey>/spark</grey></click> instead"));
 -            sender.sendMessage(mm.deserialize("<gold>For more information, view its documentation at"));
--            sender.sendMessage(mm.deserialize("<gold><click:open_url:'https://spark.lucko.me/docs/Command-Usage'>https://spark.lucko.me/docs/Command-Usage</click>"));
+-            sender.sendMessage(mm.deserialize("<gold><click:open_url:'https://spark.lucko.me/docs/Command-Usage'>https://spark.lucko.me/docs/Command-Usage</click>")); // Purpur
 -            return true;
--        // Purpur end
 -        }
 -        if (args.length < 1) {
 -            sender.sendMessage(text("Usage: " + this.usageMessage, NamedTextColor.RED));
@@ -2180,7 +2170,7 @@ index 7740ad53796d08584bb0110f99af5639993e4d71..f0da5a8ae7e989e120f9d5ef2a417a98
              server.getPluginManager().callEvent(new com.destroystokyo.paper.event.server.ServerExceptionEvent(new com.destroystokyo.paper.exception.ServerCommandException(ex, target, sender, args))); // Paper
              //target.timings.stopTiming(); // Spigot // Paper
 diff --git a/src/main/java/org/bukkit/plugin/SimplePluginManager.java b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
-index e8ba4f1108f2548a487877027e37d81fc150e042..a19a9d25996860455a229c4cc2503eeb5ac7ef4b 100644
+index 6b6edf9007997d9672e4c850464c1b71cb55f6b4..4d91fa6fd1717aa8a6cd2a9edab888f03d6c1b34 100644
 --- a/src/main/java/org/bukkit/plugin/SimplePluginManager.java
 +++ b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
 @@ -724,12 +724,7 @@ public final class SimplePluginManager implements PluginManager {
@@ -2207,9 +2197,9 @@ index e8ba4f1108f2548a487877027e37d81fc150e042..a19a9d25996860455a229c4cc2503eeb
      }
  
      /**
-@@ -969,7 +963,7 @@ public final class SimplePluginManager implements PluginManager {
-      * @param use True if per event timing code should be used
+@@ -970,7 +964,7 @@ public final class SimplePluginManager implements PluginManager {
       */
+     @Deprecated(forRemoval = true)
      public void useTimings(boolean use) {
 -        co.aikar.timings.Timings.setTimingsEnabled(use); // Paper
 +

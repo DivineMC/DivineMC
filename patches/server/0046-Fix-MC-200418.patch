@@ -1,0 +1,25 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Thu, 11 Jul 2024 19:15:23 +0300
+Subject: [PATCH] Fix MC-200418
+
+Original bug on Mojira: https://bugs.mojang.com/browse/MC-200418
+Took here: https://github.com/Winds-Studio/Leaf/blob/ver/1.21/patches/server/0081-Fix-MC-200418.patch
+
+diff --git a/src/main/java/net/minecraft/world/entity/monster/ZombieVillager.java b/src/main/java/net/minecraft/world/entity/monster/ZombieVillager.java
+index 6f6b32bf7f68d05e4173c31f2e631a409b858a05..620d95056e70c23df5d992562a9a35bbd185b46c 100644
+--- a/src/main/java/net/minecraft/world/entity/monster/ZombieVillager.java
++++ b/src/main/java/net/minecraft/world/entity/monster/ZombieVillager.java
+@@ -326,6 +326,12 @@ public class ZombieVillager extends Zombie implements VillagerDataHolder {
+             if (!this.isSilent()) {
+                 world.levelEvent((Player) null, 1027, this.blockPosition(), 0);
+             }
++
++            // DivineMC start - Fix MC-200418
++            if (entityvillager.isPassenger() && entityvillager.getVehicle() instanceof net.minecraft.world.entity.animal.Chicken && entityvillager.isBaby()) {
++                entityvillager.removeVehicle();
++            }
++            // DivineMC end
+         // CraftBukkit start
+         }, EntityTransformEvent.TransformReason.CURED, CreatureSpawnEvent.SpawnReason.CURED);
+         if (converted == null) {
