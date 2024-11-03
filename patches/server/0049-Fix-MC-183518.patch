@@ -7,13 +7,22 @@ Issue on Mojira: https://bugs.mojang.com/browse/MC-183518
 P.S. Btw, I took this fix from this PR - https://github.com/Winds-Studio/Leaf/pull/69
 
 diff --git a/src/main/java/net/minecraft/util/thread/BlockableEventLoop.java b/src/main/java/net/minecraft/util/thread/BlockableEventLoop.java
-index 2510589400b3012b827efcab477c6483d9d55901..e64af5ac326786d006adf1ad6d31254cfddebcb1 100644
+index 9b706276dc5b5f55b966c5472c6c4e864342b916..e9f2b88058bea5841fa648dad32903af19293328 100644
 --- a/src/main/java/net/minecraft/util/thread/BlockableEventLoop.java
 +++ b/src/main/java/net/minecraft/util/thread/BlockableEventLoop.java
-@@ -142,8 +142,7 @@ public abstract class BlockableEventLoop<R extends Runnable> implements Profiler
+@@ -22,7 +22,7 @@ import net.minecraft.util.profiling.metrics.ProfilerMeasured;
+ import org.slf4j.Logger;
+ 
+ public abstract class BlockableEventLoop<R extends Runnable> implements ProfilerMeasured, TaskScheduler<R>, Executor {
+-    public static final long BLOCK_TIME_NANOS = 100000L;
++    public static final long BLOCK_TIME_NANOS = 2000000L; // DivineMC - Fix MC-183518
+     private final String name;
+     private static final Logger LOGGER = LogUtils.getLogger();
+     private final Queue<R> pendingRunnables = Queues.newConcurrentLinkedQueue();
+@@ -145,8 +145,7 @@ public abstract class BlockableEventLoop<R extends Runnable> implements Profiler
      }
  
-     public void waitForTasks() {
+     protected void waitForTasks() {
 -        Thread.yield();
 -        LockSupport.parkNanos("waiting for tasks", 100000L);
 +        LockSupport.parkNanos("waiting for tasks", 2000000L); // DivineMC - Fix MC-183518
