@@ -3,6 +3,7 @@ From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
 Date: Wed, 10 Jul 2024 02:40:08 +0300
 Subject: [PATCH] Implement Linear region format
 
+Status: may be replaced with SlimeWorldManager soon
 
 diff --git a/build.gradle.kts b/build.gradle.kts
 index 3e2a092c797ec7918f5c4b838f28b0778c70531c..bb44922202e3cdb705a4773ea7c9ec807b5f3de2 100644

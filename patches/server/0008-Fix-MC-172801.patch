@@ -6,10 +6,10 @@ Subject: [PATCH] Fix MC-172801
 Original post on Mojira: https://bugs.mojang.com/browse/MC-172801
 
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 4539a6ad5334417b9c3ff239609466efd8516ef7..9c28b7b271ffde6f80d8d42f82d79c8c190527e7 100644
+index 31dff231c8ff073e65ba8bd120bb29d10b80af6c..875cc726ff769fe51422e49278df009b58225d94 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-@@ -3289,7 +3289,13 @@ public abstract class LivingEntity extends Entity implements Attackable {
+@@ -3290,7 +3290,13 @@ public abstract class LivingEntity extends Entity implements Attackable {
      }
  
      protected float getFlyingSpeed() {

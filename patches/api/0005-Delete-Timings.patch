@@ -2104,23 +2104,28 @@ index 632c4961515f5052551f841cfa840e60bba7a257..00000000000000000000000000000000
 -    }
 -}
 diff --git a/src/main/java/org/bukkit/command/Command.java b/src/main/java/org/bukkit/command/Command.java
-index 0a26fffe9b1e5080b5639767a03af11006108b4a..c55bc18316d4be79bd610128f0592b13325cf534 100644
+index 0a26fffe9b1e5080b5639767a03af11006108b4a..3b73c0e59788f5f49ca2423032550f11855d52ae 100644
 --- a/src/main/java/org/bukkit/command/Command.java
 +++ b/src/main/java/org/bukkit/command/Command.java
-@@ -37,11 +37,6 @@ public abstract class Command {
-      * @deprecated Timings will be removed in the future
-      */
-     @Deprecated(forRemoval = true)
+@@ -33,16 +33,6 @@ public abstract class Command {
+     protected String usageMessage;
+     private String permission;
+     private net.kyori.adventure.text.Component permissionMessage; // Paper
+-    /**
+-     * @deprecated Timings will be removed in the future
+-     */
+-    @Deprecated(forRemoval = true)
 -    public co.aikar.timings.Timing timings; // Paper
 -    /**
 -     * @deprecated Timings will be removed in the future
 -     */
 -    @Deprecated(forRemoval = true)
-     @NotNull public String getTimingName() {return getName();} // Paper
+-    @NotNull public String getTimingName() {return getName();} // Paper
  
      protected Command(@NotNull String name) {
+         this(name, "", "/" + name, new ArrayList<String>());
 diff --git a/src/main/java/org/bukkit/command/FormattedCommandAlias.java b/src/main/java/org/bukkit/command/FormattedCommandAlias.java
-index abe256e1e45ce28036da4aa1586715bc8a1a3414..b359306500e640f4b0761ae9aa996cf64e4fe63f 100644
+index abe256e1e45ce28036da4aa1586715bc8a1a3414..9eab8024e0675865f17669847759a26d28f74f3a 100644
 --- a/src/main/java/org/bukkit/command/FormattedCommandAlias.java
 +++ b/src/main/java/org/bukkit/command/FormattedCommandAlias.java
 @@ -12,7 +12,6 @@ public class FormattedCommandAlias extends Command {
@@ -2131,6 +2136,17 @@ index abe256e1e45ce28036da4aa1586715bc8a1a3414..b359306500e640f4b0761ae9aa996cf6
          this.formatStrings = formatStrings;
      }
  
+@@ -120,10 +119,6 @@ public class FormattedCommandAlias extends Command {
+         return formatString.trim(); // Paper - Causes an extra space at the end, breaks with brig commands
+     }
+ 
+-    @NotNull
+-    @Override // Paper
+-    public String getTimingName() {return "Command Forwarder - " + super.getTimingName();} // Paper
+-
+     private static boolean inRange(int i, int j, int k) {
+         return i >= j && i <= k;
+     }
 diff --git a/src/main/java/org/bukkit/command/SimpleCommandMap.java b/src/main/java/org/bukkit/command/SimpleCommandMap.java
 index 7740ad53796d08584bb0110f99af5639993e4d71..f0da5a8ae7e989e120f9d5ef2a417a9840aed7d0 100644
 --- a/src/main/java/org/bukkit/command/SimpleCommandMap.java

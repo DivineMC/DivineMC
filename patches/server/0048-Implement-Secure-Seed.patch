@@ -29,7 +29,7 @@ index 0b500b19a99fa6c2740c0db350a166462668df9c..f13185628dec90a044bf03cf38394b5b
          }));
      }
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java
-index ee70e7a2f87ca31b1c2918148d585e90601d277b..7d11d8a7baafbcc4c33db37c44975351925ca5ce 100644
+index 05e16103af3fd276f0196ddf1a2e5b729b025c34..e0118dfee89d4319f70a0d2f84ba4c21b03a9ed9 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java
 @@ -167,7 +167,17 @@ public class DedicatedServerProperties extends Settings<DedicatedServerPropertie
@@ -52,10 +52,10 @@ index ee70e7a2f87ca31b1c2918148d585e90601d277b..7d11d8a7baafbcc4c33db37c44975351
              return GsonHelper.parse(!s1.isEmpty() ? s1 : "{}");
          }, new JsonObject()), (String) this.get("level-type", (s1) -> {
 diff --git a/src/main/java/net/minecraft/server/level/ServerChunkCache.java b/src/main/java/net/minecraft/server/level/ServerChunkCache.java
-index 3c711e1df57ac5b0f8795ebb12299d275792b1d4..2637795942327c51870e9d8dc5858c64bc97d0b8 100644
+index aaaadb7be8abf867624a1ca83371595bef4ab633..414bc5d7ba297472487d9a9aa3a20c67d54e880c 100644
 --- a/src/main/java/net/minecraft/server/level/ServerChunkCache.java
 +++ b/src/main/java/net/minecraft/server/level/ServerChunkCache.java
-@@ -644,6 +644,7 @@ public class ServerChunkCache extends ChunkSource implements ca.spottedleaf.moon
+@@ -641,6 +641,7 @@ public class ServerChunkCache extends ChunkSource implements ca.spottedleaf.moon
      }
  
      public ChunkGenerator getGenerator() {
@@ -64,7 +64,7 @@ index 3c711e1df57ac5b0f8795ebb12299d275792b1d4..2637795942327c51870e9d8dc5858c64
      }
  
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 072316cc08e864c40dd3225709d67cb59e89c6cd..005275d3a3e71c03b382903567445f16c62b8207 100644
+index 63ba7e35ee93b90c7b81f69e638eae410609746b..de84d398297859aee2c18546c1836d47d8c109d4 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -636,6 +636,7 @@ public class ServerLevel extends Level implements ServerEntityGetter, WorldGenLe
@@ -453,7 +453,7 @@ index 0074bc0e7147dc3a8c538e796f14ac9bf8725896..2f9e110fc8067dff39eb0222a1fb47b9
  
      @Override
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 269255b94851d1a3e8bc12bd7418c2c78977e283..405103cbe0f897ae1ca1bfef03c7831186e5acae 100644
+index 7aea486e9b3c5bfb42097081bada8257834e5249..05a3c8c7f65ae7a3d287a8d749b2c0690e54e091 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -1400,7 +1400,11 @@ public final class CraftServer implements Server {
