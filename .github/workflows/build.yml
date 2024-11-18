@@ -1,14 +1,14 @@
 name: Build DivineMC
 on:
-  push:
-    branches: [ "ver/1.21.1" ]
-  pull_request:
-    branches: [ "ver/1.21.1" ]
   workflow_dispatch:
+  pull_request:
+  push:
+    branches:
+      - "ver/**"
 
 env:
-  version: '1.21.1'
-  branch: 'ver/1.21.1'
+  version: '1.21.3'
+  branch: 'ver/1.21.3'
   debug: 'false'
 
 jobs:
