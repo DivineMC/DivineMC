@@ -152,10 +152,10 @@ index 90f8360f547ce709fd13ee34f8e67d8bfa94b498..e71cfe169d8113b1e38fb1f3f12dc9b5
  
      public Holder<Biome> getNoiseBiomeAtPosition(double x, double y, double z) {
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-index 109396069426c4ae290cf20b52589e3649ed4543..d499ec5f19db4e2dcd40e940380bffa5196957ee 100644
+index 882e08b1eef89dd01129c89aa5fa1094d35788c5..911c9144cdf15930995fbd3c2b8ff01c74138c74 100644
 --- a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-@@ -157,4 +157,9 @@ public class DivineConfig {
+@@ -159,4 +159,9 @@ public class DivineConfig {
      private static void miscSettings() {
          disableNonEditableSignWarning = getBoolean("settings.misc.disable-non-editable-sign-warning", disableNonEditableSignWarning);
      }

@@ -62,10 +62,10 @@ index a13ce089bacfb6644eea81fbe7c6d640aedaea96..9cde7eafbf6d8dbb13087379e567bc0d
      private static CraftingInput makeCraftInput(DyeColor firstColor, DyeColor secondColor) {
          return CraftingInput.of(2, 1, List.of(new ItemStack(DyeItem.byColor(firstColor)), new ItemStack(DyeItem.byColor(secondColor))));
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-index 77e07052a923c46ba28d79d531b43dcccf4cd546..d077a9eb5a4720186b25b2a10246576bc0e300d1 100644
+index aaf3afd0fe1f13ed7375d272e2690e9db0410417..bc6642e1a6dd8254efe65cbac1acdcd4462e430b 100644
 --- a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-@@ -161,9 +161,11 @@ public class DivineConfig {
+@@ -163,9 +163,11 @@ public class DivineConfig {
      public static boolean biomeManagerOptimization = true;
      public static boolean optimizedDragonRespawn = true;
      public static boolean optimizeNoiseGeneration = true;

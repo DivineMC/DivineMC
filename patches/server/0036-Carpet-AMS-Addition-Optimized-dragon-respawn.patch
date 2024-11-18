@@ -110,10 +110,10 @@ index b331c93c82c27f9456fec208a0c008c5bedfa8c4..ec3142ae55686e13c2984eaf8cf0bcc8
              for (BlockPattern.BlockPatternMatch shapedetector_shapedetectorcollection = this.findExitPortal(); shapedetector_shapedetectorcollection != null; shapedetector_shapedetectorcollection = this.findExitPortal()) {
                  for (int i = 0; i < this.exitPortalPattern.getWidth(); ++i) {
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-index d499ec5f19db4e2dcd40e940380bffa5196957ee..4a134013b79120ce2a659d9071424bb1d7bd3297 100644
+index 911c9144cdf15930995fbd3c2b8ff01c74138c74..c88157b27b344b2ed1153a44daee751f5b53b45d 100644
 --- a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-@@ -159,7 +159,9 @@ public class DivineConfig {
+@@ -161,7 +161,9 @@ public class DivineConfig {
      }
  
      public static boolean biomeManagerOptimization = true;

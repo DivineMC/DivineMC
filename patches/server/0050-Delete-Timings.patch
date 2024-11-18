@@ -5,7 +5,7 @@ Subject: [PATCH] Delete Timings
 
 
 diff --git a/src/main/java/io/papermc/paper/plugin/manager/PaperEventManager.java b/src/main/java/io/papermc/paper/plugin/manager/PaperEventManager.java
-index 0e3bed7a75f8f4611f9f44a1f78fd70cc06eaa54..fe955dda558a55f67e25cad3c8ebfadb514da224 100644
+index 0e3bed7a75f8f4611f9f44a1f78fd70cc06eaa54..126ed4bd24d993b598c112c2dbfcb9d662038925 100644
 --- a/src/main/java/io/papermc/paper/plugin/manager/PaperEventManager.java
 +++ b/src/main/java/io/papermc/paper/plugin/manager/PaperEventManager.java
 @@ -1,6 +1,5 @@
@@ -23,6 +23,15 @@ index 0e3bed7a75f8f4611f9f44a1f78fd70cc06eaa54..fe955dda558a55f67e25cad3c8ebfadb
          this.getEventListeners(event).register(new RegisteredListener(listener, executor, priority, plugin, ignoreCancelled));
      }
  
+@@ -189,7 +187,7 @@ class PaperEventManager {
+                 }
+             }
+ 
+-            EventExecutor executor = new TimedEventExecutor(EventExecutor.create(method, eventClass), plugin, method, eventClass);
++            EventExecutor executor = EventExecutor.create(method, eventClass);
+             eventSet.add(new RegisteredListener(listener, executor, eh.priority(), plugin, eh.ignoreCancelled()));
+         }
+         return ret;
 diff --git a/src/main/java/io/papermc/paper/plugin/manager/PaperPluginManagerImpl.java b/src/main/java/io/papermc/paper/plugin/manager/PaperPluginManagerImpl.java
 index 097500a59336db1bbfffcd1aa4cff7a8586e46ec..35b00c139864dd7925d46a2d6a317d7e3aae9638 100644
 --- a/src/main/java/io/papermc/paper/plugin/manager/PaperPluginManagerImpl.java

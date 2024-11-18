@@ -205,14 +205,16 @@ index 0000000000000000000000000000000000000000..06af4af987859081bcf23e91da02b295
 +}
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..8251cf1e42f159e3be874e4cc34498e6dcdec539
+index 0000000000000000000000000000000000000000..27c45545e1e9ad6ea88e65c884c5a4955fc1c80c
 --- /dev/null
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-@@ -0,0 +1,155 @@
+@@ -0,0 +1,157 @@
 +package space.bxteam.divinemc.configuration;
 +
 +import com.google.common.base.Throwables;
 +import com.google.common.collect.ImmutableMap;
++import net.minecraft.world.level.block.Block;
++import net.minecraft.world.level.block.state.BlockBehaviour;
 +import space.bxteam.divinemc.commands.*;
 +import net.minecraft.server.MinecraftServer;
 +import net.minecraft.world.level.block.Blocks;
@@ -271,7 +273,7 @@ index 0000000000000000000000000000000000000000..8251cf1e42f159e3be874e4cc34498e6
 +
 +        readConfig(DivineConfig.class, null);
 +
-+        Blocks.rebuildCache();
++        Block.BLOCK_STATE_REGISTRY.forEach(BlockBehaviour.BlockStateBase::initCache);
 +    }
 +
 +    protected static void log(String s) {

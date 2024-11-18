@@ -47,10 +47,10 @@ index 9aabf8d4a333f96f1431da12cd42766a6d1676bd..d6f414bb93e9ca939fd7278cf4eaabf6
                                  io.papermc.paper.event.player.PlayerFailMoveEvent event = fireFailMove(io.papermc.paper.event.player.PlayerFailMoveEvent.FailReason.MOVED_WRONGLY,
                                      toX, toY, toZ, toYaw, toPitch, true);
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-index f8f84e2856703a78217d0d9572955f33ac0d7776..77c6b40f0d5aa97a1fb71e5704c719f4ee34ba8e 100644
+index 84ee2dbd085b02cf20f14022e2f1997f8d9580a8..19f3521bad52f8441e484e9c761904bbdf6b9902 100644
 --- a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-@@ -155,9 +155,11 @@ public class DivineConfig {
+@@ -157,9 +157,11 @@ public class DivineConfig {
  
      public static boolean disableNonEditableSignWarning = true;
      public static boolean removeVanillaUsernameCheck = false;

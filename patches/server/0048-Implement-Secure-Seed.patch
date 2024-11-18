@@ -470,10 +470,10 @@ index 7aea486e9b3c5bfb42097081bada8257834e5249..05a3c8c7f65ae7a3d287a8d749b2c069
  
              DedicatedServerProperties.WorldDimensionData properties = new DedicatedServerProperties.WorldDimensionData(GsonHelper.parse((creator.generatorSettings().isEmpty()) ? "{}" : creator.generatorSettings()), creator.type().name().toLowerCase(Locale.ROOT));
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-index 77c6b40f0d5aa97a1fb71e5704c719f4ee34ba8e..1b814672401425d35777768bc7327657c268e51e 100644
+index 19f3521bad52f8441e484e9c761904bbdf6b9902..daddaae83c4ff45e04388cd51ed5f80ed8078573 100644
 --- a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-@@ -156,10 +156,12 @@ public class DivineConfig {
+@@ -158,10 +158,12 @@ public class DivineConfig {
      public static boolean disableNonEditableSignWarning = true;
      public static boolean removeVanillaUsernameCheck = false;
      public static boolean disableMovedWronglyThreshold = false;

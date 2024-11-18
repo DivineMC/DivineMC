@@ -18,10 +18,10 @@ index 6da1eec98c08e4909ecbd48fe90b3fd62011e284..20fe9ab8c31bb84d58228cb644dd5a93
              ((ServerPlayer) player).connection.send(this.getUpdatePacket()); // CraftBukkit
          }
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-index 8251cf1e42f159e3be874e4cc34498e6dcdec539..109396069426c4ae290cf20b52589e3649ed4543 100644
+index 27c45545e1e9ad6ea88e65c884c5a4955fc1c80c..882e08b1eef89dd01129c89aa5fa1094d35788c5 100644
 --- a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-@@ -152,4 +152,9 @@ public class DivineConfig {
+@@ -154,4 +154,9 @@ public class DivineConfig {
          }
          return builder.build();
      }

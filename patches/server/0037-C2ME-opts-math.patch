@@ -281,10 +281,10 @@ index 35820670837376bcad8891241724d5b946fbd31f..74a666a45289f0902b426ba57986cd93
  
      @Deprecated
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-index 4a134013b79120ce2a659d9071424bb1d7bd3297..77e07052a923c46ba28d79d531b43dcccf4cd546 100644
+index c88157b27b344b2ed1153a44daee751f5b53b45d..aaf3afd0fe1f13ed7375d272e2690e9db0410417 100644
 --- a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-@@ -160,8 +160,10 @@ public class DivineConfig {
+@@ -162,8 +162,10 @@ public class DivineConfig {
  
      public static boolean biomeManagerOptimization = true;
      public static boolean optimizedDragonRespawn = true;
