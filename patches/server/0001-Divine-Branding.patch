@@ -5,7 +5,7 @@ Subject: [PATCH] Divine Branding
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index b4579fb919d8cc981edc4863b82abca531349f1e..9155c953c1a08ff6027838b4e53b0e8fc84cd821 100644
+index c673a2cf682378aac38d047b999d8a1731f7569d..41dd8c9e0382b4109a32ad55f68ba391a87a346b 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -25,7 +25,7 @@ abstract class MockitoAgentProvider : CommandLineArgumentProvider {
@@ -15,9 +15,9 @@ index b4579fb919d8cc981edc4863b82abca531349f1e..9155c953c1a08ff6027838b4e53b0e8f
 -    implementation(project(":purpur-api")) // Pufferfish // Paper // Purpur
 +    implementation(project(":divinemc-api")) // DivineMC
      // Paper start
-     implementation("org.jline:jline-terminal-jansi:3.21.0")
-     implementation("net.minecrell:terminalconsoleappender:1.3.0")
-@@ -102,14 +102,14 @@ tasks.jar {
+     implementation("org.jline:jline-terminal-ffm:3.27.1") // use ffm on java 22+
+     implementation("org.jline:jline-terminal-jni:3.27.1") // fall back to jni on java 21
+@@ -103,14 +103,14 @@ tasks.jar {
          val gitBranch = git("rev-parse", "--abbrev-ref", "HEAD").getText().trim() // Paper
          attributes(
              "Main-Class" to "org.bukkit.craftbukkit.Main",
@@ -37,7 +37,7 @@ index b4579fb919d8cc981edc4863b82abca531349f1e..9155c953c1a08ff6027838b4e53b0e8f
              "Build-Number" to (build ?: ""),
              "Build-Time" to Instant.now().toString(),
              "Git-Branch" to gitBranch, // Paper
-@@ -254,3 +254,12 @@ tasks.registerRunTask("runReobfPaperclip") {
+@@ -255,3 +255,12 @@ tasks.registerRunTask("runReobfPaperclip") {
      classpath(rootProject.tasks.named<io.papermc.paperweight.tasks.CreatePaperclipJar>("createReobfPaperclipJar").flatMap { it.outputZip })
      mainClass.set(null as String?)
  }
