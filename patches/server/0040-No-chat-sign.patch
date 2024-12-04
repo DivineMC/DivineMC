@@ -147,7 +147,7 @@ index 7d276c191b391bca24948ddb36b8b7d0f1f03b03..c1d3a811ca17f303b6a35a4c044cacf1
          if (packet == null || this.processedDisconnect) { // Spigot
              return;
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 16999fa20c3621e016d1b0fadfb76f2fe03a2a69..05b056f803d2c96fb6bf0f00baa03d2e0c4d4511 100644
+index e1d195ab8b005edd7fcded810ddf903b47c000a1..a46e0d2c4244b7d2c4cc15f76856e5a5be2ead20 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -1426,7 +1426,7 @@ public abstract class PlayerList {
@@ -160,12 +160,12 @@ index 16999fa20c3621e016d1b0fadfb76f2fe03a2a69..05b056f803d2c96fb6bf0f00baa03d2e
  
      // CraftBukkit start
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-index bc6642e1a6dd8254efe65cbac1acdcd4462e430b..99532c3a254afa66ee4c6c106b6754471fcbc9e8 100644
+index aaf3afd0fe1f13ed7375d272e2690e9db0410417..261a55a4a5171f4ceb57fda8532bc1f795dc30ed 100644
 --- a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-@@ -170,4 +170,9 @@ public class DivineConfig {
+@@ -168,4 +168,9 @@ public class DivineConfig {
+         optimizedDragonRespawn = getBoolean("settings.optimizations.optimized-dragon-respawn", optimizedDragonRespawn);
          optimizeNoiseGeneration = getBoolean("settings.optimizations.optimize-noise-generation", optimizeNoiseGeneration);
-         sheepOptimization = getBoolean("settings.optimizations.sheep-optimization", sheepOptimization);
      }
 +
 +    public static boolean noChatSign = true;

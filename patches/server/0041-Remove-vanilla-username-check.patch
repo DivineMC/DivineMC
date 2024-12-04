@@ -32,7 +32,7 @@ index 16069b9cbf6c7679c28a2e9a54e77d23cd10e541..1b33f08b1d4730b28f61435488a1e1c0
              && !this.iKnowThisMayNotBeTheBestIdeaButPleaseDisableUsernameValidation) {
              Validate.validState(StringUtil.isReasonablePlayerName(packet.name()), "Invalid characters in username", new Object[0]);
 diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
-index 99532c3a254afa66ee4c6c106b6754471fcbc9e8..84ee2dbd085b02cf20f14022e2f1997f8d9580a8 100644
+index 261a55a4a5171f4ceb57fda8532bc1f795dc30ed..028589d94e04828686ff09e6a6b1a8fc71f054a0 100644
 --- a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 +++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
 @@ -156,8 +156,10 @@ public class DivineConfig {

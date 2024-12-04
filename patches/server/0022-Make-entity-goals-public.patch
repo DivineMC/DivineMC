@@ -5,11 +5,11 @@ Subject: [PATCH] Make entity goals public
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/animal/Bee.java b/src/main/java/net/minecraft/world/entity/animal/Bee.java
-index dc8df0912c1d18176e18a8f4dc43c4f60f81b659..a81d8cee4f8a6b7b0d9a6a64fe8f1b96efe65ef4 100644
+index 884527c8326c6df3656a4d3a2f5f2847f95b0f63..dd263fcbc63b205e6d837c05f968cf821c36c0fe 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/Bee.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/Bee.java
-@@ -773,7 +773,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
-         this.hivePos = pos;
+@@ -810,7 +810,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
+         return state.is(BlockTags.BEE_ATTRACTIVE) ? ((Boolean) state.getValueOrElse(BlockStateProperties.WATERLOGGED, false) ? false : (state.is(Blocks.SUNFLOWER) ? state.getValue(DoublePlantBlock.HALF) == DoubleBlockHalf.UPPER : true)) : false;
      }
  
 -    private class BeeLookControl extends org.purpurmc.purpur.controller.LookControllerWASD { // Purpur
@@ -17,7 +17,7 @@ index dc8df0912c1d18176e18a8f4dc43c4f60f81b659..a81d8cee4f8a6b7b0d9a6a64fe8f1b96
  
          BeeLookControl(final Mob entity) {
              super(entity);
-@@ -809,7 +809,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
+@@ -846,7 +846,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
          }
      }
  
@@ -26,7 +26,7 @@ index dc8df0912c1d18176e18a8f4dc43c4f60f81b659..a81d8cee4f8a6b7b0d9a6a64fe8f1b96
  
          BeeEnterHiveGoal() {
              super();
-@@ -914,7 +914,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
+@@ -951,7 +951,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
          }
      }
  
@@ -34,8 +34,8 @@ index dc8df0912c1d18176e18a8f4dc43c4f60f81b659..a81d8cee4f8a6b7b0d9a6a64fe8f1b96
 +    public class BeePollinateGoal extends Bee.BaseBeeGoal { // DivineMC - private -> public
  
          private static final int MIN_POLLINATION_TICKS = 400;
-         private final Predicate<BlockState> VALID_POLLINATION_BLOCKS = (iblockdata) -> {
-@@ -1096,7 +1096,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
+         private static final double ARRIVAL_THRESHOLD = 0.1D;
+@@ -1130,7 +1130,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
          }
      }
  
@@ -44,7 +44,7 @@ index dc8df0912c1d18176e18a8f4dc43c4f60f81b659..a81d8cee4f8a6b7b0d9a6a64fe8f1b96
  
          BeeLocateHiveGoal() {
              super();
-@@ -1325,7 +1325,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
+@@ -1359,7 +1359,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
          }
      }
  
@@ -53,7 +53,7 @@ index dc8df0912c1d18176e18a8f4dc43c4f60f81b659..a81d8cee4f8a6b7b0d9a6a64fe8f1b96
  
          static final int GROW_CHANCE = 30;
  
-@@ -1394,7 +1394,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
+@@ -1428,7 +1428,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
          }
      }
  
@@ -62,7 +62,7 @@ index dc8df0912c1d18176e18a8f4dc43c4f60f81b659..a81d8cee4f8a6b7b0d9a6a64fe8f1b96
  
          BeeWanderGoal() {
              this.setFlags(EnumSet.of(Goal.Flag.MOVE));
-@@ -1445,7 +1445,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
+@@ -1479,7 +1479,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
          }
      }
  
@@ -71,7 +71,7 @@ index dc8df0912c1d18176e18a8f4dc43c4f60f81b659..a81d8cee4f8a6b7b0d9a6a64fe8f1b96
  
          BeeHurtByOtherGoal(final Bee entitybee) {
              super(entitybee);
-@@ -1465,7 +1465,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
+@@ -1499,7 +1499,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
          }
      }
  
@@ -80,7 +80,7 @@ index dc8df0912c1d18176e18a8f4dc43c4f60f81b659..a81d8cee4f8a6b7b0d9a6a64fe8f1b96
  
          BeeBecomeAngryTargetGoal(Bee bee) {
              // Objects.requireNonNull(entitybee); // CraftBukkit - decompile error
-@@ -1496,7 +1496,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
+@@ -1530,7 +1530,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
          }
      }
  
@@ -90,10 +90,10 @@ index dc8df0912c1d18176e18a8f4dc43c4f60f81b659..a81d8cee4f8a6b7b0d9a6a64fe8f1b96
          BaseBeeGoal() {}
  
 diff --git a/src/main/java/net/minecraft/world/entity/animal/Cat.java b/src/main/java/net/minecraft/world/entity/animal/Cat.java
-index 4aad4fdc80070f4000e929fff126714fc67050b0..85292bb708fd71237b921893257e7c1de8294aff 100644
+index a418ded306908ee9cb9e375104354a6e031305c9..e507ba827be5924763740f57e9200a711b43f749 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/Cat.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/Cat.java
-@@ -575,7 +575,7 @@ public class Cat extends TamableAnimal implements VariantHolder<Holder<CatVarian
+@@ -574,7 +574,7 @@ public class Cat extends TamableAnimal implements VariantHolder<Holder<CatVarian
          }
      }
  
@@ -102,7 +102,7 @@ index 4aad4fdc80070f4000e929fff126714fc67050b0..85292bb708fd71237b921893257e7c1d
  
          private final Cat cat;
          @Nullable
-@@ -713,7 +713,7 @@ public class Cat extends TamableAnimal implements VariantHolder<Holder<CatVarian
+@@ -712,7 +712,7 @@ public class Cat extends TamableAnimal implements VariantHolder<Holder<CatVarian
          }
      }
  
@@ -125,7 +125,7 @@ index a2c81d2a1077b2977f1595fd592044baf3e81bab..6d36e1c7ae78da31ab7983fc89b7703c
          this.targetSelector.addGoal(0, new org.purpurmc.purpur.entity.ai.HasRider(this)); // Purpur
          this.targetSelector.addGoal(1, new HurtByTargetGoal(this, Raider.class).setAlertOthers());
 diff --git a/src/main/java/net/minecraft/world/entity/raid/Raider.java b/src/main/java/net/minecraft/world/entity/raid/Raider.java
-index 4ef87acec025c6eb706fd8845663aa4f415efb29..7f1986c882d3bdf015dbae27a9d8e2a080d1a122 100644
+index 68525419f18c18931d771d66fb15c9301d611416..6a8b0eb450b4a0fa22fdc4f7284fb91d8449dec6 100644
 --- a/src/main/java/net/minecraft/world/entity/raid/Raider.java
 +++ b/src/main/java/net/minecraft/world/entity/raid/Raider.java
 @@ -381,7 +381,7 @@ public abstract class Raider extends PatrollingMonster {
@@ -137,12 +137,3 @@ index 4ef87acec025c6eb706fd8845663aa4f415efb29..7f1986c882d3bdf015dbae27a9d8e2a0
  
          private final Raider raider;
          private final double speedModifier;
-@@ -529,7 +529,7 @@ public abstract class Raider extends PatrollingMonster {
-         }
-     }
- 
--    public class HoldGroundAttackGoal extends Goal {
-+    public static class HoldGroundAttackGoal extends Goal { // DivineMC - public -> public static
- 
-         private final Raider mob;
-         private final float hostileRadiusSqr;
