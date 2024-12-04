@@ -5,7 +5,7 @@ Subject: [PATCH] Divine Branding
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index c673a2cf682378aac38d047b999d8a1731f7569d..41dd8c9e0382b4109a32ad55f68ba391a87a346b 100644
+index 77602e4445b1b45a17e5552ac6a769e0ed46ebc7..3d0d3a3eb090041b461d65f66e47e39fab27aa82 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -25,7 +25,7 @@ abstract class MockitoAgentProvider : CommandLineArgumentProvider {
@@ -17,7 +17,7 @@ index c673a2cf682378aac38d047b999d8a1731f7569d..41dd8c9e0382b4109a32ad55f68ba391
      // Paper start
      implementation("org.jline:jline-terminal-ffm:3.27.1") // use ffm on java 22+
      implementation("org.jline:jline-terminal-jni:3.27.1") // fall back to jni on java 21
-@@ -103,14 +103,14 @@ tasks.jar {
+@@ -118,14 +118,14 @@ tasks.jar {
          val gitBranch = git("rev-parse", "--abbrev-ref", "HEAD").getText().trim() // Paper
          attributes(
              "Main-Class" to "org.bukkit.craftbukkit.Main",
@@ -37,7 +37,7 @@ index c673a2cf682378aac38d047b999d8a1731f7569d..41dd8c9e0382b4109a32ad55f68ba391
              "Build-Number" to (build ?: ""),
              "Build-Time" to Instant.now().toString(),
              "Git-Branch" to gitBranch, // Paper
-@@ -255,3 +255,12 @@ tasks.registerRunTask("runReobfPaperclip") {
+@@ -270,3 +270,12 @@ tasks.registerRunTask("runReobfPaperclip") {
      classpath(rootProject.tasks.named<io.papermc.paperweight.tasks.CreatePaperclipJar>("createReobfPaperclipJar").flatMap { it.outputZip })
      mainClass.set(null as String?)
  }
@@ -173,18 +173,18 @@ index 90b3526479320064378f2cde6c2f2b8e48a59ba6..43ff8842f697106d8d1ea4e58097243b
                  .completer(new ConsoleCommandCompleter(this.server))
                  .option(LineReader.Option.COMPLETE_IN_WORD, true);
 diff --git a/src/main/java/io/papermc/paper/ServerBuildInfoImpl.java b/src/main/java/io/papermc/paper/ServerBuildInfoImpl.java
-index a6e5950b5875cafd734300cdfbf58f5d3736f3c8..7256e02150a2ddc2afd821299d36b1c71b7930b6 100644
+index 3099c21ee589acf6edff5903a23673adf489024f..70c407cc8c6fb28ba6fcde1b8d5a66154ed71223 100644
 --- a/src/main/java/io/papermc/paper/ServerBuildInfoImpl.java
 +++ b/src/main/java/io/papermc/paper/ServerBuildInfoImpl.java
-@@ -32,6 +32,7 @@ public record ServerBuildInfoImpl(
- 
+@@ -33,6 +33,7 @@ public record ServerBuildInfoImpl(
      private static final String BRAND_PAPER_NAME = "Paper";
+     private static final String BRAND_PUFFERFISH_NAME = "Pufferfish"; // Purpur
      private static final String BRAND_PURPUR_NAME = "Purpur"; // Purpur
 +    private static final String BRAND_DIVINEMC_NAME = "DivineMC"; // DivineMC
  
      private static final String BUILD_DEV = "DEV";
  
-@@ -43,9 +44,9 @@ public record ServerBuildInfoImpl(
+@@ -44,9 +45,9 @@ public record ServerBuildInfoImpl(
          this(
              getManifestAttribute(manifest, ATTRIBUTE_BRAND_ID)
                  .map(Key::key)
@@ -241,10 +241,10 @@ index 8f74c2ec5252b6265549589310d742337c91cb2c..1f4c965531393dd81246de487bc86f6d
                      servergui.runFinalizers();
                  }
 diff --git a/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java b/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
-index 0dde7cd71a32e6c0cde6cbbaef585896a3d7dae7..490c4cf1067fe0f68a681511e60264134063d876 100644
+index cf0f3a14584b9280211f88808cb1ddfb10105ec5..dd3083f0f1efb9074e5eb8ebec69f77b59a91613 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
-@@ -274,7 +274,7 @@ public class RegionFileStorage implements AutoCloseable, ca.spottedleaf.moonrise
+@@ -289,7 +289,7 @@ public class RegionFileStorage implements AutoCloseable, ca.spottedleaf.moonrise
  
      // Paper start
      private static void printOversizedLog(String msg, Path file, int x, int z) {
@@ -254,7 +254,7 @@ index 0dde7cd71a32e6c0cde6cbbaef585896a3d7dae7..490c4cf1067fe0f68a681511e6026413
  
      private static CompoundTag readOversizedChunk(RegionFile regionfile, ChunkPos chunkCoordinate) throws IOException {
 diff --git a/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java b/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java
-index c914e1e13c4f64f24efa5f825e58efb69632bfa6..137b1358ae73d93595eb4d702f44fc3ca3c0d54c 100644
+index 5e7b833fc9f37bc370c76e5c43e6c9919d6d20af..0b61d177a2a8c7286aac9d666a6d1c0f2c586849 100644
 --- a/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java
 +++ b/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java
 @@ -491,7 +491,7 @@ public class CraftScheduler implements BukkitScheduler {

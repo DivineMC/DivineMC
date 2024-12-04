@@ -52,10 +52,10 @@ index 05e16103af3fd276f0196ddf1a2e5b729b025c34..e0118dfee89d4319f70a0d2f84ba4c21
              return GsonHelper.parse(!s1.isEmpty() ? s1 : "{}");
          }, new JsonObject()), (String) this.get("level-type", (s1) -> {
 diff --git a/src/main/java/net/minecraft/server/level/ServerChunkCache.java b/src/main/java/net/minecraft/server/level/ServerChunkCache.java
-index 61a73a234d9bdd22958ae261b7d0359179f7a57b..d0f5db80dde032d325e05bade329418113545031 100644
+index 1cb8c9d21eef27492efc4995525c198cbffd4b9b..923fff42046ff5fde7b9a7be3ed19c7f7fa024ce 100644
 --- a/src/main/java/net/minecraft/server/level/ServerChunkCache.java
 +++ b/src/main/java/net/minecraft/server/level/ServerChunkCache.java
-@@ -641,6 +641,7 @@ public class ServerChunkCache extends ChunkSource implements ca.spottedleaf.moon
+@@ -685,6 +685,7 @@ public class ServerChunkCache extends ChunkSource implements ca.spottedleaf.moon
      }
  
      public ChunkGenerator getGenerator() {
@@ -64,7 +64,7 @@ index 61a73a234d9bdd22958ae261b7d0359179f7a57b..d0f5db80dde032d325e05bade3294181
      }
  
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index f1ccf5ecbb6d6b86bec05ce722cd7c82174bb28a..a840b8fa8851125c1fe078eb00c7e8a02524589f 100644
+index 6a359f1ed07aa7b9c78e470fb00661ea03eaec03..1d824fbf42cca489488ce92ca61ea348aed34787 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -643,6 +643,7 @@ public class ServerLevel extends Level implements ServerEntityGetter, WorldGenLe
@@ -435,7 +435,7 @@ index a59fdf91cb2f17aa2855af0a63a1396ed6179185..3f2ccf2c21411d2a8df39b034b9898a0
          Rotation rotation = Rotation.getRandom(worldgenRandom);
          StructureTemplatePool structureTemplatePool = structurePool.unwrapKey()
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftChunk.java b/src/main/java/org/bukkit/craftbukkit/CraftChunk.java
-index 0074bc0e7147dc3a8c538e796f14ac9bf8725896..2f9e110fc8067dff39eb0222a1fb47b9706122e4 100644
+index 2dd38f40c8c0b48b12ffe557ceeed69213066a6a..11cad88fc387f64df0f4e13558611c4d69487266 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftChunk.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftChunk.java
 @@ -205,7 +205,12 @@ public class CraftChunk implements Chunk {

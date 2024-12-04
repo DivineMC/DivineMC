@@ -5,7 +5,7 @@ Subject: [PATCH] Divine Configuration
 
 
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index e9ad8e2ac267c46df80e884308df8bb12d0deeff..1f5f592fee897afaad76d779c224aa297c436814 100644
+index 7a442fb4cf78bcb1268359ee41a6de138edb76b6..924a1b7f444ab78512bb7773faf513a2a48fb485 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -57,6 +57,7 @@ import net.minecraft.world.level.GameType;
@@ -16,9 +16,9 @@ index e9ad8e2ac267c46df80e884308df8bb12d0deeff..1f5f592fee897afaad76d779c224aa29
  
  // CraftBukkit start
  import net.minecraft.server.WorldLoader;
-@@ -247,6 +248,16 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
-         com.destroystokyo.paper.Metrics.PaperMetrics.startMetrics(); // Paper - start metrics
-         com.destroystokyo.paper.VersionHistoryManager.INSTANCE.getClass(); // Paper - load version history now
+@@ -250,6 +251,16 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+         gg.pufferfish.pufferfish.PufferfishConfig.load(); // Pufferfish
+         gg.pufferfish.pufferfish.PufferfishCommand.init(); // Pufferfish
  
 +        // DivineMC start
 +        try {
@@ -34,7 +34,7 @@ index e9ad8e2ac267c46df80e884308df8bb12d0deeff..1f5f592fee897afaad76d779c224aa29
          this.setFlightAllowed(dedicatedserverproperties.allowFlight);
          this.setMotd(dedicatedserverproperties.motd);
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index eb52b1eea31a390c5f17a6c6b6e8bc6217d50189..7f09bcb70b8840acce057ef6eef90dfb41d46e70 100644
+index 34e8eb828be517d9ee3973597c74c5cac3d75c99..833983670727fc2844386ea2381358433f646c50 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
 @@ -85,6 +85,7 @@ import net.minecraft.world.phys.AABB;
@@ -113,11 +113,11 @@ index 81922bf93f8a96e6cf05944ca98a82cc5945a6c6..825066dbd54ef753cdc03cbbe9deb654
          public void restart() {
              org.spigotmc.RestartCommand.restart();
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 5bce26e9671aab15ac4bac9a0d00b5184bef74ea..55a522209ff34f166295fe6b7c218cebecf5e940 100644
+index 430407b0cf06ba337c59cd576c7e40a8e5fe8229..67723070296f861c477ab484ad7f39db9eba3074 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
-@@ -184,6 +184,14 @@ public class Main {
-                     .describedAs("Yml file");
+@@ -190,6 +190,14 @@ public class Main {
+                         .describedAs("Yml file");
                  // Purpur end
  
 +                // DivineMC start

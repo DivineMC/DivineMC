@@ -5,10 +5,10 @@ Subject: [PATCH] Suppress errors from dirty attributes
 
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerEntity.java b/src/main/java/net/minecraft/server/level/ServerEntity.java
-index d8717af85f539da807ddf866e17f1e643c83d3f6..50c70173a3e896c0489dcb5f4c8d81b274d4726b 100644
+index c14ce846afb7364e541bfe01b73a06a94e48f55b..ed59639d7c92dc6e2e8ecf93738c0cabd71972ca 100644
 --- a/src/main/java/net/minecraft/server/level/ServerEntity.java
 +++ b/src/main/java/net/minecraft/server/level/ServerEntity.java
-@@ -453,7 +453,10 @@ public class ServerEntity {
+@@ -455,7 +455,10 @@ public class ServerEntity {
          }
  
          if (this.entity instanceof LivingEntity) {
@@ -20,7 +20,7 @@ index d8717af85f539da807ddf866e17f1e643c83d3f6..50c70173a3e896c0489dcb5f4c8d81b2
  
              if (!set.isEmpty()) {
                  // CraftBukkit start - Send scaled max health
-@@ -464,7 +467,7 @@ public class ServerEntity {
+@@ -466,7 +469,7 @@ public class ServerEntity {
                  this.broadcastAndSend(new ClientboundUpdateAttributesPacket(this.entity.getId(), set));
              }
  
