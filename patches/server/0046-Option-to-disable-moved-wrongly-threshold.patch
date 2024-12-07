@@ -5,7 +5,7 @@ Subject: [PATCH] Option to disable moved wrongly threshold
 
 
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 621202a01415dec318df62b4af1d2ef00c6b36b0..431505a5ec010f56002ef0f07f22511387162f61 100644
+index 28061983ab0abaf0ddc95b5eaedcf153bdb07c9f..d0972746c7def6d6930c447f38d76fd5297a8a7e 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -592,7 +592,7 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
@@ -28,7 +28,7 @@ index 621202a01415dec318df62b4af1d2ef00c6b36b0..431505a5ec010f56002ef0f07f225113
                      ServerGamePacketListenerImpl.LOGGER.warn("{} (vehicle of {}) moved wrongly! {}", new Object[]{entity.getName().getString(), this.player.getName().getString(), Math.sqrt(d10)});
                  }
  
-@@ -1536,7 +1536,7 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
+@@ -1537,7 +1537,7 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
                                          io.papermc.paper.event.player.PlayerFailMoveEvent event = fireFailMove(io.papermc.paper.event.player.PlayerFailMoveEvent.FailReason.MOVED_TOO_QUICKLY,
                                              toX, toY, toZ, toYaw, toPitch, true);
                                          if (!event.isAllowed()) {
@@ -37,7 +37,7 @@ index 621202a01415dec318df62b4af1d2ef00c6b36b0..431505a5ec010f56002ef0f07f225113
                                                  ServerGamePacketListenerImpl.LOGGER.warn("{} moved too quickly! {},{},{}", new Object[]{this.player.getName().getString(), d6, d7, d8});
                                              this.teleport(this.player.getX(), this.player.getY(), this.player.getZ(), this.player.getYRot(), this.player.getXRot());
                                              return;
-@@ -1606,7 +1606,7 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
+@@ -1607,7 +1607,7 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
                              d10 = d6 * d6 + d7 * d7 + d8 * d8;
                              boolean movedWrongly = false; // Paper - Add fail move event; rename
  

@@ -51,7 +51,7 @@ index 74d7aaae57e0e9ea9e31c4b2189ba50a0ac83bea..445ccd4ca89e6d5a536897e979366a4c
 +}
 +// DivineMC end
 diff --git a/src/main/java/com/destroystokyo/paper/Metrics.java b/src/main/java/com/destroystokyo/paper/Metrics.java
-index 8cde30544e14f8fc2dac32966ae3c21f8cf3a551..d9e5756f40bbafdb1efc97039562ca7835ea3020 100644
+index 4a8f95670e25c81952cccbaf4c6e49514cacd529..50f93c65f3461ae66963f603f76989f23e585fc0 100644
 --- a/src/main/java/com/destroystokyo/paper/Metrics.java
 +++ b/src/main/java/com/destroystokyo/paper/Metrics.java
 @@ -3,6 +3,7 @@ package com.destroystokyo.paper;
@@ -62,7 +62,7 @@ index 8cde30544e14f8fc2dac32966ae3c21f8cf3a551..d9e5756f40bbafdb1efc97039562ca78
  import org.bukkit.craftbukkit.util.CraftMagicNumbers;
  import org.bukkit.plugin.Plugin;
  
-@@ -593,7 +594,7 @@ public class Metrics {
+@@ -592,7 +593,7 @@ public class Metrics {
              boolean logFailedRequests = config.getBoolean("logFailedRequests", false);
              // Only start Metrics, if it's enabled in the config
              if (config.getBoolean("enabled", true)) {
@@ -71,7 +71,7 @@ index 8cde30544e14f8fc2dac32966ae3c21f8cf3a551..d9e5756f40bbafdb1efc97039562ca78
  
                  metrics.addCustomChart(new Metrics.SimplePie("minecraft_version", () -> {
                      String minecraftVersion = Bukkit.getVersion();
-@@ -603,7 +604,7 @@ public class Metrics {
+@@ -602,7 +603,7 @@ public class Metrics {
  
                  metrics.addCustomChart(new Metrics.SingleLineChart("players", () -> Bukkit.getOnlinePlayers().size()));
                  metrics.addCustomChart(new Metrics.SimplePie("online_mode", () -> Bukkit.getOnlineMode() ? "online" : (io.papermc.paper.configuration.GlobalConfiguration.get().proxies.isProxyOnlineMode() ? "bungee" : "offline"))); // Purpur

@@ -5,10 +5,10 @@ Subject: [PATCH] Divine Branding
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index b0fd6c1804844f09428051952e3ac4e58f8c859c..b2d0775719ef98fa3006a8c674df60ce8aa6c077 100644
+index 49546dfbb4dd006b5a2419908890ba4c2a0e207a..db5b44861cabd70f7d9acb6a8a951efd68b97a18 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
-@@ -255,3 +255,12 @@ tasks.check {
+@@ -257,3 +257,12 @@ tasks.check {
      dependsOn(scanJarForOldGeneratedCode)
  }
  // Paper end
