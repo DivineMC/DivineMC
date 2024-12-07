@@ -7,8 +7,8 @@ on:
       - "ver/**"
 
 env:
-  version: '1.21.3'
-  branch: 'ver/1.21.3'
+  version: '1.21.4'
+  branch: 'ver/1.21.4'
   debug: 'false'
 
 jobs:
