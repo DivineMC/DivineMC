@@ -1,23 +1,23 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
-Date: Sun, 25 Jun 2023 22:54:47 +0300
+Date: Sun, 15 Dec 2024 23:28:29 +0300
 Subject: [PATCH] Fix MC-65198
 
 Original post on Mojira: https://bugs.mojang.com/browse/MC-65198
 
 diff --git a/src/main/java/net/minecraft/world/inventory/ItemCombinerMenu.java b/src/main/java/net/minecraft/world/inventory/ItemCombinerMenu.java
-index b3bd9bbd96efc4784b86c2be6bb857da4db919b8..665d975cdb6c66bc43e4a589f0ee140bba0fcda7 100644
+index ac9df238ef0f3d009f25976b95e0b750e963e952..9b187768d645759f12d1a474fe488663d304a068 100644
 --- a/src/main/java/net/minecraft/world/inventory/ItemCombinerMenu.java
 +++ b/src/main/java/net/minecraft/world/inventory/ItemCombinerMenu.java
-@@ -141,6 +141,7 @@ public abstract class ItemCombinerMenu extends AbstractContainerMenu {
+@@ -129,6 +129,7 @@ public abstract class ItemCombinerMenu extends AbstractContainerMenu {
              ItemStack itemstack1 = slot1.getItem();
  
              itemstack = itemstack1.copy();
-+            ItemStack itemStack2 = itemstack.copy();
++            ItemStack itemStack2 = itemstack.copy(); // DivineMC - Fix MC-65198
              int j = this.getInventorySlotStart();
              int k = this.getUseRowEnd();
  
-@@ -179,7 +180,7 @@ public abstract class ItemCombinerMenu extends AbstractContainerMenu {
+@@ -165,7 +166,7 @@ public abstract class ItemCombinerMenu extends AbstractContainerMenu {
              }
  
              this.activeQuickItem = itemstack; // Purpur - Anvil API
@@ -27,10 +27,10 @@ index b3bd9bbd96efc4784b86c2be6bb857da4db919b8..665d975cdb6c66bc43e4a589f0ee140b
          }
  
 diff --git a/src/main/java/net/minecraft/world/inventory/ResultSlot.java b/src/main/java/net/minecraft/world/inventory/ResultSlot.java
-index 37a89bf79017eb65f82276b054a70ddb5eb5e549..10d2d3a21b9a44ddf28977f2cb8ce4deee20d291 100644
+index ff30071f3ef37d1b28cf86e26ce4f7477335a07a..a7b2a88cf2c1e8f717e512a9bc01772a463009bb 100644
 --- a/src/main/java/net/minecraft/world/inventory/ResultSlot.java
 +++ b/src/main/java/net/minecraft/world/inventory/ResultSlot.java
-@@ -46,7 +46,7 @@ public class ResultSlot extends Slot {
+@@ -49,7 +49,7 @@ public class ResultSlot extends Slot {
      @Override
      protected void checkTakeAchievements(ItemStack stack) {
          if (this.removeCount > 0) {
@@ -40,10 +40,10 @@ index 37a89bf79017eb65f82276b054a70ddb5eb5e549..10d2d3a21b9a44ddf28977f2cb8ce4de
  
          if (this.container instanceof RecipeCraftingHolder recipeCraftingHolder) {
 diff --git a/src/main/java/net/minecraft/world/inventory/StonecutterMenu.java b/src/main/java/net/minecraft/world/inventory/StonecutterMenu.java
-index 5ddae1afab0a68465ea60395c84b0997ee994f88..76790f8433698b58265449b3edb6ce5be7e9678b 100644
+index 5dce62aead43c7110e06196423458eea2ba31885..120094e07b73e81dbaa5bb1cf727feb3842f7380 100644
 --- a/src/main/java/net/minecraft/world/inventory/StonecutterMenu.java
 +++ b/src/main/java/net/minecraft/world/inventory/StonecutterMenu.java
-@@ -264,6 +264,7 @@ public class StonecutterMenu extends AbstractContainerMenu {
+@@ -259,6 +259,7 @@ public class StonecutterMenu extends AbstractContainerMenu {
              Item item = itemstack1.getItem();
  
              itemstack = itemstack1.copy();
@@ -51,12 +51,15 @@ index 5ddae1afab0a68465ea60395c84b0997ee994f88..76790f8433698b58265449b3edb6ce5b
              if (slot == 1) {
                  item.onCraftedBy(itemstack1, player.level(), player);
                  if (!this.moveItemStackTo(itemstack1, 2, 38, true)) {
-@@ -296,7 +297,7 @@ public class StonecutterMenu extends AbstractContainerMenu {
+@@ -291,9 +292,9 @@ public class StonecutterMenu extends AbstractContainerMenu {
                  return ItemStack.EMPTY;
              }
  
 -            slot1.onTake(player, itemstack1);
 +            slot1.onTake(player, itemStack2); // DivineMC - Fix MC-65198
-             this.broadcastChanges();
-         }
+             if (slot == 1) {
+-                player.drop(itemstack1, false);
++                player.drop(itemStack2, false); // DivineMC - Fix MC-65198
+             }
  
+             this.broadcastChanges();

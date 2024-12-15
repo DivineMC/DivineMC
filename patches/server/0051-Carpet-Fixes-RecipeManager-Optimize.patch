@@ -1,0 +1,52 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Sun, 15 Dec 2024 23:32:36 +0300
+Subject: [PATCH] Carpet-Fixes: RecipeManager Optimize
+
+Original project: https://github.com/fxmorin/carpet-fixes
+Optimized the RecipeManager getFirstMatch call to be up to 3x faster
+This is a fully vanilla optimization. Improves: [Blast]Furnace/Campfire/Smoker/Stonecutter/Crafting/Sheep Color Choosing
+This was mostly made for the auto crafting table, since the performance boost is much more visible while using that mod
+
+diff --git a/src/main/java/net/minecraft/world/item/crafting/RecipeManager.java b/src/main/java/net/minecraft/world/item/crafting/RecipeManager.java
+index 2483627f807d7a3907f6848a8bc45d7a798e746d..01b63bf331a39b5fb23734f72a4f9880a98094b2 100644
+--- a/src/main/java/net/minecraft/world/item/crafting/RecipeManager.java
++++ b/src/main/java/net/minecraft/world/item/crafting/RecipeManager.java
+@@ -197,7 +197,7 @@ public class RecipeManager extends SimplePreparableReloadListener<RecipeMap> imp
+ 
+     public <I extends RecipeInput, T extends Recipe<I>> Optional<RecipeHolder<T>> getRecipeFor(RecipeType<T> type, I input, Level world) {
+         // CraftBukkit start
+-        List<RecipeHolder<T>> list = this.recipes.getRecipesFor(type, input, world).toList();
++        List<RecipeHolder<T>> list = this.recipes.getRecipesForList(type, input, world); // DivineMC - Carpet-Fixes - Remove streams to be faster
+         return (list.isEmpty()) ? Optional.empty() : Optional.of(list.getLast()); // CraftBukkit - SPIGOT-4638: last recipe gets priority
+         // CraftBukkit end
+     }
+diff --git a/src/main/java/net/minecraft/world/item/crafting/RecipeMap.java b/src/main/java/net/minecraft/world/item/crafting/RecipeMap.java
+index c4067fbf827fed882772962a0e4b3ead0d642e62..2d289139f80855f07121861b1f840058f0bc9ec1 100644
+--- a/src/main/java/net/minecraft/world/item/crafting/RecipeMap.java
++++ b/src/main/java/net/minecraft/world/item/crafting/RecipeMap.java
+@@ -105,4 +105,24 @@ public class RecipeMap {
+             return recipeholder.value().matches(input, world);
+         });
+     }
++
++    // DivineMC start - Carpet-Fixes - Remove streams to be faster
++    public <I extends RecipeInput, T extends Recipe<I>> java.util.List<RecipeHolder<T>> getRecipesForList(RecipeType<T> type, I input, Level world) {
++        java.util.List<RecipeHolder<T>> list;
++
++        if (input.isEmpty()) {
++            return java.util.List.of();
++        } else {
++            list = new java.util.ArrayList<>();
++        }
++
++        for (RecipeHolder<T> recipeholder : this.byType(type)) {
++            if (recipeholder.value().matches(input, world)) {
++                list.add(recipeholder);
++            }
++        }
++
++        return list;
++    }
++    // DivineMC end - Carpet-Fixes - Remove streams to be faster
+ }

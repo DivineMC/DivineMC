@@ -1,0 +1,78 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Mon, 16 Dec 2024 00:13:15 +0300
+Subject: [PATCH] C2ME: Optimize world gen math
+
+
+diff --git a/src/main/java/net/minecraft/world/level/ChunkPos.java b/src/main/java/net/minecraft/world/level/ChunkPos.java
+index 0639e4565c3324d757dec1226adb4e99d841f2c0..7b659fc5cc373e5d26968c693e97b5f725a2e600 100644
+--- a/src/main/java/net/minecraft/world/level/ChunkPos.java
++++ b/src/main/java/net/minecraft/world/level/ChunkPos.java
+@@ -110,7 +110,12 @@ public class ChunkPos {
+ 
+     @Override
+     public boolean equals(Object object) {
+-        return this == object || object instanceof ChunkPos chunkPos && this.x == chunkPos.x && this.z == chunkPos.z;
++        // DivineMC start - Use standard equals
++        if (object == this) return true;
++        if (object == null || object.getClass() != this.getClass()) return false;
++        ChunkPos thatPos = (ChunkPos) object;
++        return this.x == thatPos.x && this.z == thatPos.z;
++        // DivineMC end
+     }
+ 
+     public int getMiddleBlockX() {
+diff --git a/src/main/java/net/minecraft/world/level/levelgen/Beardifier.java b/src/main/java/net/minecraft/world/level/levelgen/Beardifier.java
+index ca93a97256350789ca56f910862c9d717ca7670b..3597fa53c6c58540cb37a9bf27c71e18ebf47660 100644
+--- a/src/main/java/net/minecraft/world/level/levelgen/Beardifier.java
++++ b/src/main/java/net/minecraft/world/level/levelgen/Beardifier.java
+@@ -132,8 +132,14 @@ public class Beardifier implements DensityFunctions.BeardifierOrMarker {
+     }
+ 
+     private static double getBuryContribution(double x, double y, double z) {
+-        double d = Mth.length(x, y, z);
+-        return Mth.clampedMap(d, 0.0, 6.0, 1.0, 0.0);
++        // DivineMC start - Optimize method for beardifier
++        double d = Math.sqrt(x * x + y * y + z * z);
++        if (d > 6.0) {
++            return 0.0;
++        } else {
++            return 1.0 - d / 6.0;
++        }
++        // DivineMC end
+     }
+ 
+     private static double getBeardContribution(int x, int y, int z, int yy) {
+diff --git a/src/main/java/net/minecraft/world/level/levelgen/NoiseBasedChunkGenerator.java b/src/main/java/net/minecraft/world/level/levelgen/NoiseBasedChunkGenerator.java
+index 3f39d6c786d9dfdd9ad591e08ff05fcbb41a1df6..3874da1d4d78be91b4a4d67ef7eb3374d944b373 100644
+--- a/src/main/java/net/minecraft/world/level/levelgen/NoiseBasedChunkGenerator.java
++++ b/src/main/java/net/minecraft/world/level/levelgen/NoiseBasedChunkGenerator.java
+@@ -74,11 +74,10 @@ public final class NoiseBasedChunkGenerator extends ChunkGenerator {
+         Aquifer.FluidStatus aquifer_b = new Aquifer.FluidStatus(-54, Blocks.LAVA.defaultBlockState());
+         int i = settings.seaLevel();
+         Aquifer.FluidStatus aquifer_b1 = new Aquifer.FluidStatus(i, settings.defaultFluid());
+-        Aquifer.FluidStatus aquifer_b2 = new Aquifer.FluidStatus(DimensionType.MIN_Y * 2, Blocks.AIR.defaultBlockState());
+-
+-        return (j, k, l) -> {
+-            return k < Math.min(-54, i) ? aquifer_b : aquifer_b1;
+-        };
++        // DivineMC start - Optimize world gen
++        final int min = Math.min(-54, i);
++        return (j, k, l) -> k < min ? aquifer_b : aquifer_b1;
++        // DivineMC end
+     }
+ 
+     @Override
+diff --git a/src/main/java/net/minecraft/world/level/levelgen/synth/PerlinNoise.java b/src/main/java/net/minecraft/world/level/levelgen/synth/PerlinNoise.java
+index 74a666a45289f0902b426ba57986cd93b41cb42c..c050f59051209dd14a1b8b175a3809769d47bd01 100644
+--- a/src/main/java/net/minecraft/world/level/levelgen/synth/PerlinNoise.java
++++ b/src/main/java/net/minecraft/world/level/levelgen/synth/PerlinNoise.java
+@@ -218,7 +218,7 @@ public class PerlinNoise {
+     }
+ 
+     public static double wrap(double value) {
+-        return value - (double)Mth.lfloor(value / 3.3554432E7 + 0.5) * 3.3554432E7;
++        return value - Math.floor(value / 3.3554432E7 + 0.5) * 3.3554432E7; // DivineMC - Avoid casting
+     }
+ 
+     protected int firstOctave() {

@@ -10,4 +10,4 @@ run
 .idea
 
 # Other files and folders
-build-data/dev-imports.txt
+build-data
