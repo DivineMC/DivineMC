@@ -36,7 +36,7 @@ All other files are licensed under MIT.
 [![bStats](https://bstats.org/signatures/server-implementation/DivineMC.svg)](https://bstats.org/plugin/server-implementation/DivineMC)
 
 ## API
-### [Javadoc](https://repo.bx-team.space/javadoc/snapshots/space/bxteam/divinemc/divinemc-api/1.21.3-R0.1-SNAPSHOT)
+### [Javadoc](https://repo.bx-team.space/javadoc/snapshots/space/bxteam/divinemc/divinemc-api/1.21.4-R0.1-SNAPSHOT)
 
 ### Dependency Information
 
@@ -51,7 +51,7 @@ All other files are licensed under MIT.
 <dependency>
   <groupId>space.bxteam.divinemc</groupId>
   <artifactId>divinemc-api</artifactId>
-  <version>1.21.3-R0.1-SNAPSHOT</version>
+  <version>1.21.4-R0.1-SNAPSHOT</version>
   <scope>provided</scope>
 </dependency>
 ```
@@ -64,7 +64,7 @@ repositories {
 ```
 ```groovy
 dependencies {
-    compileOnly("space.bxteam.divinemc:divinemc-api:1.21.3-R0.1-SNAPSHOT")
+    compileOnly("space.bxteam.divinemc:divinemc-api:1.21.4-R0.1-SNAPSHOT")
 }
 ```
 
