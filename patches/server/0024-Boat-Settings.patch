@@ -5,7 +5,7 @@ Subject: [PATCH] Boat Settings
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/vehicle/AbstractBoat.java b/src/main/java/net/minecraft/world/entity/vehicle/AbstractBoat.java
-index 56c265940208bc94f531a5af94f564b59f35ebf3..d35451601a86de4d09aa4f819f86f7ea3235b660 100644
+index 1a4fb057025689a22b3dd05f531f0d8639d7e47b..c1bdc94a7c0084341fe857a0caff0764fc9e8b1e 100644
 --- a/src/main/java/net/minecraft/world/entity/vehicle/AbstractBoat.java
 +++ b/src/main/java/net/minecraft/world/entity/vehicle/AbstractBoat.java
 @@ -296,7 +296,18 @@ public abstract class AbstractBoat extends VehicleEntity implements Leashable {

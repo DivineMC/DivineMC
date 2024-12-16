@@ -5,7 +5,7 @@ Subject: [PATCH] Snowball and Egg knockback
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/Snowball.java b/src/main/java/net/minecraft/world/entity/projectile/Snowball.java
-index 0db58e7d63a5c1b43a2224c247979f23a1d3f899..632e9c255fa7e30bb99d070e0a456d90f3c25b61 100644
+index 6fdacf2f6934521a0dd4b25aea35a6a14123da0a..477a6326f19a15c9ea7e0329515ec0007ac2cd20 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/Snowball.java
 +++ b/src/main/java/net/minecraft/world/entity/projectile/Snowball.java
 @@ -3,6 +3,7 @@ package net.minecraft.world.entity.projectile;

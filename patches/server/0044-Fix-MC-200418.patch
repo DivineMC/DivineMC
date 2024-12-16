@@ -7,10 +7,10 @@ Original bug on Mojira: https://bugs.mojang.com/browse/MC-200418
 Took here: https://github.com/Winds-Studio/Leaf/blob/ver/1.21/patches/server/0081-Fix-MC-200418.patch
 
 diff --git a/src/main/java/net/minecraft/world/entity/monster/ZombieVillager.java b/src/main/java/net/minecraft/world/entity/monster/ZombieVillager.java
-index cd66ef1d99f3ce4533c2423fd12b2fcadf481a66..1faf14bfa3b579ea5be982a00ca98e362756ca7d 100644
+index bba3562bf316878e7b8ba6a138889d9583a1b0f6..7ce3a667b819c096257732d8505b1aae03b0a148 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/ZombieVillager.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/ZombieVillager.java
-@@ -326,6 +326,12 @@ public class ZombieVillager extends Zombie implements VillagerDataHolder {
+@@ -330,6 +330,12 @@ public class ZombieVillager extends Zombie implements VillagerDataHolder {
              if (!this.isSilent()) {
                  world.levelEvent((Player) null, 1027, this.blockPosition(), 0);
              }

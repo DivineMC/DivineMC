@@ -5,14 +5,14 @@ Subject: [PATCH] Divine Branding
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 74d7aaae57e0e9ea9e31c4b2189ba50a0ac83bea..445ccd4ca89e6d5a536897e979366a4c2bde7145 100644
+index 624588207afdc52adae14e5de3d18fe1c330d832..1dc3378c0cdda49ca0cee17cd2959fcb32c4cfcc 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -25,7 +25,7 @@ abstract class MockitoAgentProvider : CommandLineArgumentProvider {
  // Paper end - configure mockito agent that is needed in newer java versions
  
  dependencies {
--    implementation(project(":purpur-api")) // Pufferfish // Paper // Purpur
+-    implementation(project(":purpur-api")) // Pufferfish // Paper // Purpur - Rebrand
 +    implementation(project(":divinemc-api")) // DivineMC
      implementation("ca.spottedleaf:concurrentutil:0.0.2") // Paper - Add ConcurrentUtil dependency
      // Paper start
@@ -21,16 +21,16 @@ index 74d7aaae57e0e9ea9e31c4b2189ba50a0ac83bea..445ccd4ca89e6d5a536897e979366a4c
          val gitBranch = git("rev-parse", "--abbrev-ref", "HEAD").getText().trim() // Paper
          attributes(
              "Main-Class" to "org.bukkit.craftbukkit.Main",
--            "Implementation-Title" to "Purpur", // Pufferfish // Purpur
+-            "Implementation-Title" to "Purpur", // Pufferfish // Purpur - Rebrand
 +            "Implementation-Title" to "DivineMC", // DivineMC
              "Implementation-Version" to implementationVersion,
              "Implementation-Vendor" to date, // Paper
--            "Specification-Title" to "Purpur", // Pufferfish // Purpur
+-            "Specification-Title" to "Purpur", // Pufferfish // Purpur - Rebrand
 +            "Specification-Title" to "DivineMC", // DivineMC
              "Specification-Version" to project.version,
--            "Specification-Vendor" to "Purpur Team", // Pufferfish // Purpur
--            "Brand-Id" to "purpurmc:purpur", // Pufferfish // Purpur
--            "Brand-Name" to "Purpur", // Pufferfish // Purpur
+-            "Specification-Vendor" to "Purpur Team", // Pufferfish // Purpur - Rebrand
+-            "Brand-Id" to "purpurmc:purpur", // Pufferfish // Purpur - Rebrand
+-            "Brand-Name" to "Purpur", // Pufferfish // Purpur - Rebrand
 +            "Specification-Vendor" to "BX Team", // DivineMC + BX Team
 +            "Brand-Id" to "divinemc:divinemc", // DivineMC
 +            "Brand-Name" to "DivineMC", // DivineMC
@@ -51,7 +51,7 @@ index 74d7aaae57e0e9ea9e31c4b2189ba50a0ac83bea..445ccd4ca89e6d5a536897e979366a4c
 +}
 +// DivineMC end
 diff --git a/src/main/java/com/destroystokyo/paper/Metrics.java b/src/main/java/com/destroystokyo/paper/Metrics.java
-index 4a8f95670e25c81952cccbaf4c6e49514cacd529..50f93c65f3461ae66963f603f76989f23e585fc0 100644
+index be1bb14dca9367b9685841985b6198376986c496..50f93c65f3461ae66963f603f76989f23e585fc0 100644
 --- a/src/main/java/com/destroystokyo/paper/Metrics.java
 +++ b/src/main/java/com/destroystokyo/paper/Metrics.java
 @@ -3,6 +3,7 @@ package com.destroystokyo.paper;
@@ -66,32 +66,36 @@ index 4a8f95670e25c81952cccbaf4c6e49514cacd529..50f93c65f3461ae66963f603f76989f2
              boolean logFailedRequests = config.getBoolean("logFailedRequests", false);
              // Only start Metrics, if it's enabled in the config
              if (config.getBoolean("enabled", true)) {
--                Metrics metrics = new Metrics("Purpur", serverUUID, logFailedRequests, Bukkit.getLogger()); // Pufferfish // Purpur
+-                Metrics metrics = new Metrics("Purpur", serverUUID, logFailedRequests, Bukkit.getLogger()); // Pufferfish // Purpur - Purpur config files
 +                Metrics metrics = new Metrics("DivineMC", serverUUID, logFailedRequests, Bukkit.getLogger()); // DivineMC
  
                  metrics.addCustomChart(new Metrics.SimplePie("minecraft_version", () -> {
                      String minecraftVersion = Bukkit.getVersion();
-@@ -602,7 +603,7 @@ public class Metrics {
+@@ -601,8 +602,8 @@ public class Metrics {
+                 }));
  
                  metrics.addCustomChart(new Metrics.SingleLineChart("players", () -> Bukkit.getOnlinePlayers().size()));
-                 metrics.addCustomChart(new Metrics.SimplePie("online_mode", () -> Bukkit.getOnlineMode() ? "online" : (io.papermc.paper.configuration.GlobalConfiguration.get().proxies.isProxyOnlineMode() ? "bungee" : "offline"))); // Purpur
--                metrics.addCustomChart(new Metrics.SimplePie("purpur_version", () -> (org.bukkit.craftbukkit.Main.class.getPackage().getImplementationVersion() != null) ? org.bukkit.craftbukkit.Main.class.getPackage().getImplementationVersion() : "unknown")); // Purpur
+-                metrics.addCustomChart(new Metrics.SimplePie("online_mode", () -> Bukkit.getOnlineMode() ? "online" : (io.papermc.paper.configuration.GlobalConfiguration.get().proxies.isProxyOnlineMode() ? "bungee" : "offline"))); // Purpur - Purpur config files
+-                metrics.addCustomChart(new Metrics.SimplePie("purpur_version", () -> (org.bukkit.craftbukkit.Main.class.getPackage().getImplementationVersion() != null) ? org.bukkit.craftbukkit.Main.class.getPackage().getImplementationVersion() : "unknown")); // Purpur - Purpur config files
++                metrics.addCustomChart(new Metrics.SimplePie("online_mode", () -> Bukkit.getOnlineMode() ? "online" : (io.papermc.paper.configuration.GlobalConfiguration.get().proxies.isProxyOnlineMode() ? "bungee" : "offline"))); // Purpur
 +                metrics.addCustomChart(new Metrics.SimplePie("divinemc_version", () -> (CraftServer.class.getPackage().getImplementationVersion() != null) ? CraftServer.class.getPackage().getImplementationVersion() : "unknown")); // DivineMC
  
                  metrics.addCustomChart(new Metrics.DrilldownPie("java_version", () -> {
                      Map<String, Map<String, Integer>> map = new HashMap<>();
 diff --git a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java b/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
-index 6d36fc6d8e22d9b68dea3830f6ecc8763184c343..4d2a8974546016b80182ca30e34a1d85055caa87 100644
+index fe66e43c27e0798770e102d1385bacbaa90bda07..2ce62b1465f6653937082c17721a953b0d812750 100644
 --- a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
 +++ b/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
-@@ -36,13 +36,13 @@ public class PaperVersionFetcher implements VersionFetcher {
+@@ -35,14 +35,14 @@ public class PaperVersionFetcher implements VersionFetcher {
+     private static final Logger LOGGER = LogUtils.getClassLogger();
      private static final int DISTANCE_ERROR = -1;
      private static final int DISTANCE_UNKNOWN = -2;
-     // Purpur start
+-    // Purpur start - Rebrand
 -    private static final String DOWNLOAD_PAGE = "https://purpurmc.org/downloads";
-+    private static final String DOWNLOAD_PAGE = "https://github.com/DivineMC/DivineMC/releases/latest"; // DivineMC
++    // Purpur start
++    private static final String DOWNLOAD_PAGE = "https://github.com/DivineMC/DivineMC/releases/latest"; // DivineMC - Branding
      private static int distance = DISTANCE_UNKNOWN; public int distance() { return distance; }
-     // Purpur end
+     // Purpur end - Rebrand
  
      @Override
      public long getCacheTime() {
@@ -104,15 +108,17 @@ index 6d36fc6d8e22d9b68dea3830f6ecc8763184c343..4d2a8974546016b80182ca30e34a1d85
          if (build.buildNumber().isEmpty() && build.gitCommit().isEmpty()) {
              updateMessage = text("You are running a development version without access to version information", color(0xFF5300));
          } else {
--            updateMessage = getUpdateStatusMessage("PurpurMC/Purpur", build); // Purpur
-+            updateMessage = getUpdateStatusMessage("DivineMC/DivineMC", build); // DivineMC
+-            updateMessage = getUpdateStatusMessage("PurpurMC/Purpur", build); // Purpur - Rebrand
++            updateMessage = getUpdateStatusMessage("DivineMC/DivineMC", build); // DivineMC - Branding
          }
          final @Nullable Component history = this.getHistory();
  
-@@ -62,16 +62,13 @@ public class PaperVersionFetcher implements VersionFetcher {
-     private static Component getUpdateStatusMessage(final String repo, final ServerBuildInfo build) {
-         //int distance = DISTANCE_ERROR; // Purpur - use field
+@@ -60,18 +60,13 @@ public class PaperVersionFetcher implements VersionFetcher {
+     }
  
+     private static Component getUpdateStatusMessage(final String repo, final ServerBuildInfo build) {
+-        //int distance = DISTANCE_ERROR; // Purpur - use field - Rebrand
+-
 -        final OptionalInt buildNumber = build.buildNumber();
 -        if (buildNumber.isPresent()) {
 -            distance = fetchDistanceFromSiteApi(build, buildNumber.getAsInt());
@@ -131,23 +137,23 @@ index 6d36fc6d8e22d9b68dea3830f6ecc8763184c343..4d2a8974546016b80182ca30e34a1d85
 +        // DivineMC end
  
          return switch (distance) {
-             case DISTANCE_ERROR -> text("* Error obtaining version information", NamedTextColor.RED); // Purpur
-@@ -86,26 +83,6 @@ public class PaperVersionFetcher implements VersionFetcher {
+             case DISTANCE_ERROR -> text("* Error obtaining version information", NamedTextColor.RED); // Purpur - Rebrand
+@@ -86,26 +81,6 @@ public class PaperVersionFetcher implements VersionFetcher {
          };
      }
  
 -    private static int fetchDistanceFromSiteApi(final ServerBuildInfo build, final int jenkinsBuild) {
 -        try {
 -            try (final BufferedReader reader = Resources.asCharSource(
--                URI.create("https://api.purpurmc.org/v2/purpur/" + build.minecraftVersionId()).toURL(), // Purpur
+-                URI.create("https://api.purpurmc.org/v2/purpur/" + build.minecraftVersionId()).toURL(), // Purpur - Rebrand
 -                Charsets.UTF_8
 -            ).openBufferedStream()) {
 -                final JsonObject json = new Gson().fromJson(reader, JsonObject.class);
--                //final JsonArray builds = json.getAsJsonArray("builds"); // Purpur
--                final int latest = json.getAsJsonObject("builds").getAsJsonPrimitive("latest").getAsInt(); // Purpur
+-                //final JsonArray builds = json.getAsJsonArray("builds"); // Purpur - Rebrand
+-                final int latest = json.getAsJsonObject("builds").getAsJsonPrimitive("latest").getAsInt(); // Purpur - Rebrand
 -                return latest - jenkinsBuild;
 -            } catch (final JsonSyntaxException ex) {
--                LOGGER.error("Error parsing json from Purpur's downloads API", ex); // Purpur
+-                LOGGER.error("Error parsing json from Purpur's downloads API", ex); // Purpur - Rebrand
 -                return DISTANCE_ERROR;
 -            }
 -        } catch (final IOException e) {
@@ -160,27 +166,27 @@ index 6d36fc6d8e22d9b68dea3830f6ecc8763184c343..4d2a8974546016b80182ca30e34a1d85
      private static int fetchDistanceFromGitHub(final String repo, final String branch, final String hash) {
          try {
 diff --git a/src/main/java/com/destroystokyo/paper/console/PaperConsole.java b/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
-index 90b3526479320064378f2cde6c2f2b8e48a59ba6..43ff8842f697106d8d1ea4e58097243bf10f4d17 100644
+index bc7e4e5560708fea89c584b1d8b471f4966f311a..fe195f103456d5826e06b88bf2c97877c06dcf26 100644
 --- a/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
 +++ b/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
 @@ -20,7 +20,7 @@ public final class PaperConsole extends SimpleTerminalConsole {
      @Override
      protected LineReader buildReader(LineReaderBuilder builder) {
          builder
--                .appName("Purpur") // Purpur
-+                .appName("DivineMC") // DivineMC
+-                .appName("Purpur") // Purpur - Rebrand
++                .appName("DivineMC") // DivineMC - Branding
                  .variable(LineReader.HISTORY_FILE, java.nio.file.Paths.get(".console_history"))
                  .completer(new ConsoleCommandCompleter(this.server))
                  .option(LineReader.Option.COMPLETE_IN_WORD, true);
 diff --git a/src/main/java/io/papermc/paper/ServerBuildInfoImpl.java b/src/main/java/io/papermc/paper/ServerBuildInfoImpl.java
-index 3099c21ee589acf6edff5903a23673adf489024f..70c407cc8c6fb28ba6fcde1b8d5a66154ed71223 100644
+index 0843e7c5c335a58d955a0841f2e02a9e4ac824d9..6db69de0761d04dd74860d97006f82d6755abb42 100644
 --- a/src/main/java/io/papermc/paper/ServerBuildInfoImpl.java
 +++ b/src/main/java/io/papermc/paper/ServerBuildInfoImpl.java
 @@ -33,6 +33,7 @@ public record ServerBuildInfoImpl(
      private static final String BRAND_PAPER_NAME = "Paper";
-     private static final String BRAND_PUFFERFISH_NAME = "Pufferfish"; // Purpur
-     private static final String BRAND_PURPUR_NAME = "Purpur"; // Purpur
-+    private static final String BRAND_DIVINEMC_NAME = "DivineMC"; // DivineMC
+     private static final String BRAND_PUFFERFISH_NAME = "Pufferfish"; // Purpur - Fix pufferfish issues
+     private static final String BRAND_PURPUR_NAME = "Purpur"; // Purpur - Rebrand
++    private static final String BRAND_DIVINEMC_NAME = "DivineMC"; // DivineMC - Branding
  
      private static final String BUILD_DEV = "DEV";
  
@@ -188,11 +194,11 @@ index 3099c21ee589acf6edff5903a23673adf489024f..70c407cc8c6fb28ba6fcde1b8d5a6615
          this(
              getManifestAttribute(manifest, ATTRIBUTE_BRAND_ID)
                  .map(Key::key)
--                .orElse(BRAND_PURPUR_ID), // Purpur
-+                .orElse(BRAND_DIVINEMC_ID), // DivineMC
+-                .orElse(BRAND_PURPUR_ID), // Purpur - Fix pufferfish issues // Purpur - Rebrand
++                .orElse(BRAND_DIVINEMC_ID), // DivineMC - Branding
              getManifestAttribute(manifest, ATTRIBUTE_BRAND_NAME)
--                .orElse(BRAND_PURPUR_NAME), // Purpur
-+                .orElse(BRAND_DIVINEMC_NAME), // DivineMC
+-                .orElse(BRAND_PURPUR_NAME), // Purpur - Fix pufferfish issues // Purpur - Rebrand
++                .orElse(BRAND_DIVINEMC_NAME), // DivineMC - Branding
              SharedConstants.getCurrentVersion().getId(),
              SharedConstants.getCurrentVersion().getName(),
              getManifestAttribute(manifest, ATTRIBUTE_BUILD_NUMBER)
@@ -241,63 +247,63 @@ index 8f74c2ec5252b6265549589310d742337c91cb2c..1f4c965531393dd81246de487bc86f6d
                      servergui.runFinalizers();
                  }
 diff --git a/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java b/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
-index cf0f3a14584b9280211f88808cb1ddfb10105ec5..dd3083f0f1efb9074e5eb8ebec69f77b59a91613 100644
+index a68f27288604b6f6755efe3c8ea612e295cb1656..012e058ee31414b7c7666147336118bf44043357 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
 @@ -289,7 +289,7 @@ public class RegionFileStorage implements AutoCloseable, ca.spottedleaf.moonrise
  
      // Paper start
      private static void printOversizedLog(String msg, Path file, int x, int z) {
--        org.apache.logging.log4j.LogManager.getLogger().fatal(msg + " (" + file.toString().replaceAll(".+[\\\\/]", "") + " - " + x + "," + z + ") Go clean it up to remove this message. /minecraft:tp " + (x<<4)+" 128 "+(z<<4) + " - DO NOT REPORT THIS TO PURPUR - You may ask for help on Discord, but do not file an issue. These error messages can not be removed."); // Purpur
-+        org.apache.logging.log4j.LogManager.getLogger().fatal(msg + " (" + file.toString().replaceAll(".+[\\\\/]", "") + " - " + x + "," + z + ") Go clean it up to remove this message. /minecraft:tp " + (x<<4)+" 128 "+(z<<4) + " - DO NOT REPORT THIS TO DIVINEMC - You may ask for help on Discord, but do not file an issue. These error messages can not be removed."); // DivineMC
+-        org.apache.logging.log4j.LogManager.getLogger().fatal(msg + " (" + file.toString().replaceAll(".+[\\\\/]", "") + " - " + x + "," + z + ") Go clean it up to remove this message. /minecraft:tp " + (x<<4)+" 128 "+(z<<4) + " - DO NOT REPORT THIS TO PURPUR - You may ask for help on Discord, but do not file an issue. These error messages can not be removed."); // Purpur - Rebrand
++        org.apache.logging.log4j.LogManager.getLogger().fatal(msg + " (" + file.toString().replaceAll(".+[\\\\/]", "") + " - " + x + "," + z + ") Go clean it up to remove this message. /minecraft:tp " + (x<<4)+" 128 "+(z<<4) + " - DO NOT REPORT THIS TO DIVINEMC - You may ask for help on Discord, but do not file an issue. These error messages can not be removed."); // DivineMC - Branding
      }
  
      private static CompoundTag readOversizedChunk(RegionFile regionfile, ChunkPos chunkCoordinate) throws IOException {
 diff --git a/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java b/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java
-index 5e7b833fc9f37bc370c76e5c43e6c9919d6d20af..0b61d177a2a8c7286aac9d666a6d1c0f2c586849 100644
+index 2e7c3d4befeb6256ce81ecaa9ed4e8fbcb21651e..5a95655d925c212e5919540fc3b6154521aff2a2 100644
 --- a/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java
 +++ b/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java
 @@ -491,7 +491,7 @@ public class CraftScheduler implements BukkitScheduler {
                  this.parsePending();
              } else {
                  // this.debugTail = this.debugTail.setNext(new CraftAsyncDebugger(this.currentTick + CraftScheduler.RECENT_TICKS, task.getOwner(), task.getTaskClass())); // Paper
--                task.getOwner().getLogger().log(Level.SEVERE, "Unexpected Async Task in the Sync Scheduler. Report this to Purpur"); // Paper // Purpur
-+                task.getOwner().getLogger().log(Level.SEVERE, "Unexpected Async Task in the Sync Scheduler. Report this to DivineMC"); // Paper // DivineMC
+-                task.getOwner().getLogger().log(Level.SEVERE, "Unexpected Async Task in the Sync Scheduler. Report this to Purpur"); // Paper // Purpur - Rebrand
++                task.getOwner().getLogger().log(Level.SEVERE, "Unexpected Async Task in the Sync Scheduler. Report this to DivineMC"); // Paper // DivineMC - Branding
                  // We don't need to parse pending
                  // (async tasks must live with race-conditions if they attempt to cancel between these few lines of code)
              }
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java b/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
-index 99597258e8e88cd9e2c901c4ac3ff7faeeabee2b..7bbbdf2895776f12ebc153dc83f4d53be8f06c7c 100644
+index 99eb04643fce44c37fd96c99756837ccafe7b559..c6c7ae53203fa49d36077c42a8895d4285cd042f 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
 +++ b/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
 @@ -11,7 +11,7 @@ public final class Versioning {
      public static String getBukkitVersion() {
          String result = "Unknown-Version";
  
--        InputStream stream = Bukkit.class.getClassLoader().getResourceAsStream("META-INF/maven/org.purpurmc.purpur/purpur-api/pom.properties"); // Pufferfish // Purpur
-+        InputStream stream = Bukkit.class.getClassLoader().getResourceAsStream("META-INF/maven/space.bxteam.divinemc/divinemc-api/pom.properties"); // Pufferfish // Purpur // DivineMC
+-        InputStream stream = Bukkit.class.getClassLoader().getResourceAsStream("META-INF/maven/org.purpurmc.purpur/purpur-api/pom.properties"); // Pufferfish // Purpur - Rebrand
++        InputStream stream = Bukkit.class.getClassLoader().getResourceAsStream("META-INF/maven/space.bxteam.divinemc/divinemc-api/pom.properties"); // DivineMC - Branding
          Properties properties = new Properties();
  
          if (stream != null) {
 diff --git a/src/main/java/org/spigotmc/WatchdogThread.java b/src/main/java/org/spigotmc/WatchdogThread.java
-index f51cc3de3ca935ef90f7f0e9dd0506b856fc55f3..88e172c4f79f9f44b9de79a75acc2365bd0f2af8 100644
+index 47f168b2d62c9a0eebdd8ab678afd857e7622571..733e6a5b4e00e14a7b907fa0dceaedda93b3c903 100644
 --- a/src/main/java/org/spigotmc/WatchdogThread.java
 +++ b/src/main/java/org/spigotmc/WatchdogThread.java
 @@ -155,14 +155,14 @@ public class WatchdogThread extends ca.spottedleaf.moonrise.common.util.TickThre
                  if (isLongTimeout) {
                  // Paper end
                  log.log( Level.SEVERE, "------------------------------" );
--                log.log( Level.SEVERE, "The server has stopped responding! This is (probably) not a Purpur bug." ); // Paper // Purpur
-+                log.log( Level.SEVERE, "The server has stopped responding! This is (probably) not a DivineMC bug." ); // Paper // DivineMC
+-                log.log( Level.SEVERE, "The server has stopped responding! This is (probably) not a Purpur bug." ); // Paper // Purpur - Rebrand
++                log.log( Level.SEVERE, "The server has stopped responding! This is (probably) not a DivineMC bug." ); // Paper // DivineMC - Branding
                  log.log( Level.SEVERE, "If you see a plugin in the Server thread dump below, then please report it to that author" );
                  log.log( Level.SEVERE, "\t *Especially* if it looks like HTTP or MySQL operations are occurring" );
                  log.log( Level.SEVERE, "If you see a world save or edit, then it means you did far more than your server can handle at once" );
                  log.log( Level.SEVERE, "\t If this is the case, consider increasing timeout-time in spigot.yml but note that this will replace the crash with LARGE lag spikes" );
--                log.log( Level.SEVERE, "If you are unsure or still think this is a Purpur bug, please report this to https://github.com/PurpurMC/Purpur/issues" ); // Purpur
-+                log.log( Level.SEVERE, "If you are unsure or still think this is a DivineMC bug, please report this to https://github.com/DivineMC/DivineMC/issues" ); // DivineMC
+-                log.log( Level.SEVERE, "If you are unsure or still think this is a Purpur bug, please report this to https://github.com/PurpurMC/Purpur/issues" ); // Purpur - Rebrand
++                log.log( Level.SEVERE, "If you are unsure or still think this is a DivineMC bug, please report this to https://github.com/DivineMC/DivineMC/issues" ); // DivineMC - Branding
                  log.log( Level.SEVERE, "Be sure to include ALL relevant console errors and Minecraft crash reports" );
--                log.log( Level.SEVERE, "Purpur version: " + Bukkit.getServer().getVersion() ); // Purpur
-+                log.log( Level.SEVERE, "DivineMC version: " + Bukkit.getServer().getVersion() ); // DivineMC
+-                log.log( Level.SEVERE, "Purpur version: " + Bukkit.getServer().getVersion() ); // Purpur - Rebrand
++                log.log( Level.SEVERE, "DivineMC version: " + Bukkit.getServer().getVersion() ); // DivineMC - Branding
                  //
                  if ( net.minecraft.world.level.Level.lastPhysicsProblem != null )
                  {
@@ -305,14 +311,14 @@ index f51cc3de3ca935ef90f7f0e9dd0506b856fc55f3..88e172c4f79f9f44b9de79a75acc2365
                  // Paper end
                  } else
                  {
--                    log.log(Level.SEVERE, "--- DO NOT REPORT THIS TO PURPUR - THIS IS NOT A BUG OR A CRASH  - " + Bukkit.getServer().getVersion() + " ---"); // Purpur
-+                    log.log(Level.SEVERE, "--- DO NOT REPORT THIS TO DIVINEMC - THIS IS NOT A BUG OR A CRASH  - " + Bukkit.getServer().getVersion() + " ---"); // DivineMC
+-                    log.log(Level.SEVERE, "--- DO NOT REPORT THIS TO PURPUR - THIS IS NOT A BUG OR A CRASH  - " + Bukkit.getServer().getVersion() + " ---"); // Purpur - Rebrand
++                    log.log(Level.SEVERE, "--- DO NOT REPORT THIS TO DIVINEMC - THIS IS NOT A BUG OR A CRASH  - " + Bukkit.getServer().getVersion() + " ---"); // DivineMC - Branding
                      log.log(Level.SEVERE, "The server has not responded for " + (currentTime - lastTick) / 1000 + " seconds! Creating thread dump");
                  }
                  // Paper end - Different message for short timeout
                  log.log( Level.SEVERE, "------------------------------" );
--                log.log( Level.SEVERE, "Server thread dump (Look for plugins here before reporting to Purpur!):" ); // Paper // Purpur
-+                log.log( Level.SEVERE, "Server thread dump (Look for plugins here before reporting to DivineMC!):" ); // Paper // Purpur // DivineMC
+-                log.log( Level.SEVERE, "Server thread dump (Look for plugins here before reporting to Purpur!):" ); // Paper // Purpur - Rebrand
++                log.log( Level.SEVERE, "Server thread dump (Look for plugins here before reporting to DivineMC!):" ); // Paper // DivineMC - Branding
                  ca.spottedleaf.moonrise.patches.chunk_system.scheduling.ChunkTaskScheduler.dumpAllChunkLoadInfo(MinecraftServer.getServer(), isLongTimeout); // Paper - rewrite chunk system
                  this.dumpTickingInfo(); // Paper - log detailed tick information
                  WatchdogThread.dumpThread( ManagementFactory.getThreadMXBean().getThreadInfo( MinecraftServer.getServer().serverThread.getId(), Integer.MAX_VALUE ), log );
@@ -320,8 +326,8 @@ index f51cc3de3ca935ef90f7f0e9dd0506b856fc55f3..88e172c4f79f9f44b9de79a75acc2365
                      WatchdogThread.dumpThread( thread, log );
                  }
                  } else {
--                    log.log(Level.SEVERE, "--- DO NOT REPORT THIS TO PURPUR - THIS IS NOT A BUG OR A CRASH ---"); // Purpur
-+                    log.log(Level.SEVERE, "--- DO NOT REPORT THIS TO DIVINEMC - THIS IS NOT A BUG OR A CRASH ---"); // DivineMC
+-                    log.log(Level.SEVERE, "--- DO NOT REPORT THIS TO PURPUR - THIS IS NOT A BUG OR A CRASH ---"); // Purpur - Rebrand
++                    log.log(Level.SEVERE, "--- DO NOT REPORT THIS TO DIVINEMC - THIS IS NOT A BUG OR A CRASH ---"); // DivineMC - Branding
                  }
  
                  log.log( Level.SEVERE, "------------------------------" );

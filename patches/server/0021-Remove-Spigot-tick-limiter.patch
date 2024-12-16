@@ -7,19 +7,19 @@ Original code by Titaniumtown, modified by NONPLAYT
 You can find the original code on https://gitlab.com/Titaniumtown/JettPack
 
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 346594614b44cc42a3d6a02bb9684812335a41f3..2078124d0bcb0d17a15087e4c42aecd73b28061c 100644
+index d152815ed2b12334458eba1eb88171d563169e84..4ce5cf4f5e2974e3d87514aee920d296a973938e 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
-@@ -179,8 +179,6 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
-     public final org.purpurmc.purpur.PurpurWorldConfig purpurConfig; // Purpur
-     public final DivineWorldConfig divinemcConfig; // DivineMC
+@@ -178,8 +178,6 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
+     public final org.purpurmc.purpur.PurpurWorldConfig purpurConfig; // Purpur - Purpur config files
+     public final space.bxteam.divinemc.configuration.DivineWorldConfig divinemcConfig; // DivineMC
      public static BlockPos lastPhysicsProblem; // Spigot
 -    private org.spigotmc.TickLimiter entityLimiter;
 -    private org.spigotmc.TickLimiter tileLimiter;
      private int tileTickPosition;
      public final Map<ServerExplosion.CacheKey, Float> explosionDensityCache = new HashMap<>(); // Paper - Optimize explosions
      public java.util.ArrayDeque<net.minecraft.world.level.block.RedstoneTorchBlock.Toggle> redstoneUpdateInfos; // Paper - Faster redstone torch rapid clock removal; Move from Map in BlockRedstoneTorch to here
-@@ -967,8 +965,6 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
+@@ -966,8 +964,6 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
              public void onBorderSetDamageSafeZOne(WorldBorder border, double safeZoneRadius) {}
          });
          // CraftBukkit end

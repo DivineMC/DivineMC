@@ -7,7 +7,7 @@ Original bug on Mojira: https://bugs.mojang.com/browse/MC-119417
 Took here: https://github.com/Winds-Studio/Leaf/blob/ver/1.21/patches/server/0082-Fix-MC-119417.patch
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerPlayer.java b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-index 8264adc43edfebc2c260c2b915186c20ec3637cc..11ddb8e362f5fcedacc27f01fc7f2bee794784df 100644
+index 6f39fd99ffb28d6c0267f4251c54af0c519289db..0da41d7b11ac98d4cbd059f48be75fb43012118e 100644
 --- a/src/main/java/net/minecraft/server/level/ServerPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/ServerPlayer.java
 @@ -2487,6 +2487,7 @@ public class ServerPlayer extends net.minecraft.world.entity.player.Player imple

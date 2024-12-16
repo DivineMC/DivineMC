@@ -1,0 +1,544 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Mon, 16 Dec 2024 20:43:11 +0300
+Subject: [PATCH] Multithreaded Tracker
+
+
+diff --git a/src/main/java/io/papermc/paper/plugin/manager/PaperEventManager.java b/src/main/java/io/papermc/paper/plugin/manager/PaperEventManager.java
+index 2219edf3e56a2eade1049f448360247f48e3c52a..6f50be80a88504d0948ce9635eadfee9a208ae82 100644
+--- a/src/main/java/io/papermc/paper/plugin/manager/PaperEventManager.java
++++ b/src/main/java/io/papermc/paper/plugin/manager/PaperEventManager.java
+@@ -42,6 +42,12 @@ class PaperEventManager {
+         if (event.isAsynchronous() && this.server.isPrimaryThread()) {
+             throw new IllegalStateException(event.getEventName() + " may only be triggered asynchronously.");
+         } else if (!event.isAsynchronous() && !this.server.isPrimaryThread() && !this.server.isStopping()) {
++            // DivineMC start - Multithreaded tracker
++            if (space.bxteam.divinemc.configuration.DivineConfig.multithreadedEnabled) {
++                net.minecraft.server.MinecraftServer.getServer().scheduleOnMain(event::callEvent);
++                return;
++            }
++            // DivineMC end
+             throw new IllegalStateException(event.getEventName() + " may only be triggered synchronously.");
+         }
+ 
+diff --git a/src/main/java/net/minecraft/server/level/ChunkMap.java b/src/main/java/net/minecraft/server/level/ChunkMap.java
+index 7ef101bdb4e9b37bd2e73247ef916769789de2ea..9d344cc8b50a70efdd325a7b7fd8768f73285f58 100644
+--- a/src/main/java/net/minecraft/server/level/ChunkMap.java
++++ b/src/main/java/net/minecraft/server/level/ChunkMap.java
+@@ -243,9 +243,19 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
+             return;
+         }
+         final ServerPlayer[] backingSet = inRange.getRawDataUnchecked();
+-        for (int i = 0, len = inRange.size(); i < len; i++) {
+-            ++(backingSet[i].mobCounts[index]);
++        // DivineMC start - Multithreaded tracker
++        if (space.bxteam.divinemc.configuration.DivineConfig.multithreadedEnabled) {
++            for (int i = 0, len = inRange.size(); i < len; i++) {
++                final ServerPlayer player = backingSet[i];
++                if (player == null) continue;
++                ++(player.mobCounts[index]);
++            }
++        } else {
++            for (int i = 0, len = inRange.size(); i < len; i++) {
++                ++(backingSet[i].mobCounts[index]);
++            }
+         }
++        // DivineMC end
+     }
+     // Paper start - per player mob count backoff
+     public void updateFailurePlayerMobTypeMap(int chunkX, int chunkZ, net.minecraft.world.entity.MobCategory mobCategory) {
+@@ -956,6 +966,21 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
+         ((ca.spottedleaf.moonrise.patches.entity_tracker.EntityTrackerEntity)entity).moonrise$setTrackedEntity(null); // Paper - optimise entity tracker
+     }
+ 
++    // DivineMC start - Multithreaded tracker
++    private final java.util.concurrent.ConcurrentLinkedQueue<Runnable> trackerMainThreadTasks = new java.util.concurrent.ConcurrentLinkedQueue<>();
++    private boolean tracking = false;
++
++    public void runOnTrackerMainThread(final Runnable runnable) {
++        //final boolean isOnMain = ca.spottedleaf.moonrise.common.util.TickThread.isTickThread();
++        //System.out.println(isOnMain);
++        if (false && this.tracking) { // TODO: check here
++            this.trackerMainThreadTasks.add(runnable);
++        } else {
++            runnable.run();
++        }
++    }
++    // DivineMC end
++
+     // Paper start - optimise entity tracker
+     private void newTrackerTick() {
+         final ca.spottedleaf.moonrise.patches.chunk_system.level.entity.server.ServerEntityLookup entityLookup = (ca.spottedleaf.moonrise.patches.chunk_system.level.entity.server.ServerEntityLookup)((ca.spottedleaf.moonrise.patches.chunk_system.level.ChunkSystemServerLevel)this.level).moonrise$getEntityLookup();;
+@@ -978,6 +1003,13 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
+     // Paper end - optimise entity tracker
+ 
+     protected void tick() {
++        // DivineMC start - Multithreaded tracker
++        if (space.bxteam.divinemc.configuration.DivineConfig.multithreadedEnabled) {
++            final ca.spottedleaf.moonrise.patches.chunk_system.level.ChunkSystemServerLevel level = this.level;
++            space.bxteam.divinemc.tracker.MultithreadedTracker.tick(level);
++            return;
++        }
++        // DivineMC end
+         // Paper start - optimise entity tracker
+         if (true) {
+             this.newTrackerTick();
+@@ -1127,7 +1159,9 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
+         final Entity entity;
+         private final int range;
+         SectionPos lastSectionPos;
+-        public final Set<ServerPlayerConnection> seenBy = new it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet<>(); // Paper - Perf: optimise map impl
++        public final Set<ServerPlayerConnection> seenBy = space.bxteam.divinemc.configuration.DivineConfig.multithreadedEnabled
++                ? Sets.newConcurrentHashSet()
++                : new it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet<>(); // Paper - Perf: optimise map impl // DivineMC - Multithreaded tracker
+ 
+         // Paper start - optimise entity tracker
+         private long lastChunkUpdate = -1L;
+@@ -1154,21 +1188,55 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
+             this.lastTrackedChunk = chunk;
+ 
+             final ServerPlayer[] playersRaw = players.getRawDataUnchecked();
++            final int playersLen = players.size(); // Ensure length won't change in the future tasks
++
++            // DivineMC start - Multithreaded tracker
++            if (space.bxteam.divinemc.configuration.DivineConfig.multithreadedEnabled && space.bxteam.divinemc.configuration.DivineConfig.multithreadedCompatModeEnabled) {
++                final boolean isServerPlayer = this.entity instanceof ServerPlayer;
++                final boolean isRealPlayer = isServerPlayer && ((ca.spottedleaf.moonrise.patches.chunk_system.player.ChunkSystemServerPlayer) this.entity).moonrise$isRealPlayer();
++                Runnable updatePlayerTasks = () -> {
++                    for (int i = 0; i < playersLen; ++i) {
++                        final ServerPlayer player = playersRaw[i];
++                        this.updatePlayer(player);
++                    }
+ 
+-            for (int i = 0, len = players.size(); i < len; ++i) {
+-                final ServerPlayer player = playersRaw[i];
+-                this.updatePlayer(player);
+-            }
++                    if (lastChunkUpdate != currChunkUpdate || lastTrackedChunk != chunk) {
++                        // need to purge any players possible not in the chunk list
++                        for (final ServerPlayerConnection conn : new java.util.ArrayList<>(this.seenBy)) {
++                            final ServerPlayer player = conn.getPlayer();
++                            if (!players.contains(player)) {
++                                this.removePlayer(player);
++                            }
++                        }
++                    }
++                };
++
++                // Only update asynchronously for real player, and sync update for fake players
++                // This can fix compatibility issue with NPC plugins using real entity type, like Citizens
++                // To prevent visible issue with player type NPCs
++                // btw, still recommend to use packet based NPC plugins, like ZNPC Plus, Adyeshach, Fancy NPC, etc.
++                if (isRealPlayer || !isServerPlayer) {
++                    space.bxteam.divinemc.tracker.MultithreadedTracker.getTrackerExecutor().execute(updatePlayerTasks);
++                } else {
++                    updatePlayerTasks.run();
++                }
++            } else {
++                for (int i = 0, len = players.size(); i < len; ++i) {
++                    final ServerPlayer player = playersRaw[i];
++                    this.updatePlayer(player);
++                }
+ 
+-            if (lastChunkUpdate != currChunkUpdate || lastTrackedChunk != chunk) {
+-                // need to purge any players possible not in the chunk list
+-                for (final ServerPlayerConnection conn : new java.util.ArrayList<>(this.seenBy)) {
+-                    final ServerPlayer player = conn.getPlayer();
+-                    if (!players.contains(player)) {
+-                        this.removePlayer(player);
++                if (lastChunkUpdate != currChunkUpdate || lastTrackedChunk != chunk) {
++                    // need to purge any players possible not in the chunk list
++                    for (final ServerPlayerConnection conn : new java.util.ArrayList<>(this.seenBy)) {
++                        final ServerPlayer player = conn.getPlayer();
++                        if (!players.contains(player)) {
++                            this.removePlayer(player);
++                        }
+                     }
+                 }
+             }
++            // DivineMC end
+         }
+ 
+         @Override
+@@ -1228,14 +1296,11 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
+         }
+ 
+         public void broadcast(Packet<?> packet) {
+-            Iterator iterator = this.seenBy.iterator();
+-
+-            while (iterator.hasNext()) {
+-                ServerPlayerConnection serverplayerconnection = (ServerPlayerConnection) iterator.next();
+-
++            // DivineMC start - Multithreaded tracker
++            for (ServerPlayerConnection serverplayerconnection : this.seenBy.toArray(new ServerPlayerConnection[0])) {
+                 serverplayerconnection.send(packet);
+             }
+-
++            // DivineMC end
+         }
+ 
+         public void broadcastAndSend(Packet<?> packet) {
+@@ -1247,18 +1312,15 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
+         }
+ 
+         public void broadcastRemoved() {
+-            Iterator iterator = this.seenBy.iterator();
+-
+-            while (iterator.hasNext()) {
+-                ServerPlayerConnection serverplayerconnection = (ServerPlayerConnection) iterator.next();
+-
++            // DivineMC start - Multithreaded tracker
++            for (ServerPlayerConnection serverplayerconnection : this.seenBy.toArray(new ServerPlayerConnection[0])) {
+                 this.serverEntity.removePairing(serverplayerconnection.getPlayer());
+             }
+-
++            // DivineMC end
+         }
+ 
+         public void removePlayer(ServerPlayer player) {
+-            org.spigotmc.AsyncCatcher.catchOp("player tracker clear"); // Spigot
++            //org.spigotmc.AsyncCatcher.catchOp("player tracker clear"); // Spigot // DivineMC - Multithreaded tracker - we don't need this
+             if (this.seenBy.remove(player.connection)) {
+                 this.serverEntity.removePairing(player);
+             }
+@@ -1266,8 +1328,9 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
+         }
+ 
+         public void updatePlayer(ServerPlayer player) {
+-            org.spigotmc.AsyncCatcher.catchOp("player tracker update"); // Spigot
++            //org.spigotmc.AsyncCatcher.catchOp("player tracker update"); // Spigot // DivineMC - Multithreaded tracker - we don't need this
+             if (player != this.entity) {
++                if (space.bxteam.divinemc.configuration.DivineConfig.multithreadedEnabled && player == null) return; // DivineMC - Multithreaded tracker
+                 // Paper start - remove allocation of Vec3D here
+                 // Vec3 vec3d = player.position().subtract(this.entity.position());
+                 double vec3d_dx = player.getX() - this.entity.getX();
+diff --git a/src/main/java/net/minecraft/server/level/ServerBossEvent.java b/src/main/java/net/minecraft/server/level/ServerBossEvent.java
+index 4f91107f9ae42f96c060c310596db9aa869a8dbc..39dada67dd2ed13f7f191e42c366f4a96767f275 100644
+--- a/src/main/java/net/minecraft/server/level/ServerBossEvent.java
++++ b/src/main/java/net/minecraft/server/level/ServerBossEvent.java
+@@ -13,7 +13,9 @@ import net.minecraft.util.Mth;
+ import net.minecraft.world.BossEvent;
+ 
+ public class ServerBossEvent extends BossEvent {
+-    private final Set<ServerPlayer> players = Sets.newHashSet();
++    private final Set<ServerPlayer> players = space.bxteam.divinemc.configuration.DivineConfig.multithreadedEnabled
++            ? Sets.newConcurrentHashSet()
++            : Sets.newHashSet(); // DivineMC - Multithreaded tracker - players can be removed in async tracking
+     private final Set<ServerPlayer> unmodifiablePlayers = Collections.unmodifiableSet(this.players);
+     public boolean visible = true;
+ 
+diff --git a/src/main/java/net/minecraft/server/level/ServerEntity.java b/src/main/java/net/minecraft/server/level/ServerEntity.java
+index 944de5ff109b15b76b69326e69b6b1c2afb63dd1..415fe9e2bf9a110021edbdc39e4498ccc8366636 100644
+--- a/src/main/java/net/minecraft/server/level/ServerEntity.java
++++ b/src/main/java/net/minecraft/server/level/ServerEntity.java
+@@ -119,7 +119,13 @@ public class ServerEntity {
+             this.broadcastAndSend(new ClientboundSetPassengersPacket(this.entity)); // CraftBukkit
+             ServerEntity.removedPassengers(list, this.lastPassengers).forEach((entity) -> {
+                 if (entity instanceof ServerPlayer entityplayer) {
+-                    entityplayer.connection.teleport(entityplayer.getX(), entityplayer.getY(), entityplayer.getZ(), entityplayer.getYRot(), entityplayer.getXRot());
++                    // DivineMC start - Multithreaded tracker - Ensure teleport is executed on server thread
++                    if (space.bxteam.divinemc.configuration.DivineConfig.multithreadedEnabled && Thread.currentThread() instanceof space.bxteam.divinemc.tracker.MultithreadedTracker.MultithreadedTrackerThread) {
++                        net.minecraft.server.MinecraftServer.getServer().scheduleOnMain(() -> entityplayer.connection.teleport(entityplayer.getX(), entityplayer.getY(), entityplayer.getZ(), entityplayer.getYRot(), entityplayer.getXRot()));
++                    } else {
++                        entityplayer.connection.teleport(entityplayer.getX(), entityplayer.getY(), entityplayer.getZ(), entityplayer.getYRot(), entityplayer.getXRot());
++                    }
++                    // DivineMC end
+                 }
+ 
+             });
+@@ -336,7 +342,11 @@ public class ServerEntity {
+ 
+     public void removePairing(ServerPlayer player) {
+         this.entity.stopSeenByPlayer(player);
+-        player.connection.send(new ClientboundRemoveEntitiesPacket(new int[]{this.entity.getId()}));
++        // DivineMC start - Multithreaded tracker - send in main thread
++        ((ServerLevel) this.entity.level()).chunkSource.chunkMap.runOnTrackerMainThread(() ->
++            player.connection.send(new ClientboundRemoveEntitiesPacket(this.entity.getId()))
++        );
++        // DivineMC end
+     }
+ 
+     public void addPairing(ServerPlayer player) {
+@@ -344,7 +354,11 @@ public class ServerEntity {
+ 
+         Objects.requireNonNull(list);
+         this.sendPairingData(player, list::add);
+-        player.connection.send(new ClientboundBundlePacket(list));
++        // DivineMC start - Multithreaded tracker - send in main thread
++        ((ServerLevel) this.entity.level()).chunkSource.chunkMap.runOnTrackerMainThread(() ->
++                player.connection.send(new ClientboundBundlePacket(list))
++        );
++        // DivineMC end
+         this.entity.startSeenByPlayer(player);
+     }
+ 
+@@ -451,7 +465,10 @@ public class ServerEntity {
+ 
+         if (list != null) {
+             this.trackedDataValues = datawatcher.getNonDefaultValues();
+-            this.broadcastAndSend(new ClientboundSetEntityDataPacket(this.entity.getId(), list));
++            // DivineMC start - Multithreaded tracker - send in main thread
++            ((ServerLevel) this.entity.level()).chunkSource.chunkMap.runOnTrackerMainThread(() ->
++                    this.broadcastAndSend(new ClientboundSetEntityDataPacket(this.entity.getId(), list))
++            );
+         }
+ 
+         if (this.entity instanceof LivingEntity) {
+@@ -461,12 +478,16 @@ public class ServerEntity {
+             // DivineMC end
+ 
+             if (!set.isEmpty()) {
++                final Set<AttributeInstance> copy = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>(set);
++                ((ServerLevel) this.entity.level()).chunkSource.chunkMap.runOnTrackerMainThread(() -> {
+                 // CraftBukkit start - Send scaled max health
+                 if (this.entity instanceof ServerPlayer) {
+-                    ((ServerPlayer) this.entity).getBukkitEntity().injectScaledMaxHealth(set, false);
++                    ((ServerPlayer) this.entity).getBukkitEntity().injectScaledMaxHealth(copy, false);
+                 }
+                 // CraftBukkit end
+-                this.broadcastAndSend(new ClientboundUpdateAttributesPacket(this.entity.getId(), set));
++                this.broadcastAndSend(new ClientboundUpdateAttributesPacket(this.entity.getId(), copy));
++                });
++                // DivineMC end
+             }
+ 
+             attributes.clear(); // DivineMC
+diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
+index b0095c0848ca0162944961a24c7b807fb5846b06..8b812d1ec336fa30cd779d5ebb02b5811c97d369 100644
+--- a/src/main/java/net/minecraft/server/level/ServerLevel.java
++++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
+@@ -2604,7 +2604,7 @@ public class ServerLevel extends Level implements ServerEntityGetter, WorldGenLe
+ 
+     @Override
+     public LevelEntityGetter<Entity> getEntities() {
+-        org.spigotmc.AsyncCatcher.catchOp("Chunk getEntities call"); // Spigot
++        //org.spigotmc.AsyncCatcher.catchOp("Chunk getEntities call"); // Spigot // DivineMC - Multithreaded tracker
+         return this.moonrise$getEntityLookup(); // Paper - rewrite chunk system
+     }
+ 
+diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
+index ac1d8c5eb616d11fc1bda929a8607daf2d616b46..40e2da69d6907bf664ef37fe8dbe0951b03d3aec 100644
+--- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
++++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
+@@ -1888,7 +1888,7 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
+     }
+ 
+     public void internalTeleport(PositionMoveRotation positionmoverotation, Set<Relative> set) {
+-        org.spigotmc.AsyncCatcher.catchOp("teleport"); // Paper
++        //org.spigotmc.AsyncCatcher.catchOp("teleport"); // Paper // DivineMC - Multithreaded tracker
+         // Paper start - Prevent teleporting dead entities
+         if (player.isRemoved()) {
+             LOGGER.info("Attempt to teleport removed player {} restricted", player.getScoreboardName());
+diff --git a/src/main/java/net/minecraft/world/entity/ai/attributes/AttributeInstance.java b/src/main/java/net/minecraft/world/entity/ai/attributes/AttributeInstance.java
+index 27a7852a5d3f8c8960f098646ff5587c50556aa5..ac9534203a256b2a5c1d94e4b3996990e8861aca 100644
+--- a/src/main/java/net/minecraft/world/entity/ai/attributes/AttributeInstance.java
++++ b/src/main/java/net/minecraft/world/entity/ai/attributes/AttributeInstance.java
+@@ -24,8 +24,11 @@ public class AttributeInstance {
+     private final Map<AttributeModifier.Operation, Map<ResourceLocation, AttributeModifier>> modifiersByOperation = Maps.newEnumMap(
+         AttributeModifier.Operation.class
+     );
+-    private final Map<ResourceLocation, AttributeModifier> modifierById = new Object2ObjectArrayMap<>();
+-    private final Map<ResourceLocation, AttributeModifier> permanentModifiers = new Object2ObjectArrayMap<>();
++    // DivineMC start - Multithreaded tracker
++    private final boolean multiThreadedTrackingEnabled = space.bxteam.divinemc.configuration.DivineConfig.multithreadedEnabled;
++    private final Map<ResourceLocation, AttributeModifier> modifierById = multiThreadedTrackingEnabled ? new java.util.concurrent.ConcurrentHashMap<>() : new Object2ObjectArrayMap<>();
++    private final Map<ResourceLocation, AttributeModifier> permanentModifiers = multiThreadedTrackingEnabled ? new java.util.concurrent.ConcurrentHashMap<>() : new Object2ObjectArrayMap<>();
++    // DivineMC end
+     private double baseValue;
+     private boolean dirty = true;
+     private double cachedValue;
+diff --git a/src/main/java/net/minecraft/world/entity/ai/attributes/AttributeMap.java b/src/main/java/net/minecraft/world/entity/ai/attributes/AttributeMap.java
+index 98fa43c8a34650795a0ae1ebc28ce17ec1ba5271..3b27e866185f6dcd1c7baaa3fdef591f1a0bdac3 100644
+--- a/src/main/java/net/minecraft/world/entity/ai/attributes/AttributeMap.java
++++ b/src/main/java/net/minecraft/world/entity/ai/attributes/AttributeMap.java
+@@ -19,9 +19,12 @@ import org.slf4j.Logger;
+ 
+ public class AttributeMap {
+     private static final Logger LOGGER = LogUtils.getLogger();
+-    private final Map<Holder<Attribute>, AttributeInstance> attributes = new Object2ObjectOpenHashMap<>();
+-    private final Set<AttributeInstance> attributesToSync = new ObjectOpenHashSet<>();
+-    private final Set<AttributeInstance> attributesToUpdate = new ObjectOpenHashSet<>();
++    // DivineMC start - Multithreaded tracker
++    private final boolean multiThreadedTrackingEnabled = space.bxteam.divinemc.configuration.DivineConfig.multithreadedEnabled;
++    private final Map<Holder<Attribute>, AttributeInstance> attributes = multiThreadedTrackingEnabled ? new java.util.concurrent.ConcurrentHashMap<>() : new it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap<>(0);
++    private final Set<AttributeInstance> attributesToSync = multiThreadedTrackingEnabled ? com.google.common.collect.Sets.newConcurrentHashSet() : new it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet<>(0);
++    private final Set<AttributeInstance> attributesToUpdate = multiThreadedTrackingEnabled ? com.google.common.collect.Sets.newConcurrentHashSet() : new it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet<>(0);
++    // DivineMC end
+     private final AttributeSupplier supplier;
+     private final java.util.function.Function<Holder<Attribute>, AttributeInstance> createInstance; // Pufferfish
+     private final net.minecraft.world.entity.LivingEntity entity; // Purpur - Ridables
+diff --git a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
+index ed44eaad59afa76d8ca8ac74d0cee4fb681dfe83..fe9bff9d542d731aede4903e807acd876b0286d0 100644
+--- a/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
++++ b/src/main/java/space/bxteam/divinemc/configuration/DivineConfig.java
+@@ -196,4 +196,25 @@ public class DivineConfig {
+         else
+             Bukkit.getLogger().log(Level.INFO, "Using " + asyncPathfindingMaxThreads + " threads for Async Pathfinding");
+     }
++
++    public static boolean multithreadedEnabled = false;
++    public static boolean multithreadedCompatModeEnabled = false;
++    public static int asyncEntityTrackerMaxThreads = 0;
++    public static int asyncEntityTrackerKeepalive = 60;
++    private static void multithreadedTracker() {
++        multithreadedEnabled = getBoolean("settings.multithreaded-tracker.enable", multithreadedEnabled);
++        multithreadedCompatModeEnabled = getBoolean("settings.multithreaded-tracker.compat-mode", multithreadedCompatModeEnabled);
++        asyncEntityTrackerMaxThreads = getInt("settings.multithreaded-tracker.max-threads", asyncEntityTrackerMaxThreads);
++        asyncEntityTrackerKeepalive = getInt("settings.multithreaded-tracker.keepalive", asyncEntityTrackerKeepalive);
++
++        if (asyncEntityTrackerMaxThreads < 0)
++            asyncEntityTrackerMaxThreads = Math.max(Runtime.getRuntime().availableProcessors() + asyncEntityTrackerMaxThreads, 1);
++        else if (asyncEntityTrackerMaxThreads == 0)
++            asyncEntityTrackerMaxThreads = Math.max(Runtime.getRuntime().availableProcessors() / 4, 1);
++
++        if (!multithreadedEnabled)
++            asyncEntityTrackerMaxThreads = 0;
++        else
++            Bukkit.getLogger().log(Level.INFO, "Using " + asyncEntityTrackerMaxThreads + " threads for Async Entity Tracker");
++    }
+ }
+diff --git a/src/main/java/space/bxteam/divinemc/tracker/MultithreadedTracker.java b/src/main/java/space/bxteam/divinemc/tracker/MultithreadedTracker.java
+new file mode 100644
+index 0000000000000000000000000000000000000000..3621d8641eb657d84b886589bc957bdf8798785a
+--- /dev/null
++++ b/src/main/java/space/bxteam/divinemc/tracker/MultithreadedTracker.java
+@@ -0,0 +1,139 @@
++package space.bxteam.divinemc.tracker;
++
++import ca.spottedleaf.moonrise.common.list.ReferenceList;
++import ca.spottedleaf.moonrise.common.misc.NearbyPlayers;
++import ca.spottedleaf.moonrise.patches.chunk_system.level.ChunkSystemServerLevel;
++import ca.spottedleaf.moonrise.patches.chunk_system.level.entity.server.ServerEntityLookup;
++import ca.spottedleaf.moonrise.patches.entity_tracker.EntityTrackerEntity;
++import ca.spottedleaf.moonrise.patches.entity_tracker.EntityTrackerTrackedEntity;
++import com.google.common.util.concurrent.ThreadFactoryBuilder;
++import net.minecraft.server.level.ChunkMap;
++import net.minecraft.server.level.FullChunkStatus;
++import net.minecraft.server.level.ServerLevel;
++import net.minecraft.world.entity.Entity;
++import org.apache.logging.log4j.LogManager;
++import org.apache.logging.log4j.Logger;
++
++import java.util.concurrent.Executor;
++import java.util.concurrent.LinkedBlockingQueue;
++import java.util.concurrent.ThreadPoolExecutor;
++import java.util.concurrent.TimeUnit;
++
++public class MultithreadedTracker {
++    private static final Logger LOGGER = LogManager.getLogger("MultithreadedTracker");
++    public static class MultithreadedTrackerThread extends Thread {
++        @Override
++        public void run() {
++            super.run();
++        }
++    }
++    private static final Executor trackerExecutor = new ThreadPoolExecutor(
++            1,
++            space.bxteam.divinemc.configuration.DivineConfig.asyncEntityTrackerMaxThreads,
++            space.bxteam.divinemc.configuration.DivineConfig.asyncEntityTrackerKeepalive, TimeUnit.SECONDS,
++            new LinkedBlockingQueue<>(),
++            new ThreadFactoryBuilder()
++                    .setThreadFactory(
++                            r -> new MultithreadedTrackerThread() {
++                                @Override
++                                public void run() {
++                                    r.run();
++                                }
++                            }
++                    )
++                    .setNameFormat("DivineMC Async Tracker Thread - %d")
++                    .setPriority(Thread.NORM_PRIORITY - 2)
++                    .build());
++
++    private MultithreadedTracker() {
++    }
++
++    public static Executor getTrackerExecutor() {
++        return trackerExecutor;
++    }
++
++    public static void tick(ChunkSystemServerLevel level) {
++        try {
++            if (!space.bxteam.divinemc.configuration.DivineConfig.multithreadedCompatModeEnabled) {
++                tickAsync(level);
++            } else {
++                tickAsyncWithCompatMode(level);
++            }
++        } catch (Exception e) {
++            LOGGER.error("Error occurred while executing async task.", e);
++        }
++    }
++
++    private static void tickAsync(ChunkSystemServerLevel level) {
++        final NearbyPlayers nearbyPlayers = level.moonrise$getNearbyPlayers();
++        final ServerEntityLookup entityLookup = (ServerEntityLookup) level.moonrise$getEntityLookup();
++
++        final ReferenceList<Entity> trackerEntities = entityLookup.trackerEntities;
++        final Entity[] trackerEntitiesRaw = trackerEntities.getRawDataUnchecked();
++
++        // Move tracking to off-main
++        trackerExecutor.execute(() -> {
++            for (final Entity entity : trackerEntitiesRaw) {
++                if (entity == null) continue;
++
++                final ChunkMap.TrackedEntity tracker = ((EntityTrackerEntity) entity).moonrise$getTrackedEntity();
++
++                if (tracker == null) continue;
++
++                ((EntityTrackerTrackedEntity) tracker).moonrise$tick(nearbyPlayers.getChunk(entity.chunkPosition()));
++                tracker.serverEntity.sendChanges();
++            }
++        });
++    }
++
++    private static void tickAsyncWithCompatMode(ChunkSystemServerLevel level) {
++        final NearbyPlayers nearbyPlayers = level.moonrise$getNearbyPlayers();
++        final ServerEntityLookup entityLookup = (ServerEntityLookup) level.moonrise$getEntityLookup();
++
++        final ReferenceList<Entity> trackerEntities = entityLookup.trackerEntities;
++        final Entity[] trackerEntitiesRaw = trackerEntities.getRawDataUnchecked();
++        final Runnable[] sendChangesTasks = new Runnable[trackerEntitiesRaw.length];
++        int index = 0;
++
++        for (final Entity entity : trackerEntitiesRaw) {
++            if (entity == null) continue;
++
++            final ChunkMap.TrackedEntity tracker = ((EntityTrackerEntity) entity).moonrise$getTrackedEntity();
++
++            if (tracker == null) continue;
++
++            ((EntityTrackerTrackedEntity) tracker).moonrise$tick(nearbyPlayers.getChunk(entity.chunkPosition()));
++            sendChangesTasks[index++] = () -> tracker.serverEntity.sendChanges(); // Collect send changes to task array
++        }
++
++        // batch submit tasks
++        trackerExecutor.execute(() -> {
++            for (final Runnable sendChanges : sendChangesTasks) {
++                if (sendChanges == null) continue;
++
++                sendChanges.run();
++            }
++        });
++    }
++
++    // Original ChunkMap#newTrackerTick of Paper
++    // Just for diff usage for future update
++    private static void tickOriginal(ServerLevel level) {
++        final ca.spottedleaf.moonrise.patches.chunk_system.level.entity.server.ServerEntityLookup entityLookup = (ca.spottedleaf.moonrise.patches.chunk_system.level.entity.server.ServerEntityLookup) ((ca.spottedleaf.moonrise.patches.chunk_system.level.ChunkSystemServerLevel) level).moonrise$getEntityLookup();
++
++        final ca.spottedleaf.moonrise.common.list.ReferenceList<net.minecraft.world.entity.Entity> trackerEntities = entityLookup.trackerEntities;
++        final Entity[] trackerEntitiesRaw = trackerEntities.getRawDataUnchecked();
++        for (int i = 0, len = trackerEntities.size(); i < len; ++i) {
++            final Entity entity = trackerEntitiesRaw[i];
++            final ChunkMap.TrackedEntity tracker = ((ca.spottedleaf.moonrise.patches.entity_tracker.EntityTrackerEntity) entity).moonrise$getTrackedEntity();
++            if (tracker == null) {
++                continue;
++            }
++            ((ca.spottedleaf.moonrise.patches.entity_tracker.EntityTrackerTrackedEntity) tracker).moonrise$tick(((ca.spottedleaf.moonrise.patches.chunk_system.entity.ChunkSystemEntity) entity).moonrise$getChunkData().nearbyPlayers);
++            if (((ca.spottedleaf.moonrise.patches.entity_tracker.EntityTrackerTrackedEntity) tracker).moonrise$hasPlayers()
++                    || ((ca.spottedleaf.moonrise.patches.chunk_system.entity.ChunkSystemEntity) entity).moonrise$getChunkStatus().isOrAfter(FullChunkStatus.ENTITY_TICKING)) {
++                tracker.serverEntity.sendChanges();
++            }
++        }
++    }
++}

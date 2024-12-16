@@ -5,7 +5,7 @@ Subject: [PATCH] Optimize default values for configs
 
 
 diff --git a/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java b/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
-index 17e23ca4dd2bbfba49ea00aa2b719a95feb931be..25f8ae4a6cc48cfb1901a0807cde95dced515733 100644
+index 088b8fe5d144807f4da1e85b2fa34dfd21286f8c..0e35a057eb408942f49f472bb36f8c77af8aa364 100644
 --- a/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
 +++ b/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
 @@ -336,9 +336,9 @@ public class GlobalConfiguration extends ConfigurationPart {
@@ -190,10 +190,10 @@ index 82210667376fd466d5d4cdcb56b62f6165bd5cde..0fef474e1bd0298c212b98369042917e
          public boolean disableEndCredits = false;
          public DoubleOr.Default maxLeashDistance = DoubleOr.Default.USE_DEFAULT;
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 924a1b7f444ab78512bb7773faf513a2a48fb485..467e88ba7ed3eb755c38d8038ae4231d1d4761b6 100644
+index c9fc57d6b00bf5ca57805c9ad2829646de347475..75919064593167b51c4325ba6d500366ba8408f1 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-@@ -343,7 +343,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -352,7 +352,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
          String proxyFlavor = (io.papermc.paper.configuration.GlobalConfiguration.get().proxies.velocity.enabled) ? "Velocity" : "BungeeCord";
          String proxyLink = (io.papermc.paper.configuration.GlobalConfiguration.get().proxies.velocity.enabled) ? "https://docs.papermc.io/velocity/security" : "http://www.spigotmc.org/wiki/firewall-guide/";
          // Paper end - Add Velocity IP Forwarding Support
@@ -203,7 +203,7 @@ index 924a1b7f444ab78512bb7773faf513a2a48fb485..467e88ba7ed3eb755c38d8038ae4231d
              DedicatedServer.LOGGER.warn("The server will make no attempt to authenticate usernames. Beware.");
              // Spigot start
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-index 95cd1156766895546ef5574b33a60806bff08fa2..4933dc4d6e8e6920feed37f3a68adf74730fee1e 100644
+index 7690441b5059ae6c7ca8519875ea8a515c5c5e93..6a161bb00b4665cf0b148bc7eabd8b07c6b07e99 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 @@ -244,7 +244,7 @@ public class PurpurConfig {

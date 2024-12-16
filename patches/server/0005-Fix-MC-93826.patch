@@ -5,18 +5,18 @@ Subject: [PATCH] Fix MC-93826
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/animal/Animal.java b/src/main/java/net/minecraft/world/entity/animal/Animal.java
-index 9987d28ea145f6d0126cb4ea22001e0922fb51bd..792c509a1d2ad342df2e047e71196c892bbc20e7 100644
+index 8df1682dca61b0f771a1c08f5bcd797506badf19..389950c97eb94fbbc730fbff51fedcc3217be22a 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/Animal.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/Animal.java
-@@ -49,6 +49,8 @@ public abstract class Animal extends AgeableMob {
-     @Nullable
-     public UUID loveCause;
+@@ -51,6 +51,8 @@ public abstract class Animal extends AgeableMob {
      public ItemStack breedItem; // CraftBukkit - Add breedItem variable
+     public abstract int getPurpurBreedTime(); // Purpur - Make entity breeding times configurable
+ 
 +    private Object level;
 +
-     public abstract int getPurpurBreedTime(); // Purpur
- 
      protected Animal(EntityType<? extends Animal> type, Level world) {
+         super(type, world);
+         this.setPathfindingMalus(PathType.DANGER_FIRE, 16.0F);
 @@ -84,7 +86,11 @@ public abstract class Animal extends AgeableMob {
                  double d1 = this.random.nextGaussian() * 0.02D;
                  double d2 = this.random.nextGaussian() * 0.02D;

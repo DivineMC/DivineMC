@@ -64,7 +64,7 @@ index aea9a45c0916501f71018d3250b56da435f5664e..564395b9be9f161dc3ea7956b9b2432d
      }
  
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index d0653880e8f8852a27e16c5c964fb7b86c40d542..ca5ec4eb6d9c9a0d63bf942611fc3e70fa338fcc 100644
+index fe8a1a073920b7cbbe3791ac1fcac3fccec6b9f7..b0095c0848ca0162944961a24c7b807fb5846b06 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -644,6 +644,7 @@ public class ServerLevel extends Level implements ServerEntityGetter, WorldGenLe
@@ -76,10 +76,10 @@ index d0653880e8f8852a27e16c5c964fb7b86c40d542..ca5ec4eb6d9c9a0d63bf942611fc3e70
          DataFixer datafixer = minecraftserver.getFixerUpper();
          EntityPersistentStorage<Entity> entitypersistentstorage = new EntityStorage(new SimpleRegionStorage(new RegionStorageInfo(convertable_conversionsession.getLevelId(), resourcekey, "entities"), convertable_conversionsession.getDimensionPath(resourcekey).resolve("entities"), datafixer, flag2, DataFixTypes.ENTITY_CHUNK), this, minecraftserver);
 diff --git a/src/main/java/net/minecraft/world/entity/monster/Slime.java b/src/main/java/net/minecraft/world/entity/monster/Slime.java
-index dad4ef9c672eb4247142de5d045678795951164c..c27684064163af48a5401db2efd72c1e3dbd1fa6 100644
+index d58f7b251d0c322d63e7e5e8ed30b41427a11227..7fe1ae012dc3fec82bd75c6f44f1d32bf30fd666 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/Slime.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/Slime.java
-@@ -430,8 +430,13 @@ public class Slime extends Mob implements Enemy {
+@@ -433,8 +433,13 @@ public class Slime extends Mob implements Enemy {
                  return false;
              }
  
@@ -453,10 +453,10 @@ index c2bffe3450ee9f768e00a23ec09df74d7a06d49b..922d1037352198432c16b782c892467c
  
      @Override
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 0ab9abc08d07d6dba5de2ffdb331598a1fbe6ac9..d7ece9ea131ce0c864bebd65442c1187f1864a40 100644
+index 88343cbdaa95f7f2bf6a196b58f23195186749a2..62807b021b936477db6e266633767d81a9436bb2 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -1412,7 +1412,11 @@ public final class CraftServer implements Server {
+@@ -1409,7 +1409,11 @@ public final class CraftServer implements Server {
              iregistrycustom_dimension = leveldataanddimensions.dimensions().dimensionsRegistryAccess();
          } else {
              LevelSettings worldsettings;

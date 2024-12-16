@@ -5,7 +5,7 @@ Subject: [PATCH] Divine Configuration
 
 
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 7a442fb4cf78bcb1268359ee41a6de138edb76b6..924a1b7f444ab78512bb7773faf513a2a48fb485 100644
+index 7b312fa229bc03df45c9d2fa340396f62570356a..c9fc57d6b00bf5ca57805c9ad2829646de347475 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -57,6 +57,7 @@ import net.minecraft.world.level.GameType;
@@ -16,7 +16,7 @@ index 7a442fb4cf78bcb1268359ee41a6de138edb76b6..924a1b7f444ab78512bb7773faf513a2
  
  // CraftBukkit start
  import net.minecraft.server.WorldLoader;
-@@ -250,6 +251,16 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -259,6 +260,16 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
          gg.pufferfish.pufferfish.PufferfishConfig.load(); // Pufferfish
          gg.pufferfish.pufferfish.PufferfishCommand.init(); // Pufferfish
  
@@ -34,78 +34,61 @@ index 7a442fb4cf78bcb1268359ee41a6de138edb76b6..924a1b7f444ab78512bb7773faf513a2
          this.setFlightAllowed(dedicatedserverproperties.allowFlight);
          this.setMotd(dedicatedserverproperties.motd);
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 1a808fc381c0c3ea1fc49bbffebddf2c550e817a..346594614b44cc42a3d6a02bb9684812335a41f3 100644
+index 72c9b9d8f520aa29106dd28a48dcdaf9bf8ea9e6..d152815ed2b12334458eba1eb88171d563169e84 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
-@@ -86,6 +86,7 @@ import net.minecraft.world.phys.AABB;
- import net.minecraft.world.phys.Vec3;
- import net.minecraft.world.phys.shapes.VoxelShape;
- import net.minecraft.world.scores.Scoreboard;
-+import space.bxteam.divinemc.configuration.DivineWorldConfig; // DivineMC
- 
- // CraftBukkit start
- import java.util.HashMap;
-@@ -176,6 +177,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
+@@ -176,6 +176,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
  
      public final com.destroystokyo.paper.antixray.ChunkPacketBlockController chunkPacketBlockController; // Paper - Anti-Xray
-     public final org.purpurmc.purpur.PurpurWorldConfig purpurConfig; // Purpur
-+    public final DivineWorldConfig divinemcConfig; // DivineMC
+     public final org.purpurmc.purpur.PurpurWorldConfig purpurConfig; // Purpur - Purpur config files
++    public final space.bxteam.divinemc.configuration.DivineWorldConfig divinemcConfig; // DivineMC
      public static BlockPos lastPhysicsProblem; // Spigot
      private org.spigotmc.TickLimiter entityLimiter;
      private org.spigotmc.TickLimiter tileLimiter;
-@@ -888,6 +890,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
+@@ -888,6 +889,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
          this.spigotConfig = new org.spigotmc.SpigotWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName()); // Spigot
          this.paperConfig = paperWorldConfigCreator.apply(this.spigotConfig); // Paper - create paper world config
-         this.purpurConfig = new org.purpurmc.purpur.PurpurWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName(), env); // Purpur
-+        this.divinemcConfig = new DivineWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName(), env); // DivineMC
+         this.purpurConfig = new org.purpurmc.purpur.PurpurWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName(), env); // Purpur - Purpur config files
++        this.divinemcConfig = new space.bxteam.divinemc.configuration.DivineWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName(), env); // DivineMC
          this.playerBreedingCooldowns = this.getNewBreedingCooldownCache(); // Purpur
          this.generator = gen;
          this.world = new CraftWorld((ServerLevel) this, gen, biomeProvider, env);
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 81922bf93f8a96e6cf05944ca98a82cc5945a6c6..825066dbd54ef753cdc03cbbe9deb65438759449 100644
+index badf280a6b01b06e8148c552330872d64e6256b7..eab64b3f812c9ab12793ad200f58ae8c49e214e1 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -268,6 +268,8 @@ import net.md_5.bungee.api.chat.BaseComponent; // Spigot
- import javax.annotation.Nullable; // Paper
- import javax.annotation.Nonnull; // Paper
- 
-+import space.bxteam.divinemc.configuration.DivineConfig; // DivineMC
-+
- public final class CraftServer implements Server {
-     private final String serverName = io.papermc.paper.ServerBuildInfo.buildInfo().brandName(); // Paper
-     private final String serverVersion;
-@@ -1101,6 +1103,7 @@ public final class CraftServer implements Server {
+@@ -1101,6 +1101,7 @@ public final class CraftServer implements Server {
          org.spigotmc.SpigotConfig.init((File) this.console.options.valueOf("spigot-settings")); // Spigot
          this.console.paperConfigurations.reloadConfigs(this.console);
-         org.purpurmc.purpur.PurpurConfig.init((File) console.options.valueOf("purpur-settings")); // Purpur
-+        DivineConfig.init((File) console.options.valueOf("divinemc-settings")); // DivineMC
+         org.purpurmc.purpur.PurpurConfig.init((File) console.options.valueOf("purpur-settings")); // Purpur - Purpur config files
++        space.bxteam.divinemc.configuration.DivineConfig((File) console.options.valueOf("divinemc-settings")); // DivineMC
          for (ServerLevel world : this.console.getAllLevels()) {
              // world.serverLevelData.setDifficulty(config.difficulty); // Paper - per level difficulty
              world.setSpawnSettings(world.serverLevelData.getDifficulty() != Difficulty.PEACEFUL && config.spawnMonsters); // Paper - per level difficulty (from MinecraftServer#setDifficulty(ServerLevel, Difficulty, boolean))
-@@ -1117,6 +1120,7 @@ public final class CraftServer implements Server {
+@@ -1117,6 +1118,7 @@ public final class CraftServer implements Server {
              }
              world.spigotConfig.init(); // Spigot
-             world.purpurConfig.init(); // Purpur
+             world.purpurConfig.init(); // Purpur - Purpur config files
 +            world.divinemcConfig.init(); // DivineMC
          }
  
          Plugin[] pluginClone = pluginManager.getPlugins().clone(); // Paper
-@@ -1135,6 +1139,7 @@ public final class CraftServer implements Server {
+@@ -1135,6 +1137,7 @@ public final class CraftServer implements Server {
          io.papermc.paper.command.PaperCommands.registerCommands(this.console); // Paper
          this.spark.registerCommandBeforePlugins(this); // Paper - spark
-         org.purpurmc.purpur.PurpurConfig.registerCommands(); // Purpur
-+        DivineConfig.registerCommands(); // DivineMC
+         org.purpurmc.purpur.PurpurConfig.registerCommands(); // Purpur - Purpur config files
++        space.bxteam.divinemc.configuration.DivineConfig.registerCommands(); // DivineMC
          this.overrideAllCommandBlockCommands = this.commandsConfiguration.getStringList("command-block-overrides").contains("*");
          this.ignoreVanillaPermissions = this.commandsConfiguration.getBoolean("ignore-vanilla-permissions");
  
-@@ -3112,6 +3117,13 @@ public final class CraftServer implements Server {
+@@ -3113,6 +3116,13 @@ public final class CraftServer implements Server {
          }
-         // Purpur end
+         // Purpur end - Purpur config files
  
 +        // DivineMC start
 +        @Override
 +        public YamlConfiguration getDivineConfig() {
-+            return DivineConfig.config;
++            return space.bxteam.divinemc.configuration.DivineConfig.config;
 +        }
 +        // DivineMC end
 +
@@ -113,12 +96,12 @@ index 81922bf93f8a96e6cf05944ca98a82cc5945a6c6..825066dbd54ef753cdc03cbbe9deb654
          public void restart() {
              org.spigotmc.RestartCommand.restart();
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index c471a8c81ba067abcb22956ad1a30b5a9b64fc87..87b3dfc6faea57093d4a5f6c61d88d9fc780f04b 100644
+index 22380501e8cdc09ff785c188d68601a0030fd921..b4a4bc186086e8008e0e3279364d71a1ca6f097c 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -190,6 +190,14 @@ public class Main {
                          .describedAs("Yml file");
-                 // Purpur end
+                 // Purpur end - Purpur config files
  
 +                // DivineMC start
 +                acceptsAll(asList("divinemc", "divinemc-settings"), "File for divinemc settings")

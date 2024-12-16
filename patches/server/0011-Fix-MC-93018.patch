@@ -6,10 +6,10 @@ Subject: [PATCH] Fix MC-93018
 Original post on Mojira: https://bugs.mojang.com/browse/MC-93018
 
 diff --git a/src/main/java/net/minecraft/world/entity/animal/Wolf.java b/src/main/java/net/minecraft/world/entity/animal/Wolf.java
-index 499e3294f8dd19fb3802f521cb7d24d0998c8aeb..fa36368bd14b377e81c45115a242e8b497de0cb2 100644
+index 30b4c09c6046c1d0843ccb8e4ff326e189b6cb95..bf3cd5381250cd77da6969214077ceae537a1d95 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/Wolf.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/Wolf.java
-@@ -759,14 +759,17 @@ public class Wolf extends TamableAnimal implements NeutralMob, VariantHolder<Hol
+@@ -762,14 +762,17 @@ public class Wolf extends TamableAnimal implements NeutralMob, VariantHolder<Hol
      public boolean canMate(Animal other) {
          if (other == this) {
              return false;

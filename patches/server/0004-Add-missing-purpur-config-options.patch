@@ -5,13 +5,14 @@ Subject: [PATCH] Add missing purpur config options
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java b/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java
-index 235596af3a4e210efe966782b29e2b1d4d41e36d..1802be3456bd0b2de35374440b2a548fd815aadc 100644
+index 67ff60909dee395d42619c310bafc381b9bfce5d..d1aabc4183023136de6bd12f14742b0aeafb8f60 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java
-@@ -162,6 +162,18 @@ public class Allay extends PathfinderMob implements InventoryCarrier, VibrationS
+@@ -163,6 +163,19 @@ public class Allay extends PathfinderMob implements InventoryCarrier, VibrationS
+         this.getAttribute(Attributes.SCALE).setBaseValue(this.level().purpurConfig.allayScale);
      }
-     // Purpur end
- 
+     // Purpur end - Configurable entity base attributes
++
 +    // DivineMC start - Add missing purpur config options
 +    @Override
 +    public boolean isSensitiveToWater() {
@@ -28,13 +29,14 @@ index 235596af3a4e210efe966782b29e2b1d4d41e36d..1802be3456bd0b2de35374440b2a548f
      protected Brain.Provider<Allay> brainProvider() {
          return Brain.provider(Allay.MEMORY_TYPES, Allay.SENSOR_TYPES);
 diff --git a/src/main/java/net/minecraft/world/entity/animal/camel/Camel.java b/src/main/java/net/minecraft/world/entity/animal/camel/Camel.java
-index dbce71f45c008da883b6d244a06343d83ae25e7e..4551fd70a30c7309468a701f92ba92acc8fe7e36 100644
+index d0023e3734bb3c625fa53077f47039dcb82d9606..1e62c6249df7864cc836b7f791fb11c65d6bdc9b 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/camel/Camel.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/camel/Camel.java
-@@ -98,6 +98,18 @@ public class Camel extends AbstractHorse {
+@@ -100,6 +100,19 @@ public class Camel extends AbstractHorse {
+         return this.level().purpurConfig.camelBreedingTicks;
      }
-     // Purpur end
- 
+     // Purpur end - Make entity breeding times configurable
++
 +    // DivineMC start - Add missing purpur config options
 +    @Override
 +    public boolean isSensitiveToWater() {
@@ -51,12 +53,12 @@ index dbce71f45c008da883b6d244a06343d83ae25e7e..4551fd70a30c7309468a701f92ba92ac
      public void addAdditionalSaveData(CompoundTag nbt) {
          super.addAdditionalSaveData(nbt);
 diff --git a/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java b/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java
-index 267f49bf00f5bbd5541e25c938f727a5bafd8eb2..b06946ea57285bb9ec0a70854c9359af9d72e979 100644
+index d09aa48e20c9a6e0d465b93e3759556638041394..2ce47ff58e5db6fc5387667bc8b02fdef73f9f7c 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java
-@@ -169,6 +169,23 @@ public class Frog extends Animal implements VariantHolder<Holder<FrogVariant>> {
-         return this.level().purpurConfig.frogBreedingTicks;
+@@ -165,6 +165,23 @@ public class Frog extends Animal implements VariantHolder<Holder<FrogVariant>> {
      }
+     // Purpur end - Ridables
  
 +    // DivineMC start - Add missing purpur config options
 +    @Override
@@ -75,16 +77,16 @@ index 267f49bf00f5bbd5541e25c938f727a5bafd8eb2..b06946ea57285bb9ec0a70854c9359af
 +    }
 +    // DivineMC end
 +
+     // Purpur start - Make entity breeding times configurable
      @Override
-     protected Brain.Provider<Frog> brainProvider() {
-         return Brain.provider(MEMORY_TYPES, SENSOR_TYPES);
+     public int getPurpurBreedTime() {
 diff --git a/src/main/java/net/minecraft/world/entity/animal/frog/Tadpole.java b/src/main/java/net/minecraft/world/entity/animal/frog/Tadpole.java
-index 7e92e8c4fec36c8838604f17cf366cc80e82b19b..16802b8e2f624b729241eca5aed7acdd53d2fc32 100644
+index 33429a9afeefce9238969b2894d0a9c033baca51..b504df1a0004f09eb51ee64461b136934a60c2bc 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/frog/Tadpole.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/frog/Tadpole.java
 @@ -95,6 +95,23 @@ public class Tadpole extends AbstractFish {
      }
-     // Purpur end
+     // Purpur end - Ridables
  
 +    // DivineMC start - Add missing purpur config options
 +    @Override
@@ -107,13 +109,14 @@ index 7e92e8c4fec36c8838604f17cf366cc80e82b19b..16802b8e2f624b729241eca5aed7acdd
      protected PathNavigation createNavigation(Level world) {
          return new WaterBoundPathNavigation(this, world);
 diff --git a/src/main/java/net/minecraft/world/entity/animal/sniffer/Sniffer.java b/src/main/java/net/minecraft/world/entity/animal/sniffer/Sniffer.java
-index 464a16df15d8759d66f94ad080d1ea28b3f6474c..3742917207572f0698c779a262b887c04e11c8d8 100644
+index 489854333e71ad4e7635870eedbdd07a84297a13..161ca711bcc4c6e9d5ac25b61154cf6b8a437d52 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/sniffer/Sniffer.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/sniffer/Sniffer.java
-@@ -118,6 +118,18 @@ public class Sniffer extends Animal {
+@@ -120,6 +120,19 @@ public class Sniffer extends Animal {
+         return this.level().purpurConfig.snifferBreedingTicks;
      }
-     // Purpur end
- 
+     // Purpur end - Make entity breeding times configurable
++
 +    // DivineMC start - Add missing purpur config options
 +    @Override
 +    public boolean isSensitiveToWater() {
@@ -130,12 +133,12 @@ index 464a16df15d8759d66f94ad080d1ea28b3f6474c..3742917207572f0698c779a262b887c0
      protected void defineSynchedData(SynchedEntityData.Builder builder) {
          super.defineSynchedData(builder);
 diff --git a/src/main/java/net/minecraft/world/entity/monster/warden/Warden.java b/src/main/java/net/minecraft/world/entity/monster/warden/Warden.java
-index cf231928bae5493b0684109c769d7da4dc36f872..bc8d7ab331239077079be74527714e170b1d1578 100644
+index 74011f1ab7e48490109ad93d658bba216eef9e80..6d8c7639c6a264f40b2c402684c54cb694c05c63 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/warden/Warden.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/warden/Warden.java
 @@ -153,6 +153,23 @@ public class Warden extends Monster implements VibrationSystem {
      }
-     // Purpur end
+     // Purpur end - Ridables
  
 +    // DivineMC start - Add missing purpur config options
 +    @Override

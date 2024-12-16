@@ -561,10 +561,10 @@ index 9104d7010bda6f9f73b478c11490ef9c53f76da2..e609d1b11d8c8924e4838e3cf5e9b6ac
      }
  }
 diff --git a/src/main/java/net/minecraft/world/entity/animal/Bee.java b/src/main/java/net/minecraft/world/entity/animal/Bee.java
-index 3fa17c5e74bec5fd719df415eebe2d622a0c28e1..2fb060484f4914e81cb60f51fa2b675b903fe5d7 100644
+index 98ae165bba22390b098f8a96d1e513f72ef71224..3dd6162a9cfccd24f1312bc22dcf0e0766e0e2d5 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/Bee.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/Bee.java
-@@ -1240,7 +1240,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
+@@ -1243,7 +1243,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
                          } else {
                              Bee.this.pathfindRandomlyTowards(Bee.this.hivePos);
                          }
@@ -573,7 +573,7 @@ index 3fa17c5e74bec5fd719df415eebe2d622a0c28e1..2fb060484f4914e81cb60f51fa2b675b
                          boolean flag = this.pathfindDirectlyTowards(Bee.this.hivePos);
  
                          if (!flag) {
-@@ -1299,7 +1299,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
+@@ -1302,7 +1302,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
              } else {
                  Path pathentity = Bee.this.navigation.getPath();
  
@@ -583,10 +583,10 @@ index 3fa17c5e74bec5fd719df415eebe2d622a0c28e1..2fb060484f4914e81cb60f51fa2b675b
          }
      }
 diff --git a/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java b/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java
-index b06946ea57285bb9ec0a70854c9359af9d72e979..40a2a10638b08f786eb6598fd1ee6d6b28329d3c 100644
+index 2ce47ff58e5db6fc5387667bc8b02fdef73f9f7c..127602a7a7360cdb8625dee9b3fc2e444ae84474 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java
-@@ -499,6 +499,17 @@ public class Frog extends Animal implements VariantHolder<Holder<FrogVariant>> {
+@@ -501,6 +501,17 @@ public class Frog extends Animal implements VariantHolder<Holder<FrogVariant>> {
              super(frog, world);
          }
  
@@ -604,7 +604,7 @@ index b06946ea57285bb9ec0a70854c9359af9d72e979..40a2a10638b08f786eb6598fd1ee6d6b
          @Override
          public boolean canCutCorner(PathType nodeType) {
              return nodeType != PathType.WATER_BORDER && super.canCutCorner(nodeType);
-@@ -507,6 +518,11 @@ public class Frog extends Animal implements VariantHolder<Holder<FrogVariant>> {
+@@ -509,6 +520,11 @@ public class Frog extends Animal implements VariantHolder<Holder<FrogVariant>> {
          @Override
          protected PathFinder createPathFinder(int range) {
              this.nodeEvaluator = new Frog.FrogNodeEvaluator(true);
@@ -617,10 +617,10 @@ index b06946ea57285bb9ec0a70854c9359af9d72e979..40a2a10638b08f786eb6598fd1ee6d6b
          }
      }
 diff --git a/src/main/java/net/minecraft/world/entity/monster/Drowned.java b/src/main/java/net/minecraft/world/entity/monster/Drowned.java
-index a28a4cd9544ffa58bd03ac901a761c797044629a..6186d9d30b767b58c61485dad3173ddcd63d6aaf 100644
+index 76db5a2d27ab435fdfd1e0ec0c77ef5012e128d4..758cdacf50af7dd6378b2c004ebb3d4be41b9897 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/Drowned.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/Drowned.java
-@@ -305,7 +305,7 @@ public class Drowned extends Zombie implements RangedAttackMob {
+@@ -309,7 +309,7 @@ public class Drowned extends Zombie implements RangedAttackMob {
  
      protected boolean closeToNextPos() {
          Path path = this.getNavigation().getPath();
@@ -630,10 +630,10 @@ index a28a4cd9544ffa58bd03ac901a761c797044629a..6186d9d30b767b58c61485dad3173ddc
              if (blockPos != null) {
                  double d = this.distanceToSqr((double)blockPos.getX(), (double)blockPos.getY(), (double)blockPos.getZ());
 diff --git a/src/main/java/net/minecraft/world/entity/monster/Strider.java b/src/main/java/net/minecraft/world/entity/monster/Strider.java
-index 779ae2e63202c1f189b1f5647218a07c21a84ccd..a29c273f6420b5b94fea586d92f3f1944e9d24c7 100644
+index df44d9fbb71ff252cd261fc8da6de14383e054de..af2631624cff2270aee24f5e58d7613bd352a1c9 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/Strider.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/Strider.java
-@@ -608,9 +608,25 @@ public class Strider extends Animal implements ItemSteerable, Saddleable {
+@@ -611,9 +611,25 @@ public class Strider extends Animal implements ItemSteerable, Saddleable {
              super(entity, world);
          }
  
@@ -660,7 +660,7 @@ index 779ae2e63202c1f189b1f5647218a07c21a84ccd..a29c273f6420b5b94fea586d92f3f194
          }
  
 diff --git a/src/main/java/net/minecraft/world/entity/monster/warden/Warden.java b/src/main/java/net/minecraft/world/entity/monster/warden/Warden.java
-index bc8d7ab331239077079be74527714e170b1d1578..215497e90ea57a2215140232cccf1eba91ebdc55 100644
+index 6d8c7639c6a264f40b2c402684c54cb694c05c63..c194d66a0118e5196602be8b1fc26839dd514d35 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/warden/Warden.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/warden/Warden.java
 @@ -635,6 +635,16 @@ public class Warden extends Monster implements VibrationSystem {

@@ -7,7 +7,7 @@ Original bug on Mojira: https://bugs.mojang.com/browse/MC-223153
 Took here: https://github.com/Winds-Studio/Leaf/blob/ver/1.21/patches/server/0083-Fix-MC-223153.patch
 
 diff --git a/src/main/java/net/minecraft/world/level/block/Blocks.java b/src/main/java/net/minecraft/world/level/block/Blocks.java
-index 1c34691da51d7f7ba3d54e095a3b58b74a5f2263..331ce13f80a27274446100e9828e19c9385319b9 100644
+index c5f8227cd9631d98cc8404e3f6d6109a55c617aa..041013600b2b76c146d7f73e9429376ac09faf23 100644
 --- a/src/main/java/net/minecraft/world/level/block/Blocks.java
 +++ b/src/main/java/net/minecraft/world/level/block/Blocks.java
 @@ -6600,6 +6600,7 @@ public class Blocks {

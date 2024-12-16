@@ -34,7 +34,7 @@ index 4729befa12732a9fd65cce243b33b3b479026c41..4f63d2d9e37be27724eddea2c61f681c
              LivingEntity entityliving1 = deadEntity.getLastHurtByMob();
  
 diff --git a/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java b/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
-index 090e196cf391dced8adcb8106026d67b2aeac6b0..b7f14229bec6efdd72a3d246097d95ae2f99529e 100644
+index 00ea1c2037c7c7780764bfcc3e07b6554e910db2..32d64bdb475fdaa5aba0e9082c6ee6655f38fa1e 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
 @@ -84,7 +84,18 @@ public class LevelChunk extends ChunkAccess implements ca.spottedleaf.moonrise.p

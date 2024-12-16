@@ -105,10 +105,10 @@ index 5705cb920084b775cce4b361683b32c6b6e003ed..9c031dd0fa279a23405e5b7d77e4c11e
      }
  }
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 467e88ba7ed3eb755c38d8038ae4231d1d4761b6..13a226c1e110bf51962f891ca52a92e2f309946d 100644
+index 75919064593167b51c4325ba6d500366ba8408f1..23b3bfaebb8bfbb3bed77535526235c3db9e750f 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-@@ -696,7 +696,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -705,7 +705,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
          // Paper start - Add setting for proxy online mode status
          return dedicatedserverproperties.enforceSecureProfile
              && io.papermc.paper.configuration.GlobalConfiguration.get().proxies.isProxyOnlineMode()
@@ -118,7 +118,7 @@ index 467e88ba7ed3eb755c38d8038ae4231d1d4761b6..13a226c1e110bf51962f891ca52a92e2
      }
  
 diff --git a/src/main/java/net/minecraft/server/network/ServerCommonPacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerCommonPacketListenerImpl.java
-index 7d276c191b391bca24948ddb36b8b7d0f1f03b03..c1d3a811ca17f303b6a35a4c044cacf13e57794a 100644
+index df48c2754dc1ebd52addd8ae768cba5916ce3969..955cfbe0bd97d65fb757d6e9e76ec60440bc5b84 100644
 --- a/src/main/java/net/minecraft/server/network/ServerCommonPacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerCommonPacketListenerImpl.java
 @@ -332,10 +332,24 @@ public abstract class ServerCommonPacketListenerImpl implements ServerCommonPack
@@ -147,7 +147,7 @@ index 7d276c191b391bca24948ddb36b8b7d0f1f03b03..c1d3a811ca17f303b6a35a4c044cacf1
          if (packet == null || this.processedDisconnect) { // Spigot
              return;
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index e1d195ab8b005edd7fcded810ddf903b47c000a1..a46e0d2c4244b7d2c4cc15f76856e5a5be2ead20 100644
+index 5b1705794a8c3914cb11fdd35f75c8e0c128ecd0..10f6b7e9fdc64760a8bcce34f5f453074a305a94 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -1426,7 +1426,7 @@ public abstract class PlayerList {
