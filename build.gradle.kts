@@ -1,43 +1,65 @@
-import io.papermc.paperweight.util.constants.PAPERCLIP_CONFIG
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 plugins {
     java
-    `maven-publish`
-    id("io.papermc.paperweight.patcher") version "1.7.7"
+    id("io.papermc.paperweight.patcher") version "2.0.0-beta.11"
 }
 
 val paperMavenPublicUrl = "https://repo.papermc.io/repository/maven-public/"
 
-repositories {
-    mavenCentral()
-    maven("https://papermc.io/repo/repository/maven-public/") {
-        content {
-            onlyForConfigurations(PAPERCLIP_CONFIG)
+paperweight {
+    upstreams.register("purpur") {
+        repo = github("PurpurMC", "Purpur")
+        ref = providers.gradleProperty("purpurRef")
+
+        patchFile {
+            path = "purpur-server/build.gradle.kts"
+            outputFile = file("divinemc-server/build.gradle.kts")
+            patchFile = file("divinemc-server/build.gradle.kts.patch")
         }
-    }
-}
-
-dependencies {
-    remapper("net.fabricmc:tiny-remapper:0.10.3:fat")
-    decompiler("org.vineflower:vineflower:1.10.1")
-    paperclip("io.papermc:paperclip:3.0.3")
-}
-
-allprojects  {
-    apply(plugin = "java")
-    apply(plugin = "maven-publish")
-
-    java {
-        toolchain {
-            languageVersion = JavaLanguageVersion.of(21)
+        patchFile {
+            path = "purpur-api/build.gradle.kts"
+            outputFile = file("divinemc-api/build.gradle.kts")
+            patchFile = file("divinemc-api/build.gradle.kts.patch")
+        }
+        patchRepo("paperApi") {
+            upstreamPath = "paper-api"
+            patchesDir = file("divinemc-api/paper-patches")
+            outputDir = file("paper-api")
+        }
+        patchRepo("paperApiGenerator") {
+            upstreamPath = "paper-api-generator"
+            patchesDir = file("divinemc-api-generator/paper-patches")
+            outputDir = file("paper-api-generator")
+        }
+        patchDir("purpurApi") {
+            upstreamPath = "purpur-api"
+            excludes = listOf("build.gradle.kts", "build.gradle.kts.patch", "paper-patches")
+            patchesDir = file("divinemc-api/purpur-patches")
+            outputDir = file("purpur-api")
         }
     }
 }
 
 subprojects {
+    apply(plugin = "java-library")
+    apply(plugin = "maven-publish")
+
+    extensions.configure<JavaPluginExtension> {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(21)
+        }
+    }
+
+    dependencies {
+        "testRuntimeOnly"("org.junit.platform:junit-platform-launcher")
+    }
+
     tasks.withType<JavaCompile> {
         options.encoding = Charsets.UTF_8.name()
-        options.release.set(21)
+        options.release = 21
+        options.isFork = true
     }
     tasks.withType<Javadoc> {
         options.encoding = Charsets.UTF_8.name()
@@ -45,64 +67,29 @@ subprojects {
     tasks.withType<ProcessResources> {
         filteringCharset = Charsets.UTF_8.name()
     }
+    tasks.withType<Test> {
+        testLogging {
+            showStackTraces = true
+            exceptionFormat = TestExceptionFormat.FULL
+            events(TestLogEvent.STANDARD_OUT)
+        }
+    }
+    tasks.withType<AbstractArchiveTask>().configureEach {
+        isPreserveFileTimestamps = false
+        isReproducibleFileOrder = true
+    }
 
     repositories {
         mavenCentral()
         maven(paperMavenPublicUrl)
-        maven("https://oss.sonatype.org/content/groups/public/")
-        maven("https://ci.emc.gs/nexus/content/groups/aikar/")
-        maven("https://repo.aikar.co/content/groups/aikar")
-        maven("https://repo.md-5.net/content/repositories/releases/")
-        maven("https://hub.spigotmc.org/nexus/content/groups/public/")
         maven("https://jitpack.io")
     }
-}
 
-paperweight {
-    serverProject.set(project(":divinemc-server"))
-
-    remapRepo.set("https://maven.fabricmc.net/")
-    decompileRepo.set(paperMavenPublicUrl)
-
-    useStandardUpstream("purpur") {
-        url.set(github("PurpurMC", "Purpur"))
-        ref.set(providers.gradleProperty("purpurRef"))
-
-        withStandardPatcher {
-            apiSourceDirPath.set("Purpur-API")
-            serverSourceDirPath.set("Purpur-Server")
-
-            apiPatchDir.set(layout.projectDirectory.dir("patches/api"))
-            apiOutputDir.set(layout.projectDirectory.dir("DivineMC-API"))
-
-            serverPatchDir.set(layout.projectDirectory.dir("patches/server"))
-            serverOutputDir.set(layout.projectDirectory.dir("DivineMC-Server"))
-        }
-
-        patchTasks.register("generatedApi") {
-            isBareDirectory = true
-            upstreamDirPath = "paper-api-generator/generated"
-            patchDir = layout.projectDirectory.dir("patches/generated-api")
-            outputDir = layout.projectDirectory.dir("paper-api-generator/generated")
-        }
-    }
-}
-
-tasks.generateDevelopmentBundle {
-    apiCoordinates = "space.bxteam.divinemc:divinemc-api"
-    libraryRepositories.set(
-        listOf(
-            "https://repo.maven.apache.org/maven2/",
-            paperMavenPublicUrl
-        )
-    )
-}
-
-publishing {
-    if (project.providers.gradleProperty("publishDevBundle").isPresent) {
-        publications.create<MavenPublication>("devBundle") {
-            artifact(tasks.generateDevelopmentBundle) {
-                artifactId = "dev-bundle"
+    extensions.configure<PublishingExtension> {
+        repositories {
+            maven("https://repo.bx-team.space/snapshots") {
+                name = "divinemc"
+                credentials(PasswordCredentials::class)
             }
         }
     }

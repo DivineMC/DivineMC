@@ -1,0 +1,11 @@
+--- a/purpur-server/build.gradle.kts
++++ b/purpur-server/build.gradle.kts
+@@ -146,7 +_,7 @@
+ // Paper end - configure mockito agent that is needed in newer java versions
+ 
+ dependencies {
+-    implementation(project(":purpur-api"))
++    implementation(project(":divinemc-api")) // DivineMC
+     implementation("ca.spottedleaf:concurrentutil:0.0.2") // Paper - Add ConcurrentUtil dependency
+     // Paper start
+     implementation("org.jline:jline-terminal-ffm:3.27.1") // use ffm on java 22+
