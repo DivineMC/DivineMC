@@ -1,0 +1,11 @@
+--- a/net/minecraft/util/ClassInstanceMultiMap.java
++++ b/net/minecraft/util/ClassInstanceMultiMap.java
+@@ -14,7 +_,7 @@
+ import net.minecraft.Util;
+ 
+ public class ClassInstanceMultiMap<T> extends AbstractCollection<T> {
+-    private final Map<Class<?>, List<T>> byClass = Maps.newHashMap();
++    private final Map<Class<?>, List<T>> byClass = new it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap<>(); // DivineMC - lithium: collections.entity_by_type
+     private final Class<T> baseClass;
+     private final List<T> allInstances = Lists.newArrayList();
+ 

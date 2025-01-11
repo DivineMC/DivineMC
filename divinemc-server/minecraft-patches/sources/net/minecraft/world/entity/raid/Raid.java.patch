@@ -1,27 +1,14 @@
-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
-Date: Sat, 8 Apr 2023 23:45:11 +0300
-Subject: [PATCH] lithium: ai.raid
-
-This patch is based on the following mixin:
-"me/jellysquid/mods/lithium/mixin/ai/raid/RaidMixin.java"
-By: Angeline <jellysquid3@users.noreply.github.com>
-As part of: Lithium (https://github.com/CaffeineMC/lithium-fabric)
-Licensed under: LGPL-3.0 (https://www.gnu.org/licenses/lgpl-3.0.html)
-
-diff --git a/src/main/java/net/minecraft/world/entity/raid/Raid.java b/src/main/java/net/minecraft/world/entity/raid/Raid.java
-index 11cf2d9def087b0898c828eaa21eb5f7b8811d5f..c834c29683b586cc347006f8f1298df366d8ca1b 100644
---- a/src/main/java/net/minecraft/world/entity/raid/Raid.java
-+++ b/src/main/java/net/minecraft/world/entity/raid/Raid.java
-@@ -107,6 +107,7 @@ public class Raid {
+--- a/net/minecraft/world/entity/raid/Raid.java
++++ b/net/minecraft/world/entity/raid/Raid.java
+@@ -104,6 +_,7 @@
      private Raid.RaidStatus status;
      private int celebrationTicks;
-     private Optional<BlockPos> waveSpawnPos;
+     private Optional<BlockPos> waveSpawnPos = Optional.empty();
 +    private boolean isBarDirty; // DivineMC - lithium: ai.raid
      // Paper start
      private static final String PDC_NBT_KEY = "BukkitValues";
      private static final org.bukkit.craftbukkit.persistence.CraftPersistentDataTypeRegistry PDC_TYPE_REGISTRY = new org.bukkit.craftbukkit.persistence.CraftPersistentDataTypeRegistry();
-@@ -292,6 +293,12 @@ public class Raid {
+@@ -264,6 +_,12 @@
  
      public void tick() {
          if (!this.isStopped()) {
@@ -30,12 +17,12 @@ index 11cf2d9def087b0898c828eaa21eb5f7b8811d5f..c834c29683b586cc347006f8f1298df3
 +                this.updateBossbarInternal();
 +                this.isBarDirty = false;
 +            }
-+            // DivineMC end
++            // DivineMC end - lithium: ai.raid
              if (this.status == Raid.RaidStatus.ONGOING) {
                  boolean flag = this.active;
- 
-@@ -651,9 +658,15 @@ public class Raid {
- 
+                 this.active = this.level.hasChunkAt(this.center);
+@@ -587,9 +_,15 @@
+         }
      }
  
 +    // DivineMC start - lithium: ai.raid
@@ -46,7 +33,7 @@ index 11cf2d9def087b0898c828eaa21eb5f7b8811d5f..c834c29683b586cc347006f8f1298df3
 +    private void updateBossbarInternal() {
          this.raidEvent.setProgress(Mth.clamp(this.getHealthOfLivingRaiders() / this.totalHealth, 0.0F, 1.0F));
      }
-+    // DivineMC end
++    // DivineMC end - lithium: ai.raid
  
      public float getHealthOfLivingRaiders() {
          float f = 0.0F;

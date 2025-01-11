@@ -5,7 +5,7 @@ Subject: [PATCH] DivineMC Configuration
 
 
 diff --git a/net/minecraft/server/dedicated/DedicatedServer.java b/net/minecraft/server/dedicated/DedicatedServer.java
-index c02a7375d356ccdb23c24c784584029eab51fae1..88c699c16718e27b1c44db8f4460f2efcf04e492 100644
+index 3d91240015ad8f464283da03bd45beba90cf2b89..d24e988a87d6defe5ac3d5483b54704225ebb7f0 100644
 --- a/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -217,6 +217,17 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
@@ -27,7 +27,7 @@ index c02a7375d356ccdb23c24c784584029eab51fae1..88c699c16718e27b1c44db8f4460f2ef
          this.paperConfigurations.initializeGlobalConfiguration(this.registryAccess());
          this.paperConfigurations.initializeWorldDefaultsConfiguration(this.registryAccess());
 diff --git a/net/minecraft/world/level/Level.java b/net/minecraft/world/level/Level.java
-index 9eccdbc2ea91d434328db9fee2c270ce2ebb290c..c443ae6a3dd8289a74837087e7b563b94aed1b90 100644
+index bcb2cfaa9780028fc5ada3a10139a5732e0e992c..58a1eb9be11bbea91196809328f41e10065e02d1 100644
 --- a/net/minecraft/world/level/Level.java
 +++ b/net/minecraft/world/level/Level.java
 @@ -171,6 +171,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
@@ -36,9 +36,9 @@ index 9eccdbc2ea91d434328db9fee2c270ce2ebb290c..c443ae6a3dd8289a74837087e7b563b9
      public final org.purpurmc.purpur.PurpurWorldConfig purpurConfig; // Purpur - Purpur config files
 +    public final space.bxteam.divinemc.configuration.DivineWorldConfig divinemcConfig; // DivineMC - DivineMC Configuration
      public static BlockPos lastPhysicsProblem; // Spigot
-     private org.spigotmc.TickLimiter entityLimiter;
-     private org.spigotmc.TickLimiter tileLimiter;
-@@ -898,6 +899,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
+     private int tileTickPosition;
+     public final Map<ServerExplosion.CacheKey, Float> explosionDensityCache = new HashMap<>(); // Paper - Optimize explosions
+@@ -896,6 +897,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
          this.spigotConfig = new org.spigotmc.SpigotWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) levelData).getLevelName()); // Spigot
          this.paperConfig = paperWorldConfigCreator.apply(this.spigotConfig); // Paper - create paper world config
          this.purpurConfig = new org.purpurmc.purpur.PurpurWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) levelData).getLevelName(), env); // Purpur - Purpur config files

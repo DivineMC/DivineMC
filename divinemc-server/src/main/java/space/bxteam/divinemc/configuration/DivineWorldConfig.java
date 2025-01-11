@@ -76,4 +76,9 @@ public class DivineWorldConfig {
         final Map<String, Object> value = DivineConfig.getMap("world-settings." + worldName + "." + path, null);
         return value.isEmpty() ? fallback : value;
     }
+
+    public boolean saveFireworks = false;
+    private void saveFireworks() {
+        saveFireworks = getBoolean("gameplay-mechanics.should-save-fireworks", saveFireworks);
+    }
 }

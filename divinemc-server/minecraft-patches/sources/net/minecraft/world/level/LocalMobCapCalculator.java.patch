@@ -1,0 +1,20 @@
+--- a/net/minecraft/world/level/LocalMobCapCalculator.java
++++ b/net/minecraft/world/level/LocalMobCapCalculator.java
+@@ -42,14 +_,14 @@
+     }
+ 
+     static class MobCounts {
+-        private final Object2IntMap<MobCategory> counts = new Object2IntOpenHashMap<>(MobCategory.values().length);
++        private final int[] spawnGroupDensities = new int[MobCategory.values().length]; // DivineMC - vmp: spawn_density_cap
+ 
+         public void add(MobCategory category) {
+-            this.counts.computeInt(category, (key, value) -> value == null ? 1 : value + 1);
++            this.spawnGroupDensities[category.ordinal()]++; // DivineMC - vmp: spawn_density_cap
+         }
+ 
+         public boolean canSpawn(MobCategory category) {
+-            return this.counts.getOrDefault(category, 0) < category.getMaxInstancesPerChunk();
++            return this.spawnGroupDensities[category.ordinal()] < category.getMaxInstancesPerChunk(); // DivineMC - vmp: spawn_density_cap
+         }
+     }
+ }

@@ -1,0 +1,31 @@
+--- a/net/minecraft/world/entity/Entity.java
++++ b/net/minecraft/world/entity/Entity.java
+@@ -235,6 +_,7 @@
+     public float yRotO;
+     public float xRotO;
+     private AABB bb = INITIAL_AABB;
++    private boolean boundingBoxChanged = false; // DivineMC - vmp: skip entity move if movement is zero
+     public boolean onGround;
+     public boolean horizontalCollision;
+     public boolean verticalCollision;
+@@ -1095,6 +_,12 @@
+     // Paper end - detailed watchdog information
+ 
+     public void move(MoverType type, Vec3 movement) {
++        // DivineMC start - vmp: skip entity move if movement is zero
++        if (!boundingBoxChanged && movement.equals(Vec3.ZERO)) {
++            boundingBoxChanged = false;
++            return;
++        }
++        // DivineMC end - vmp: skip entity move if movement is zero
+         final Vec3 originalMovement = movement; // Paper - Expose pre-collision velocity
+         // Paper start - detailed watchdog information
+         ca.spottedleaf.moonrise.common.util.TickThread.ensureTickThread("Cannot move an entity off-main");
+@@ -4214,6 +_,7 @@
+     }
+ 
+     public final void setBoundingBox(AABB bb) {
++        if (!this.bb.equals(bb)) boundingBoxChanged = true; // DivineMC - vmp: skip entity move if movement is zero
+         // CraftBukkit start - block invalid bounding boxes
+         double minX = bb.minX,
+                 minY = bb.minY,
