@@ -1,0 +1,183 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Sun, 12 Jan 2025 00:14:45 +0300
+Subject: [PATCH] Add missing purpur config options
+
+
+diff --git a/net/minecraft/world/entity/animal/allay/Allay.java b/net/minecraft/world/entity/animal/allay/Allay.java
+index 22e0fad86da2e7b932863ef30182355aa41424a1..d4eee24b5ab89f82e4e90f551d6651330d4508cb 100644
+--- a/net/minecraft/world/entity/animal/allay/Allay.java
++++ b/net/minecraft/world/entity/animal/allay/Allay.java
+@@ -181,6 +181,18 @@ public class Allay extends PathfinderMob implements InventoryCarrier, VibrationS
+     }
+     // Purpur end - Configurable entity base attributes
+ 
++    // DivineMC start - Add missing purpur config options
++    @Override
++    public boolean isSensitiveToWater() {
++        return level().purpurConfig.allayTakeDamageFromWater;
++    }
++
++    @Override
++    public boolean isAlwaysExperienceDropper() {
++        return level().purpurConfig.allayAlwaysDropExp;
++    }
++    // DivineMC end - Add missing purpur config options
++
+     @Override
+     protected Brain.Provider<Allay> brainProvider() {
+         return Brain.provider(MEMORY_TYPES, SENSOR_TYPES);
+diff --git a/net/minecraft/world/entity/animal/camel/Camel.java b/net/minecraft/world/entity/animal/camel/Camel.java
+index 1d7ae2a08968860636918e7c66b60139a9d761b4..126af60a694600d40e3ae6bd39e94e55dd9d0b6e 100644
+--- a/net/minecraft/world/entity/animal/camel/Camel.java
++++ b/net/minecraft/world/entity/animal/camel/Camel.java
+@@ -97,6 +97,18 @@ public class Camel extends AbstractHorse {
+     }
+     // Purpur end - Make entity breeding times configurable
+ 
++    // DivineMC start - Add missing purpur config options
++    @Override
++    public boolean isSensitiveToWater() {
++        return level().purpurConfig.camelTakeDamageFromWater;
++    }
++
++    @Override
++    public boolean isAlwaysExperienceDropper() {
++        return level().purpurConfig.camelAlwaysDropExp;
++    }
++    // DivineMC end - Add missing purpur config options
++
+     @Override
+     public void addAdditionalSaveData(CompoundTag compound) {
+         super.addAdditionalSaveData(compound);
+diff --git a/net/minecraft/world/entity/animal/frog/Frog.java b/net/minecraft/world/entity/animal/frog/Frog.java
+index c4ea9485294b7dec2582c638802f003ad70659b6..d286d4a45b6c8d5c684ad11500d2ad1a10a70c18 100644
+--- a/net/minecraft/world/entity/animal/frog/Frog.java
++++ b/net/minecraft/world/entity/animal/frog/Frog.java
+@@ -165,6 +165,23 @@ public class Frog extends Animal implements VariantHolder<Holder<FrogVariant>> {
+     }
+     // Purpur end - Ridables
+ 
++    // DivineMC start - Add missing purpur config options
++    @Override
++    public boolean isSensitiveToWater() {
++        return level().purpurConfig.frogTakeDamageFromWater;
++    }
++
++    @Override
++    public boolean isAlwaysExperienceDropper() {
++        return level().purpurConfig.frogAlwaysDropExp;
++    }
++
++    @Override
++    public void initAttributes() {
++        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(level().purpurConfig.frogMaxHealth);
++    }
++    // DivineMC end
++
+     // Purpur start - Make entity breeding times configurable
+     @Override
+     public int getPurpurBreedTime() {
+diff --git a/net/minecraft/world/entity/animal/frog/Tadpole.java b/net/minecraft/world/entity/animal/frog/Tadpole.java
+index e888e606b4b14fa6485de7426bc146b6005962af..a4383a7d41c91f9e478c7e221828ba92437af06c 100644
+--- a/net/minecraft/world/entity/animal/frog/Tadpole.java
++++ b/net/minecraft/world/entity/animal/frog/Tadpole.java
+@@ -107,6 +107,23 @@ public class Tadpole extends AbstractFish {
+     }
+     // Purpur end - Ridables
+ 
++    // DivineMC start - Add missing purpur config options
++    @Override
++    public boolean isSensitiveToWater() {
++        return level().purpurConfig.tadpoleTakeDamageFromWater;
++    }
++
++    @Override
++    public boolean isAlwaysExperienceDropper() {
++        return level().purpurConfig.tadpoleAlwaysDropExp;
++    }
++
++    @Override
++    public void initAttributes() {
++        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(level().purpurConfig.tadpoleMaxHealth);
++    }
++    // DivineMC end - Add missing purpur config options
++
+     @Override
+     protected PathNavigation createNavigation(Level level) {
+         return new WaterBoundPathNavigation(this, level);
+diff --git a/net/minecraft/world/entity/animal/sniffer/Sniffer.java b/net/minecraft/world/entity/animal/sniffer/Sniffer.java
+index 11a5da22149a61ca48bbb0a8ed10b71e91a5cc98..ed1ffc1578e50fa6fedc6124fe016a1535c0e968 100644
+--- a/net/minecraft/world/entity/animal/sniffer/Sniffer.java
++++ b/net/minecraft/world/entity/animal/sniffer/Sniffer.java
+@@ -120,6 +120,18 @@ public class Sniffer extends Animal {
+     }
+     // Purpur end - Make entity breeding times configurable
+ 
++    // DivineMC start - Add missing purpur config options
++    @Override
++    public boolean isSensitiveToWater() {
++        return level().purpurConfig.snifferTakeDamageFromWater;
++    }
++
++    @Override
++    public boolean isAlwaysExperienceDropper() {
++        return level().purpurConfig.snifferAlwaysDropExp;
++    }
++    // DivineMC end
++
+     @Override
+     protected void defineSynchedData(SynchedEntityData.Builder builder) {
+         super.defineSynchedData(builder);
+diff --git a/net/minecraft/world/entity/monster/warden/Warden.java b/net/minecraft/world/entity/monster/warden/Warden.java
+index f968e5c99bdb23b268bc34ea1ba5d54ae9ad0ff9..f74c784906208034f51b31bd9aba45733c3ebebe 100644
+--- a/net/minecraft/world/entity/monster/warden/Warden.java
++++ b/net/minecraft/world/entity/monster/warden/Warden.java
+@@ -155,6 +155,23 @@ public class Warden extends Monster implements VibrationSystem {
+     }
+     // Purpur end - Ridables
+ 
++    // DivineMC start - Add missing purpur config options
++    @Override
++    public boolean isSensitiveToWater() {
++        return level().purpurConfig.wardenTakeDamageFromWater;
++    }
++
++    @Override
++    public boolean isAlwaysExperienceDropper() {
++        return level().purpurConfig.wardenAlwaysDropExp;
++    }
++
++    @Override
++    public void initAttributes() {
++        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(level().purpurConfig.wardenMaxHealth);
++    }
++    // DivineMC end
++
+     @Override
+     public Packet<ClientGamePacketListener> getAddEntityPacket(ServerEntity entity) {
+         return new ClientboundAddEntityPacket(this, entity, this.hasPose(Pose.EMERGING) ? 1 : 0);
+diff --git a/net/minecraft/world/entity/vehicle/AbstractChestBoat.java b/net/minecraft/world/entity/vehicle/AbstractChestBoat.java
+index b230955ae880d84fde40b4feffa5caf3c4449eb7..5b88c69427d5915ff547e4caf7b5656e96912e93 100644
+--- a/net/minecraft/world/entity/vehicle/AbstractChestBoat.java
++++ b/net/minecraft/world/entity/vehicle/AbstractChestBoat.java
+@@ -26,8 +26,8 @@ import net.minecraft.world.level.gameevent.GameEvent;
+ import net.minecraft.world.level.storage.loot.LootTable;
+ 
+ public abstract class AbstractChestBoat extends AbstractBoat implements HasCustomInventoryScreen, ContainerEntity {
+-    private static final int CONTAINER_SIZE = 27;
+-    private NonNullList<ItemStack> itemStacks = NonNullList.withSize(27, ItemStack.EMPTY);
++    private static final int CONTAINER_SIZE = org.purpurmc.purpur.PurpurConfig.chestBoatRows * 9; // DivineMC - Add missing purpur config options
++    private NonNullList<ItemStack> itemStacks = NonNullList.withSize(org.purpurmc.purpur.PurpurConfig.chestBoatRows * 9, ItemStack.EMPTY); // DivineMC - Add missing purpur config options
+     @Nullable
+     private ResourceKey<LootTable> lootTable;
+     private long lootTableSeed;
+@@ -118,7 +118,7 @@ public abstract class AbstractChestBoat extends AbstractBoat implements HasCusto
+ 
+     @Override
+     public int getContainerSize() {
+-        return 27;
++        return org.purpurmc.purpur.PurpurConfig.chestBoatRows * 9;  // DivineMC - Add missing purpur config options
+     }
+ 
+     @Override
