@@ -1,0 +1,68 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Sat, 11 Jan 2025 22:50:23 +0300
+Subject: [PATCH] DivineMC Configuration
+
+
+diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
+index c9cb1c64313fe107fcb66c3bde4e0bb88a7d6ab3..a5643267680262c2466b81bfe1a846027922d22f 100644
+--- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
++++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
+@@ -1087,6 +1087,7 @@ public final class CraftServer implements Server {
+         org.spigotmc.SpigotConfig.init((File) this.console.options.valueOf("spigot-settings")); // Spigot
+         this.console.paperConfigurations.reloadConfigs(this.console);
+         org.purpurmc.purpur.PurpurConfig.init((File) console.options.valueOf("purpur-settings")); // Purpur - Purpur config files
++        space.bxteam.divinemc.configuration.DivineConfig.init((File) console.options.valueOf("divinemc-settings")); // DivineMC - DivineMC Configuration
+         for (ServerLevel world : this.console.getAllLevels()) {
+             // world.serverLevelData.setDifficulty(config.difficulty); // Paper - per level difficulty
+             world.setSpawnSettings(world.serverLevelData.getDifficulty() != Difficulty.PEACEFUL && config.spawnMonsters); // Paper - per level difficulty (from MinecraftServer#setDifficulty(ServerLevel, Difficulty, boolean))
+@@ -1103,6 +1104,7 @@ public final class CraftServer implements Server {
+             }
+             world.spigotConfig.init(); // Spigot
+             world.purpurConfig.init(); // Purpur - Purpur config files
++            world.divinemcConfig.init(); // DivineMC - DivineMC Configuration
+         }
+ 
+         Plugin[] pluginClone = pluginManager.getPlugins().clone(); // Paper
+@@ -1121,6 +1123,7 @@ public final class CraftServer implements Server {
+         io.papermc.paper.command.PaperCommands.registerCommands(this.console); // Paper
+         this.spark.registerCommandBeforePlugins(this); // Paper - spark
+         org.purpurmc.purpur.PurpurConfig.registerCommands(); // Purpur - Purpur config files
++        space.bxteam.divinemc.configuration.DivineConfig.registerCommands(); // DivineMC - DivineMC Configuration
+         this.overrideAllCommandBlockCommands = this.commandsConfiguration.getStringList("command-block-overrides").contains("*");
+         this.ignoreVanillaPermissions = this.commandsConfiguration.getBoolean("ignore-vanilla-permissions");
+ 
+@@ -3064,6 +3067,13 @@ public final class CraftServer implements Server {
+         }
+         // Purpur end - Purpur config files
+ 
++        // DivineMC start - DivineMC Configuration
++        @Override
++        public YamlConfiguration getDivineConfig() {
++            return space.bxteam.divinemc.configuration.DivineConfig.config;
++        }
++        // DivineMC end - DivineMC Configuration
++
+         @Override
+         public void restart() {
+             org.spigotmc.RestartCommand.restart();
+diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
+index 90fb036607e752fcf43575be4f03bbf00bbb05c7..22ba21fb13ed1e3ceede833c1173d17e5b60c1b6 100644
+--- a/src/main/java/org/bukkit/craftbukkit/Main.java
++++ b/src/main/java/org/bukkit/craftbukkit/Main.java
+@@ -183,6 +183,15 @@ public class Main {
+                     .defaultsTo(new File("purpur.yml"))
+                     .describedAs("Yml file");
+                 // Purpur end - Purpur config files
++
++                // DivineMC start - DivineMC Configuration
++                acceptsAll(asList("divinemc", "divinemc-settings"), "File for divinemc settings")
++                        .withRequiredArg()
++                        .ofType(File.class)
++                        .defaultsTo(new File("divinemc.yml"))
++                        .describedAs("Yml file");
++                // DivineMC end - DivineMC Configuration
++
+                 // Paper start
+                 acceptsAll(asList("server-name"), "Name of the server")
+                         .withRequiredArg()
