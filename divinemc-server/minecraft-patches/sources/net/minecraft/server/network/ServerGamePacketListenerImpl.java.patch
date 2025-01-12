@@ -1,0 +1,26 @@
+--- a/net/minecraft/server/network/ServerGamePacketListenerImpl.java
++++ b/net/minecraft/server/network/ServerGamePacketListenerImpl.java
+@@ -2387,6 +_,7 @@
+     }
+ 
+     private void tryHandleChat(String message, Runnable handler, boolean sync) { // CraftBukkit
++        if (ServerGamePacketListenerImpl.isLog4ShellExploit(message)) return; // DivineMC - Block Log4Shell exploit
+         if (isChatMessageIllegal(message)) {
+             this.disconnectAsync(Component.translatable("multiplayer.disconnect.illegal_characters"), org.bukkit.event.player.PlayerKickEvent.Cause.ILLEGAL_CHARACTERS); // Paper - add proper async disconnect
+         } else if (this.player.isRemoved() || this.player.getChatVisibility() == ChatVisiblity.HIDDEN) { // CraftBukkit - dead men tell no tales
+@@ -2414,6 +_,15 @@
+             return optional;
+         }
+     }
++
++    // DivineMC start - Block Log4Shell exploit
++    public static boolean isLog4ShellExploit(String message) {
++        java.util.regex.Pattern pattern = java.util.regex.Pattern.compile(".*\\$\\{[^}]*}.*");
++        java.util.regex.Matcher matcher = pattern.matcher(message);
++
++        return matcher.find();
++    }
++    // DivineMC end - Block Log4Shell exploit
+ 
+     public static boolean isChatMessageIllegal(String message) {
+         for (int i = 0; i < message.length(); i++) {
