@@ -56,7 +56,29 @@
      implementation("ca.spottedleaf:concurrentutil:0.0.2") // Paper - Add ConcurrentUtil dependency
      // Paper start
      implementation("org.jline:jline-terminal-ffm:3.27.1") // use ffm on java 22+
-@@ -219,14 +_,14 @@
+@@ -207,26 +_,35 @@
+     // Paper end - spark
+ }
+ 
++// DivineMC start - hide irrelevant compilation warnings
++tasks.withType<JavaCompile> {
++    val compilerArgs = options.compilerArgs
++    compilerArgs.add("-Xlint:-module")
++    compilerArgs.add("-Xlint:-removal")
++    compilerArgs.add("-Xlint:-dep-ann")
++}
++// DivineMC end - hide irrelevant compilation warnings
++
+ tasks.jar {
+     manifest {
+         val git = Git(rootProject.layout.projectDirectory.path)
+         val mcVersion = rootProject.providers.gradleProperty("mcVersion").get()
+         val build = System.getenv("BUILD_NUMBER") ?: null
+-        val buildTime = if (build != null) Instant.now() else Instant.EPOCH
++        val buildTime = Instant.now() // DivineMC - Build time to current, we dont have a build server rn
+         val gitHash = git.exec(providers, "rev-parse", "--short=7", "HEAD").get().trim()
+         val implementationVersion = "$mcVersion-${build ?: "DEV"}-$gitHash"
+         val date = git.exec(providers, "show", "-s", "--format=%ci", gitHash).get().trim() // Paper
          val gitBranch = git.exec(providers, "rev-parse", "--abbrev-ref", "HEAD").get().trim() // Paper
          attributes(
              "Main-Class" to "org.bukkit.craftbukkit.Main",

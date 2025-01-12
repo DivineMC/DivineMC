@@ -5,10 +5,10 @@ Subject: [PATCH] DivineMC Configuration
 
 
 diff --git a/net/minecraft/server/MinecraftServer.java b/net/minecraft/server/MinecraftServer.java
-index 90cdcb8934e28dcc51272c9b40a6d89ac5dec75e..884f86f3a8f8bcc5242a9c9f44cc09506312b8c0 100644
+index b545362d99d39e1fbecf2e38ba4406e7936b9d6e..18b8405ac4de2b96ae8164fd580f9bd164b8db81 100644
 --- a/net/minecraft/server/MinecraftServer.java
 +++ b/net/minecraft/server/MinecraftServer.java
-@@ -300,6 +300,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -301,6 +301,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
      public volatile boolean abnormalExit; // Paper - Improved watchdog support
      public volatile Thread shutdownThread; // Paper - Improved watchdog support
      public final io.papermc.paper.configuration.PaperConfigurations paperConfigurations; // Paper - add paper configuration files
@@ -16,7 +16,7 @@ index 90cdcb8934e28dcc51272c9b40a6d89ac5dec75e..884f86f3a8f8bcc5242a9c9f44cc0950
      public boolean isIteratingOverLevels = false; // Paper - Throw exception on world create while being ticked
      private final Set<String> pluginsBlockingSleep = new java.util.HashSet<>(); // Paper - API to allow/disallow tick sleeping
      public boolean lagging = false; // Purpur - Lagging threshold
-@@ -472,6 +473,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -473,6 +474,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          Runtime.getRuntime().addShutdownHook(new org.bukkit.craftbukkit.util.ServerShutdownThread(this));
          // CraftBukkit end
          this.paperConfigurations = services.paperConfigurations(); // Paper - add paper configuration files
@@ -74,7 +74,7 @@ index ee760cc9d6756c40f13fe6459725dcfc200b9630..f407553fa89e85412193f617d01f2e36
      }
  
 diff --git a/net/minecraft/server/dedicated/DedicatedServer.java b/net/minecraft/server/dedicated/DedicatedServer.java
-index 3d91240015ad8f464283da03bd45beba90cf2b89..4aef0ac69817b85c5f8db94424dbc60f969153bf 100644
+index f6f90b69a0fe21ab9689b74b22cec272c63425fd..2d38e8a31ae290b41b05e152481199a5ed9a49d2 100644
 --- a/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -221,6 +221,10 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
@@ -89,7 +89,7 @@ index 3d91240015ad8f464283da03bd45beba90cf2b89..4aef0ac69817b85c5f8db94424dbc60f
          // Paper start - fix converting txt to json file; convert old users earlier after PlayerList creation but before file load/save
          if (this.convertOldUsers()) {
 diff --git a/net/minecraft/server/level/ServerLevel.java b/net/minecraft/server/level/ServerLevel.java
-index 5e730cdde960603d5fa0fa7d1b70ec56c4fa8145..b6d339bc7f8f14d762c1083a9818bde6b9bcf9a1 100644
+index b29a421c67ce9889af32e5c049c9bc6a6d640df0..6be5095aa7d57f0c4034f9375453a882d3736fd4 100644
 --- a/net/minecraft/server/level/ServerLevel.java
 +++ b/net/minecraft/server/level/ServerLevel.java
 @@ -591,7 +591,7 @@ public class ServerLevel extends Level implements ServerEntityGetter, WorldGenLe
