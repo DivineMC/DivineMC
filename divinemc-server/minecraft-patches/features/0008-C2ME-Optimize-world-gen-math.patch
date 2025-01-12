@@ -1,0 +1,75 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Sun, 12 Jan 2025 21:07:52 +0300
+Subject: [PATCH] C2ME: Optimize world gen math
+
+
+diff --git a/net/minecraft/world/level/ChunkPos.java b/net/minecraft/world/level/ChunkPos.java
+index 55ce935a2fab7e32904d9ff599867269035d703f..4fa84743ba7f570f11a4979b7e5381478c844aef 100644
+--- a/net/minecraft/world/level/ChunkPos.java
++++ b/net/minecraft/world/level/ChunkPos.java
+@@ -110,7 +110,12 @@ public class ChunkPos {
+ 
+     @Override
+     public boolean equals(Object other) {
+-        return this == other || other instanceof ChunkPos chunkPos && this.x == chunkPos.x && this.z == chunkPos.z;
++        // DivineMC start - Use standard equals
++        if (other == this) return true;
++        if (other == null || other.getClass() != this.getClass()) return false;
++        ChunkPos thatPos = (ChunkPos) other;
++        return this.x == thatPos.x && this.z == thatPos.z;
++        // DivineMC end - Use standard equals
+     }
+ 
+     public int getMiddleBlockX() {
+diff --git a/net/minecraft/world/level/levelgen/Beardifier.java b/net/minecraft/world/level/levelgen/Beardifier.java
+index 131923282c9ecbcb1d7f45a826da907c02bd2716..e7c0de38ef689510860dc0b626f744617a694956 100644
+--- a/net/minecraft/world/level/levelgen/Beardifier.java
++++ b/net/minecraft/world/level/levelgen/Beardifier.java
+@@ -132,8 +132,14 @@ public class Beardifier implements DensityFunctions.BeardifierOrMarker {
+     }
+ 
+     private static double getBuryContribution(double x, double y, double z) {
+-        double len = Mth.length(x, y, z);
+-        return Mth.clampedMap(len, 0.0, 6.0, 1.0, 0.0);
++        // DivineMC start - Optimize method for beardifier
++        double d = Math.sqrt(x * x + y * y + z * z);
++        if (d > 6.0) {
++            return 0.0;
++        } else {
++            return 1.0 - d / 6.0;
++        }
++        // DivineMC end - Optimize method for beardifier
+     }
+ 
+     private static double getBeardContribution(int x, int y, int z, int height) {
+diff --git a/net/minecraft/world/level/levelgen/NoiseBasedChunkGenerator.java b/net/minecraft/world/level/levelgen/NoiseBasedChunkGenerator.java
+index d77016287f5f9a0964d56f05d2d5256ef2e6e86c..40d4555607915709099a94f83df78a744d2827e7 100644
+--- a/net/minecraft/world/level/levelgen/NoiseBasedChunkGenerator.java
++++ b/net/minecraft/world/level/levelgen/NoiseBasedChunkGenerator.java
+@@ -69,8 +69,10 @@ public final class NoiseBasedChunkGenerator extends ChunkGenerator {
+         Aquifer.FluidStatus fluidStatus = new Aquifer.FluidStatus(-54, Blocks.LAVA.defaultBlockState());
+         int seaLevel = settings.seaLevel();
+         Aquifer.FluidStatus fluidStatus1 = new Aquifer.FluidStatus(seaLevel, settings.defaultFluid());
+-        Aquifer.FluidStatus fluidStatus2 = new Aquifer.FluidStatus(DimensionType.MIN_Y * 2, Blocks.AIR.defaultBlockState());
+-        return (x, y, z) -> y < Math.min(-54, seaLevel) ? fluidStatus : fluidStatus1;
++        // DivineMC start - Optimize world gen
++        final int min = Math.min(-54, seaLevel);
++        return (j, k, l) -> k < min ? fluidStatus : fluidStatus1;
++        // DivineMC end - Optimize world gen
+     }
+ 
+     @Override
+diff --git a/net/minecraft/world/level/levelgen/synth/PerlinNoise.java b/net/minecraft/world/level/levelgen/synth/PerlinNoise.java
+index da3c26fbad32d75d71f7e59c8c3341316a754756..6e1ebd6110da183a8f97abd81ced16cd89df725f 100644
+--- a/net/minecraft/world/level/levelgen/synth/PerlinNoise.java
++++ b/net/minecraft/world/level/levelgen/synth/PerlinNoise.java
+@@ -187,7 +187,7 @@ public class PerlinNoise {
+     }
+ 
+     public static double wrap(double value) {
+-        return value - Mth.lfloor(value / 3.3554432E7 + 0.5) * 3.3554432E7;
++        return value - Math.floor(value / 3.3554432E7 + 0.5) * 3.3554432E7; // DivineMC - Avoid casting
+     }
+ 
+     protected int firstOctave() {
