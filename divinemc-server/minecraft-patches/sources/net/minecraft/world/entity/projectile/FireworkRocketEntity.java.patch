@@ -7,7 +7,7 @@
 +    // DivineMC start - Don't save Fireworks
 +    @Override
 +    public boolean shouldBeSaved() {
-+        return this.level().divinemcConfig.saveFireworks;
++        return true; // Temporary fix for saving fireworks
 +    }
 +    // DivineMC end - Don't save Fireworks
 +

@@ -1,48 +1,138 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
-Date: Sat, 11 Jan 2025 22:49:50 +0300
+Date: Sun, 12 Jan 2025 16:19:14 +0300
 Subject: [PATCH] DivineMC Configuration
 
 
+diff --git a/net/minecraft/server/MinecraftServer.java b/net/minecraft/server/MinecraftServer.java
+index 90cdcb8934e28dcc51272c9b40a6d89ac5dec75e..884f86f3a8f8bcc5242a9c9f44cc09506312b8c0 100644
+--- a/net/minecraft/server/MinecraftServer.java
++++ b/net/minecraft/server/MinecraftServer.java
+@@ -300,6 +300,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+     public volatile boolean abnormalExit; // Paper - Improved watchdog support
+     public volatile Thread shutdownThread; // Paper - Improved watchdog support
+     public final io.papermc.paper.configuration.PaperConfigurations paperConfigurations; // Paper - add paper configuration files
++    public final space.bxteam.divinemc.configuration.DivineConfigurations divineConfigurations; // DivineMC - add divine configuration files
+     public boolean isIteratingOverLevels = false; // Paper - Throw exception on world create while being ticked
+     private final Set<String> pluginsBlockingSleep = new java.util.HashSet<>(); // Paper - API to allow/disallow tick sleeping
+     public boolean lagging = false; // Purpur - Lagging threshold
+@@ -472,6 +473,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+         Runtime.getRuntime().addShutdownHook(new org.bukkit.craftbukkit.util.ServerShutdownThread(this));
+         // CraftBukkit end
+         this.paperConfigurations = services.paperConfigurations(); // Paper - add paper configuration files
++        this.divineConfigurations = services.divineConfigurations(); // DivineMC - add divinemc configuration files
+     }
+ 
+     private void readScoreboard(DimensionDataStorage dataStorage) {
+diff --git a/net/minecraft/server/Services.java b/net/minecraft/server/Services.java
+index ee760cc9d6756c40f13fe6459725dcfc200b9630..f407553fa89e85412193f617d01f2e365b47064e 100644
+--- a/net/minecraft/server/Services.java
++++ b/net/minecraft/server/Services.java
+@@ -11,13 +11,18 @@ import net.minecraft.server.players.GameProfileCache;
+ import net.minecraft.util.SignatureValidator;
+ 
+ public record Services(
+-    MinecraftSessionService sessionService, ServicesKeySet servicesKeySet, GameProfileRepository profileRepository, GameProfileCache profileCache, @javax.annotation.Nullable io.papermc.paper.configuration.PaperConfigurations paperConfigurations // Paper - add paper configuration files
++    MinecraftSessionService sessionService,
++    ServicesKeySet servicesKeySet,
++    GameProfileRepository profileRepository,
++    GameProfileCache profileCache,
++    @javax.annotation.Nullable io.papermc.paper.configuration.PaperConfigurations paperConfigurations, // Paper - add paper configuration files
++    @javax.annotation.Nullable space.bxteam.divinemc.configuration.DivineConfigurations divineConfigurations // DivineMC - Add configuration files for DivineMC
+ ) {
+     public static final String USERID_CACHE_FILE = "usercache.json"; // Paper - private -> public
+ 
+     // Paper start - add paper configuration files
+     public Services(MinecraftSessionService sessionService, ServicesKeySet servicesKeySet, GameProfileRepository profileRepository, GameProfileCache profileCache) {
+-        this(sessionService, servicesKeySet, profileRepository, profileCache, null);
++        this(sessionService, servicesKeySet, profileRepository, profileCache, null, null); // DivineMC - add null for divineConfigurations
+     }
+ 
+     @Override
+@@ -26,6 +31,13 @@ public record Services(
+     }
+     // Paper end - add paper configuration files
+ 
++    // DivineMC start - DivineMC configuration
++    @Override
++    public space.bxteam.divinemc.configuration.DivineConfigurations divineConfigurations() {
++        return java.util.Objects.requireNonNull(this.divineConfigurations);
++    }
++    // DivineMC end - DivineMC configuration
++
+     public static Services create(YggdrasilAuthenticationService authenticationService, File profileRepository, File userCacheFile, joptsimple.OptionSet optionSet) throws Exception { // Paper - add optionset to load paper config files; add userCacheFile parameter
+         MinecraftSessionService minecraftSessionService = authenticationService.createMinecraftSessionService();
+         GameProfileRepository gameProfileRepository = authenticationService.createProfileRepository();
+@@ -34,7 +46,8 @@ public record Services(
+         final java.nio.file.Path legacyConfigPath = ((File) optionSet.valueOf("paper-settings")).toPath();
+         final java.nio.file.Path configDirPath = ((File) optionSet.valueOf("paper-settings-directory")).toPath();
+         io.papermc.paper.configuration.PaperConfigurations paperConfigurations = io.papermc.paper.configuration.PaperConfigurations.setup(legacyConfigPath, configDirPath, profileRepository.toPath(), (File) optionSet.valueOf("spigot-settings"));
+-        return new Services(minecraftSessionService, authenticationService.getServicesKeySet(), gameProfileRepository, gameProfileCache, paperConfigurations);
++        space.bxteam.divinemc.configuration.DivineConfigurations divineConfigurations = space.bxteam.divinemc.configuration.DivineConfigurations.setup(configDirPath); // DivineMC - setup divine configurations
++        return new Services(minecraftSessionService, authenticationService.getServicesKeySet(), gameProfileRepository, gameProfileCache, paperConfigurations, divineConfigurations); // DivineMC - add divineConfigurations
+         // Paper end - load paper config files from cli options
+     }
+ 
 diff --git a/net/minecraft/server/dedicated/DedicatedServer.java b/net/minecraft/server/dedicated/DedicatedServer.java
-index 3d91240015ad8f464283da03bd45beba90cf2b89..d24e988a87d6defe5ac3d5483b54704225ebb7f0 100644
+index 3d91240015ad8f464283da03bd45beba90cf2b89..4aef0ac69817b85c5f8db94424dbc60f969153bf 100644
 --- a/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/net/minecraft/server/dedicated/DedicatedServer.java
-@@ -217,6 +217,17 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
-         }
-         org.purpurmc.purpur.PurpurConfig.registerCommands();
-         // Purpur end - Configurable void damage height and damage
-+
-+        // DivineMC start - DivineMC Configuration
-+        try {
-+            space.bxteam.divinemc.configuration.DivineConfig.init((java.io.File) options.valueOf("divinemc-settings"));
-+        } catch (Exception e) {
-+            DedicatedServer.LOGGER.error("Unable to load server configuration", e);
-+            return false;
-+        }
-+        space.bxteam.divinemc.configuration.DivineConfig.registerCommands();
-+        // DivineMC end - DivineMC Configuration
-+
-         // Paper start - initialize global and world-defaults configuration
+@@ -221,6 +221,10 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
          this.paperConfigurations.initializeGlobalConfiguration(this.registryAccess());
          this.paperConfigurations.initializeWorldDefaultsConfiguration(this.registryAccess());
+         // Paper end - initialize global and world-defaults configuration
++        // DivineMC start - DivineMC configuration
++        divineConfigurations.initializeGlobalConfiguration(this.registryAccess());
++        divineConfigurations.initializeWorldDefaultsConfiguration(this.registryAccess());
++        // DivineMC end - DivineMC configuration
+         this.server.spark.enableEarlyIfRequested(); // Paper - spark
+         // Paper start - fix converting txt to json file; convert old users earlier after PlayerList creation but before file load/save
+         if (this.convertOldUsers()) {
+diff --git a/net/minecraft/server/level/ServerLevel.java b/net/minecraft/server/level/ServerLevel.java
+index 5e730cdde960603d5fa0fa7d1b70ec56c4fa8145..b6d339bc7f8f14d762c1083a9818bde6b9bcf9a1 100644
+--- a/net/minecraft/server/level/ServerLevel.java
++++ b/net/minecraft/server/level/ServerLevel.java
+@@ -591,7 +591,7 @@ public class ServerLevel extends Level implements ServerEntityGetter, WorldGenLe
+         org.bukkit.generator.BiomeProvider biomeProvider // CraftBukkit
+     ) {
+         // CraftBukkit start
+-        super(serverLevelData, dimension, server.registryAccess(), levelStem.type(), false, isDebug, biomeZoomSeed, server.getMaxChainedNeighborUpdates(), gen, biomeProvider, env, spigotConfig -> server.paperConfigurations.createWorldConfig(io.papermc.paper.configuration.PaperConfigurations.createWorldContextMap(levelStorageAccess.levelDirectory.path(), serverLevelData.getLevelName(), dimension.location(), spigotConfig, server.registryAccess(), serverLevelData.getGameRules())), dispatcher); // Paper - create paper world configs; Async-Anti-Xray: Pass executor
++        super(serverLevelData, dimension, server.registryAccess(), levelStem.type(), false, isDebug, biomeZoomSeed, server.getMaxChainedNeighborUpdates(), gen, biomeProvider, env, spigotConfig -> server.paperConfigurations.createWorldConfig(io.papermc.paper.configuration.PaperConfigurations.createWorldContextMap(levelStorageAccess.levelDirectory.path(), serverLevelData.getLevelName(), dimension.location(), spigotConfig, server.registryAccess(), serverLevelData.getGameRules())), spigotConfig -> server.divineConfigurations.createWorldConfig(io.papermc.paper.configuration.PaperConfigurations.createWorldContextMap(levelStorageAccess.levelDirectory.path(), serverLevelData.getLevelName(), dimension.location(), spigotConfig, server.registryAccess(), serverLevelData.getGameRules())), dispatcher); // Paper - create paper world configs; Async-Anti-Xray: Pass executor // DivineMC - DivineMC configuration
+         this.pvpMode = server.isPvpAllowed();
+         this.levelStorageAccess = levelStorageAccess;
+         this.uuid = org.bukkit.craftbukkit.util.WorldUUID.getUUID(levelStorageAccess.levelDirectory.path().toFile());
 diff --git a/net/minecraft/world/level/Level.java b/net/minecraft/world/level/Level.java
-index bcb2cfaa9780028fc5ada3a10139a5732e0e992c..58a1eb9be11bbea91196809328f41e10065e02d1 100644
+index 1b2d152649bc12b37db1cd7a4f54517f417d46e8..953a302aa4a1196b5e32bcf25f5e5f991a6f352d 100644
 --- a/net/minecraft/world/level/Level.java
 +++ b/net/minecraft/world/level/Level.java
-@@ -171,6 +171,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
+@@ -169,6 +169,13 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
+     }
+     // Paper end - add paper world config
  
++    // DivineMC start - DivineMC configuration
++    private final space.bxteam.divinemc.configuration.DivineWorldConfiguration divineConfig;
++    public space.bxteam.divinemc.configuration.DivineWorldConfiguration divineConfig() {
++        return this.divineConfig;
++    }
++    // DivineMC end - DivineMC configuration
++
      public final io.papermc.paper.antixray.ChunkPacketBlockController chunkPacketBlockController; // Paper - Anti-Xray
      public final org.purpurmc.purpur.PurpurWorldConfig purpurConfig; // Purpur - Purpur config files
-+    public final space.bxteam.divinemc.configuration.DivineWorldConfig divinemcConfig; // DivineMC - DivineMC Configuration
      public static BlockPos lastPhysicsProblem; // Spigot
-     private int tileTickPosition;
-     public final Map<ServerExplosion.CacheKey, Float> explosionDensityCache = new HashMap<>(); // Paper - Optimize explosions
-@@ -896,6 +897,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
+@@ -882,6 +889,8 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
+         org.bukkit.World.Environment env, // CraftBukkit
+         java.util.function.Function<org.spigotmc.SpigotWorldConfig, // Spigot - create per world config
+         io.papermc.paper.configuration.WorldConfiguration> paperWorldConfigCreator, // Paper - create paper world config
++        java.util.function.Function<org.spigotmc.SpigotWorldConfig, // DivineMC - DivineMC configuration
++                space.bxteam.divinemc.configuration.DivineWorldConfiguration> divinemcWorldConfigCreator, // DivineMC - DivineMC configuration
+         java.util.concurrent.Executor executor // Paper - Anti-Xray
+     ) {
+         // Paper start - getblock optimisations - cache world height/sections
+@@ -895,6 +904,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
+         // Paper end - getblock optimisations - cache world height/sections
          this.spigotConfig = new org.spigotmc.SpigotWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) levelData).getLevelName()); // Spigot
          this.paperConfig = paperWorldConfigCreator.apply(this.spigotConfig); // Paper - create paper world config
++        this.divineConfig = divinemcWorldConfigCreator.apply(this.spigotConfig); // DivineMC - DivineMC configuration
          this.purpurConfig = new org.purpurmc.purpur.PurpurWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) levelData).getLevelName(), env); // Purpur - Purpur config files
-+        this.divinemcConfig = new space.bxteam.divinemc.configuration.DivineWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) levelData).getLevelName(), env); // DivineMC - DivineMC Configuration
          this.playerBreedingCooldowns = this.getNewBreedingCooldownCache(); // Purpur - Add adjustable breeding cooldown to config
          this.generator = gen;
-         this.world = new CraftWorld((ServerLevel) this, gen, biomeProvider, env);

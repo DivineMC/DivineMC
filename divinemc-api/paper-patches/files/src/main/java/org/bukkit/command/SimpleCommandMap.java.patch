@@ -1,0 +1,36 @@
+--- a/src/main/java/org/bukkit/command/SimpleCommandMap.java
++++ b/src/main/java/org/bukkit/command/SimpleCommandMap.java
+@@ -39,7 +_,6 @@
+         register("bukkit", new VersionCommand("version"));
+         register("bukkit", new ReloadCommand("reload"));
+         //register("bukkit", new PluginsCommand("plugins")); // Paper
+-        register("bukkit", new co.aikar.timings.TimingsCommand("timings")); // Paper
+     }
+ 
+     public void setFallbackCommands() {
+@@ -71,7 +_,6 @@
+      */
+     @Override
+     public boolean register(@NotNull String label, @NotNull String fallbackPrefix, @NotNull Command command) {
+-        command.timings = co.aikar.timings.TimingsManager.getCommandTiming(fallbackPrefix, command); // Paper
+         label = label.toLowerCase(Locale.ROOT).trim();
+         fallbackPrefix = fallbackPrefix.toLowerCase(Locale.ROOT).trim();
+         boolean registered = register(label, command, false, fallbackPrefix);
+@@ -166,17 +_,9 @@
+         parsedArgs = event.getArgs();
+         // Purpur end - ExecuteCommandEvent
+ 
+-        // Paper start - Plugins do weird things to workaround normal registration
+-        if (target.timings == null) {
+-            target.timings = co.aikar.timings.TimingsManager.getCommandTiming(null, target);
+-        }
+-        // Paper end
+-
+         try {
+-            try (co.aikar.timings.Timing ignored = target.timings.startTiming()) { // Paper - use try with resources
+             // Note: we don't return the result of target.execute as thats success / failure, we return handled (true) or not handled (false)
+             target.execute(sender, sentCommandLabel, parsedArgs); // Purpur - ExecuteCommandEvent
+-            } // target.timings.stopTiming(); // Spigot // Paper
+         } catch (CommandException ex) {
+             server.getPluginManager().callEvent(new com.destroystokyo.paper.event.server.ServerExceptionEvent(new com.destroystokyo.paper.exception.ServerCommandException(ex, target, sender, args))); // Paper
+             //target.timings.stopTiming(); // Spigot // Paper

@@ -1,0 +1,16 @@
+--- a/src/main/java/org/bukkit/Server.java
++++ b/src/main/java/org/bukkit/Server.java
+@@ -2295,6 +_,13 @@
+         }
+         // Purpur end
+ 
++        // DivineMC start
++        @NotNull
++        public org.bukkit.configuration.file.YamlConfiguration getDivineConfig() {
++            throw new UnsupportedOperationException("Not supported yet");
++        }
++        // DivineMC end
++
+         /**
+          * Sends the component to the player
+          *
