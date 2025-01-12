@@ -20,4 +20,12 @@ public class DivineGlobalConfiguration extends ConfigurationPart {
 
     @Setting(Configuration.VERSION_FIELD)
     public int version = CURRENT_VERSION;
+
+    public Misc misc;
+
+    public class Misc extends ConfigurationPart {
+        public boolean disableNonEditableSignWarning = true;
+        public boolean removeVanillaUsernameCheck = false;
+        public boolean disableMovedWronglyThreshold = false;
+    }
 }

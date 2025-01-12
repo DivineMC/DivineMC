@@ -1,0 +1,23 @@
+--- a/net/minecraft/server/level/ServerEntity.java
++++ b/net/minecraft/server/level/ServerEntity.java
+@@ -407,7 +_,10 @@
+         }
+ 
+         if (this.entity instanceof LivingEntity) {
+-            Set<AttributeInstance> attributesToSync = ((LivingEntity)this.entity).getAttributes().getAttributesToSync();
++            // DivineMC start - Suppress errors from dirty attributes
++            Set<AttributeInstance> attributes = ((LivingEntity) this.entity).getAttributes().getAttributesToSync();
++            final Set<AttributeInstance> attributesToSync = this.level.divineConfig().optimizations.suppressErrorsFromDirtyAttributes ? Collections.synchronizedSet(attributes) : attributes;
++            // DivineMC end - Suppress errors from dirty attributes
+             if (!attributesToSync.isEmpty()) {
+                 // CraftBukkit start - Send scaled max health
+                 if (this.entity instanceof ServerPlayer serverPlayer) {
+@@ -417,7 +_,7 @@
+                 this.broadcastAndSend(new ClientboundUpdateAttributesPacket(this.entity.getId(), attributesToSync));
+             }
+ 
+-            attributesToSync.clear();
++            attributes.clear();
+         }
+     }
+ 

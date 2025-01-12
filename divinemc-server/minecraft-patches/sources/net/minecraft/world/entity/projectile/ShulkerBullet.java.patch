@@ -1,0 +1,20 @@
+--- a/net/minecraft/world/entity/projectile/ShulkerBullet.java
++++ b/net/minecraft/world/entity/projectile/ShulkerBullet.java
+@@ -215,6 +_,17 @@
+         super.tick();
+         HitResult hitResult = null;
+         if (!this.level().isClientSide) {
++            // DivineMC start - despawn shulker bullets on owner death
++            if (this.level().divineConfig().gameplayMechanics.mob.shulker.despawnShulkerBulletsOnOwnerDeath) {
++                if (!isInvulnerable()) {
++                    var owner = getOwner();
++                    if (owner == null || !owner.isAlive()) {
++                        discard();
++                        return;
++                    }
++                }
++            }
++            // DivineMC end - despawn shulker bullets on owner death
+             if (this.finalTarget == null && this.targetId != null) {
+                 this.finalTarget = ((ServerLevel)this.level()).getEntity(this.targetId);
+                 if (this.finalTarget == null) {

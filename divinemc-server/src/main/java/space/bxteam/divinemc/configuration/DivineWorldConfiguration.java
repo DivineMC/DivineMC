@@ -7,6 +7,7 @@ import io.papermc.paper.configuration.PaperConfigurations;
 import net.minecraft.resources.ResourceLocation;
 import org.slf4j.Logger;
 import org.spigotmc.SpigotWorldConfig;
+import org.spongepowered.configurate.objectmapping.meta.Comment;
 import org.spongepowered.configurate.objectmapping.meta.Setting;
 
 @SuppressWarnings({"FieldCanBeLocal", "FieldMayBeFinal", "NotNullFieldNotInitialized", "InnerClassMayBeStatic"})
@@ -28,4 +29,33 @@ public class DivineWorldConfiguration extends ConfigurationPart {
 
     @Setting(Configuration.VERSION_FIELD)
     public int version = CURRENT_VERSION;
+
+    public Optimizations optimizations;
+
+    public class Optimizations extends ConfigurationPart {
+        public boolean suppressErrorsFromDirtyAttributes = true;
+    }
+
+    public GameplayMechanics gameplayMechanics;
+
+    public class GameplayMechanics extends ConfigurationPart {
+        public Mob mob;
+
+        public class Mob extends ConfigurationPart {
+            public Shulker shulker;
+
+            public class Shulker extends ConfigurationPart {
+                @Comment("If true, shulker bullets will despawn when their owner dies.")
+                public boolean despawnShulkerBulletsOnOwnerDeath = true;
+            }
+        }
+
+        public Projectiles projectiles;
+
+        public class Projectiles extends ConfigurationPart {
+            public boolean snowballCanKnockback = true;
+            public boolean eggCanKnockback = true;
+            public boolean saveFireworks = false;
+        }
+    }
 }

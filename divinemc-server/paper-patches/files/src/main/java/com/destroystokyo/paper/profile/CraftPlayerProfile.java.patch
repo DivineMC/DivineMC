@@ -1,0 +1,11 @@
+--- a/src/main/java/com/destroystokyo/paper/profile/CraftPlayerProfile.java
++++ b/src/main/java/com/destroystokyo/paper/profile/CraftPlayerProfile.java
+@@ -295,7 +_,7 @@
+ 
+     private static GameProfile createAuthLibProfile(UUID uniqueId, String name) {
+         Preconditions.checkArgument(name == null || name.length() <= 16, "Name cannot be longer than 16 characters");
+-        Preconditions.checkArgument(name == null || StringUtil.isValidPlayerName(name), "The name of the profile contains invalid characters: %s", name);
++        Preconditions.checkArgument(name == null || space.bxteam.divinemc.configuration.DivineGlobalConfiguration.get().misc.removeVanillaUsernameCheck || StringUtil.isValidPlayerName(name), "The name of the profile contains invalid characters: %s", name); // DivineMC - Remove vanilla username check
+         return new GameProfile(
+             uniqueId != null ? uniqueId : Util.NIL_UUID,
+             name != null ? name : ""
