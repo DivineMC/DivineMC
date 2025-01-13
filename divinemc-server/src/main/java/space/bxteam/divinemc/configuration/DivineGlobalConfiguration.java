@@ -21,6 +21,12 @@ public class DivineGlobalConfiguration extends ConfigurationPart {
     @Setting(Configuration.VERSION_FIELD)
     public int version = CURRENT_VERSION;
 
+    public Chat chat;
+
+    public class Chat extends ConfigurationPart {
+        public boolean noChatSign = true;
+    }
+
     public Misc misc;
 
     public class Misc extends ConfigurationPart {
