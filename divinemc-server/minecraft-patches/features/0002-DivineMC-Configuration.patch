@@ -5,7 +5,7 @@ Subject: [PATCH] DivineMC Configuration
 
 
 diff --git a/net/minecraft/server/MinecraftServer.java b/net/minecraft/server/MinecraftServer.java
-index b545362d99d39e1fbecf2e38ba4406e7936b9d6e..18b8405ac4de2b96ae8164fd580f9bd164b8db81 100644
+index 96253bf49a6895524f6f606a9c434cb1b78948a6..2c7c1335d4524486ed701365e64920091c85eaac 100644
 --- a/net/minecraft/server/MinecraftServer.java
 +++ b/net/minecraft/server/MinecraftServer.java
 @@ -301,6 +301,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -16,7 +16,7 @@ index b545362d99d39e1fbecf2e38ba4406e7936b9d6e..18b8405ac4de2b96ae8164fd580f9bd1
      public boolean isIteratingOverLevels = false; // Paper - Throw exception on world create while being ticked
      private final Set<String> pluginsBlockingSleep = new java.util.HashSet<>(); // Paper - API to allow/disallow tick sleeping
      public boolean lagging = false; // Purpur - Lagging threshold
-@@ -473,6 +474,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -474,6 +475,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          Runtime.getRuntime().addShutdownHook(new org.bukkit.craftbukkit.util.ServerShutdownThread(this));
          // CraftBukkit end
          this.paperConfigurations = services.paperConfigurations(); // Paper - add paper configuration files
@@ -74,10 +74,10 @@ index ee760cc9d6756c40f13fe6459725dcfc200b9630..f407553fa89e85412193f617d01f2e36
      }
  
 diff --git a/net/minecraft/server/dedicated/DedicatedServer.java b/net/minecraft/server/dedicated/DedicatedServer.java
-index f6f90b69a0fe21ab9689b74b22cec272c63425fd..2d38e8a31ae290b41b05e152481199a5ed9a49d2 100644
+index 236b698ebc1dc8355dce35a3f27fdea877b7c599..5ec864a48aa2582458f741b9e81be8805d55913c 100644
 --- a/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/net/minecraft/server/dedicated/DedicatedServer.java
-@@ -221,6 +221,10 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -222,6 +222,10 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
          this.paperConfigurations.initializeGlobalConfiguration(this.registryAccess());
          this.paperConfigurations.initializeWorldDefaultsConfiguration(this.registryAccess());
          // Paper end - initialize global and world-defaults configuration
@@ -89,7 +89,7 @@ index f6f90b69a0fe21ab9689b74b22cec272c63425fd..2d38e8a31ae290b41b05e152481199a5
          // Paper start - fix converting txt to json file; convert old users earlier after PlayerList creation but before file load/save
          if (this.convertOldUsers()) {
 diff --git a/net/minecraft/server/level/ServerLevel.java b/net/minecraft/server/level/ServerLevel.java
-index b29a421c67ce9889af32e5c049c9bc6a6d640df0..6be5095aa7d57f0c4034f9375453a882d3736fd4 100644
+index fd84a5aac26bbf2de2c2fa8bb5bc76bcbd09c3e4..069f793b6dcc1e560ca0b1070b97f4f0006ae377 100644
 --- a/net/minecraft/server/level/ServerLevel.java
 +++ b/net/minecraft/server/level/ServerLevel.java
 @@ -591,7 +591,7 @@ public class ServerLevel extends Level implements ServerEntityGetter, WorldGenLe

@@ -5,10 +5,10 @@ Subject: [PATCH] Add missing purpur config options
 
 
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-index 8f9a73f524ffaa439f0cb59eeb3de3c2ff9fac3d..3ba75f262e7477fc4d1a544599646e1d33fe31aa 100644
+index 8208a91dd9d15a23b17590f88ab2fefdc0fcfcf3..0ead27518fc23943b29f163ed0feb6c61c119468 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-@@ -273,6 +273,7 @@ public class PurpurConfig {
+@@ -327,6 +327,7 @@ public class PurpurConfig {
      }
  
      public static int barrelRows = 3;
@@ -16,7 +16,7 @@ index 8f9a73f524ffaa439f0cb59eeb3de3c2ff9fac3d..3ba75f262e7477fc4d1a544599646e1d
      public static boolean enderChestSixRows = false;
      public static boolean enderChestPermissionRows = false;
      public static boolean cryingObsidianValidForPortalFrame = false;
-@@ -306,6 +307,7 @@ public class PurpurConfig {
+@@ -369,6 +370,7 @@ public class PurpurConfig {
              case 1 -> 9;
              default -> 27;
          });
@@ -25,10 +25,10 @@ index 8f9a73f524ffaa439f0cb59eeb3de3c2ff9fac3d..3ba75f262e7477fc4d1a544599646e1d
          org.bukkit.event.inventory.InventoryType.ENDER_CHEST.setDefaultSize(enderChestSixRows ? 54 : 27);
          enderChestPermissionRows = getBoolean("settings.blocks.ender_chest.use-permissions-for-rows", enderChestPermissionRows);
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
-index 278e43c190613a0181211c160e063a514afae1ae..8203ff823587b6a282506620d0b1f6b389f0d22c 100644
+index 22e793c40f3a784b514905c1d756d4cbdf1fd740..235c851e8dd202690a5eac6537d22d244c012494 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
-@@ -979,12 +979,20 @@ public class PurpurWorldConfig {
+@@ -1144,12 +1144,20 @@ public class PurpurWorldConfig {
      public boolean allayControllable = true;
      public double allayMaxHealth = 20.0D;
      public double allayScale = 1.0D;
@@ -49,7 +49,7 @@ index 278e43c190613a0181211c160e063a514afae1ae..8203ff823587b6a282506620d0b1f6b3
      }
  
      public boolean armadilloRidable = false;
-@@ -1124,6 +1132,10 @@ public class PurpurWorldConfig {
+@@ -1299,6 +1307,10 @@ public class PurpurWorldConfig {
      public double camelMovementSpeedMin = 0.09D;
      public double camelMovementSpeedMax = 0.09D;
      public int camelBreedingTicks = 6000;
@@ -60,7 +60,7 @@ index 278e43c190613a0181211c160e063a514afae1ae..8203ff823587b6a282506620d0b1f6b3
      private void camelSettings() {
          camelRidableInWater = getBoolean("mobs.camel.ridable-in-water", camelRidableInWater);
          camelMaxHealthMin = getDouble("mobs.camel.attributes.max_health.min", camelMaxHealthMin);
-@@ -1133,6 +1145,10 @@ public class PurpurWorldConfig {
+@@ -1308,6 +1320,10 @@ public class PurpurWorldConfig {
          camelMovementSpeedMin = getDouble("mobs.camel.attributes.movement_speed.min", camelMovementSpeedMin);
          camelMovementSpeedMax = getDouble("mobs.camel.attributes.movement_speed.max", camelMovementSpeedMax);
          camelBreedingTicks = getInt("mobs.camel.breeding-delay-ticks", camelBreedingTicks);
@@ -71,7 +71,7 @@ index 278e43c190613a0181211c160e063a514afae1ae..8203ff823587b6a282506620d0b1f6b3
      }
  
      public boolean catRidable = false;
-@@ -1539,12 +1555,22 @@ public class PurpurWorldConfig {
+@@ -1764,12 +1780,22 @@ public class PurpurWorldConfig {
      public boolean frogControllable = true;
      public float frogRidableJumpHeight = 0.65F;
      public int frogBreedingTicks = 6000;
@@ -94,7 +94,7 @@ index 278e43c190613a0181211c160e063a514afae1ae..8203ff823587b6a282506620d0b1f6b3
      }
  
      public boolean ghastRidable = false;
-@@ -2439,6 +2465,10 @@ public class PurpurWorldConfig {
+@@ -2776,6 +2802,10 @@ public class PurpurWorldConfig {
      public double snifferMaxHealth = 14.0D;
      public double snifferScale = 1.0D;
      public int snifferBreedingTicks = 6000;
@@ -105,7 +105,7 @@ index 278e43c190613a0181211c160e063a514afae1ae..8203ff823587b6a282506620d0b1f6b3
      private void snifferSettings() {
          snifferRidable = getBoolean("mobs.sniffer.ridable", snifferRidable);
          snifferRidableInWater = getBoolean("mobs.sniffer.ridable-in-water", snifferRidableInWater);
-@@ -2446,6 +2476,10 @@ public class PurpurWorldConfig {
+@@ -2783,6 +2813,10 @@ public class PurpurWorldConfig {
          snifferMaxHealth = getDouble("mobs.sniffer.attributes.max_health", snifferMaxHealth);
          snifferScale = Mth.clamp(getDouble("mobs.sniffer.attributes.scale", snifferScale), 0.0625D, 16.0D);
          snifferBreedingTicks = getInt("mobs.sniffer.breeding-delay-ticks", snifferBreedingTicks);
@@ -116,7 +116,7 @@ index 278e43c190613a0181211c160e063a514afae1ae..8203ff823587b6a282506620d0b1f6b3
      }
  
      public boolean squidRidable = false;
-@@ -2539,10 +2573,20 @@ public class PurpurWorldConfig {
+@@ -2884,10 +2918,20 @@ public class PurpurWorldConfig {
      public boolean tadpoleRidable = false;
      public boolean tadpoleRidableInWater = true;
      public boolean tadpoleControllable = true;
@@ -137,7 +137,7 @@ index 278e43c190613a0181211c160e063a514afae1ae..8203ff823587b6a282506620d0b1f6b3
      }
  
      public boolean traderLlamaRidable = false;
-@@ -2730,10 +2774,20 @@ public class PurpurWorldConfig {
+@@ -3116,10 +3160,20 @@ public class PurpurWorldConfig {
      public boolean wardenRidable = false;
      public boolean wardenRidableInWater = true;
      public boolean wardenControllable = true;

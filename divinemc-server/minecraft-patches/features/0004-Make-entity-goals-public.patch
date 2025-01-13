@@ -5,10 +5,10 @@ Subject: [PATCH] Make entity goals public
 
 
 diff --git a/net/minecraft/world/entity/animal/Bee.java b/net/minecraft/world/entity/animal/Bee.java
-index 5c8b88e8dca604d053c59106e64bfcf32491ec4f..9c235c20744c637ffad780dfa962de2970971a54 100644
+index 57c50ce5724b073b1aedf4df3129285143097303..1c3bbf91d9527ded33ec4b5a508d4c6c5b835167 100644
 --- a/net/minecraft/world/entity/animal/Bee.java
 +++ b/net/minecraft/world/entity/animal/Bee.java
-@@ -778,7 +778,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
+@@ -786,7 +786,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
              && (!state.is(Blocks.SUNFLOWER) || state.getValue(DoublePlantBlock.HALF) == DoubleBlockHalf.UPPER);
      }
  
@@ -17,7 +17,7 @@ index 5c8b88e8dca604d053c59106e64bfcf32491ec4f..9c235c20744c637ffad780dfa962de29
          public abstract boolean canBeeUse();
  
          public abstract boolean canBeeContinueToUse();
-@@ -810,7 +810,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
+@@ -818,7 +818,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
          }
      }
  
@@ -26,7 +26,7 @@ index 5c8b88e8dca604d053c59106e64bfcf32491ec4f..9c235c20744c637ffad780dfa962de29
          BeeBecomeAngryTargetGoal(Bee mob) {
              super(mob, Player.class, 10, true, false, mob::isAngryAt);
          }
-@@ -837,7 +837,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
+@@ -845,7 +845,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
          }
      }
  
@@ -35,7 +35,7 @@ index 5c8b88e8dca604d053c59106e64bfcf32491ec4f..9c235c20744c637ffad780dfa962de29
          @Override
          public boolean canBeeUse() {
              if (Bee.this.hivePos != null && Bee.this.wantsToEnterHive() && Bee.this.hivePos.closerToCenterThan(Bee.this.position(), 2.0)) {
-@@ -1040,7 +1040,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
+@@ -1048,7 +1048,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
          }
      }
  
@@ -44,7 +44,7 @@ index 5c8b88e8dca604d053c59106e64bfcf32491ec4f..9c235c20744c637ffad780dfa962de29
          static final int GROW_CHANCE = 30;
  
          @Override
-@@ -1096,7 +1096,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
+@@ -1104,7 +1104,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
          }
      }
  
@@ -53,7 +53,7 @@ index 5c8b88e8dca604d053c59106e64bfcf32491ec4f..9c235c20744c637ffad780dfa962de29
          BeeHurtByOtherGoal(final Bee mob) {
              super(mob);
          }
-@@ -1114,7 +1114,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
+@@ -1122,7 +1122,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
          }
      }
  
@@ -62,7 +62,7 @@ index 5c8b88e8dca604d053c59106e64bfcf32491ec4f..9c235c20744c637ffad780dfa962de29
          @Override
          public boolean canBeeUse() {
              return Bee.this.remainingCooldownBeforeLocatingNewHive == 0 && !Bee.this.hasHive() && Bee.this.wantsToEnterHive();
-@@ -1153,7 +1153,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
+@@ -1161,7 +1161,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
          }
      }
  
@@ -71,7 +71,7 @@ index 5c8b88e8dca604d053c59106e64bfcf32491ec4f..9c235c20744c637ffad780dfa962de29
          BeeLookControl(final Mob mob) {
              super(mob);
          }
-@@ -1171,7 +1171,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
+@@ -1179,7 +1179,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
          }
      }
  
@@ -80,7 +80,7 @@ index 5c8b88e8dca604d053c59106e64bfcf32491ec4f..9c235c20744c637ffad780dfa962de29
          private static final int MIN_POLLINATION_TICKS = 400;
          private static final double ARRIVAL_THRESHOLD = 0.1;
          private static final int POSITION_CHANGE_CHANCE = 25;
-@@ -1340,7 +1340,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
+@@ -1351,7 +1351,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
          }
      }
  
@@ -90,10 +90,10 @@ index 5c8b88e8dca604d053c59106e64bfcf32491ec4f..9c235c20744c637ffad780dfa962de29
              this.setFlags(EnumSet.of(Goal.Flag.MOVE));
          }
 diff --git a/net/minecraft/world/entity/animal/Cat.java b/net/minecraft/world/entity/animal/Cat.java
-index b41ca04043e65f107edaebc49d398650898e35fb..1827c63fd06faca2f16988a71fd0d5091f99d2d5 100644
+index edd796fd34e43d66a48104201d885756fdd968c3..32eb4cd68f9caa42230ea50ec8ace12c455b21f8 100644
 --- a/net/minecraft/world/entity/animal/Cat.java
 +++ b/net/minecraft/world/entity/animal/Cat.java
-@@ -510,7 +510,7 @@ public class Cat extends TamableAnimal implements VariantHolder<Holder<CatVarian
+@@ -517,7 +517,7 @@ public class Cat extends TamableAnimal implements VariantHolder<Holder<CatVarian
          return this.isCrouching() || super.isSteppingCarefully();
      }
  
@@ -102,7 +102,7 @@ index b41ca04043e65f107edaebc49d398650898e35fb..1827c63fd06faca2f16988a71fd0d509
          private final Cat cat;
  
          public CatAvoidEntityGoal(Cat cat, Class<T> entityClassToAvoid, float maxDist, double walkSpeedModifier, double sprintSpeedModifier) {
-@@ -529,7 +529,7 @@ public class Cat extends TamableAnimal implements VariantHolder<Holder<CatVarian
+@@ -536,7 +536,7 @@ public class Cat extends TamableAnimal implements VariantHolder<Holder<CatVarian
          }
      }
  
@@ -112,10 +112,10 @@ index b41ca04043e65f107edaebc49d398650898e35fb..1827c63fd06faca2f16988a71fd0d509
          @Nullable
          private Player ownerPlayer;
 diff --git a/net/minecraft/world/entity/monster/Vindicator.java b/net/minecraft/world/entity/monster/Vindicator.java
-index 5f68d73460adfac2ead57d168156a2784af979ae..d08a7807147d9f3d14cb84085d83391e5ceec011 100644
+index b584f71440a81ac09d24e59763a21e857f290e5a..81b9553b2354452258a9a520343d39c7cf4c0233 100644
 --- a/net/minecraft/world/entity/monster/Vindicator.java
 +++ b/net/minecraft/world/entity/monster/Vindicator.java
-@@ -95,7 +95,7 @@ public class Vindicator extends AbstractIllager {
+@@ -102,7 +102,7 @@ public class Vindicator extends AbstractIllager {
          this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, Creaking.class, 8.0F, 1.0, 1.2));
          this.goalSelector.addGoal(2, new Vindicator.VindicatorBreakDoorGoal(this));
          this.goalSelector.addGoal(3, new AbstractIllager.RaiderOpenDoorGoal(this));

@@ -179,7 +179,7 @@ index 42e7e712403676171d34d5f2be27e48e7a071ebd..00000000000000000000000000000000
 -}
 diff --git a/src/main/java/co/aikar/timings/TimedEventExecutor.java b/src/main/java/co/aikar/timings/TimedEventExecutor.java
 deleted file mode 100644
-index 157617933a772451f6c073d97afaf305769b4d40..0000000000000000000000000000000000000000
+index c178d77bd23a484043f50e46ccd603734f7b6059..0000000000000000000000000000000000000000
 --- a/src/main/java/co/aikar/timings/TimedEventExecutor.java
 +++ /dev/null
 @@ -1,93 +0,0 @@
@@ -265,9 +265,9 @@ index 157617933a772451f6c073d97afaf305769b4d40..00000000000000000000000000000000
 -            executor.execute(listener, event);
 -            return;
 -        }
--        try (Timing ignored = timings.startTiming()){
+-        //try (Timing ignored = timings.startTiming()){ // Purpur - Remove Timings
 -            executor.execute(listener, event);
--        }
+-        //} // Purpur - Remove Timings
 -    }
 -
 -    @Override
@@ -278,10 +278,10 @@ index 157617933a772451f6c073d97afaf305769b4d40..00000000000000000000000000000000
 -}
 diff --git a/src/main/java/co/aikar/timings/Timing.java b/src/main/java/co/aikar/timings/Timing.java
 deleted file mode 100644
-index 4195efcfe044618052bb03dea34a4fb2ca7c44f0..0000000000000000000000000000000000000000
+index acd06662bf1da1f12f73e2e85c0fd1b10f3b8b93..0000000000000000000000000000000000000000
 --- a/src/main/java/co/aikar/timings/Timing.java
 +++ /dev/null
-@@ -1,86 +0,0 @@
+@@ -1,92 +0,0 @@
 -/*
 - * This file is licensed under the MIT License (MIT).
 - *
@@ -323,6 +323,7 @@ index 4195efcfe044618052bb03dea34a4fb2ca7c44f0..00000000000000000000000000000000
 -     * @return Timing
 -     */
 -    @NotNull
+-    @io.papermc.paper.annotation.DoNotUse // Purpur - Remove Timings
 -    Timing startTiming();
 -
 -    /**
@@ -330,6 +331,7 @@ index 4195efcfe044618052bb03dea34a4fb2ca7c44f0..00000000000000000000000000000000
 -     *
 -     * Will automatically be called when this Timing is used with try-with-resources
 -     */
+-    @io.papermc.paper.annotation.DoNotUse // Purpur - Remove Timings
 -    void stopTiming();
 -
 -    /**
@@ -340,6 +342,7 @@ index 4195efcfe044618052bb03dea34a4fb2ca7c44f0..00000000000000000000000000000000
 -     * @return Timing
 -     */
 -    @NotNull
+-    @io.papermc.paper.annotation.DoNotUse // Purpur - Remove Timings
 -    Timing startTimingIfSync();
 -
 -    /**
@@ -349,12 +352,14 @@ index 4195efcfe044618052bb03dea34a4fb2ca7c44f0..00000000000000000000000000000000
 -     *
 -     * But only if we are on the primary thread.
 -     */
+-    @io.papermc.paper.annotation.DoNotUse // Purpur - Remove Timings
 -    void stopTimingIfSync();
 -
 -    /**
 -     * @deprecated Doesn't do anything - Removed
 -     */
 -    @Deprecated
+-    @io.papermc.paper.annotation.DoNotUse // Purpur - Remove Timings
 -    void abort();
 -
 -    /**
@@ -366,6 +371,7 @@ index 4195efcfe044618052bb03dea34a4fb2ca7c44f0..00000000000000000000000000000000
 -    TimingHandler getTimingHandler();
 -
 -    @Override
+-    @io.papermc.paper.annotation.DoNotUse // Purpur - Remove Timings
 -    void close();
 -}
 diff --git a/src/main/java/co/aikar/timings/TimingData.java b/src/main/java/co/aikar/timings/TimingData.java
@@ -1279,10 +1285,10 @@ index df142a89b8c43acb81eb383eac0ef048a1f49a6e..00000000000000000000000000000000
 -}
 diff --git a/src/main/java/co/aikar/timings/Timings.java b/src/main/java/co/aikar/timings/Timings.java
 deleted file mode 100644
-index 95b7cdf0677ef71e6885fa78aa5c75bb500f5f53..0000000000000000000000000000000000000000
+index 213c89fddc9413246443d66506ba5437bdb60dce..0000000000000000000000000000000000000000
 --- a/src/main/java/co/aikar/timings/Timings.java
 +++ /dev/null
-@@ -1,325 +0,0 @@
+@@ -1,324 +0,0 @@
 -/*
 - * This file is licensed under the MIT License (MIT).
 - *
@@ -1409,7 +1415,7 @@ index 95b7cdf0677ef71e6885fa78aa5c75bb500f5f53..00000000000000000000000000000000
 -    @NotNull
 -    public static Timing ofStart(@NotNull Plugin plugin, @NotNull String name, @Nullable Timing groupHandler) {
 -        Timing timing = of(plugin, name, groupHandler);
--        timing.startTiming();
+-        //timing.startTiming(); // Purpur - Remove Timings
 -        return timing;
 -    }
 -
@@ -1431,7 +1437,7 @@ index 95b7cdf0677ef71e6885fa78aa5c75bb500f5f53..00000000000000000000000000000000
 -     */
 -    public static void setTimingsEnabled(boolean enabled) {
 -        if (enabled && !warnedAboutDeprecationOnEnable) {
--            Bukkit.getLogger().severe(PlainTextComponentSerializer.plainText().serialize(deprecationMessage()));
+-            //Bukkit.getLogger().severe(PlainTextComponentSerializer.plainText().serialize(deprecationMessage())); // Purpur - Remove Timings
 -            warnedAboutDeprecationOnEnable = true;
 -        }
 -    }
@@ -1607,13 +1613,13 @@ index 95b7cdf0677ef71e6885fa78aa5c75bb500f5f53..00000000000000000000000000000000
 -        return TimingsManager.getHandler(groupName, name, groupHandler);
 -    }
 -}
--
+\ No newline at end of file
 diff --git a/src/main/java/co/aikar/timings/TimingsCommand.java b/src/main/java/co/aikar/timings/TimingsCommand.java
 deleted file mode 100644
-index b83e5ff7ada8771fdf27ba9807c77ba6a4ce12da..0000000000000000000000000000000000000000
+index 04d0dc27406e9f96224f88edb1c535176e84d395..0000000000000000000000000000000000000000
 --- a/src/main/java/co/aikar/timings/TimingsCommand.java
 +++ /dev/null
-@@ -1,127 +0,0 @@
+@@ -1,132 +0,0 @@
 -/*
 - * This file is licensed under the MIT License (MIT).
 - *
@@ -1663,7 +1669,7 @@ index b83e5ff7ada8771fdf27ba9807c77ba6a4ce12da..00000000000000000000000000000000
 -    public TimingsCommand(@NotNull String name) {
 -        super(name);
 -        this.description = "Manages Spigot Timings data to see performance of the server.";
--        this.usageMessage = "/timings <reset|report|on|off|verbon|verboff>";
+-        this.usageMessage = "/timings";// <reset|report|on|off|verbon|verboff>"; // Purpur - Remove Timings
 -        this.setPermission("bukkit.command.timings");
 -    }
 -
@@ -1673,7 +1679,12 @@ index b83e5ff7ada8771fdf27ba9807c77ba6a4ce12da..00000000000000000000000000000000
 -            return true;
 -        }
 -        if (true) {
--            sender.sendMessage(Timings.deprecationMessage());
+-            // Purpur start - Remove Timings
+-            net.kyori.adventure.text.minimessage.MiniMessage mm = net.kyori.adventure.text.minimessage.MiniMessage.miniMessage();
+-            sender.sendMessage(mm.deserialize("<gold>Purpur has removed timings to save your performance. Please use <click:suggest_command:'/spark'><grey>/spark</grey></click> instead"));
+-            sender.sendMessage(mm.deserialize("<gold>For more information, view its documentation at"));
+-            sender.sendMessage(mm.deserialize("<gold><click:open_url:'https://spark.lucko.me/docs/Command-Usage'>https://spark.lucko.me/docs/Command-Usage</click>"));
+-            // Purpur end - Remove Timings
 -            return true;
 -        }
 -        if (args.length < 1) {
@@ -1734,7 +1745,7 @@ index b83e5ff7ada8771fdf27ba9807c77ba6a4ce12da..00000000000000000000000000000000
 -        Preconditions.checkNotNull(args, "Arguments cannot be null");
 -        Preconditions.checkNotNull(alias, "Alias cannot be null");
 -
--        if (args.length == 1) {
+-        if (false && args.length == 1) { // Purpur - Remove Timings
 -            return StringUtil.copyPartialMatches(args[0], TIMINGS_SUBCOMMANDS,
 -                new ArrayList<String>(TIMINGS_SUBCOMMANDS.size()));
 -        }
@@ -2093,77 +2104,4 @@ index 632c4961515f5052551f841cfa840e60bba7a257..00000000000000000000000000000000
 -        checkThread();
 -        super.stopTiming();
 -    }
--}
-diff --git a/src/main/java/org/spigotmc/CustomTimingsHandler.java b/src/main/java/org/spigotmc/CustomTimingsHandler.java
-deleted file mode 100644
-index 12946bd55fcf7c40d39081779a7fa30049ee6165..0000000000000000000000000000000000000000
---- a/src/main/java/org/spigotmc/CustomTimingsHandler.java
-+++ /dev/null
-@@ -1,67 +0,0 @@
--/*
-- * This file is licensed under the MIT License (MIT).
-- *
-- * Copyright (c) 2014 Daniel Ennis <http://aikar.co>
-- *
-- * Permission is hereby granted, free of charge, to any person obtaining a copy
-- * of this software and associated documentation files (the "Software"), to deal
-- * in the Software without restriction, including without limitation the rights
-- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-- * copies of the Software, and to permit persons to whom the Software is
-- * furnished to do so, subject to the following conditions:
-- *
-- * The above copyright notice and this permission notice shall be included in
-- * all copies or substantial portions of the Software.
-- *
-- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-- * THE SOFTWARE.
-- */
--package org.spigotmc;
--
--import org.bukkit.Bukkit;
--import org.jetbrains.annotations.NotNull;
--import org.bukkit.plugin.AuthorNagException;
--import co.aikar.timings.Timing;
--import co.aikar.timings.Timings;
--import co.aikar.timings.TimingsManager;
--
--import java.lang.reflect.Method;
--import java.util.logging.Level;
--
--/**
-- * This is here for legacy purposes incase any plugin used it.
-- *
-- * If you use this, migrate ASAP as this will be removed in the future!
-- *
-- * @deprecated
-- * @see co.aikar.timings.Timings#of
-- */
--@Deprecated(forRemoval = true)
--public final class CustomTimingsHandler {
--    private final Timing handler;
--
--    public CustomTimingsHandler(@NotNull String name) {
--        Timing timing;
--
--        new AuthorNagException("Deprecated use of CustomTimingsHandler. Please Switch to Timings.of ASAP").printStackTrace();
--        try {
--            final Method ofSafe = TimingsManager.class.getDeclaredMethod("getHandler", String.class, String.class, Timing.class);
--            ofSafe.setAccessible(true);
--            timing = (Timing) ofSafe.invoke(null,"Minecraft", "(Deprecated API) " + name, null);
--        } catch (Exception e) {
--            e.printStackTrace();
--            Bukkit.getLogger().log(Level.SEVERE, "This handler could not be registered");
--            timing = Timings.NULL_HANDLER;
--        }
--        handler = timing;
--    }
--
--    public void startTiming() { handler.startTiming(); }
--    public void stopTiming() { handler.stopTiming(); }
--
 -}

@@ -18,7 +18,7 @@
                      flag2 = true; // Paper - diff on change, this should be moved wrongly
                      LOGGER.warn("{} (vehicle of {}) moved wrongly! {}", rootVehicle.getName().getString(), this.player.getName().getString(), Math.sqrt(d7));
                  }
-@@ -2387,6 +_,7 @@
+@@ -2397,6 +_,7 @@
      }
  
      private void tryHandleChat(String message, Runnable handler, boolean sync) { // CraftBukkit
@@ -26,7 +26,7 @@
          if (isChatMessageIllegal(message)) {
              this.disconnectAsync(Component.translatable("multiplayer.disconnect.illegal_characters"), org.bukkit.event.player.PlayerKickEvent.Cause.ILLEGAL_CHARACTERS); // Paper - add proper async disconnect
          } else if (this.player.isRemoved() || this.player.getChatVisibility() == ChatVisiblity.HIDDEN) { // CraftBukkit - dead men tell no tales
-@@ -2414,6 +_,15 @@
+@@ -2424,6 +_,15 @@
              return optional;
          }
      }

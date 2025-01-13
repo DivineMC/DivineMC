@@ -133,10 +133,10 @@ index 05339a176083af667c16f77d76dc1878dafce3f0..0a1428b826fe4057058cf24284bd5f6f
      }
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 4cf13628c0d304fbf658fcb6f09631b282c34bfa..14a499fd21d653951a30552f740b4d1ca3851158 100644
+index c68b97ab916746570229cef37357756b6df44baf..b8bc80e60dc36bfe9aac83d7f46b79303b7d66cf 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -1087,6 +1087,7 @@ public final class CraftServer implements Server {
+@@ -1101,6 +1101,7 @@ public final class CraftServer implements Server {
  
          org.spigotmc.SpigotConfig.init((File) this.console.options.valueOf("spigot-settings")); // Spigot
          this.console.paperConfigurations.reloadConfigs(this.console);
@@ -144,7 +144,7 @@ index 4cf13628c0d304fbf658fcb6f09631b282c34bfa..14a499fd21d653951a30552f740b4d1c
          org.purpurmc.purpur.PurpurConfig.init((File) console.options.valueOf("purpur-settings")); // Purpur - Purpur config files
          for (ServerLevel world : this.console.getAllLevels()) {
              // world.serverLevelData.setDifficulty(config.difficulty); // Paper - per level difficulty
-@@ -3056,6 +3057,13 @@ public final class CraftServer implements Server {
+@@ -3124,6 +3125,13 @@ public final class CraftServer implements Server {
              return CraftServer.this.console.paperConfigurations.createLegacyObject(CraftServer.this.console);
          }
  

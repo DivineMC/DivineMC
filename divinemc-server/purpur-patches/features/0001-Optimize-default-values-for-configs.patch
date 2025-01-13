@@ -5,10 +5,10 @@ Subject: [PATCH] Optimize default values for configs
 
 
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-index 31f41990623120f8de9f7c842bd8ad4f5affe59f..8f9a73f524ffaa439f0cb59eeb3de3c2ff9fac3d 100644
+index 702f71bed6634042bc306fa365ff00b4053d8661..8208a91dd9d15a23b17590f88ab2fefdc0fcfcf3 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-@@ -217,7 +217,7 @@ public class PurpurConfig {
+@@ -240,7 +240,7 @@ public class PurpurConfig {
          laggingThreshold = getDouble("settings.lagging-threshold", laggingThreshold);
      }
  
