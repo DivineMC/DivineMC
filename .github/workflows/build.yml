@@ -37,12 +37,9 @@ jobs:
           chmod +x gradlew
 
       - name: Patch
-        run: ./gradlew applyPatches --stacktrace
+        run: ./gradlew applyAllPatches --stacktrace
 
-      - name: Create Reobf Jar
-        run: ./gradlew createReobfPaperclipJar --stacktrace
-
-      - name: Create Mojmap Jar
+      - name: Build Paperclip Jar
         run: ./gradlew createMojmapPaperclipJar --stacktrace
 
       - name: Publish API
@@ -53,8 +50,8 @@ jobs:
         if: env.debug == 'true' || github.ref_name != env.branch
         uses: actions/upload-artifact@main
         with:
-          name: Artifacts
-          path: build/libs
+          name: DivineMC
+          path: divinemc-server/build/libs/divinemc-paperclip-*-mojmap.jar
 
       - name: Release Artifacts
         if: github.ref_name == env.branch
