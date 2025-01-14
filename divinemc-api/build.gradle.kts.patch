@@ -1,6 +1,6 @@
 --- a/purpur-api/build.gradle.kts
 +++ b/purpur-api/build.gradle.kts
-@@ -106,17 +_,21 @@
+@@ -104,17 +_,21 @@
          java {
              srcDir(generatedApiPath)
              srcDir(file("../paper-api/src/main/java"))
@@ -22,7 +22,7 @@
          }
      }
  }
-@@ -166,6 +_,15 @@
+@@ -161,6 +_,15 @@
          pomProps.get().asFile.writeText("version=$projectVersion")
      }
  }

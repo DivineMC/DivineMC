@@ -44,10 +44,10 @@ index 131923282c9ecbcb1d7f45a826da907c02bd2716..e7c0de38ef689510860dc0b626f74461
  
      private static double getBeardContribution(int x, int y, int z, int height) {
 diff --git a/net/minecraft/world/level/levelgen/NoiseBasedChunkGenerator.java b/net/minecraft/world/level/levelgen/NoiseBasedChunkGenerator.java
-index d77016287f5f9a0964d56f05d2d5256ef2e6e86c..40d4555607915709099a94f83df78a744d2827e7 100644
+index 65728ef17e63d71833677fdcbd5bb90794b4822b..832a26760a777fe2d62f2f5f7a885bae63f67517 100644
 --- a/net/minecraft/world/level/levelgen/NoiseBasedChunkGenerator.java
 +++ b/net/minecraft/world/level/levelgen/NoiseBasedChunkGenerator.java
-@@ -69,8 +69,10 @@ public final class NoiseBasedChunkGenerator extends ChunkGenerator {
+@@ -68,8 +68,10 @@ public final class NoiseBasedChunkGenerator extends ChunkGenerator {
          Aquifer.FluidStatus fluidStatus = new Aquifer.FluidStatus(-54, Blocks.LAVA.defaultBlockState());
          int seaLevel = settings.seaLevel();
          Aquifer.FluidStatus fluidStatus1 = new Aquifer.FluidStatus(seaLevel, settings.defaultFluid());

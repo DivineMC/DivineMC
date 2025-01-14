@@ -31,6 +31,7 @@ import it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Reference2LongMap;
 import it.unimi.dsi.fastutil.objects.Reference2LongOpenHashMap;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -128,15 +129,17 @@ public class DivineConfigurations extends Configurations<DivineGlobalConfigurati
     }
 
     @Override
-    protected YamlConfigurationLoader.Builder createGlobalLoaderBuilder() {
-        return super.createGlobalLoaderBuilder()
-                .defaultOptions(DivineConfigurations::defaultGlobalOptions);
+    protected YamlConfigurationLoader.Builder createGlobalLoaderBuilder(RegistryAccess registryAccess) {
+        return super.createGlobalLoaderBuilder(registryAccess)
+                .defaultOptions((options) -> defaultGlobalOptions(registryAccess, options));
     }
 
-    private static ConfigurationOptions defaultGlobalOptions(ConfigurationOptions options) {
+    private static ConfigurationOptions defaultGlobalOptions(RegistryAccess registryAccess, ConfigurationOptions options) {
         return options
                 .header(GLOBAL_HEADER)
-                .serializers(builder -> builder.register(new PacketClassSerializer()));
+                .serializers(builder -> builder.register(new PacketClassSerializer())
+                        .register(new RegistryValueSerializer<>(new TypeToken<DataComponentType<?>>() {}, registryAccess, Registries.DATA_COMPONENT_TYPE, false))
+                );
     }
 
     @Override
@@ -250,7 +253,7 @@ public class DivineConfigurations extends Configurations<DivineGlobalConfigurati
 
     public void reloadConfigs(MinecraftServer server) {
         try {
-            this.initializeGlobalConfiguration(reloader(this.globalConfigClass, DivineGlobalConfiguration.get()));
+            this.initializeGlobalConfiguration(server.registryAccess(), reloader(this.globalConfigClass, DivineGlobalConfiguration.get()));
             this.initializeWorldDefaultsConfiguration(server.registryAccess());
             for (ServerLevel level : server.getAllLevels()) {
                 this.createWorldConfig(PaperConfigurations.createWorldContextMap(level), reloader(this.worldConfigClass, level.divineConfig()));

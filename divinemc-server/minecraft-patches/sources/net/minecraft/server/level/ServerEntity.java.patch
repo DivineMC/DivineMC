@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/level/ServerEntity.java
 +++ b/net/minecraft/server/level/ServerEntity.java
-@@ -407,7 +_,10 @@
+@@ -408,7 +_,10 @@
          }
  
          if (this.entity instanceof LivingEntity) {
@@ -12,7 +12,7 @@
              if (!attributesToSync.isEmpty()) {
                  // CraftBukkit start - Send scaled max health
                  if (this.entity instanceof ServerPlayer serverPlayer) {
-@@ -417,7 +_,7 @@
+@@ -418,7 +_,7 @@
                  this.broadcastAndSend(new ClientboundUpdateAttributesPacket(this.entity.getId(), attributesToSync));
              }
  

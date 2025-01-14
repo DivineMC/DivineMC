@@ -1,6 +1,6 @@
 --- a/purpur-server/build.gradle.kts
 +++ b/purpur-server/build.gradle.kts
-@@ -21,6 +_,7 @@
+@@ -22,6 +_,7 @@
      // gitFilePatches = true
  
      val purpur = forks.register("purpur") {
@@ -8,11 +8,12 @@
          upstream.patchDir("paperServer") {
              upstreamPath = "paper-server"
              excludes = setOf("src/minecraft", "patches", "build.gradle.kts")
-@@ -29,7 +_,22 @@
+@@ -29,7 +_,23 @@
+             outputDir = rootDirectory.dir("paper-server")
          }
      }
- 
 -    activeFork = purpur
++
 +    val divinemc = forks.register("divinemc") {
 +        forks = purpur
 +        upstream.patchRepo("paperServer") {
@@ -46,18 +47,18 @@
 +        resources { srcDir("../purpur-server/src/test/resources") }
      }
  }
- val log4jPlugins = sourceSets.create("log4jPlugins") {
+ 
 @@ -146,7 +_,7 @@
- // Paper end - configure mockito agent that is needed in newer java versions
+ }
  
  dependencies {
 -    implementation(project(":purpur-api"))
 +    implementation(project(":divinemc-api")) // DivineMC
-     implementation("ca.spottedleaf:concurrentutil:0.0.2") // Paper - Add ConcurrentUtil dependency
-     // Paper start
+     implementation("ca.spottedleaf:concurrentutil:0.0.3")
      implementation("org.jline:jline-terminal-ffm:3.27.1") // use ffm on java 22+
-@@ -208,26 +_,35 @@
-     // Paper end - spark
+     implementation("org.jline:jline-terminal-jni:3.27.1") // fall back to jni on java 21
+@@ -207,26 +_,35 @@
+     implementation("me.lucko:spark-paper:1.10.119-SNAPSHOT")
  }
  
 +// DivineMC start - hide irrelevant compilation warnings
@@ -78,14 +79,14 @@
 +        val buildTime = Instant.now() // DivineMC - Build time to current, we dont have a build server rn
          val gitHash = git.exec(providers, "rev-parse", "--short=7", "HEAD").get().trim()
          val implementationVersion = "$mcVersion-${build ?: "DEV"}-$gitHash"
-         val date = git.exec(providers, "show", "-s", "--format=%ci", gitHash).get().trim() // Paper
-         val gitBranch = git.exec(providers, "rev-parse", "--abbrev-ref", "HEAD").get().trim() // Paper
+         val date = git.exec(providers, "show", "-s", "--format=%ci", gitHash).get().trim()
+         val gitBranch = git.exec(providers, "rev-parse", "--abbrev-ref", "HEAD").get().trim()
          attributes(
              "Main-Class" to "org.bukkit.craftbukkit.Main",
 -            "Implementation-Title" to "Purpur", // Purpur
 +            "Implementation-Title" to "DivineMC", // DivineMC
              "Implementation-Version" to implementationVersion,
-             "Implementation-Vendor" to date, // Paper
+             "Implementation-Vendor" to date,
 -            "Specification-Title" to "Purpur", // Purpur
 +            "Specification-Title" to "DivineMC", // DivineMC
              "Specification-Version" to project.version,
@@ -97,4 +98,4 @@
 +            "Brand-Name" to "DivineMC", // DivineMC
              "Build-Number" to (build ?: ""),
              "Build-Time" to buildTime.toString(),
-             "Git-Branch" to gitBranch, // Paper
+             "Git-Branch" to gitBranch,

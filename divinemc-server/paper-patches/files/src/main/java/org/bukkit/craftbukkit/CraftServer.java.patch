@@ -1,6 +1,6 @@
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -285,6 +_,7 @@
+@@ -286,6 +_,7 @@
      protected final DedicatedPlayerList playerList;
      private final Map<String, World> worlds = new LinkedHashMap<String, World>();
      // private final Map<Class<?>, Registry<?>> registries = new HashMap<>(); // Paper - replace with RegistryAccess
@@ -8,7 +8,7 @@
      private YamlConfiguration configuration;
      private YamlConfiguration commandsConfiguration;
      private final Yaml yaml = new Yaml(new SafeConstructor(new LoaderOptions()));
-@@ -1535,6 +_,7 @@
+@@ -1536,6 +_,7 @@
              this.getLogger().log(Level.SEVERE, null, ex);
          }
  
@@ -16,7 +16,7 @@
          this.worlds.remove(world.getName().toLowerCase(Locale.ROOT));
          this.console.removeLevel(handle);
          return true;
-@@ -1553,6 +_,7 @@
+@@ -1554,6 +_,7 @@
  
      @Override
      public World getWorld(UUID uid) {
@@ -24,7 +24,7 @@
          for (World world : this.worlds.values()) {
              if (world.getUID().equals(uid)) {
                  return world;
-@@ -1576,6 +_,7 @@
+@@ -1577,6 +_,7 @@
              System.out.println("World " + world.getName() + " is a duplicate of another world and has been prevented from loading. Please delete the uid.dat file from " + world.getName() + "'s world directory if you want to be able to load the duplicate world.");
              return;
          }

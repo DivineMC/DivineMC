@@ -5,7 +5,7 @@ Subject: [PATCH] DivineMC Configuration
 
 
 diff --git a/src/main/java/io/papermc/paper/configuration/Configurations.java b/src/main/java/io/papermc/paper/configuration/Configurations.java
-index 109e569b7ba6419d60c6490b588937579b4f6878..26f5026134e37e37236dfba9fd881021d7f8666e 100644
+index 4a9258b62db3a9d1150f0dfbe916fa549b596686..bfccf82b57c23537e83bc0b83feef5e632cabef7 100644
 --- a/src/main/java/io/papermc/paper/configuration/Configurations.java
 +++ b/src/main/java/io/papermc/paper/configuration/Configurations.java
 @@ -94,7 +94,7 @@ public abstract class Configurations<G, W> {
@@ -59,10 +59,10 @@ index 109e569b7ba6419d60c6490b588937579b4f6878..26f5026134e37e37236dfba9fd881021
 +    // DivineMC end - DivineMC Configuration
  }
 diff --git a/src/main/java/io/papermc/paper/configuration/PaperConfigurations.java b/src/main/java/io/papermc/paper/configuration/PaperConfigurations.java
-index 9f87f3da8e3f8cb16ea8f04cc233e143b174a709..1384abb3f98719d8f16ddb4cc48da71c18619606 100644
+index e319d6337811051de478d584a37015c450960701..6955c448adc0a995c6bbe6d507eee4232ffda5b1 100644
 --- a/src/main/java/io/papermc/paper/configuration/PaperConfigurations.java
 +++ b/src/main/java/io/papermc/paper/configuration/PaperConfigurations.java
-@@ -327,7 +327,7 @@ public class PaperConfigurations extends Configurations<GlobalConfiguration, Wor
+@@ -331,7 +331,7 @@ public class PaperConfigurations extends Configurations<GlobalConfiguration, Wor
          }
      }
  
@@ -71,7 +71,7 @@ index 9f87f3da8e3f8cb16ea8f04cc233e143b174a709..1384abb3f98719d8f16ddb4cc48da71c
          return createWorldContextMap(level.levelStorageAccess.levelDirectory.path(), level.serverLevelData.getLevelName(), level.dimension().location(), level.spigotConfig, level.registryAccess(), level.getGameRules());
      }
  
-@@ -430,17 +430,6 @@ public class PaperConfigurations extends Configurations<GlobalConfiguration, Wor
+@@ -434,17 +434,6 @@ public class PaperConfigurations extends Configurations<GlobalConfiguration, Wor
          return Files.exists(legacyConfig) && Files.isRegularFile(legacyConfig);
      }
  
@@ -89,7 +89,7 @@ index 9f87f3da8e3f8cb16ea8f04cc233e143b174a709..1384abb3f98719d8f16ddb4cc48da71c
      @Deprecated
      public static YamlConfiguration loadLegacyConfigFile(File configFile) throws Exception {
          YamlConfiguration config = new YamlConfiguration();
-@@ -463,9 +452,16 @@ public class PaperConfigurations extends Configurations<GlobalConfiguration, Wor
+@@ -467,9 +456,16 @@ public class PaperConfigurations extends Configurations<GlobalConfiguration, Wor
      }
  
      // Symlinks are not correctly checked in createDirectories
@@ -133,10 +133,10 @@ index 05339a176083af667c16f77d76dc1878dafce3f0..0a1428b826fe4057058cf24284bd5f6f
      }
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index c68b97ab916746570229cef37357756b6df44baf..b8bc80e60dc36bfe9aac83d7f46b79303b7d66cf 100644
+index cc80fb07272393acc1b7d5f269789fd92eb10dfc..64f0c861c6ff4e523a882c11aef26f801fc14487 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -1101,6 +1101,7 @@ public final class CraftServer implements Server {
+@@ -1102,6 +1102,7 @@ public final class CraftServer implements Server {
  
          org.spigotmc.SpigotConfig.init((File) this.console.options.valueOf("spigot-settings")); // Spigot
          this.console.paperConfigurations.reloadConfigs(this.console);
@@ -144,7 +144,7 @@ index c68b97ab916746570229cef37357756b6df44baf..b8bc80e60dc36bfe9aac83d7f46b7930
          org.purpurmc.purpur.PurpurConfig.init((File) console.options.valueOf("purpur-settings")); // Purpur - Purpur config files
          for (ServerLevel world : this.console.getAllLevels()) {
              // world.serverLevelData.setDifficulty(config.difficulty); // Paper - per level difficulty
-@@ -3124,6 +3125,13 @@ public final class CraftServer implements Server {
+@@ -3130,6 +3131,13 @@ public final class CraftServer implements Server {
              return CraftServer.this.console.paperConfigurations.createLegacyObject(CraftServer.this.console);
          }
  

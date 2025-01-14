@@ -34,7 +34,7 @@ index 1638eccef431fb68775af624110f1968f0c6dabd..2799db1223c9f279322869bdd19605e6
              if (entity.getLastHurtByMob() instanceof ServerPlayer serverPlayer) {
                  DamageSource damageSource = entity.getLastDamageSource() == null
 diff --git a/net/minecraft/world/level/chunk/LevelChunk.java b/net/minecraft/world/level/chunk/LevelChunk.java
-index c1ae7755e8d6fa8501d2210dab7605d993c55722..83eff9d2a9cdceca8b8b88410d57cc7cb9bcbfcb 100644
+index 761fdcd4a4e18f45547afd8edff44f61c6eeacb4..03264d2b170002c640cec34530909ebb34c7e54e 100644
 --- a/net/minecraft/world/level/chunk/LevelChunk.java
 +++ b/net/minecraft/world/level/chunk/LevelChunk.java
 @@ -81,7 +81,18 @@ public class LevelChunk extends ChunkAccess implements ca.spottedleaf.moonrise.p
@@ -60,7 +60,7 @@ index c1ae7755e8d6fa8501d2210dab7605d993c55722..83eff9d2a9cdceca8b8b88410d57cc7c
 @@ -144,7 +155,7 @@ public class LevelChunk extends ChunkAccess implements ca.spottedleaf.moonrise.p
      ) {
          super(pos, data, level, net.minecraft.server.MinecraftServer.getServer().registryAccess().lookupOrThrow(Registries.BIOME), inhabitedTime, sections, blendingData); // Paper - Anti-Xray - The world isn't ready yet, use server singleton for registry
-         this.level = (net.minecraft.server.level.ServerLevel) level; // CraftBukkit - type
+         this.level = (ServerLevel) level; // CraftBukkit - type
 -        this.gameEventListenerRegistrySections = new Int2ObjectOpenHashMap<>();
 +        this.gameEventListenerRegistrySections = new GameEventListenerRegistry[getGameEventSectionLength(this.getSectionsCount())]; // DivineMC - Petal: Reduce work done by game event system
  

@@ -1285,7 +1285,7 @@ index df142a89b8c43acb81eb383eac0ef048a1f49a6e..00000000000000000000000000000000
 -}
 diff --git a/src/main/java/co/aikar/timings/Timings.java b/src/main/java/co/aikar/timings/Timings.java
 deleted file mode 100644
-index 213c89fddc9413246443d66506ba5437bdb60dce..0000000000000000000000000000000000000000
+index 627922fa5c65e9b77e79cd896c8c52889f5a0cc5..0000000000000000000000000000000000000000
 --- a/src/main/java/co/aikar/timings/Timings.java
 +++ /dev/null
 @@ -1,324 +0,0 @@
@@ -1613,7 +1613,6 @@ index 213c89fddc9413246443d66506ba5437bdb60dce..00000000000000000000000000000000
 -        return TimingsManager.getHandler(groupName, name, groupHandler);
 -    }
 -}
-\ No newline at end of file
 diff --git a/src/main/java/co/aikar/timings/TimingsCommand.java b/src/main/java/co/aikar/timings/TimingsCommand.java
 deleted file mode 100644
 index 04d0dc27406e9f96224f88edb1c535176e84d395..0000000000000000000000000000000000000000
@@ -2107,7 +2106,7 @@ index 632c4961515f5052551f841cfa840e60bba7a257..00000000000000000000000000000000
 -}
 diff --git a/src/main/java/org/spigotmc/CustomTimingsHandler.java b/src/main/java/org/spigotmc/CustomTimingsHandler.java
 deleted file mode 100644
-index 6e361e97c62b93589bba834b3106ed92574ec603..0000000000000000000000000000000000000000
+index b4249da3eb26eae26ec000cc4d56cd21ac2fc6d5..0000000000000000000000000000000000000000
 --- a/src/main/java/org/spigotmc/CustomTimingsHandler.java
 +++ /dev/null
 @@ -1,67 +0,0 @@
@@ -2161,7 +2160,7 @@ index 6e361e97c62b93589bba834b3106ed92574ec603..00000000000000000000000000000000
 -    public CustomTimingsHandler(@NotNull String name) {
 -        Timing timing;
 -
--        new AuthorNagException("Deprecated use of CustomTimingsHandler. Please Switch to Timings.of ASAP").printStackTrace();
+-        new AuthorNagException("Deprecated use of CustomTimingsHandler. Timings has been removed.").printStackTrace();
 -        try {
 -            final Method ofSafe = TimingsManager.class.getDeclaredMethod("getHandler", String.class, String.class, Timing.class);
 -            ofSafe.setAccessible(true);
