@@ -8,6 +8,15 @@
      private YamlConfiguration configuration;
      private YamlConfiguration commandsConfiguration;
      private final Yaml yaml = new Yaml(new SafeConstructor(new LoaderOptions()));
+@@ -988,7 +_,7 @@
+ 
+     @Override
+     public List<World> getWorlds() {
+-        return new ArrayList<World>(this.worlds.values());
++        return new it.unimi.dsi.fastutil.objects.ObjectArrayList<World>(this.worlds.values()); // DivineMC - optimize getWorlds
+     }
+ 
+     @Override
 @@ -1536,6 +_,7 @@
              this.getLogger().log(Level.SEVERE, null, ex);
          }
