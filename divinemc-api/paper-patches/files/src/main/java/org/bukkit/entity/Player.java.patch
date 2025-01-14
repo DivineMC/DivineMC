@@ -1,0 +1,17 @@
+--- a/src/main/java/org/bukkit/entity/Player.java
++++ b/src/main/java/org/bukkit/entity/Player.java
+@@ -4011,4 +_,14 @@
+         sendDeathScreen(message);
+     }
+     // Purpur end
++
++    // DivineMC start - Open Ender Chest API
++    /**
++     * Opens ender chest for the player
++     *
++     * @param enderChest ender chest
++     * @return whether the chest was opened
++     */
++    boolean openEnderChest(@NotNull org.bukkit.block.EnderChest enderChest);
++    // DivineMC end - Open Ender Chest API
+ }

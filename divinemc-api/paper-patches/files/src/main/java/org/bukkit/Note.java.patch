@@ -1,0 +1,73 @@
+--- a/src/main/java/org/bukkit/Note.java
++++ b/src/main/java/org/bukkit/Note.java
+@@ -127,6 +_,7 @@
+     }
+ 
+     private final byte note;
++    private final net.kyori.adventure.text.format.TextColor color; // DivineMC - Note Color API
+ 
+     /**
+      * Creates a new note.
+@@ -138,6 +_,7 @@
+         Preconditions.checkArgument(note >= 0 && note <= 24, "The note value has to be between 0 and 24.");
+ 
+         this.note = (byte) note;
++        this.color = getColor(note); // DivineMC - Note Color API
+     }
+ 
+     /**
+@@ -158,6 +_,7 @@
+         }
+ 
+         this.note = (byte) (octave * Tone.TONES_COUNT + tone.getId(sharped));
++        this.color = getColor(note); // DivineMC - Note Color API
+     }
+ 
+     /**
+@@ -298,4 +_,46 @@
+     public String toString() {
+         return "Note{" + getTone().toString() + (isSharped() ? "#" : "") + "}";
+     }
++
++    // DivineMC start - Note Color API
++    /**
++     * Get color of the played note.
++     *
++     * @return the color of the note
++     */
++    @NotNull
++    public net.kyori.adventure.text.format.TextColor getColor() {
++        return color;
++    }
++
++    private static @NotNull net.kyori.adventure.text.format.TextColor getColor(int note) {
++        return switch (note) {
++            case 0 -> net.kyori.adventure.text.format.TextColor.fromHexString("#77D700");
++            case 1 -> net.kyori.adventure.text.format.TextColor.fromHexString("#95C000");
++            case 2 -> net.kyori.adventure.text.format.TextColor.fromHexString("#B2A500");
++            case 3 -> net.kyori.adventure.text.format.TextColor.fromHexString("#CC8600");
++            case 4 -> net.kyori.adventure.text.format.TextColor.fromHexString("#E26500");
++            case 5 -> net.kyori.adventure.text.format.TextColor.fromHexString("#F34100");
++            case 6 -> net.kyori.adventure.text.format.TextColor.fromHexString("#FC1E00");
++            case 7 -> net.kyori.adventure.text.format.TextColor.fromHexString("#FE000F");
++            case 8 -> net.kyori.adventure.text.format.TextColor.fromHexString("#F70033");
++            case 9 -> net.kyori.adventure.text.format.TextColor.fromHexString("#E8005A");
++            case 10 -> net.kyori.adventure.text.format.TextColor.fromHexString("#CF0083");
++            case 11 -> net.kyori.adventure.text.format.TextColor.fromHexString("#AE00A9");
++            case 12 -> net.kyori.adventure.text.format.TextColor.fromHexString("#8600CC");
++            case 13 -> net.kyori.adventure.text.format.TextColor.fromHexString("#5B00E7");
++            case 14 -> net.kyori.adventure.text.format.TextColor.fromHexString("#2D00F9");
++            case 15 -> net.kyori.adventure.text.format.TextColor.fromHexString("#020AFE");
++            case 16 -> net.kyori.adventure.text.format.TextColor.fromHexString("#0037F6");
++            case 17 -> net.kyori.adventure.text.format.TextColor.fromHexString("#0068E0");
++            case 18 -> net.kyori.adventure.text.format.TextColor.fromHexString("#009ABC");
++            case 19 -> net.kyori.adventure.text.format.TextColor.fromHexString("#00C68D");
++            case 20 -> net.kyori.adventure.text.format.TextColor.fromHexString("#00E958");
++            case 21 -> net.kyori.adventure.text.format.TextColor.fromHexString("#00FC21");
++            case 22 -> net.kyori.adventure.text.format.TextColor.fromHexString("#1FFC00");
++            case 23 -> net.kyori.adventure.text.format.TextColor.fromHexString("#59E800");
++            default -> net.kyori.adventure.text.format.TextColor.fromHexString("#94C100");
++        };
++    }
++    // DivineMC end - Note Color API
+ }

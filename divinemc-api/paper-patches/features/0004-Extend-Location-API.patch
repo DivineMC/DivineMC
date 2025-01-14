@@ -1,0 +1,181 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Tue, 14 Jan 2025 20:36:30 +0300
+Subject: [PATCH] Extend Location API
+
+
+diff --git a/src/main/java/org/bukkit/Location.java b/src/main/java/org/bukkit/Location.java
+index 8bc340c9d4d8d1b113d877e25af769ef9251dc94..1311f7c82e412aec415a7f2a581400b84f86df9b 100644
+--- a/src/main/java/org/bukkit/Location.java
++++ b/src/main/java/org/bukkit/Location.java
+@@ -1212,4 +1212,170 @@ public class Location implements Cloneable, ConfigurationSerializable, io.paperm
+     public @NotNull Location toLocation(@NotNull World world) {
+         return new Location(world, this.x(), this.y(), this.z(), this.getYaw(), this.getPitch());
+     }
++
++    // DivineMC start - Extend Location API
++    /**
++     * Sets the x-coordinate of this location.
++     *
++     * @param x The x-coordinate
++     * @return this location
++     */
++    public @NotNull Location x(double x) {
++        this.x = x;
++        return this;
++    }
++
++    /**
++     * Sets the y-coordinate of this location.
++     *
++     * @param y The y-coordinate
++     * @return this location
++     */
++    public @NotNull Location y(double y) {
++        this.y = y;
++        return this;
++    }
++
++    /**
++     * Sets the z-coordinate of this location.
++     *
++     * @param z The z-coordinate
++     * @return this location
++     */
++    public @NotNull Location z(double z) {
++        this.z = z;
++        return this;
++    }
++
++    /**
++     * Sets the yaw of this location, measured in degrees.
++     * <ul>
++     * <li>A yaw of 0 or 360 represents the positive z direction.
++     * <li>A yaw of 180 represents the negative z direction.
++     * <li>A yaw of 90 represents the negative x direction.
++     * <li>A yaw of 270 represents the positive x direction.
++     * </ul>
++     * Increasing yaw values are the equivalent of turning to your
++     * right-facing, increasing the scale of the next respective axis, and
++     * decreasing the scale of the previous axis.
++     *
++     * @param yaw new rotation's yaw
++     * @return this location
++     */
++    public @NotNull Location yaw(float yaw) {
++        this.yaw = yaw;
++        return this;
++    }
++
++    /**
++     * Sets the pitch of this location, measured in degrees.
++     * <ul>
++     * <li>A pitch of 0 represents level forward facing.
++     * <li>A pitch of 90 represents downward facing, or negative y
++     *     direction.
++     * <li>A pitch of -90 represents upward facing, or positive y direction.
++     * </ul>
++     * Increasing pitch values the equivalent of looking down.
++     *
++     * @param pitch new incline's pitch
++     * @return this location
++     */
++    public @NotNull Location pitch(float pitch) {
++        this.pitch = pitch;
++        return this;
++    }
++
++    /**
++     * Sets the world that this location resides in
++     *
++     * @param world New world that this location resides in
++     * @return this location
++     */
++    public @NotNull Location world(@Nullable World world) {
++        this.world = (world == null) ? null : new WeakReference<>(world);
++        return this;
++    }
++
++    /**
++     * Increments the x-coordinate by the given value.
++     *
++     * @param x Amount to increment the x-coordinate by
++     * @return this location
++     */
++    public @NotNull Location addX(double x) {
++        this.x += x;
++        return this;
++    }
++
++    /**
++     * Increments the y-coordinate by the given value.
++     *
++     * @param y Amount to increment the y-coordinate by
++     * @return this location
++     */
++    public @NotNull Location addY(double y) {
++        this.y += y;
++        return this;
++    }
++
++    /**
++     * Increments the z-coordinate by the given value.
++     *
++     * @param z Amount to increment the z-coordinate by
++     * @return this location
++     */
++    public @NotNull Location addZ(double z) {
++        this.z += z;
++        return this;
++    }
++
++    /**
++     * Returns location with centered X, Y and Z values.
++     *
++     * @return this location
++     */
++    public @NotNull Location center() {
++        return center(0.5);
++    }
++
++    /**
++     * Returns location with centered X and Z values.
++     * Y will be set to provided.
++     *
++     * @param y Y adding value
++     * @return this location
++     */
++    public @NotNull Location center(double y) {
++        return set(getBlockX() + 0.5, getBlockY() + y, getBlockZ() + 0.5);
++    }
++
++    /**
++     * Checks if locations have the same X, Y and Z values.
++     *
++     * @param loc Location to check
++     * @return true if locations have same coordinates
++     * @apiNote Ignores world
++     */
++    public boolean isSame(@NotNull Location loc) {
++        return getY() == loc.getY() && getX() == loc.getX() && getZ() == loc.getZ();
++    }
++
++    /**
++     * Shifts this location by one block up
++     *
++     * @return this location
++     */
++    public @NotNull Location above() {
++        return addY(1);
++    }
++
++    /**
++     * Shifts this location by one block down
++     *
++     * @return this location
++     */
++    public @NotNull Location below() {
++        return addY(-1);
++    }
++    // DivineMC end - Extend Location API
+ }

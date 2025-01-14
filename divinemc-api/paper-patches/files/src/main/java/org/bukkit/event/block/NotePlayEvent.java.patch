@@ -1,0 +1,43 @@
+--- a/src/main/java/org/bukkit/event/block/NotePlayEvent.java
++++ b/src/main/java/org/bukkit/event/block/NotePlayEvent.java
+@@ -16,13 +_,21 @@
+     private static HandlerList handlers = new HandlerList();
+     private Instrument instrument;
+     private Note note;
++    private final @org.jetbrains.annotations.Nullable org.bukkit.entity.Player player; // DivineMC - Add player to NotePlayEvent
+     private boolean cancelled = false;
+ 
++    // DivineMC start - Add player to NotePlayEvent
+     public NotePlayEvent(@NotNull Block block, @NotNull Instrument instrument, @NotNull Note note) {
++        this(block, instrument, note, null);
++    }
++
++    public NotePlayEvent(@NotNull Block block, @NotNull Instrument instrument, @NotNull Note note, @org.jetbrains.annotations.Nullable org.bukkit.entity.Player player) {
+         super(block);
+         this.instrument = instrument;
+         this.note = note;
++        this.player = player;
+     }
++    // DivineMC end - Add player to NotePlayEvent
+ 
+     @Override
+     public boolean isCancelled() {
+@@ -53,6 +_,18 @@
+     public Note getNote() {
+         return note;
+     }
++
++    // DivineMC start - Add player to NotePlayEvent
++    /**
++     * Gets the {@link org.bukkit.entity.Player} who played the note
++     *
++     * @return player who played the note, if present
++     */
++    @org.jetbrains.annotations.Nullable
++    public org.bukkit.entity.Player getPlayer() {
++        return this.player;
++    }
++    // DivineMC end - Add player to NotePlayEvent
+ 
+     /**
+      * Overrides the {@link Instrument} to be used.

@@ -1,0 +1,28 @@
+--- a/net/minecraft/world/level/block/NoteBlock.java
++++ b/net/minecraft/world/level/block/NoteBlock.java
+@@ -40,6 +_,7 @@
+     public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
+     public static final IntegerProperty NOTE = BlockStateProperties.NOTE;
+     public static final int NOTE_VOLUME = 3;
++    private @Nullable Player lastPlayedBy = null; // DivineMC - Add player to NotePlayEvent
+ 
+     @Override
+     public MapCodec<NoteBlock> codec() {
+@@ -108,6 +_,7 @@
+ 
+     private void playNote(@Nullable Entity entity, BlockState state, Level level, BlockPos pos) {
+         if (level.purpurConfig.noteBlockIgnoreAbove || state.getValue(INSTRUMENT).worksAboveNoteBlock() || level.getBlockState(pos.above()).isAir()) { // Purpur - Config to allow Note Block sounds when blocked
++            if (entity instanceof Player player) this.lastPlayedBy = player; // DivineMC - Add player to NotePlayEvent
+             level.blockEvent(pos, this, 0, 0);
+             level.gameEvent(entity, GameEvent.NOTE_BLOCK_PLAY, pos);
+         }
+@@ -150,7 +_,8 @@
+     protected boolean triggerEvent(BlockState state, Level level, BlockPos pos, int id, int param) {
+         NoteBlockInstrument noteBlockInstrument = state.getValue(INSTRUMENT);
+         // Paper start - move NotePlayEvent call to fix instrument/note changes
+-        org.bukkit.event.block.NotePlayEvent event = org.bukkit.craftbukkit.event.CraftEventFactory.callNotePlayEvent(level, pos, noteBlockInstrument, state.getValue(NOTE));
++        org.bukkit.event.block.NotePlayEvent event = org.bukkit.craftbukkit.event.CraftEventFactory.callNotePlayEvent(level, pos, noteBlockInstrument, state.getValue(NOTE), this.lastPlayedBy); // DivineMC - Add player to NotePlayEvent
++        this.lastPlayedBy = null; // DivineMC - Add player to NotePlayEvent
+         if (event.isCancelled()) return false;
+         // Paper end - move NotePlayEvent call to fix instrument/note changes
+         float pitchFromNote;
