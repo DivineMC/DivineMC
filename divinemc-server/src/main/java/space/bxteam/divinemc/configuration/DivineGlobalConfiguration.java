@@ -33,5 +33,6 @@ public class DivineGlobalConfiguration extends ConfigurationPart {
         public boolean disableNonEditableSignWarning = true;
         public boolean removeVanillaUsernameCheck = false;
         public boolean disableMovedWronglyThreshold = false;
+        public boolean enableSecureSeed = false;
     }
 }

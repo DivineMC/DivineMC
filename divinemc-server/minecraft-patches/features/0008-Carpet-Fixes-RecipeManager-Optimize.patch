@@ -22,7 +22,7 @@ index aefaac550b58be479cc282f52dea91d4b1e530f6..2877a3229e03285e9ba5ec2bb68e17c9
          // CraftBukkit end
      }
 diff --git a/net/minecraft/world/item/crafting/RecipeMap.java b/net/minecraft/world/item/crafting/RecipeMap.java
-index 320c19a6b3a3b3bf95788cd01f89858af90e8817..a59d03c415a1888098abe5d8309437e2e679591e 100644
+index 098753ddd215b6ef5915fac71d8c4f0b19cf4142..1778e58dca9430756d59d07bf017ebe4cc1f4ed4 100644
 --- a/net/minecraft/world/item/crafting/RecipeMap.java
 +++ b/net/minecraft/world/item/crafting/RecipeMap.java
 @@ -75,4 +75,24 @@ public class RecipeMap {
