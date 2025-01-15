@@ -25,7 +25,7 @@ index de8b9048c8395c05b8688bc9d984b8ad680f15b3..832b5743c9b64be1401bda8214847304
  
      @Override
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 64f0c861c6ff4e523a882c11aef26f801fc14487..99976733c280dfaf718bf20f49a603355ed3bdaf 100644
+index dc16de7d177b50dd58eb38a078b161e31426ccb8..a9078ced817f35dd75f02d8a11f6283db95e3e34 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -1403,7 +1403,11 @@ public final class CraftServer implements Server {
@@ -34,7 +34,7 @@ index 64f0c861c6ff4e523a882c11aef26f801fc14487..99976733c280dfaf718bf20f49a60335
              LevelSettings levelSettings;
 -            WorldOptions worldOptions = new WorldOptions(creator.seed(), creator.generateStructures(), false);
 +            // DivineMC start - Implement Secure Seed
-+            WorldOptions worldoptions = space.bxteam.divinemc.configuration.DivineGlobalConfiguration.get().misc.enableSecureSeed
++            WorldOptions worldOptions = space.bxteam.divinemc.configuration.DivineGlobalConfiguration.get().misc.enableSecureSeed
 +                    ? new WorldOptions(creator.seed(), space.bxteam.divinemc.seed.Globals.createRandomWorldSeed(), creator.generateStructures(), false)
 +                    : new WorldOptions(creator.seed(), creator.generateStructures(), false);
 +            // DivineMC end - Implement Secure Seed
