@@ -11,7 +11,7 @@
 +
      @Nullable
      public BlockPattern.BlockPatternMatch findExitPortal() {
-+        if (space.bxteam.divinemc.configuration.DivineGlobalConfiguration.get().optimizations.optimizedDragonRespawn) {
++        if (space.bxteam.divinemc.configuration.DivineConfig.optimizedDragonRespawn) {
 +            int i, j;
 +            for (i = cachePortalChunkIteratorX; i <= 8; ++i) {
 +                for (j = cachePortalChunkIteratorZ; j <= 8; ++j) {

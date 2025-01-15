@@ -15,8 +15,8 @@ import java.util.function.Consumer;
 public class AsyncPathProcessor {
     private static final Executor pathProcessingExecutor = new ThreadPoolExecutor(
             1,
-            space.bxteam.divinemc.configuration.DivineGlobalConfiguration.get().asyncPathfinding.asyncPathfindingMaxThreads,
-            space.bxteam.divinemc.configuration.DivineGlobalConfiguration.get().asyncPathfinding.asyncPathfindingKeepalive, TimeUnit.SECONDS,
+            space.bxteam.divinemc.configuration.DivineConfig.asyncPathfindingMaxThreads,
+            space.bxteam.divinemc.configuration.DivineConfig.asyncPathfindingKeepalive, TimeUnit.SECONDS,
             new LinkedBlockingQueue<>(),
             new ThreadFactoryBuilder()
                     .setNameFormat("DivineMC Async Pathfinding Thread - %d")

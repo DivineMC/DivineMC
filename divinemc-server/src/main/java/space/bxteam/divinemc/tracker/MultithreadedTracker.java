@@ -31,8 +31,8 @@ public class MultithreadedTracker {
 
     private static final Executor trackerExecutor = new ThreadPoolExecutor(
             1,
-            space.bxteam.divinemc.configuration.DivineGlobalConfiguration.get().multithreadTracker.asyncEntityTrackerMaxThreads,
-            space.bxteam.divinemc.configuration.DivineGlobalConfiguration.get().multithreadTracker.asyncEntityTrackerKeepalive, TimeUnit.SECONDS,
+            space.bxteam.divinemc.configuration.DivineConfig.asyncEntityTrackerMaxThreads,
+            space.bxteam.divinemc.configuration.DivineConfig.asyncEntityTrackerKeepalive, TimeUnit.SECONDS,
             new LinkedBlockingQueue<>(),
             new ThreadFactoryBuilder()
                     .setThreadFactory(
@@ -55,7 +55,7 @@ public class MultithreadedTracker {
 
     public static void tick(ChunkSystemServerLevel level) {
         try {
-            if (!space.bxteam.divinemc.configuration.DivineGlobalConfiguration.get().multithreadTracker.multithreadedCompatModeEnabled) {
+            if (!space.bxteam.divinemc.configuration.DivineConfig.multithreadedCompatModeEnabled) {
                 tickAsync(level);
             } else {
                 tickAsyncWithCompatMode(level);

@@ -7,7 +7,7 @@
 -            Set<AttributeInstance> attributesToSync = ((LivingEntity)this.entity).getAttributes().getAttributesToSync();
 +            // DivineMC start - Suppress errors from dirty attributes
 +            Set<AttributeInstance> attributes = ((LivingEntity) this.entity).getAttributes().getAttributesToSync();
-+            final Set<AttributeInstance> attributesToSync = this.level.divineConfig().optimizations.suppressErrorsFromDirtyAttributes ? Collections.synchronizedSet(attributes) : attributes;
++            final Set<AttributeInstance> attributesToSync = this.level.divinemcConfig.suppressErrorsFromDirtyAttributes ? Collections.synchronizedSet(attributes) : attributes;
 +            // DivineMC end - Suppress errors from dirty attributes
              if (!attributesToSync.isEmpty()) {
                  // CraftBukkit start - Send scaled max health

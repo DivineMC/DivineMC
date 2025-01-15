@@ -5,7 +5,7 @@ Subject: [PATCH] Multithreaded Tracker
 
 
 diff --git a/net/minecraft/server/level/ChunkMap.java b/net/minecraft/server/level/ChunkMap.java
-index 718487155b923bfffa215b70a12d42681a8ae141..8c67ee3d5eaa7ab02f8b22c2e41af0b1d59bcdcd 100644
+index 718487155b923bfffa215b70a12d42681a8ae141..19e98a8d905541f72becd0f61a86cc5c08e09daa 100644
 --- a/net/minecraft/server/level/ChunkMap.java
 +++ b/net/minecraft/server/level/ChunkMap.java
 @@ -250,9 +250,19 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
@@ -15,7 +15,7 @@ index 718487155b923bfffa215b70a12d42681a8ae141..8c67ee3d5eaa7ab02f8b22c2e41af0b1
 -        for (int i = 0, len = inRange.size(); i < len; i++) {
 -            ++(backingSet[i].mobCounts[index]);
 +        // DivineMC start - Multithreaded tracker
-+        if (space.bxteam.divinemc.configuration.DivineGlobalConfiguration.get().multithreadTracker.multithreadedEnabled) {
++        if (space.bxteam.divinemc.configuration.DivineConfig.multithreadedEnabled) {
 +            for (int i = 0, len = inRange.size(); i < len; i++) {
 +                final ServerPlayer player = backingSet[i];
 +                if (player == null) continue;
@@ -57,7 +57,7 @@ index 718487155b923bfffa215b70a12d42681a8ae141..8c67ee3d5eaa7ab02f8b22c2e41af0b1
  
      protected void tick() {
 +        // DivineMC start - Multithreaded tracker
-+        if (space.bxteam.divinemc.configuration.DivineGlobalConfiguration.get().multithreadTracker.multithreadedEnabled) {
++        if (space.bxteam.divinemc.configuration.DivineConfig.multithreadedEnabled) {
 +            final ca.spottedleaf.moonrise.patches.chunk_system.level.ChunkSystemServerLevel level = this.level;
 +            space.bxteam.divinemc.tracker.MultithreadedTracker.tick(level);
 +            return;
@@ -72,7 +72,7 @@ index 718487155b923bfffa215b70a12d42681a8ae141..8c67ee3d5eaa7ab02f8b22c2e41af0b1
          SectionPos lastSectionPos;
 -        public final Set<ServerPlayerConnection> seenBy = new it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet<>(); // Paper - Perf: optimise map impl
 +        // DivineMC start - Multithreaded tracker
-+        public final Set<ServerPlayerConnection> seenBy = space.bxteam.divinemc.configuration.DivineGlobalConfiguration.get().multithreadTracker.multithreadedEnabled
++        public final Set<ServerPlayerConnection> seenBy = space.bxteam.divinemc.configuration.DivineConfig.multithreadedEnabled
 +                ? com.google.common.collect.Sets.newConcurrentHashSet()
 +                : new it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet<>(); // Paper - Perf: optimise map impl
 +        // DivineMC end - Multithreaded tracker
@@ -86,7 +86,7 @@ index 718487155b923bfffa215b70a12d42681a8ae141..8c67ee3d5eaa7ab02f8b22c2e41af0b1
 +            final int playersLen = players.size(); // Ensure length won't change in the future tasks
 +
 +            // DivineMC start - Multithreaded tracker
-+            if (space.bxteam.divinemc.configuration.DivineGlobalConfiguration.get().multithreadTracker.multithreadedEnabled && space.bxteam.divinemc.configuration.DivineGlobalConfiguration.get().multithreadTracker.multithreadedCompatModeEnabled) {
++            if (space.bxteam.divinemc.configuration.DivineConfig.multithreadedEnabled && space.bxteam.divinemc.configuration.DivineConfig.multithreadedCompatModeEnabled) {
 +                final boolean isServerPlayer = this.entity instanceof ServerPlayer;
 +                final boolean isRealPlayer = isServerPlayer && ((ca.spottedleaf.moonrise.patches.chunk_system.player.ChunkSystemServerPlayer) this.entity).moonrise$isRealPlayer();
 +                Runnable updatePlayerTasks = () -> {
@@ -178,12 +178,12 @@ index 718487155b923bfffa215b70a12d42681a8ae141..8c67ee3d5eaa7ab02f8b22c2e41af0b1
 -            org.spigotmc.AsyncCatcher.catchOp("player tracker update"); // Spigot
 +            //org.spigotmc.AsyncCatcher.catchOp("player tracker update"); // DivineMC - Multithreaded tracker - we don't need this
              if (player != this.entity) {
-+                if (space.bxteam.divinemc.configuration.DivineGlobalConfiguration.get().multithreadTracker.multithreadedEnabled && player == null) return; // DivineMC - Multithreaded tracker
++                if (space.bxteam.divinemc.configuration.DivineConfig.multithreadedEnabled && player == null) return; // DivineMC - Multithreaded tracker
                  // Paper start - remove allocation of Vec3D here
                  // Vec3 vec3 = player.position().subtract(this.entity.position());
                  double vec3_dx = player.getX() - this.entity.getX();
 diff --git a/net/minecraft/server/level/ServerBossEvent.java b/net/minecraft/server/level/ServerBossEvent.java
-index f106373ef3ac4a8685c2939c9e8361688a285913..4a5c4eb52b069baf87b28dffc1598cfb42e83b89 100644
+index f106373ef3ac4a8685c2939c9e8361688a285913..7b0663caa87fa91c6eba3b88dfe9fe83a1cf5cbf 100644
 --- a/net/minecraft/server/level/ServerBossEvent.java
 +++ b/net/minecraft/server/level/ServerBossEvent.java
 @@ -13,7 +13,11 @@ import net.minecraft.util.Mth;
@@ -192,7 +192,7 @@ index f106373ef3ac4a8685c2939c9e8361688a285913..4a5c4eb52b069baf87b28dffc1598cfb
  public class ServerBossEvent extends BossEvent {
 -    private final Set<ServerPlayer> players = Sets.newHashSet();
 +    // DivineMC start - Multithreaded tracker - players can be removed in async tracking
-+    private final Set<ServerPlayer> players = space.bxteam.divinemc.configuration.DivineGlobalConfiguration.get().multithreadTracker.multithreadedEnabled
++    private final Set<ServerPlayer> players = space.bxteam.divinemc.configuration.DivineConfig.multithreadedEnabled
 +            ? Sets.newConcurrentHashSet()
 +            : Sets.newHashSet();
 +    // DivineMC end - Multithreaded tracker
@@ -200,7 +200,7 @@ index f106373ef3ac4a8685c2939c9e8361688a285913..4a5c4eb52b069baf87b28dffc1598cfb
      public boolean visible = true;
  
 diff --git a/net/minecraft/server/level/ServerEntity.java b/net/minecraft/server/level/ServerEntity.java
-index 12a5c87d6e10ff8c1a19a041606a0016f7379901..7bac96ab1fde3dfbc9a72d832a7e48013736e1d7 100644
+index 6d2c892207c2299c64f59630fb7740d6407e76a7..50195569421527faf7d3a65cb6be3b559936af07 100644
 --- a/net/minecraft/server/level/ServerEntity.java
 +++ b/net/minecraft/server/level/ServerEntity.java
 @@ -110,8 +110,13 @@ public class ServerEntity {
@@ -210,7 +210,7 @@ index 12a5c87d6e10ff8c1a19a041606a0016f7379901..7bac96ab1fde3dfbc9a72d832a7e4801
 -                            serverPlayer1.connection
 -                                .teleport(serverPlayer1.getX(), serverPlayer1.getY(), serverPlayer1.getZ(), serverPlayer1.getYRot(), serverPlayer1.getXRot());
 +                            // DivineMC start - Multithreaded tracker
-+                            if (space.bxteam.divinemc.configuration.DivineGlobalConfiguration.get().multithreadTracker.multithreadedEnabled && Thread.currentThread() instanceof space.bxteam.divinemc.tracker.MultithreadedTracker.MultithreadedTrackerThread) {
++                            if (space.bxteam.divinemc.configuration.DivineConfig.multithreadedEnabled && Thread.currentThread() instanceof space.bxteam.divinemc.tracker.MultithreadedTracker.MultithreadedTrackerThread) {
 +                                net.minecraft.server.MinecraftServer.getServer().scheduleOnMain(() -> serverPlayer1.connection.teleport(serverPlayer1.getX(), serverPlayer1.getY(), serverPlayer1.getZ(), serverPlayer1.getYRot(), serverPlayer1.getXRot()));
 +                            } else {
 +                                serverPlayer1.connection.teleport(serverPlayer1.getX(), serverPlayer1.getY(), serverPlayer1.getZ(), serverPlayer1.getYRot(), serverPlayer1.getXRot());
@@ -246,7 +246,7 @@ index 12a5c87d6e10ff8c1a19a041606a0016f7379901..7bac96ab1fde3dfbc9a72d832a7e4801
  
          if (this.entity instanceof LivingEntity) {
 @@ -413,12 +426,17 @@ public class ServerEntity {
-             final Set<AttributeInstance> attributesToSync = this.level.divineConfig().optimizations.suppressErrorsFromDirtyAttributes ? Collections.synchronizedSet(attributes) : attributes;
+             final Set<AttributeInstance> attributesToSync = this.level.divinemcConfig.suppressErrorsFromDirtyAttributes ? Collections.synchronizedSet(attributes) : attributes;
              // DivineMC end - Suppress errors from dirty attributes
              if (!attributesToSync.isEmpty()) {
 -                // CraftBukkit start - Send scaled max health
@@ -270,7 +270,7 @@ index 12a5c87d6e10ff8c1a19a041606a0016f7379901..7bac96ab1fde3dfbc9a72d832a7e4801
  
              attributes.clear();
 diff --git a/net/minecraft/server/level/ServerLevel.java b/net/minecraft/server/level/ServerLevel.java
-index c186cfc4f821cb6449e0eb060cd87c267bcdc069..43391e40cc72af39415fb989fc3369d1b46d4623 100644
+index 8127a71fd7d45541525be75e6699c2a5bae95f5f..e6a55f6fa9f4b827d14ae29c82cb7e30cfa5d56a 100644
 --- a/net/minecraft/server/level/ServerLevel.java
 +++ b/net/minecraft/server/level/ServerLevel.java
 @@ -2512,7 +2512,7 @@ public class ServerLevel extends Level implements ServerEntityGetter, WorldGenLe
@@ -283,7 +283,7 @@ index c186cfc4f821cb6449e0eb060cd87c267bcdc069..43391e40cc72af39415fb989fc3369d1
      }
  
 diff --git a/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 0be1ee79461fcae88e6cb61adb16c132567d0001..19d30bdcc5ad497d5fe4fc879703d22bcd35b860 100644
+index b2f2682c44eeed9ed4f5421113cc7cc704454ba5..33730967df54467b2f046f66a1590c7069e44c5d 100644
 --- a/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -1806,7 +1806,7 @@ public class ServerGamePacketListenerImpl
@@ -296,7 +296,7 @@ index 0be1ee79461fcae88e6cb61adb16c132567d0001..19d30bdcc5ad497d5fe4fc879703d22b
          if (this.player.isRemoved()) {
              LOGGER.info("Attempt to teleport removed player {} restricted", player.getScoreboardName());
 diff --git a/net/minecraft/world/entity/ai/attributes/AttributeInstance.java b/net/minecraft/world/entity/ai/attributes/AttributeInstance.java
-index 8013594bb4844e7a8abf28123958e7f632d39341..cfd14b1388638b167c2081909320bca6a2139d19 100644
+index 8013594bb4844e7a8abf28123958e7f632d39341..55a2777ed76baef8fa6ed899e96028db0d4682f8 100644
 --- a/net/minecraft/world/entity/ai/attributes/AttributeInstance.java
 +++ b/net/minecraft/world/entity/ai/attributes/AttributeInstance.java
 @@ -24,8 +24,11 @@ public class AttributeInstance {
@@ -306,7 +306,7 @@ index 8013594bb4844e7a8abf28123958e7f632d39341..cfd14b1388638b167c2081909320bca6
 -    private final Map<ResourceLocation, AttributeModifier> modifierById = new Object2ObjectArrayMap<>();
 -    private final Map<ResourceLocation, AttributeModifier> permanentModifiers = new Object2ObjectArrayMap<>();
 +    // DivineMC start - Multithreaded tracker
-+    private final boolean multiThreadedTrackingEnabled = space.bxteam.divinemc.configuration.DivineGlobalConfiguration.get().multithreadTracker.multithreadedEnabled;
++    private final boolean multiThreadedTrackingEnabled = space.bxteam.divinemc.configuration.DivineConfig.multithreadedEnabled;
 +    private final Map<ResourceLocation, AttributeModifier> modifierById = multiThreadedTrackingEnabled ? new java.util.concurrent.ConcurrentHashMap<>() : new Object2ObjectArrayMap<>();
 +    private final Map<ResourceLocation, AttributeModifier> permanentModifiers = multiThreadedTrackingEnabled ? new java.util.concurrent.ConcurrentHashMap<>() : new Object2ObjectArrayMap<>();
 +    // DivineMC end - Multithreaded tracker
@@ -314,7 +314,7 @@ index 8013594bb4844e7a8abf28123958e7f632d39341..cfd14b1388638b167c2081909320bca6
      private boolean dirty = true;
      private double cachedValue;
 diff --git a/net/minecraft/world/entity/ai/attributes/AttributeMap.java b/net/minecraft/world/entity/ai/attributes/AttributeMap.java
-index a25d74592e89e3d6339479c6dc2b6f45d1932cfc..57fee93f53464fb249aedf9f7319fcab14dadffe 100644
+index a25d74592e89e3d6339479c6dc2b6f45d1932cfc..328474691eb42505cd535494c04fab0bdeb0a953 100644
 --- a/net/minecraft/world/entity/ai/attributes/AttributeMap.java
 +++ b/net/minecraft/world/entity/ai/attributes/AttributeMap.java
 @@ -19,9 +19,12 @@ import org.slf4j.Logger;
@@ -325,7 +325,7 @@ index a25d74592e89e3d6339479c6dc2b6f45d1932cfc..57fee93f53464fb249aedf9f7319fcab
 -    private final Set<AttributeInstance> attributesToSync = new ObjectOpenHashSet<>();
 -    private final Set<AttributeInstance> attributesToUpdate = new ObjectOpenHashSet<>();
 +    // DivineMC start - Multithreaded tracker
-+    private final boolean multiThreadedTrackingEnabled = space.bxteam.divinemc.configuration.DivineGlobalConfiguration.get().multithreadTracker.multithreadedEnabled;
++    private final boolean multiThreadedTrackingEnabled = space.bxteam.divinemc.configuration.DivineConfig.multithreadedEnabled;
 +    private final Map<Holder<Attribute>, AttributeInstance> attributes = multiThreadedTrackingEnabled ? new java.util.concurrent.ConcurrentHashMap<>() : new it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap<>(0);
 +    private final Set<AttributeInstance> attributesToSync = multiThreadedTrackingEnabled ? com.google.common.collect.Sets.newConcurrentHashSet() : new it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet<>(0);
 +    private final Set<AttributeInstance> attributesToUpdate = multiThreadedTrackingEnabled ? com.google.common.collect.Sets.newConcurrentHashSet() : new it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet<>(0);

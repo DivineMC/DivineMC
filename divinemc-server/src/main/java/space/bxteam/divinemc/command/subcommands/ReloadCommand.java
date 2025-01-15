@@ -1,12 +1,16 @@
 package space.bxteam.divinemc.command.subcommands;
 
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.permissions.PermissionDefault;
 import space.bxteam.divinemc.command.DivineCommand;
 import space.bxteam.divinemc.command.DivineSubCommandPermission;
+import space.bxteam.divinemc.configuration.DivineConfig;
+
+import java.io.File;
 
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.format.NamedTextColor.GREEN;
@@ -31,8 +35,12 @@ public final class ReloadCommand extends DivineSubCommandPermission {
         Command.broadcastCommandMessage(sender, text("If you encounter any issues please use the /stop command to restart your server.", RED));
 
         MinecraftServer server = ((CraftServer) sender.getServer()).getServer();
-        server.divineConfigurations.reloadConfigs(server);
-        server.server.reloadCount++;
+        DivineConfig.init((File) server.options.valueOf("divinemc-settings"));
+            for (ServerLevel level : server.getAllLevels()) {
+                level.divinemcConfig.init();
+                level.resetBreedingCooldowns();
+            }
+            server.server.reloadCount++;
 
         Command.broadcastCommandMessage(sender, text("DivineMC config reload complete.", GREEN));
     }

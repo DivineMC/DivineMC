@@ -5,7 +5,7 @@
          HitResult hitResult = null;
          if (!this.level().isClientSide) {
 +            // DivineMC start - despawn shulker bullets on owner death
-+            if (this.level().divineConfig().gameplayMechanics.mob.shulker.despawnShulkerBulletsOnOwnerDeath) {
++            if (this.level().divinemcConfig.despawnShulkerBulletsOnOwnerDeath) {
 +                if (!isInvulnerable()) {
 +                    var owner = getOwner();
 +                    if (owner == null || !owner.isAlive()) {
