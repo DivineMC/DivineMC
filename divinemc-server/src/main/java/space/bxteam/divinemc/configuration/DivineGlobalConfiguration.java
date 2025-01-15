@@ -48,6 +48,30 @@ public class DivineGlobalConfiguration extends ConfigurationPart {
         }
     }
 
+    public MultithreadTracker multithreadTracker;
+
+    public class MultithreadTracker extends ConfigurationPart {
+        public boolean multithreadedEnabled = false;
+        public boolean multithreadedCompatModeEnabled = false;
+        public int asyncEntityTrackerMaxThreads = 0;
+        public int asyncEntityTrackerKeepalive = 60;
+
+        @PostProcess
+        public void init() {
+            if (asyncEntityTrackerMaxThreads < 0) {
+                asyncEntityTrackerMaxThreads = Math.max(Runtime.getRuntime().availableProcessors() + asyncEntityTrackerMaxThreads, 1);
+            } else if (asyncEntityTrackerMaxThreads == 0) {
+                asyncEntityTrackerMaxThreads = Math.max(Runtime.getRuntime().availableProcessors() / 4, 1);
+            }
+
+            if (!multithreadedEnabled) {
+                asyncEntityTrackerMaxThreads = 0;
+            } else {
+                Bukkit.getLogger().log(Level.INFO, "Using " + asyncEntityTrackerMaxThreads + " threads for Async Entity Tracker");
+            }
+        }
+    }
+
     public Chat chat;
 
     public class Chat extends ConfigurationPart {
