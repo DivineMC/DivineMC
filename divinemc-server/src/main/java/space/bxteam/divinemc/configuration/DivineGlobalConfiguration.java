@@ -2,7 +2,11 @@ package space.bxteam.divinemc.configuration;
 
 import io.papermc.paper.configuration.Configuration;
 import io.papermc.paper.configuration.ConfigurationPart;
+import org.bukkit.Bukkit;
+import org.spongepowered.configurate.objectmapping.meta.PostProcess;
 import org.spongepowered.configurate.objectmapping.meta.Setting;
+
+import java.util.logging.Level;
 
 @SuppressWarnings({"CanBeFinal", "FieldCanBeLocal", "FieldMayBeFinal", "NotNullFieldNotInitialized", "InnerClassMayBeStatic"})
 public class DivineGlobalConfiguration extends ConfigurationPart {
@@ -20,6 +24,29 @@ public class DivineGlobalConfiguration extends ConfigurationPart {
 
     @Setting(Configuration.VERSION_FIELD)
     public int version = CURRENT_VERSION;
+
+    public AsyncPathfinding asyncPathfinding;
+
+    public class AsyncPathfinding extends ConfigurationPart {
+        public boolean asyncPathfinding = true;
+        public int asyncPathfindingMaxThreads = 0;
+        public int asyncPathfindingKeepalive = 60;
+
+        @PostProcess
+        public void init() {
+            if (asyncPathfindingMaxThreads < 0) {
+                asyncPathfindingMaxThreads = Math.max(Runtime.getRuntime().availableProcessors() + asyncPathfindingMaxThreads, 1);
+            } else if (asyncPathfindingMaxThreads == 0) {
+                asyncPathfindingMaxThreads = Math.max(Runtime.getRuntime().availableProcessors() / 4, 1);
+            }
+
+            if (!asyncPathfinding) {
+                asyncPathfindingMaxThreads = 0;
+            } else {
+                Bukkit.getLogger().log(Level.INFO, "Using " + asyncPathfindingMaxThreads + " threads for Async Pathfinding");
+            }
+        }
+    }
 
     public Chat chat;
 
