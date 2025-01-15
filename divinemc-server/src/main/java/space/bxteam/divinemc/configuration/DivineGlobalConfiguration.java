@@ -72,6 +72,12 @@ public class DivineGlobalConfiguration extends ConfigurationPart {
         }
     }
 
+    public Optimizations optimizations;
+
+    public class Optimizations extends ConfigurationPart {
+        public boolean optimizedDragonRespawn = true;
+    }
+
     public Chat chat;
 
     public class Chat extends ConfigurationPart {
