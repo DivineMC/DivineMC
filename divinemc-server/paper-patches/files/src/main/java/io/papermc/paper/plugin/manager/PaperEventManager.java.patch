@@ -7,7 +7,7 @@
  import com.destroystokyo.paper.event.server.ServerExceptionEvent;
  import com.destroystokyo.paper.exception.ServerEventException;
  import com.google.common.collect.Sets;
-@@ -36,15 +_,22 @@
+@@ -36,15 +_,16 @@
  
      // SimplePluginManager
      public void callEvent(@NotNull Event event) {
@@ -18,12 +18,6 @@
          if (event.isAsynchronous() && this.server.isPrimaryThread()) {
              throw new IllegalStateException(event.getEventName() + " may only be triggered asynchronously.");
          } else if (!event.isAsynchronous() && !this.server.isPrimaryThread() && !this.server.isStopping()) {
-+            // DivineMC start - Multithreaded tracker
-+            if (space.bxteam.divinemc.configuration.DivineGlobalConfiguration.get().multithreadTracker.multithreadedEnabled) {
-+                net.minecraft.server.MinecraftServer.getServer().scheduleOnMain(event::callEvent);
-+                return;
-+            }
-+            // DivineMC end - Multithreaded tracker
              throw new IllegalStateException(event.getEventName() + " may only be triggered synchronously.");
          }
  
