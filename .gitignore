@@ -11,6 +11,5 @@ run
 /purpur-server
 /divinemc-api/build.gradle.kts
 /paper-api
-/paper-api-generator
 /purpur-api
 *.jar

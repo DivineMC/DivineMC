@@ -31,9 +31,9 @@
 +
 +    activeFork = divinemc
  
-     paper {
-         paperServerDir = upstreamsDirectory().map { it.dir("paper/paper-server") }
-@@ -119,10 +_,14 @@
+     spigot {
+         buildDataRef = "3edaf46ec1eed4115ce1b18d2846cded42577e42"
+@@ -115,10 +_,14 @@
      main {
          java { srcDir("../paper-server/src/main/java") }
          resources { srcDir("../paper-server/src/main/resources") }
@@ -48,7 +48,7 @@
      }
  }
  
-@@ -146,7 +_,7 @@
+@@ -142,7 +_,7 @@
  }
  
  dependencies {
@@ -57,7 +57,7 @@
      implementation("ca.spottedleaf:concurrentutil:0.0.3")
      implementation("org.jline:jline-terminal-ffm:3.27.1") // use ffm on java 22+
      implementation("org.jline:jline-terminal-jni:3.27.1") // fall back to jni on java 21
-@@ -207,26 +_,35 @@
+@@ -203,26 +_,35 @@
      implementation("me.lucko:spark-paper:1.10.119-SNAPSHOT")
  }
  

@@ -39,3 +39,6 @@ ij_java_use_fq_class_names = true
 
 [divinemc-server/src/minecraft/resources/data/**/*.json]
 indent_size = 2
+
+[paper-api/src/generated/**/*.java]
+ij_java_imports_layout = $*,|,*

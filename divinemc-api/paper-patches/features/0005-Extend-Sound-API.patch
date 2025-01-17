@@ -5,10 +5,10 @@ Subject: [PATCH] Extend Sound API
 
 
 diff --git a/src/main/java/org/bukkit/block/Block.java b/src/main/java/org/bukkit/block/Block.java
-index b7530e7f389fdc6d815bdff0949fca4b14298c07..6e83e5cd66d38b14a79b54d4944eaec4fe30ef7e 100644
+index b703ad820ff873097dadff9e55b53fcc6b1b8698..b35c3852a3b8e62c7d2f67fc3ff651c8e0a4d5f2 100644
 --- a/src/main/java/org/bukkit/block/Block.java
 +++ b/src/main/java/org/bukkit/block/Block.java
-@@ -820,4 +820,29 @@ public interface Block extends Metadatable, Translatable, net.kyori.adventure.tr
+@@ -817,4 +817,29 @@ public interface Block extends Metadatable, Translatable, net.kyori.adventure.tr
          return this.getBlockData().getDestroySpeed(itemStack, considerEnchants);
      }
      // Paper end - destroy speed API
