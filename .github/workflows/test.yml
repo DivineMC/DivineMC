@@ -1,9 +1,9 @@
-name: DivineMC CI
+name: DivineMC Test CI
 
 on:
   push:
-    branches:
-      - "master"
+    branches-ignore: [ master ]
+  pull_request:
   workflow_dispatch:
 
 jobs:
@@ -13,7 +13,7 @@ jobs:
     steps:
       - name: Setup Action
         uses: actions/checkout@v4
-        
+
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
 
@@ -36,22 +36,8 @@ jobs:
       - name: Build Paperclip Jar
         run: ./gradlew createMojmapPaperclipJar --stacktrace
 
-      - name: Publish API
-        continue-on-error: true
-        run: ./gradlew publish -PdivinemcUsername=${{ secrets.REPO_USERNAME }} -PdivinemcPassword=${{ secrets.REPO_SECRET }}
-
-      - name: Get Release Info
-        run: bash scripts/releaseInfo.sh
-        env:
-          BUILD_NUMBER: ${{ env.BUILD_NUMBER }}
-
-      - name: Create Release
-        uses: ncipollo/release-action@latest
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@main
         with:
-          artifacts: ${{ env.jar }}
-          bodyFile: ${{ env.info }}
-          tag: ${{ env.tag }}
-          name: ${{ env.name }}
-          prerelease: ${{ env.experimental }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-          makeLatest: ${{ env.make_latest }}
+          name: DivineMC
+          path: divinemc-server/build/libs/divinemc-paperclip-*-mojmap.jar
