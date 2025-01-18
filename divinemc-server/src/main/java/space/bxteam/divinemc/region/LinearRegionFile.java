@@ -1,5 +1,6 @@
 package space.bxteam.divinemc.region;
 
+import ca.spottedleaf.moonrise.patches.chunk_system.io.MoonriseRegionFileIO;
 import com.github.luben.zstd.ZstdInputStream;
 import com.github.luben.zstd.ZstdOutputStream;
 import com.mojang.logging.LogUtils;
@@ -31,7 +32,7 @@ import net.minecraft.world.level.ChunkPos;
 import org.slf4j.Logger;
 import space.bxteam.divinemc.configuration.DivineConfig;
 
-public class LinearRegionFile implements AbstractRegionFile, AutoCloseable {
+public class LinearRegionFile implements AbstractRegionFile {
     private static final long SUPERBLOCK = -4323716122432332390L;
     private static final byte VERSION = 2;
     private static final int HEADER_SIZE = 32;
@@ -221,6 +222,16 @@ public class LinearRegionFile implements AbstractRegionFile, AutoCloseable {
 
     public DataOutputStream getChunkDataOutputStream(ChunkPos pos) {
         return new DataOutputStream(new BufferedOutputStream(new ChunkBuffer(pos)));
+    }
+
+    @Override
+    public MoonriseRegionFileIO.RegionDataController.WriteData moonrise$startWrite(CompoundTag data, ChunkPos pos) throws IOException {
+        final DataOutputStream out = this.getChunkDataOutputStream(pos);
+
+        return new ca.spottedleaf.moonrise.patches.chunk_system.io.MoonriseRegionFileIO.RegionDataController.WriteData(
+            data, ca.spottedleaf.moonrise.patches.chunk_system.io.MoonriseRegionFileIO.RegionDataController.WriteData.WriteResult.WRITE,
+            out, regionFile -> out.close()
+        );
     }
 
     private byte[] toByteArray(InputStream in) throws IOException {
