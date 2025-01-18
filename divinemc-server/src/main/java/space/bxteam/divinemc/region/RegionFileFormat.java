@@ -1,16 +1,55 @@
 package space.bxteam.divinemc.region;
 
-public enum RegionFileFormat {
-    ANVIL,
-    LINEAR,
-    INVALID;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import java.util.Locale;
 
-    public static RegionFileFormat fromString(String format) {
-        for (RegionFileFormat rff : values()) {
-            if (rff.name().equalsIgnoreCase(format)) {
-                return rff;
+public enum RegionFileFormat {
+    LINEAR(".linear"),
+    MCA(".mca"),
+    UNKNOWN(null);
+
+    private final String extensionName;
+
+    RegionFileFormat(String extensionName) {
+        this.extensionName = extensionName;
+    }
+
+    public String getExtensionName() {
+        return this.extensionName;
+    }
+
+    @Contract(pure = true)
+    public static RegionFileFormat fromName(@NotNull String name) {
+        switch (name.toUpperCase(Locale.ROOT)) {
+            default -> {
+                return UNKNOWN;
+            }
+
+            case "MCA" -> {
+                return MCA;
+            }
+
+            case "LINEAR" -> {
+                return LINEAR;
             }
         }
-        return RegionFileFormat.INVALID;
+    }
+
+    @Contract(pure = true)
+    public static RegionFileFormat fromExtension(@NotNull String name) {
+        switch (name.toLowerCase()) {
+            case "mca" -> {
+                return MCA;
+            }
+
+            case "linear" -> {
+                return LINEAR;
+            }
+
+            default -> {
+                return UNKNOWN;
+            }
+        }
     }
 }

@@ -94,19 +94,26 @@ public class DivineWorldConfig {
         suppressErrorsFromDirtyAttributes = getBoolean("suppress-errors-from-dirty-attributes", suppressErrorsFromDirtyAttributes);
     }
 
-    public RegionFileFormat regionFormat = RegionFileFormat.ANVIL;
+    public boolean snowballCanKnockback = true;
+    public boolean eggCanKnockback = true;
+    private void setSnowballAndEggKnockback() {
+        snowballCanKnockback = getBoolean("gameplay-mechanics.projectiles.snowball.knockback", snowballCanKnockback);
+        eggCanKnockback = getBoolean("gameplay-mechanics.projectiles.egg.knockback", eggCanKnockback);
+    }
+
+    public RegionFileFormat regionFormatName = RegionFileFormat.MCA;
     public int linearCompressionLevel = 1;
     private void regionFormatSettings() {
-        regionFormat = RegionFileFormat.fromString(getString("region-format.format", regionFormat.name()));
-        if (regionFormat.equals(RegionFileFormat.INVALID)) {
-            log(Level.SEVERE, "Unknown region format in linear.yml: " + regionFormat);
+        regionFormatName = RegionFileFormat.fromExtension(getString("region-format.format", regionFormatName.name()));
+        if (regionFormatName.equals(RegionFileFormat.UNKNOWN)) {
+            log(Level.SEVERE, "Unknown region file type!");
             log(Level.SEVERE, "Falling back to ANVIL region file format.");
-            regionFormat = RegionFileFormat.ANVIL;
+            regionFormatName = RegionFileFormat.MCA;
         }
 
         linearCompressionLevel = getInt("region-format.linear.compression-level", linearCompressionLevel);
         if (linearCompressionLevel > 23 || linearCompressionLevel < 1) {
-            log(Level.SEVERE, "Linear region compression level should be between 1 and 22 in linear.yml: " + linearCompressionLevel);
+            log(Level.SEVERE, "Linear region compression level should be between 1 and 22 in config: " + linearCompressionLevel);
             log(Level.SEVERE, "Falling back to compression level 1.");
             linearCompressionLevel = 1;
         }

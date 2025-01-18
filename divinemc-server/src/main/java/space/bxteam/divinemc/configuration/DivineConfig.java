@@ -164,15 +164,10 @@ public class DivineConfig {
     }
 
     public static int linearFlushFrequency = 5;
-    public static int linearFlushThreads = 1;
+    public static boolean throwOnUnknownExtension = false;
     private static void linearSettings() {
         linearFlushFrequency = getInt("settings.region-format.linear.flush-frequency", linearFlushFrequency);
-        linearFlushThreads = getInt("settings.region-format.linear.flush-max-threads", linearFlushThreads);
-
-        if (linearFlushThreads < 0)
-            linearFlushThreads = Math.max(Runtime.getRuntime().availableProcessors() + linearFlushThreads, 1);
-        else
-            linearFlushThreads = Math.max(linearFlushThreads, 1);
+        throwOnUnknownExtension = getBoolean("settings.region-format.linear.throw-on-unknown-extension", throwOnUnknownExtension);
     }
 
     public static boolean asyncPathfinding = true;

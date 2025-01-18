@@ -8,7 +8,7 @@ import java.nio.file.Path;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.ChunkPos;
 
-public interface AbstractRegionFile {
+public interface AbstractRegionFile extends AutoCloseable {
     Path getPath();
     void flush() throws IOException;
     void clear(ChunkPos pos) throws IOException;
