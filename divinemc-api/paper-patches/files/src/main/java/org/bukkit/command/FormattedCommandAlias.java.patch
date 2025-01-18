@@ -1,0 +1,21 @@
+--- a/src/main/java/org/bukkit/command/FormattedCommandAlias.java
++++ b/src/main/java/org/bukkit/command/FormattedCommandAlias.java
+@@ -12,7 +_,6 @@
+ 
+     public FormattedCommandAlias(@NotNull String alias, @NotNull String[] formatStrings) {
+         super(alias);
+-        timings = co.aikar.timings.TimingsManager.getCommandTiming("minecraft", this); // Spigot
+         this.formatStrings = formatStrings;
+     }
+ 
+@@ -119,10 +_,6 @@
+ 
+         return formatString.trim(); // Paper - Causes an extra space at the end, breaks with brig commands
+     }
+-
+-    @NotNull
+-    @Override // Paper
+-    public String getTimingName() {return "Command Forwarder - " + super.getTimingName();} // Paper
+ 
+     private static boolean inRange(int i, int j, int k) {
+         return i >= j && i <= k;

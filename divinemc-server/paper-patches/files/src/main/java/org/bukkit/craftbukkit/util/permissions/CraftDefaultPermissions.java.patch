@@ -1,0 +1,10 @@
+--- a/src/main/java/org/bukkit/craftbukkit/util/permissions/CraftDefaultPermissions.java
++++ b/src/main/java/org/bukkit/craftbukkit/util/permissions/CraftDefaultPermissions.java
+@@ -5,6 +_,7 @@
+ 
+ public final class CraftDefaultPermissions {
+     private static final String ROOT = "minecraft";
++    public static final String DIVINEMC_ROOT = "divinemc"; // DivineMC - permission root for commands
+ 
+     private CraftDefaultPermissions() {}
+ 

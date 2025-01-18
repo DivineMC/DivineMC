@@ -1,0 +1,23 @@
+--- a/net/minecraft/world/entity/animal/Animal.java
++++ b/net/minecraft/world/entity/animal/Animal.java
+@@ -41,6 +_,7 @@
+     public UUID loveCause;
+     public ItemStack breedItem; // CraftBukkit - Add breedItem variable
+     public abstract int getPurpurBreedTime(); // Purpur - Make entity breeding times configurable
++    private Object level; // DivineMC - Add level variable
+ 
+     protected Animal(EntityType<? extends Animal> entityType, Level level) {
+         super(entityType, level);
+@@ -74,7 +_,11 @@
+                 double d = this.random.nextGaussian() * 0.02;
+                 double d1 = this.random.nextGaussian() * 0.02;
+                 double d2 = this.random.nextGaussian() * 0.02;
+-                this.level().addParticle(ParticleTypes.HEART, this.getRandomX(1.0), this.getRandomY() + 0.5, this.getRandomZ(1.0), d, d1, d2);
++                // DivineMC start - Fix MC-93826
++                if (this.level instanceof ServerLevel serverLevel) {
++                    serverLevel.sendParticles(ParticleTypes.HEART, this.getRandomX(1.0D), this.getRandomY() + 0.5D, this.getRandomZ(1.0D), 1, d, d1, d2, 0);
++                }
++                // DivineMC end - Fix MC-93826
+             }
+         }
+     }

@@ -1,0 +1,16 @@
+--- a/net/minecraft/world/entity/projectile/FireworkRocketEntity.java
++++ b/net/minecraft/world/entity/projectile/FireworkRocketEntity.java
+@@ -354,6 +_,13 @@
+         return false;
+     }
+ 
++    // DivineMC start - Don't save Fireworks
++    @Override
++    public boolean shouldBeSaved() {
++        return this.level().divinemcConfig.saveFireworks;
++    }
++    // DivineMC end - Don't save Fireworks
++
+     public static ItemStack getDefaultItem() {
+         return new ItemStack(Items.FIREWORK_ROCKET);
+     }

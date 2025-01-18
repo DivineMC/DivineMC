@@ -1,0 +1,16 @@
+--- a/net/minecraft/world/entity/vehicle/MinecartHopper.java
++++ b/net/minecraft/world/entity/vehicle/MinecartHopper.java
+@@ -99,6 +_,13 @@
+         }
+     }
+ 
++    // DivineMC start - tick minecart hopper without players
++    @Override
++    public void inactiveTick() {
++        this.tick();
++    }
++    // DivineMC end - tick minecart hopper without players
++
+     public boolean suckInItems() {
+         if (HopperBlockEntity.suckInItems(this.level(), this)) {
+             this.immunize(); // Paper

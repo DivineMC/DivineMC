@@ -1,0 +1,20 @@
+--- a/net/minecraft/world/level/block/EnderChestBlock.java
++++ b/net/minecraft/world/level/block/EnderChestBlock.java
+@@ -43,7 +_,7 @@
+     public static final EnumProperty<Direction> FACING = HorizontalDirectionalBlock.FACING;
+     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+     protected static final VoxelShape SHAPE = Block.box(1.0, 0.0, 1.0, 15.0, 14.0, 15.0);
+-    private static final Component CONTAINER_TITLE = Component.translatable("container.enderchest");
++    public static final Component CONTAINER_TITLE = Component.translatable("container.enderchest"); // DivineMC - private -> public - Open Ender Chest API
+ 
+     @Override
+     public MapCodec<EnderChestBlock> codec() {
+@@ -101,7 +_,7 @@
+     }
+ 
+     // Purpur start - Barrels and enderchests 6 rows
+-    private ChestMenu getEnderChestSixRows(int syncId, net.minecraft.world.entity.player.Inventory inventory, Player player, PlayerEnderChestContainer playerEnderChestContainer) {
++    public static ChestMenu getEnderChestSixRows(int syncId, net.minecraft.world.entity.player.Inventory inventory, Player player, PlayerEnderChestContainer playerEnderChestContainer) { // DivineMC - private -> public static - Open Ender Chest API
+         if (org.purpurmc.purpur.PurpurConfig.enderChestPermissionRows) {
+             org.bukkit.craftbukkit.entity.CraftHumanEntity bukkitPlayer = player.getBukkitEntity();
+             if (bukkitPlayer.hasPermission("purpur.enderchest.rows.six")) {

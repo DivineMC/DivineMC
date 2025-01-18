@@ -1,0 +1,44 @@
+--- a/net/minecraft/server/network/ServerGamePacketListenerImpl.java
++++ b/net/minecraft/server/network/ServerGamePacketListenerImpl.java
+@@ -572,7 +_,7 @@
+                     return;
+                 }
+                 // Paper end - Prevent moving into unloaded chunks
+-                if (d7 - d6 > Math.max(100.0, Math.pow((double) (org.spigotmc.SpigotConfig.movedTooQuicklyMultiplier * (float) i * speed), 2)) && !this.isSingleplayerOwner()) {
++                if (!space.bxteam.divinemc.configuration.DivineConfig.disableMovedWronglyThreshold && d7 - d6 > Math.max(100.0, Math.pow((double) (org.spigotmc.SpigotConfig.movedTooQuicklyMultiplier * (float) i * speed), 2)) && !this.isSingleplayerOwner()) { // DivineMC - Option to disable moved wrongly threshold
+                     // CraftBukkit end
+                     LOGGER.warn(
+                         "{} (vehicle of {}) moved too quickly! {},{},{}", rootVehicle.getName().getString(), this.player.getName().getString(), d3, d4, d5
+@@ -602,7 +_,7 @@
+                 d5 = d2 - rootVehicle.getZ();
+                 d7 = d3 * d3 + d4 * d4 + d5 * d5;
+                 boolean flag2 = false;
+-                if (d7 > org.spigotmc.SpigotConfig.movedWronglyThreshold) { // Spigot
++                if (!space.bxteam.divinemc.configuration.DivineConfig.disableMovedWronglyThreshold && d7 > org.spigotmc.SpigotConfig.movedWronglyThreshold) { // Spigot // DivineMC - Option to disable moved wrongly threshold
+                     flag2 = true; // Paper - diff on change, this should be moved wrongly
+                     LOGGER.warn("{} (vehicle of {}) moved wrongly! {}", rootVehicle.getName().getString(), this.player.getName().getString(), Math.sqrt(d7));
+                 }
+@@ -2397,6 +_,7 @@
+     }
+ 
+     private void tryHandleChat(String message, Runnable handler, boolean sync) { // CraftBukkit
++        if (ServerGamePacketListenerImpl.isLog4ShellExploit(message)) return; // DivineMC - Block Log4Shell exploit
+         if (isChatMessageIllegal(message)) {
+             this.disconnectAsync(Component.translatable("multiplayer.disconnect.illegal_characters"), org.bukkit.event.player.PlayerKickEvent.Cause.ILLEGAL_CHARACTERS); // Paper - add proper async disconnect
+         } else if (this.player.isRemoved() || this.player.getChatVisibility() == ChatVisiblity.HIDDEN) { // CraftBukkit - dead men tell no tales
+@@ -2424,6 +_,15 @@
+             return optional;
+         }
+     }
++
++    // DivineMC start - Block Log4Shell exploit
++    public static boolean isLog4ShellExploit(String message) {
++        java.util.regex.Pattern pattern = java.util.regex.Pattern.compile(".*\\$\\{[^}]*}.*");
++        java.util.regex.Matcher matcher = pattern.matcher(message);
++
++        return matcher.find();
++    }
++    // DivineMC end - Block Log4Shell exploit
+ 
+     public static boolean isChatMessageIllegal(String message) {
+         for (int i = 0; i < message.length(); i++) {

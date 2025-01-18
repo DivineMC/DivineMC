@@ -1,0 +1,48 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Sun, 12 Jan 2025 16:19:14 +0300
+Subject: [PATCH] DivineMC Configuration
+
+
+diff --git a/net/minecraft/server/dedicated/DedicatedServer.java b/net/minecraft/server/dedicated/DedicatedServer.java
+index 2d7493122db9067ecbc9ca66cc62e7df4ae78a90..c85023893fbb227894f8f888244f1f53e25dff3f 100644
+--- a/net/minecraft/server/dedicated/DedicatedServer.java
++++ b/net/minecraft/server/dedicated/DedicatedServer.java
+@@ -243,6 +243,17 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+         }
+         org.purpurmc.purpur.PurpurConfig.registerCommands();
+         // Purpur end - Purpur config files
++
++        // DivineMC start - DivineMC configuration
++        try {
++            space.bxteam.divinemc.configuration.DivineConfig.init((java.io.File) options.valueOf("divinemc-settings"));
++        } catch (Exception e) {
++            DedicatedServer.LOGGER.error("Unable to load server configuration", e);
++            return false;
++        }
++        space.bxteam.divinemc.command.DivineCommands.registerCommands(this); // DivineMC - register commands
++        // DivineMC end - DivineMC configuration
++
+         com.destroystokyo.paper.VersionHistoryManager.INSTANCE.getClass(); // Paper - load version history now
+ 
+         this.setPvpAllowed(properties.pvp);
+diff --git a/net/minecraft/world/level/Level.java b/net/minecraft/world/level/Level.java
+index 1b2d152649bc12b37db1cd7a4f54517f417d46e8..71c4c79d94473a95479bc73cfb7415e1813970de 100644
+--- a/net/minecraft/world/level/Level.java
++++ b/net/minecraft/world/level/Level.java
+@@ -171,6 +171,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
+ 
+     public final io.papermc.paper.antixray.ChunkPacketBlockController chunkPacketBlockController; // Paper - Anti-Xray
+     public final org.purpurmc.purpur.PurpurWorldConfig purpurConfig; // Purpur - Purpur config files
++    public final space.bxteam.divinemc.configuration.DivineWorldConfig divinemcConfig; // DivineMC - DivineMC config files
+     public static BlockPos lastPhysicsProblem; // Spigot
+     private int tileTickPosition;
+     public final Map<ServerExplosion.CacheKey, Float> explosionDensityCache = new HashMap<>(); // Paper - Optimize explosions
+@@ -896,6 +897,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
+         this.spigotConfig = new org.spigotmc.SpigotWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) levelData).getLevelName()); // Spigot
+         this.paperConfig = paperWorldConfigCreator.apply(this.spigotConfig); // Paper - create paper world config
+         this.purpurConfig = new org.purpurmc.purpur.PurpurWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) levelData).getLevelName(), env); // Purpur - Purpur config files
++        this.divinemcConfig = new space.bxteam.divinemc.configuration.DivineWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) levelData).getLevelName(), env); // DivineMC - DivineMC configuration
+         this.playerBreedingCooldowns = this.getNewBreedingCooldownCache(); // Purpur - Add adjustable breeding cooldown to config
+         this.generator = gen;
+         this.world = new CraftWorld((ServerLevel) this, gen, biomeProvider, env);

@@ -1,0 +1,377 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Sat, 11 Jan 2025 23:18:11 +0300
+Subject: [PATCH] Optimize default values for configs
+
+
+diff --git a/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java b/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
+index d4a0b684e7e5a5d7ea1106d0adeccf12d501676c..5ff509211843028ed692b37e286db425607bfed3 100644
+--- a/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
++++ b/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
+@@ -340,9 +340,9 @@ public class GlobalConfiguration extends ConfigurationPart {
+         public boolean fixEntityPositionDesync = true;
+         public boolean loadPermissionsYmlBeforePlugins = true;
+         @Constraints.Min(4)
+-        public int regionFileCacheSize = 256;
++        public int regionFileCacheSize = 512; // DivineMC - Optimize default values for configs
+         @Comment("See https://luckformula.emc.gs")
+-        public boolean useAlternativeLuckFormula = false;
++        public boolean useAlternativeLuckFormula = true; // DivineMC - Optimize default values for configs
+         public boolean useDimensionTypeForCustomSpawners = false;
+         public boolean strictAdvancementDimensionCheck = false;
+         public IntOr.Default compressionLevel = IntOr.Default.USE_DEFAULT;
+diff --git a/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java b/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
+index a426ba82af695426952bb5e04fa721e6ccff2f89..6ae624f873c77625c7ff9a1b94ff015cc6d321f0 100644
+--- a/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
++++ b/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
+@@ -145,9 +145,9 @@ public class WorldConfiguration extends ConfigurationPart {
+ 
+         public ArmorStands armorStands;
+ 
+-        public class ArmorStands extends ConfigurationPart {
+-            public boolean doCollisionEntityLookups = true;
+-            public boolean tick = true;
++        public class ArmorStands extends ConfigurationPart { // DivineMC - optimize default values for configs
++            public boolean doCollisionEntityLookups = false;
++            public boolean tick = false;
+         }
+ 
+         public Markers markers;
+@@ -270,8 +270,8 @@ public class WorldConfiguration extends ConfigurationPart {
+         public Behavior behavior;
+ 
+         public class Behavior extends ConfigurationPart {
+-            public boolean disableChestCatDetection = false;
+-            public boolean spawnerNerfedMobsShouldJump = false;
++            public boolean disableChestCatDetection = true; // DivineMC - Optimize default values for configs
++            public boolean spawnerNerfedMobsShouldJump = true; // DivineMC - Optimize default values for configs
+             public int experienceMergeMaxValue = -1;
+             public boolean shouldRemoveDragon = false;
+             public boolean zombiesTargetTurtleEggs = true;
+@@ -295,7 +295,7 @@ public class WorldConfiguration extends ConfigurationPart {
+             public int playerInsomniaStartTicks = 72000;
+             public int phantomsSpawnAttemptMinSeconds = 60;
+             public int phantomsSpawnAttemptMaxSeconds = 119;
+-            public boolean parrotsAreUnaffectedByPlayerMovement = false;
++            public boolean parrotsAreUnaffectedByPlayerMovement = true; // DivineMC - Optimize default values for configs
+             @BelowZeroToEmpty
+             public DoubleOr.Default zombieVillagerInfectionChance = DoubleOr.Default.USE_DEFAULT;
+             public MobsCanAlwaysPickUpLoot mobsCanAlwaysPickUpLoot;
+@@ -306,7 +306,7 @@ public class WorldConfiguration extends ConfigurationPart {
+             }
+ 
+             public boolean disablePlayerCrits = false;
+-            public boolean nerfPigmenFromNetherPortals = false;
++            public boolean nerfPigmenFromNetherPortals = true; // DivineMC - Optimize default values for configs
+             @Comment("Prevents merging items that are not on the same y level, preventing potential visual artifacts.")
+             public boolean onlyMergeItemsHorizontally = false;
+             public PillagerPatrols pillagerPatrols;
+@@ -404,7 +404,7 @@ public class WorldConfiguration extends ConfigurationPart {
+     public class Environment extends ConfigurationPart {
+         public boolean disableThunder = false;
+         public boolean disableIceAndSnow = false;
+-        public boolean optimizeExplosions = false;
++        public boolean optimizeExplosions = true; // DivineMC - Optimize default values for configs
+         public boolean disableExplosionKnockback = false;
+         public boolean generateFlatBedrock = false;
+         public FrostedIce frostedIce;
+@@ -453,7 +453,7 @@ public class WorldConfiguration extends ConfigurationPart {
+ 
+     public class Maps extends ConfigurationPart {
+         public int itemFrameCursorLimit = 128;
+-        public int itemFrameCursorUpdateInterval = 10;
++        public int itemFrameCursorUpdateInterval = 20; // DivineMC - Optimize default values for configs
+     }
+ 
+     public Fixes fixes;
+@@ -479,7 +479,7 @@ public class WorldConfiguration extends ConfigurationPart {
+     public class Hopper extends ConfigurationPart {
+         public boolean cooldownWhenFull = true;
+         public boolean disableMoveEvent = false;
+-        public boolean ignoreOccludingBlocks = false;
++        public boolean ignoreOccludingBlocks = true; // DivineMC - Optimize default values for configs
+     }
+ 
+     public Collisions collisions;
+@@ -487,9 +487,9 @@ public class WorldConfiguration extends ConfigurationPart {
+     public class Collisions extends ConfigurationPart {
+         public boolean onlyPlayersCollide = false;
+         public boolean allowVehicleCollisions = true;
+-        public boolean fixClimbingBypassingCrammingRule = false;
++        public boolean fixClimbingBypassingCrammingRule = true; // DivineMC - Optimize default values for configs
+         @RequiresSpigotInitialization(MaxEntityCollisionsInitializer.class)
+-        public int maxEntityCollisions = 8;
++        public int maxEntityCollisions = 2; // DivineMC - Optimize default values for configs
+         public boolean allowPlayerCrammingDamage = false;
+     }
+ 
+@@ -497,18 +497,31 @@ public class WorldConfiguration extends ConfigurationPart {
+ 
+     public class Chunks extends ConfigurationPart {
+         public AutosavePeriod autoSaveInterval = AutosavePeriod.def();
+-        public int maxAutoSaveChunksPerTick = 24;
++        public int maxAutoSaveChunksPerTick = 12; // DivineMC - Optimize default values for configs
+         public int fixedChunkInhabitedTime = -1;
+-        public boolean preventMovingIntoUnloadedChunks = false;
+-        public Duration delayChunkUnloadsBy = Duration.of("10s");
++        public boolean preventMovingIntoUnloadedChunks = true;
++        public Duration delayChunkUnloadsBy = Duration.of("5s");
+         public Reference2IntMap<EntityType<?>> entityPerChunkSaveLimit = Util.make(new Reference2IntOpenHashMap<>(BuiltInRegistries.ENTITY_TYPE.size()), map -> {
+-            map.defaultReturnValue(-1);
+-            map.put(EntityType.EXPERIENCE_ORB, -1);
+-            map.put(EntityType.SNOWBALL, -1);
+-            map.put(EntityType.ENDER_PEARL, -1);
+-            map.put(EntityType.ARROW, -1);
+-            map.put(EntityType.FIREBALL, -1);
+-            map.put(EntityType.SMALL_FIREBALL, -1);
++            // DivineMC start - Optimize default values for configs
++            map.put(EntityType.EXPERIENCE_ORB, 16);
++            map.put(EntityType.SNOWBALL, 8);
++            map.put(EntityType.ENDER_PEARL, 8);
++            map.put(EntityType.ARROW, 16);
++            map.put(EntityType.FIREBALL, 8);
++            map.put(EntityType.SMALL_FIREBALL, 8);
++            map.put(EntityType.DRAGON_FIREBALL, 3);
++            map.put(EntityType.EGG, 8);
++            map.put(EntityType.EYE_OF_ENDER, 8);
++            map.put(EntityType.FIREWORK_ROCKET, 8);
++            map.put(EntityType.POTION, 8);
++            map.put(EntityType.LLAMA_SPIT, 3);
++            map.put(EntityType.SHULKER_BULLET, 8);
++            map.put(EntityType.SPECTRAL_ARROW, 16);
++            map.put(EntityType.EXPERIENCE_BOTTLE, 3);
++            map.put(EntityType.TRIDENT, 16);
++            map.put(EntityType.WITHER_SKULL, 4);
++            map.put(EntityType.AREA_EFFECT_CLOUD, 8);
++            // DivineMC end
+         });
+         public boolean flushRegionsOnSave = false;
+     }
+@@ -523,13 +536,13 @@ public class WorldConfiguration extends ConfigurationPart {
+     public TickRates tickRates;
+ 
+     public class TickRates extends ConfigurationPart {
+-        public int grassSpread = 1;
+-        public int containerUpdate = 1;
+-        public int mobSpawner = 1;
++        public int grassSpread = 4; // DivineMC - Optimize default values for configs
++        public int containerUpdate = 3; // DivineMC - Optimize default values for configs
++        public int mobSpawner = 2; // DivineMC - Optimize default values for configs
+         public int wetFarmland = 1;
+         public int dryFarmland = 1;
+-        public Table<EntityType<?>, String, Integer> sensor = Util.make(HashBasedTable.create(), table -> table.put(EntityType.VILLAGER, "secondarypoisensor", 40));
+-        public Table<EntityType<?>, String, Integer> behavior = Util.make(HashBasedTable.create(), table -> table.put(EntityType.VILLAGER, "validatenearbypoi", -1));
++        public Table<EntityType<?>, String, Integer> sensor = Util.make(HashBasedTable.create(), table -> table.put(EntityType.VILLAGER, "secondarypoisensor", 80)); // DivineMC - Optimize default values for configs
++        public Table<EntityType<?>, String, Integer> behavior = Util.make(HashBasedTable.create(), table -> table.put(EntityType.VILLAGER, "validatenearbypoi", 60)); // DivineMC - Optimize default values for configs
+     }
+ 
+     @Setting(FeatureSeedsGeneration.FEATURE_SEEDS_KEY)
+@@ -538,7 +551,7 @@ public class WorldConfiguration extends ConfigurationPart {
+     public class FeatureSeeds extends ConfigurationPart {
+         @SuppressWarnings("unused") // Is used in FeatureSeedsGeneration
+         @Setting(FeatureSeedsGeneration.GENERATE_KEY)
+-        public boolean generateRandomSeedsForAll = false;
++        public boolean generateRandomSeedsForAll = true; // DivineMC - Optimize default values for configs
+         @Setting(FeatureSeedsGeneration.FEATURES_KEY)
+         public Reference2LongMap<Holder<ConfiguredFeature<?, ?>>> features = new Reference2LongOpenHashMap<>();
+ 
+@@ -559,9 +572,9 @@ public class WorldConfiguration extends ConfigurationPart {
+ 
+     public class Misc extends ConfigurationPart {
+         public int lightQueueSize = 20;
+-        public boolean updatePathfindingOnBlockUpdate = true;
++        public boolean updatePathfindingOnBlockUpdate = false; // DivineMC - Optimize default values for configs
+         public boolean showSignClickCommandFailureMsgsToPlayer = false;
+-        public RedstoneImplementation redstoneImplementation = RedstoneImplementation.VANILLA;
++        public RedstoneImplementation redstoneImplementation = RedstoneImplementation.ALTERNATE_CURRENT; // DivineMC - Optimize default values for configs
+         public AlternateCurrentUpdateOrder alternateCurrentUpdateOrder = AlternateCurrentUpdateOrder.HORIZONTAL_FIRST_OUTWARD;
+         public boolean disableEndCredits = false;
+         public DoubleOr.Default maxLeashDistance = DoubleOr.Default.USE_DEFAULT;
+diff --git a/src/main/java/org/spigotmc/SpigotConfig.java b/src/main/java/org/spigotmc/SpigotConfig.java
+index e0d4222a99f22d7130d95cf29b034a98f2f3b76e..ecedb1ba79fa40180ff7eb16d12a4602ab357de3 100644
+--- a/src/main/java/org/spigotmc/SpigotConfig.java
++++ b/src/main/java/org/spigotmc/SpigotConfig.java
+@@ -269,7 +269,7 @@ public class SpigotConfig {
+ 
+     public static boolean saveUserCacheOnStopOnly;
+     private static void saveUserCacheOnStopOnly() {
+-        SpigotConfig.saveUserCacheOnStopOnly = SpigotConfig.getBoolean("settings.save-user-cache-on-stop-only", false);
++        SpigotConfig.saveUserCacheOnStopOnly = SpigotConfig.getBoolean("settings.save-user-cache-on-stop-only", true); // DivineMC - Optimize default values for configs
+     }
+ 
+     public static double movedWronglyThreshold;
+@@ -323,9 +323,9 @@ public class SpigotConfig {
+ 
+     public static boolean logVillagerDeaths;
+     public static boolean logNamedDeaths;
+-    private static void logDeaths() {
+-        SpigotConfig.logVillagerDeaths = SpigotConfig.getBoolean("settings.log-villager-deaths", true);
+-        SpigotConfig.logNamedDeaths = SpigotConfig.getBoolean("settings.log-named-deaths", true);
++    private static void logDeaths() { // DivineMC - Optimize default values for configs
++        SpigotConfig.logVillagerDeaths = SpigotConfig.getBoolean("settings.log-villager-deaths", false);
++        SpigotConfig.logNamedDeaths = SpigotConfig.getBoolean("settings.log-named-deaths", false);
+     }
+ 
+     public static boolean disablePlayerDataSaving;
+diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
+index 89e2adbc1e1a0709d03e151e3ffcdbff10a44098..5b305092a808c2b9b339b9072bf7f7bfc00f0b8a 100644
+--- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
++++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
+@@ -135,13 +135,13 @@ public class SpigotWorldConfig {
+ 
+     public double itemMerge;
+     private void itemMerge() {
+-        this.itemMerge = this.getDouble("merge-radius.item", 0.5);
++        this.itemMerge = this.getDouble("merge-radius.item", 3.5); // DivineMC - Optimize default values for configs
+         this.log("Item Merge Radius: " + this.itemMerge);
+     }
+ 
+     public double expMerge;
+     private void expMerge() {
+-        this.expMerge = this.getDouble("merge-radius.exp", -1);
++        this.expMerge = this.getDouble("merge-radius.exp", 4.0); // DivineMC - Optimize default values for configs
+         this.log("Experience Merge Radius: " + this.expMerge);
+     }
+ 
+@@ -174,7 +174,7 @@ public class SpigotWorldConfig {
+ 
+     public byte mobSpawnRange;
+     private void mobSpawnRange() {
+-        this.mobSpawnRange = (byte) getInt("mob-spawn-range", 8); // Paper - Vanilla
++        this.mobSpawnRange = (byte) getInt("mob-spawn-range", 2); // DivineMC - Optimize default values for configs
+         this.log("Mob Spawn Range: " + this.mobSpawnRange);
+     }
+ 
+@@ -184,14 +184,16 @@ public class SpigotWorldConfig {
+         this.log("Item Despawn Rate: " + this.itemDespawnRate);
+     }
+ 
+-    public int animalActivationRange = 32;
+-    public int monsterActivationRange = 32;
+-    public int raiderActivationRange = 64;
+-    public int miscActivationRange = 16;
++    // DivineMC start - Optimize default values for configs
++    public int animalActivationRange = 16;
++    public int monsterActivationRange = 24;
++    public int raiderActivationRange = 48;
++    public int miscActivationRange = 8;
++    // DivineMC end - Optimize default values for configs
+     // Paper start
+     public int flyingMonsterActivationRange = 32;
+-    public int waterActivationRange = 16;
+-    public int villagerActivationRange = 32;
++    public int waterActivationRange = 8; // DivineMC - Optimize default values for configs
++    public int villagerActivationRange = 16; // DivineMC - Optimize default values for configs
+     public int wakeUpInactiveAnimals = 4;
+     public int wakeUpInactiveAnimalsEvery = 60 * 20;
+     public int wakeUpInactiveAnimalsFor = 5 * 20;
+@@ -208,7 +210,7 @@ public class SpigotWorldConfig {
+     public int villagersWorkImmunityFor = 20;
+     public boolean villagersActiveForPanic = true;
+     // Paper end
+-    public boolean tickInactiveVillagers = true;
++    public boolean tickInactiveVillagers = false; // DivineMC - Optimize default values for configs
+     public boolean ignoreSpectatorActivation = false;
+ 
+     private void activationRange() {
+@@ -273,7 +275,7 @@ public class SpigotWorldConfig {
+         if (SpigotConfig.version < 11) {
+             this.set("ticks-per.hopper-check", 1);
+         }
+-        this.hopperCheck = this.getInt("ticks-per.hopper-check", 1);
++        this.hopperCheck = this.getInt("ticks-per.hopper-check", 8); // DivineMC - Optimize default values for configs
+         this.hopperAmount = this.getInt("hopper-amount", 1);
+         this.hopperCanLoadChunks = this.getBoolean("hopper-can-load-chunks", false);
+         this.log("Hopper Transfer: " + this.hopperTransfer + " Hopper Check: " + this.hopperCheck + " Hopper Amount: " + this.hopperAmount + " Hopper Can Load Chunks: " + this.hopperCanLoadChunks);
+@@ -282,7 +284,7 @@ public class SpigotWorldConfig {
+     public int arrowDespawnRate;
+     public int tridentDespawnRate;
+     private void arrowDespawnRate() {
+-        this.arrowDespawnRate = this.getInt("arrow-despawn-rate", 1200);
++        this.arrowDespawnRate = this.getInt("arrow-despawn-rate", 300); // DivineMC - Optimize default values for configs
+         this.tridentDespawnRate = this.getInt("trident-despawn-rate", this.arrowDespawnRate);
+         this.log("Arrow Despawn Rate: " + this.arrowDespawnRate + " Trident Respawn Rate:" + this.tridentDespawnRate);
+     }
+@@ -295,13 +297,13 @@ public class SpigotWorldConfig {
+ 
+     public boolean nerfSpawnerMobs;
+     private void nerfSpawnerMobs() {
+-        this.nerfSpawnerMobs = this.getBoolean("nerf-spawner-mobs", false);
++        this.nerfSpawnerMobs = this.getBoolean("nerf-spawner-mobs", true); // DivineMC - Optimize default values for configs
+         this.log("Nerfing mobs spawned from spawners: " + this.nerfSpawnerMobs);
+     }
+ 
+     public boolean enableZombiePigmenPortalSpawns;
+     private void enableZombiePigmenPortalSpawns() {
+-        this.enableZombiePigmenPortalSpawns = this.getBoolean("enable-zombie-pigmen-portal-spawns", true);
++        this.enableZombiePigmenPortalSpawns = this.getBoolean("enable-zombie-pigmen-portal-spawns", false); // DivineMC - Optimize default values for configs
+         this.log("Allow Zombie Pigmen to spawn from portal blocks: " + this.enableZombiePigmenPortalSpawns);
+     }
+ 
+@@ -413,7 +415,7 @@ public class SpigotWorldConfig {
+ 
+     public int hangingTickFrequency;
+     private void hangingTickFrequency() {
+-        this.hangingTickFrequency = this.getInt("hanging-tick-frequency", 100);
++        this.hangingTickFrequency = this.getInt("hanging-tick-frequency", 200); // DivineMC - Optimize default values for configs
+     }
+ 
+     public int tileMaxTickTime;
+diff --git a/src/main/resources/configurations/bukkit.yml b/src/main/resources/configurations/bukkit.yml
+index eef7c125b2689f29cae5464659eacdf33f5695b2..c6b04acb5371a0ac454c5e377bccad5b0972aed8 100644
+--- a/src/main/resources/configurations/bukkit.yml
++++ b/src/main/resources/configurations/bukkit.yml
+@@ -18,28 +18,28 @@ settings:
+     update-folder: update
+     plugin-profiling: false
+     connection-throttle: 4000
+-    query-plugins: true
++    query-plugins: false
+     deprecated-verbose: default
+     shutdown-message: Server closed
+     minimum-api: none
+     use-map-color-cache: true
+ spawn-limits:
+-    monsters: 70
+-    animals: 10
+-    water-animals: 5
+-    water-ambient: 20
+-    water-underground-creature: 5
+-    axolotls: 5
+-    ambient: 15
++    monsters: 20
++    animals: 5
++    water-animals: 2
++    water-ambient: 2
++    water-underground-creature: 3
++    axolotls: 3
++    ambient: 1
+ chunk-gc:
+-    period-in-ticks: 600
++    period-in-ticks: 400
+ ticks-per:
+     animal-spawns: 400
+-    monster-spawns: 1
+-    water-spawns: 1
+-    water-ambient-spawns: 1
+-    water-underground-creature-spawns: 1
+-    axolotl-spawns: 1
+-    ambient-spawns: 1
++    monster-spawns: 10
++    water-spawns: 400
++    water-ambient-spawns: 400
++    water-underground-creature-spawns: 400
++    axolotl-spawns: 400
++    ambient-spawns: 400
+     autosave: 6000
+ aliases: now-in-commands.yml
+diff --git a/src/main/resources/configurations/commands.yml b/src/main/resources/configurations/commands.yml
+index 18f54571200e2eca09a39b88f170fe7b99d8618f..1b57d51d92c5c69286800d10baeaa936fa208cae 100644
+--- a/src/main/resources/configurations/commands.yml
++++ b/src/main/resources/configurations/commands.yml
+@@ -12,5 +12,3 @@
+ command-block-overrides: []
+ ignore-vanilla-permissions: false
+ aliases:
+-    icanhasbukkit:
+-      - "version $1-"

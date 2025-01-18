@@ -1,0 +1,31 @@
+--- a/src/main/java/org/bukkit/command/SimpleCommandMap.java
++++ b/src/main/java/org/bukkit/command/SimpleCommandMap.java
+@@ -39,7 +_,6 @@
+         register("bukkit", new VersionCommand("version"));
+         register("bukkit", new ReloadCommand("reload"));
+         //register("bukkit", new PluginsCommand("plugins")); // Paper
+-        register("bukkit", new co.aikar.timings.TimingsCommand("timings")); // Paper
+     }
+ 
+     public void setFallbackCommands() {
+@@ -71,7 +_,6 @@
+      */
+     @Override
+     public boolean register(@NotNull String label, @NotNull String fallbackPrefix, @NotNull Command command) {
+-        command.timings = co.aikar.timings.TimingsManager.getCommandTiming(fallbackPrefix, command); // Paper
+         label = label.toLowerCase(Locale.ROOT).trim();
+         fallbackPrefix = fallbackPrefix.toLowerCase(Locale.ROOT).trim();
+         boolean registered = register(label, command, false, fallbackPrefix);
+@@ -165,12 +_,6 @@
+         sentCommandLabel = event.getLabel();
+         parsedArgs = event.getArgs();
+         // Purpur end - ExecuteCommandEvent
+-
+-        // Paper start - Plugins do weird things to workaround normal registration
+-        if (target.timings == null) {
+-            target.timings = co.aikar.timings.TimingsManager.getCommandTiming(null, target);
+-        }
+-        // Paper end
+ 
+         try {
+             //try (co.aikar.timings.Timing ignored = target.timings.startTiming()) { // Paper - use try with resources // Purpur - Remove Timings

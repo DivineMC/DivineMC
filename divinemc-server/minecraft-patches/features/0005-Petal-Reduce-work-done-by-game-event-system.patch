@@ -1,0 +1,196 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Sun, 12 Jan 2025 20:57:25 +0300
+Subject: [PATCH] Petal: Reduce work done by game event system
+
+Original code by Bloom-host, licensed under GPL v3
+You can find the original code on https://github.com/Bloom-host/Petal
+
+diff --git a/net/minecraft/world/level/block/entity/SculkCatalystBlockEntity.java b/net/minecraft/world/level/block/entity/SculkCatalystBlockEntity.java
+index 1638eccef431fb68775af624110f1968f0c6dabd..2799db1223c9f279322869bdd19605e6d835af2e 100644
+--- a/net/minecraft/world/level/block/entity/SculkCatalystBlockEntity.java
++++ b/net/minecraft/world/level/block/entity/SculkCatalystBlockEntity.java
+@@ -65,7 +65,7 @@ public class SculkCatalystBlockEntity extends BlockEntity implements GameEventLi
+         return this.catalystListener;
+     }
+ 
+-    public static class CatalystListener implements GameEventListener {
++    public class CatalystListener implements GameEventListener { // DivineMC - static -> non-static
+         public static final int PULSE_TICKS = 8;
+         final SculkSpreader sculkSpreader;
+         private final BlockState blockState;
+@@ -127,6 +127,13 @@ public class SculkCatalystBlockEntity extends BlockEntity implements GameEventLi
+             level.playSound(null, pos, SoundEvents.SCULK_CATALYST_BLOOM, SoundSource.BLOCKS, 2.0F, 0.6F + random.nextFloat() * 0.4F);
+         }
+ 
++        // DivineMC start - Petal: Reduce work done by game event system
++        @Override
++        public boolean listensToEvent(GameEvent gameEvent, GameEvent.Context context) {
++            return !SculkCatalystBlockEntity.this.isRemoved() && gameEvent == GameEvent.ENTITY_DIE.value() && context.sourceEntity() instanceof LivingEntity;
++        }
++        // DivineMC end - Petal: Reduce work done by game event system
++
+         private void tryAwardItSpreadsAdvancement(Level level, LivingEntity entity) {
+             if (entity.getLastHurtByMob() instanceof ServerPlayer serverPlayer) {
+                 DamageSource damageSource = entity.getLastDamageSource() == null
+diff --git a/net/minecraft/world/level/chunk/LevelChunk.java b/net/minecraft/world/level/chunk/LevelChunk.java
+index 761fdcd4a4e18f45547afd8edff44f61c6eeacb4..03264d2b170002c640cec34530909ebb34c7e54e 100644
+--- a/net/minecraft/world/level/chunk/LevelChunk.java
++++ b/net/minecraft/world/level/chunk/LevelChunk.java
+@@ -81,7 +81,18 @@ public class LevelChunk extends ChunkAccess implements ca.spottedleaf.moonrise.p
+     private Supplier<FullChunkStatus> fullStatus;
+     @Nullable
+     private LevelChunk.PostLoadProcessor postLoad;
+-    private final Int2ObjectMap<GameEventListenerRegistry> gameEventListenerRegistrySections;
++    // DivineMC start - Petal: Reduce work done by game event system
++    private final GameEventListenerRegistry[] gameEventListenerRegistrySections;
++    private static final int GAME_EVENT_DISPATCHER_RADIUS = 2;
++
++    private static int getGameEventSectionIndex(int sectionIndex) {
++        return sectionIndex + GAME_EVENT_DISPATCHER_RADIUS;
++    }
++
++    private static int getGameEventSectionLength(int sectionCount) {
++        return sectionCount + (GAME_EVENT_DISPATCHER_RADIUS * 2);
++    }
++    // DivineMC end - Petal: Reduce work done by game event system
+     private final LevelChunkTicks<Block> blockTicks;
+     private final LevelChunkTicks<Fluid> fluidTicks;
+     private LevelChunk.UnsavedListener unsavedListener = chunkPos -> {};
+@@ -144,7 +155,7 @@ public class LevelChunk extends ChunkAccess implements ca.spottedleaf.moonrise.p
+     ) {
+         super(pos, data, level, net.minecraft.server.MinecraftServer.getServer().registryAccess().lookupOrThrow(Registries.BIOME), inhabitedTime, sections, blendingData); // Paper - Anti-Xray - The world isn't ready yet, use server singleton for registry
+         this.level = (ServerLevel) level; // CraftBukkit - type
+-        this.gameEventListenerRegistrySections = new Int2ObjectOpenHashMap<>();
++        this.gameEventListenerRegistrySections = new GameEventListenerRegistry[getGameEventSectionLength(this.getSectionsCount())]; // DivineMC - Petal: Reduce work done by game event system
+ 
+         for (Heightmap.Types types : Heightmap.Types.values()) {
+             if (ChunkStatus.FULL.heightmapsAfter().contains(types)) {
+@@ -254,10 +265,29 @@ public class LevelChunk extends ChunkAccess implements ca.spottedleaf.moonrise.p
+ 
+     @Override
+     public GameEventListenerRegistry getListenerRegistry(int sectionY) {
+-        return this.level instanceof ServerLevel serverLevel
+-            ? this.gameEventListenerRegistrySections
+-                .computeIfAbsent(sectionY, i -> new EuclideanGameEventListenerRegistry(serverLevel, sectionY, this::removeGameEventListenerRegistry))
+-            : super.getListenerRegistry(sectionY);
++        Level world = this.level;
++
++        if (world instanceof ServerLevel worldserver) {
++            // DivineMC start - Petal: Reduce work done by game event system
++            int sectionIndex = getGameEventSectionIndex(this.getSectionIndexFromSectionY(sectionY));
++
++            // drop game events that are too far away (32 blocks) from loaded sections
++            // this matches the highest radius of game events in the game
++            if (sectionIndex < 0 || sectionIndex >= this.gameEventListenerRegistrySections.length) {
++                return GameEventListenerRegistry.NOOP;
++            }
++
++            var dispatcher = this.gameEventListenerRegistrySections[sectionIndex];
++
++            if (dispatcher == null) {
++                dispatcher = this.gameEventListenerRegistrySections[sectionIndex] = new EuclideanGameEventListenerRegistry(worldserver, sectionY, this::removeGameEventListenerRegistry);
++            }
++
++            return dispatcher;
++            // DivineMC end - Petal: Reduce work done by game event system
++        } else {
++            return super.getListenerRegistry(sectionY);
++        }
+     }
+ 
+     // Paper start - Perf: Reduce instructions and provide final method
+@@ -601,7 +631,7 @@ public class LevelChunk extends ChunkAccess implements ca.spottedleaf.moonrise.p
+     }
+ 
+     private void removeGameEventListenerRegistry(int sectionY) {
+-        this.gameEventListenerRegistrySections.remove(sectionY);
++        this.gameEventListenerRegistrySections[getGameEventSectionIndex(this.getSectionIndexFromSectionY(sectionY))] = null; // DivineMC - Petal: Reduce work done by game event system
+     }
+ 
+     private void removeBlockEntityTicker(BlockPos pos) {
+diff --git a/net/minecraft/world/level/gameevent/EuclideanGameEventListenerRegistry.java b/net/minecraft/world/level/gameevent/EuclideanGameEventListenerRegistry.java
+index 5175fc90a1fc61c832c6697997a97ae199b195ac..f40511b5be6cf72298d30188fd550d1d768d875a 100644
+--- a/net/minecraft/world/level/gameevent/EuclideanGameEventListenerRegistry.java
++++ b/net/minecraft/world/level/gameevent/EuclideanGameEventListenerRegistry.java
+@@ -14,8 +14,8 @@ import net.minecraft.world.phys.Vec3;
+ 
+ public class EuclideanGameEventListenerRegistry implements GameEventListenerRegistry {
+     private final List<GameEventListener> listeners = Lists.newArrayList();
+-    private final Set<GameEventListener> listenersToRemove = Sets.newHashSet();
+-    private final List<GameEventListener> listenersToAdd = Lists.newArrayList();
++    //private final Set<GameEventListener> listenersToRemove = Sets.newHashSet(); // DivineMC - Commented out
++    //private final List<GameEventListener> listenersToAdd = Lists.newArrayList(); // DivineMC - Commented out
+     private boolean processing;
+     private final ServerLevel level;
+     private final int sectionY;
+@@ -35,7 +35,7 @@ public class EuclideanGameEventListenerRegistry implements GameEventListenerRegi
+     @Override
+     public void register(GameEventListener listener) {
+         if (this.processing) {
+-            this.listenersToAdd.add(listener);
++            throw new java.util.ConcurrentModificationException(); // DivineMC - Disallow concurrent modification
+         } else {
+             this.listeners.add(listener);
+         }
+@@ -46,7 +46,7 @@ public class EuclideanGameEventListenerRegistry implements GameEventListenerRegi
+     @Override
+     public void unregister(GameEventListener listener) {
+         if (this.processing) {
+-            this.listenersToRemove.add(listener);
++            throw new java.util.ConcurrentModificationException(); // DivineMC - Disallow concurrent modification
+         } else {
+             this.listeners.remove(listener);
+         }
+@@ -66,7 +66,7 @@ public class EuclideanGameEventListenerRegistry implements GameEventListenerRegi
+ 
+             while (iterator.hasNext()) {
+                 GameEventListener gameEventListener = iterator.next();
+-                if (this.listenersToRemove.remove(gameEventListener)) {
++                if (false) { // DivineMC - Disallow concurrent modification
+                     iterator.remove();
+                 } else {
+                     Optional<Vec3> postableListenerPosition = getPostableListenerPosition(this.level, pos, gameEventListener);
+@@ -80,6 +80,7 @@ public class EuclideanGameEventListenerRegistry implements GameEventListenerRegi
+             this.processing = false;
+         }
+ 
++        /* // DivineMC start - Petal: Reduce work done by game event system
+         if (!this.listenersToAdd.isEmpty()) {
+             this.listeners.addAll(this.listenersToAdd);
+             this.listenersToAdd.clear();
+@@ -89,6 +90,7 @@ public class EuclideanGameEventListenerRegistry implements GameEventListenerRegi
+             this.listeners.removeAll(this.listenersToRemove);
+             this.listenersToRemove.clear();
+         }
++         */ // DivineMC end - Petal: Reduce work done by game event system
+ 
+         return flag;
+     }
+diff --git a/net/minecraft/world/level/gameevent/GameEventDispatcher.java b/net/minecraft/world/level/gameevent/GameEventDispatcher.java
+index 1e9b066ef468ae840eda3c1f6c4b68111a5e862c..cf31dadc73c66e4d4fcca9d81d587480d1c530c5 100644
+--- a/net/minecraft/world/level/gameevent/GameEventDispatcher.java
++++ b/net/minecraft/world/level/gameevent/GameEventDispatcher.java
+@@ -44,6 +44,7 @@ public class GameEventDispatcher {
+         int sectionPosCoord5 = SectionPos.blockToSectionCoord(blockPos.getZ() + notificationRadius);
+         List<GameEvent.ListenerInfo> list = new ArrayList<>();
+         GameEventListenerRegistry.ListenerVisitor listenerVisitor = (listener, pos1) -> {
++            if (!listener.listensToEvent(gameEvent.value(), context)) return; // DivineMC - If they don't listen, ignore
+             if (listener.getDeliveryMode() == GameEventListener.DeliveryMode.BY_DISTANCE) {
+                 list.add(new GameEvent.ListenerInfo(gameEvent, pos, context, listener, pos1));
+             } else {
+diff --git a/net/minecraft/world/level/gameevent/GameEventListener.java b/net/minecraft/world/level/gameevent/GameEventListener.java
+index 5a31b5f1e75dd7b412ab577ea6621b7e87fc0590..32a79d5a247ddf953d18594897c5e9565353593a 100644
+--- a/net/minecraft/world/level/gameevent/GameEventListener.java
++++ b/net/minecraft/world/level/gameevent/GameEventListener.java
+@@ -23,4 +23,10 @@ public interface GameEventListener {
+     public interface Provider<T extends GameEventListener> {
+         T getListener();
+     }
++
++    // DivineMC start - Add check for seeing if this listener cares about an event
++    default boolean listensToEvent(GameEvent gameEvent, GameEvent.Context context) {
++        return true;
++    }
++    // DivineMC end - Add check for seeing if this listener cares about an event
+ }

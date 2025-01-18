@@ -1,0 +1,28 @@
+--- a/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
++++ b/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
+@@ -43,7 +_,6 @@
+ import org.bukkit.plugin.UnknownDependencyException;
+ import org.jetbrains.annotations.NotNull;
+ import org.jetbrains.annotations.Nullable;
+-import org.spigotmc.CustomTimingsHandler; // Spigot
+ import org.yaml.snakeyaml.error.YAMLException;
+ 
+ /**
+@@ -294,7 +_,7 @@
+                 }
+             }
+ 
+-            EventExecutor executor = new co.aikar.timings.TimedEventExecutor(new EventExecutor() { // Paper
++            EventExecutor executor = new EventExecutor() { // Paper
+                 @Override
+                 public void execute(@NotNull Listener listener, @NotNull Event event) throws EventException { // Paper
+                     try {
+@@ -308,7 +_,7 @@
+                         throw new EventException(t);
+                     }
+                 }
+-            }, plugin, method, eventClass); // Paper
++            }; // DivineMC - Delete Timings
+             if (false) { // Spigot - RL handles useTimings check now
+                 eventSet.add(new TimedRegisteredListener(listener, executor, eh.priority(), plugin, eh.ignoreCancelled()));
+             } else {

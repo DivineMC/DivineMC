@@ -1,0 +1,22 @@
+--- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
++++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
+@@ -3640,4 +_,19 @@
+         this.getHandle().connection.send(new net.minecraft.network.protocol.game.ClientboundPlayerCombatKillPacket(getEntityId(), io.papermc.paper.adventure.PaperAdventure.asVanilla(message)));
+     }
+     // Purpur end - Death screen API
++
++    // DivineMC start - Open Ender Chest API
++    /**
++     * Opens ender chest for the player
++     *
++     * @param enderChest ender chest
++     */
++    @Override
++    public boolean openEnderChest(@NotNull org.bukkit.block.EnderChest enderChest) {
++        net.minecraft.world.inventory.PlayerEnderChestContainer playerEnderChestContainer = this.getHandle().getEnderChestInventory();
++        net.minecraft.world.level.block.entity.EnderChestBlockEntity blockEntity = ((org.bukkit.craftbukkit.block.CraftEnderChest) enderChest).getTileEntity();
++        playerEnderChestContainer.setActiveChest(blockEntity);
++        return this.getHandle().openMenu(new net.minecraft.world.SimpleMenuProvider((i, inventory, playerx) -> org.purpurmc.purpur.PurpurConfig.enderChestSixRows ? net.minecraft.world.level.block.EnderChestBlock.getEnderChestSixRows(i, inventory, this.getHandle(), playerEnderChestContainer) : net.minecraft.world.inventory.ChestMenu.threeRows(i, inventory, playerEnderChestContainer), net.minecraft.world.level.block.EnderChestBlock.CONTAINER_TITLE)).isPresent();
++    }
++    // DivineMC end - Open Ender Chest API
+ }

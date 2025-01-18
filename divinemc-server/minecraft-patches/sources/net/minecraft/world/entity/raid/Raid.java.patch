@@ -1,0 +1,39 @@
+--- a/net/minecraft/world/entity/raid/Raid.java
++++ b/net/minecraft/world/entity/raid/Raid.java
+@@ -104,6 +_,7 @@
+     private Raid.RaidStatus status;
+     private int celebrationTicks;
+     private Optional<BlockPos> waveSpawnPos = Optional.empty();
++    private boolean isBarDirty; // DivineMC - lithium: ai.raid
+     // Paper start
+     private static final String PDC_NBT_KEY = "BukkitValues";
+     private static final org.bukkit.craftbukkit.persistence.CraftPersistentDataTypeRegistry PDC_TYPE_REGISTRY = new org.bukkit.craftbukkit.persistence.CraftPersistentDataTypeRegistry();
+@@ -264,6 +_,12 @@
+ 
+     public void tick() {
+         if (!this.isStopped()) {
++            // DivineMC start - lithium: ai.raid
++            if (this.isBarDirty) {
++                this.updateBossbarInternal();
++                this.isBarDirty = false;
++            }
++            // DivineMC end - lithium: ai.raid
+             if (this.status == Raid.RaidStatus.ONGOING) {
+                 boolean flag = this.active;
+                 this.active = this.level.hasChunkAt(this.center);
+@@ -587,9 +_,15 @@
+         }
+     }
+ 
++    // DivineMC start - lithium: ai.raid
+     public void updateBossbar() {
++        this.isBarDirty = true;
++    }
++
++    private void updateBossbarInternal() {
+         this.raidEvent.setProgress(Mth.clamp(this.getHealthOfLivingRaiders() / this.totalHealth, 0.0F, 1.0F));
+     }
++    // DivineMC end - lithium: ai.raid
+ 
+     public float getHealthOfLivingRaiders() {
+         float f = 0.0F;

@@ -1,0 +1,21 @@
+--- a/net/minecraft/util/thread/BlockableEventLoop.java
++++ b/net/minecraft/util/thread/BlockableEventLoop.java
+@@ -22,7 +_,7 @@
+ import org.slf4j.Logger;
+ 
+ public abstract class BlockableEventLoop<R extends Runnable> implements ProfilerMeasured, TaskScheduler<R>, Executor {
+-    public static final long BLOCK_TIME_NANOS = 100000L;
++    public static final long BLOCK_TIME_NANOS = 2000000L; // DivineMC - Fix MC-183518
+     private final String name;
+     private static final Logger LOGGER = LogUtils.getLogger();
+     private final Queue<R> pendingRunnables = Queues.newConcurrentLinkedQueue();
+@@ -146,8 +_,7 @@
+     }
+ 
+     protected void waitForTasks() {
+-        Thread.yield();
+-        LockSupport.parkNanos("waiting for tasks", 100000L);
++        LockSupport.parkNanos("waiting for tasks", 2000000L); // DivineMC - Fix MC-183518
+     }
+ 
+     protected void doRunTask(R task) {

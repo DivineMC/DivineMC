@@ -1,0 +1,14 @@
+--- a/src/main/java/org/bukkit/craftbukkit/entity/CraftAbstractArrow.java
++++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftAbstractArrow.java
+@@ -185,4 +_,11 @@
+         this.getHandle().projectileSource = shooter;
+     }
+     // Paper end - Fix PickupStatus getting reset
++
++    // DivineMC start - Add startFalling method to AbstractArrow
++    @Override
++    public void startFalling() {
++        this.getHandle().startFalling();
++    }
++    // DivineMC end - Add startFalling method to AbstractArrow
+ }

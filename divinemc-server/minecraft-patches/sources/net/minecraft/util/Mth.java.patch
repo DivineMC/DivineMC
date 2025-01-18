@@ -1,0 +1,25 @@
+--- a/net/minecraft/util/Mth.java
++++ b/net/minecraft/util/Mth.java
+@@ -29,7 +_,7 @@
+     public static final Vector3f Y_AXIS = new Vector3f(0.0F, 1.0F, 0.0F);
+     public static final Vector3f X_AXIS = new Vector3f(1.0F, 0.0F, 0.0F);
+     public static final Vector3f Z_AXIS = new Vector3f(0.0F, 0.0F, 1.0F);
+-    private static final float[] SIN = Util.make(new float[65536], floats -> {
++    public static final float[] SIN = Util.make(new float[65536], floats -> { // DivineMC - lithium: math.sine_lut
+         for (int i1 = 0; i1 < floats.length; i1++) {
+             floats[i1] = (float)Math.sin(i1 * Math.PI * 2.0 / 65536.0);
+         }
+@@ -46,11 +_,11 @@
+     private static final double[] COS_TAB = new double[257];
+ 
+     public static float sin(float value) {
+-        return SIN[(int)(value * 10430.378F) & 65535];
++        return space.bxteam.divinemc.util.lithium.CompactSineLUT.sin(value); // DivineMC - lithium: math.sine_lut
+     }
+ 
+     public static float cos(float value) {
+-        return SIN[(int)(value * 10430.378F + 16384.0F) & 65535];
++        return space.bxteam.divinemc.util.lithium.CompactSineLUT.cos(value); // DivineMC - lithium: math.sine_lut
+     }
+ 
+     public static float sqrt(float value) {

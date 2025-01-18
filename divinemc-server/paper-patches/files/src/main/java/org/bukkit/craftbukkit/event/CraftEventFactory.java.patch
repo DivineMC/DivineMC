@@ -1,0 +1,16 @@
+--- a/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
++++ b/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
+@@ -1566,7 +_,12 @@
+     }
+ 
+     public static NotePlayEvent callNotePlayEvent(Level world, BlockPos pos, NoteBlockInstrument instrument, int note) {
+-        NotePlayEvent event = new NotePlayEvent(world.getWorld().getBlockAt(pos.getX(), pos.getY(), pos.getZ()), org.bukkit.Instrument.getByType((byte) instrument.ordinal()), new org.bukkit.Note(note));
++        // DivineMC start - Add player to NotePlayEvent
++        return callNotePlayEvent(world, pos, instrument, note, null);
++    }
++    public static NotePlayEvent callNotePlayEvent(Level world, BlockPos pos, NoteBlockInstrument instrument, int note, @Nullable net.minecraft.world.entity.player.Player player) {
++        NotePlayEvent event = new NotePlayEvent(world.getWorld().getBlockAt(pos.getX(), pos.getY(), pos.getZ()), org.bukkit.Instrument.getByType((byte) instrument.ordinal()), new org.bukkit.Note(note), player instanceof ServerPlayer serverPlayer ? serverPlayer.getBukkitEntity() : null);
++        // DivineMC end - Add player to NotePlayEvent
+         world.getCraftServer().getPluginManager().callEvent(event);
+         return event;
+     }

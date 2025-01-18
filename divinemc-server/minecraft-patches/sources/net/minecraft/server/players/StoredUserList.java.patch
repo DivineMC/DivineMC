@@ -1,0 +1,29 @@
+--- a/net/minecraft/server/players/StoredUserList.java
++++ b/net/minecraft/server/players/StoredUserList.java
+@@ -97,13 +_,20 @@
+     }
+ 
+     public void save() throws IOException {
+-        this.removeExpired(); // Paper - remove expired values before saving
+-        JsonArray jsonArray = new JsonArray();
+-        this.map.values().stream().map(storedEntry -> Util.make(new JsonObject(), storedEntry::serialize)).forEach(jsonArray::add);
++        // DivineMC start - Save json list async
++        Runnable saveTask = () -> {
++            this.removeExpired(); // Paper - remove expired values before saving
++            JsonArray jsonArray = new JsonArray();
++            this.map.values().stream().map(storedEntry -> Util.make(new JsonObject(), storedEntry::serialize)).forEach(jsonArray::add);
+ 
+-        try (BufferedWriter writer = Files.newWriter(this.file, StandardCharsets.UTF_8)) {
+-            GSON.toJson(jsonArray, GSON.newJsonWriter(writer));
+-        }
++            try (BufferedWriter writer = Files.newWriter(this.file, StandardCharsets.UTF_8)) {
++                GSON.toJson(jsonArray, GSON.newJsonWriter(writer));
++            } catch (java.io.IOException e) {
++                StoredUserList.LOGGER.warn("Failed to async save " + this.file, e);
++            }
++        };
++        io.papermc.paper.util.MCUtil.scheduleAsyncTask(saveTask);
++        // DivineMC end - Save json list async
+     }
+ 
+     public void load() throws IOException {

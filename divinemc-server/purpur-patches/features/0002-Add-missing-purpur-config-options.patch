@@ -1,0 +1,160 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Sun, 12 Jan 2025 00:14:21 +0300
+Subject: [PATCH] Add missing purpur config options
+
+
+diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
+index 8208a91dd9d15a23b17590f88ab2fefdc0fcfcf3..0ead27518fc23943b29f163ed0feb6c61c119468 100644
+--- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
++++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
+@@ -327,6 +327,7 @@ public class PurpurConfig {
+     }
+ 
+     public static int barrelRows = 3;
++    public static int chestBoatRows = 3; // DivineMC - Add missing purpur config options
+     public static boolean enderChestSixRows = false;
+     public static boolean enderChestPermissionRows = false;
+     public static boolean cryingObsidianValidForPortalFrame = false;
+@@ -369,6 +370,7 @@ public class PurpurConfig {
+             case 1 -> 9;
+             default -> 27;
+         });
++        chestBoatRows = getInt("settings.blocks.chest_boat.rows", chestBoatRows); // DivineMC - Add missing purpur config options
+         enderChestSixRows = getBoolean("settings.blocks.ender_chest.six-rows", enderChestSixRows);
+         org.bukkit.event.inventory.InventoryType.ENDER_CHEST.setDefaultSize(enderChestSixRows ? 54 : 27);
+         enderChestPermissionRows = getBoolean("settings.blocks.ender_chest.use-permissions-for-rows", enderChestPermissionRows);
+diff --git a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
+index 22e793c40f3a784b514905c1d756d4cbdf1fd740..235c851e8dd202690a5eac6537d22d244c012494 100644
+--- a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
++++ b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
+@@ -1144,12 +1144,20 @@ public class PurpurWorldConfig {
+     public boolean allayControllable = true;
+     public double allayMaxHealth = 20.0D;
+     public double allayScale = 1.0D;
++    // DivineMC start - Add missing purpur config options
++    public boolean allayTakeDamageFromWater = false;
++    public boolean allayAlwaysDropExp = false;
++    // DivineMC end
+     private void allaySettings() {
+         allayRidable = getBoolean("mobs.allay.ridable", allayRidable);
+         allayRidableInWater = getBoolean("mobs.allay.ridable-in-water", allayRidableInWater);
+         allayControllable = getBoolean("mobs.allay.controllable", allayControllable);
+         allayMaxHealth = getDouble("mobs.allay.attributes.max_health", allayMaxHealth);
+         allayScale = Mth.clamp(getDouble("mobs.allay.attributes.scale", allayScale), 0.0625D, 16.0D);
++        // DivineMC start - Add missing purpur config options
++        allayTakeDamageFromWater = getBoolean("mobs.allay.take-damage-from-water", allayTakeDamageFromWater);
++        allayAlwaysDropExp = getBoolean("mobs.allay.always-drop-exp", allayAlwaysDropExp);
++        // DivineMC end - Add missing purpur config options
+     }
+ 
+     public boolean armadilloRidable = false;
+@@ -1299,6 +1307,10 @@ public class PurpurWorldConfig {
+     public double camelMovementSpeedMin = 0.09D;
+     public double camelMovementSpeedMax = 0.09D;
+     public int camelBreedingTicks = 6000;
++    // DivineMC start - Add missing purpur config options
++    public boolean camelTakeDamageFromWater = false;
++    public boolean camelAlwaysDropExp = false;
++    // DivineMC end - Add missing purpur config options
+     private void camelSettings() {
+         camelRidableInWater = getBoolean("mobs.camel.ridable-in-water", camelRidableInWater);
+         camelMaxHealthMin = getDouble("mobs.camel.attributes.max_health.min", camelMaxHealthMin);
+@@ -1308,6 +1320,10 @@ public class PurpurWorldConfig {
+         camelMovementSpeedMin = getDouble("mobs.camel.attributes.movement_speed.min", camelMovementSpeedMin);
+         camelMovementSpeedMax = getDouble("mobs.camel.attributes.movement_speed.max", camelMovementSpeedMax);
+         camelBreedingTicks = getInt("mobs.camel.breeding-delay-ticks", camelBreedingTicks);
++        // DivineMC start - Add missing purpur config options
++        camelTakeDamageFromWater = getBoolean("mobs.camel.takes-damage-from-water", camelTakeDamageFromWater);
++        camelAlwaysDropExp = getBoolean("mobs.camel.always-drop-exp", camelAlwaysDropExp);
++        // DivineMC end - Add missing purpur config options
+     }
+ 
+     public boolean catRidable = false;
+@@ -1764,12 +1780,22 @@ public class PurpurWorldConfig {
+     public boolean frogControllable = true;
+     public float frogRidableJumpHeight = 0.65F;
+     public int frogBreedingTicks = 6000;
++    // DivineMC start - Add missing purpur config options
++    public double frogMaxHealth = 10.0D;
++    public boolean frogTakeDamageFromWater = false;
++    public boolean frogAlwaysDropExp = false;
++    // DivineMC end - Add missing purpur config options
+     private void frogSettings() {
+         frogRidable = getBoolean("mobs.frog.ridable", frogRidable);
+         frogRidableInWater = getBoolean("mobs.frog.ridable-in-water", frogRidableInWater);
+         frogControllable = getBoolean("mobs.frog.controllable", frogControllable);
+         frogRidableJumpHeight = (float) getDouble("mobs.frog.ridable-jump-height", frogRidableJumpHeight);
+         frogBreedingTicks = getInt("mobs.frog.breeding-delay-ticks", frogBreedingTicks);
++        // DivineMC start - Add missing purpur config options
++        frogMaxHealth = getDouble("mobs.frog.attributes.max_health", frogMaxHealth);
++        frogTakeDamageFromWater = getBoolean("mobs.frog.takes-damage-from-water", frogTakeDamageFromWater);
++        frogAlwaysDropExp = getBoolean("mobs.frog.always-drop-exp", frogAlwaysDropExp);
++        // DivineMC end
+     }
+ 
+     public boolean ghastRidable = false;
+@@ -2776,6 +2802,10 @@ public class PurpurWorldConfig {
+     public double snifferMaxHealth = 14.0D;
+     public double snifferScale = 1.0D;
+     public int snifferBreedingTicks = 6000;
++    // DivineMC start - Add missing purpur config options
++    public boolean snifferTakeDamageFromWater = false;
++    public boolean snifferAlwaysDropExp = false;
++    // DivineMC end - Add missing purpur config options
+     private void snifferSettings() {
+         snifferRidable = getBoolean("mobs.sniffer.ridable", snifferRidable);
+         snifferRidableInWater = getBoolean("mobs.sniffer.ridable-in-water", snifferRidableInWater);
+@@ -2783,6 +2813,10 @@ public class PurpurWorldConfig {
+         snifferMaxHealth = getDouble("mobs.sniffer.attributes.max_health", snifferMaxHealth);
+         snifferScale = Mth.clamp(getDouble("mobs.sniffer.attributes.scale", snifferScale), 0.0625D, 16.0D);
+         snifferBreedingTicks = getInt("mobs.sniffer.breeding-delay-ticks", snifferBreedingTicks);
++        // DivineMC start - Add missing purpur config options
++        snifferTakeDamageFromWater = getBoolean("mobs.sniffer.takes-damage-from-water", snifferTakeDamageFromWater);
++        snifferAlwaysDropExp = getBoolean("mobs.sniffer.always-drop-exp", snifferAlwaysDropExp);
++        // DivineMC end - Add missing purpur config options
+     }
+ 
+     public boolean squidRidable = false;
+@@ -2884,10 +2918,20 @@ public class PurpurWorldConfig {
+     public boolean tadpoleRidable = false;
+     public boolean tadpoleRidableInWater = true;
+     public boolean tadpoleControllable = true;
++    // DivineMC start - Add missing purpur config options
++    public double tadpoleMaxHealth = 10.0D;
++    public boolean tadpoleTakeDamageFromWater = false;
++    public boolean tadpoleAlwaysDropExp = false;
++    // DivineMC end - Add missing purpur config options
+     private void tadpoleSettings() {
+         tadpoleRidable = getBoolean("mobs.tadpole.ridable", tadpoleRidable);
+         tadpoleRidableInWater = getBoolean("mobs.tadpole.ridable-in-water", tadpoleRidableInWater);
+         tadpoleControllable = getBoolean("mobs.tadpole.controllable", tadpoleControllable);
++        // DivineMC start - Add missing purpur config options
++        tadpoleMaxHealth = getDouble("mobs.tadpole.attributes.max_health", tadpoleMaxHealth);
++        tadpoleTakeDamageFromWater = getBoolean("mobs.tadpole.takes-damage-from-water", tadpoleTakeDamageFromWater);
++        tadpoleAlwaysDropExp = getBoolean("mobs.tadpole.always-drop-exp", tadpoleAlwaysDropExp);
++        // DivineMC end - Add missing purpur config options
+     }
+ 
+     public boolean traderLlamaRidable = false;
+@@ -3116,10 +3160,20 @@ public class PurpurWorldConfig {
+     public boolean wardenRidable = false;
+     public boolean wardenRidableInWater = true;
+     public boolean wardenControllable = true;
++    // DivineMC start - Add missing purpur config options
++    public double wardenMaxHealth = 500.0D;
++    public boolean wardenTakeDamageFromWater = false;
++    public boolean wardenAlwaysDropExp = false;
++    // DivineMC end - Add missing purpur config options
+     private void wardenSettings() {
+         wardenRidable = getBoolean("mobs.warden.ridable", wardenRidable);
+         wardenRidableInWater = getBoolean("mobs.warden.ridable-in-water", wardenRidableInWater);
+         wardenControllable = getBoolean("mobs.warden.controllable", wardenControllable);
++        // DivineMC start - Add missing purpur config options
++        wardenMaxHealth = getDouble("mobs.warden.attributes.max_health", wardenMaxHealth);
++        wardenTakeDamageFromWater = getBoolean("mobs.warden.takes-damage-from-water", wardenTakeDamageFromWater);
++        wardenAlwaysDropExp = getBoolean("mobs.warden.always-drop-exp", wardenAlwaysDropExp);
++        // DivineMC end - Add missing purpur config options
+     }
+ 
+     public boolean witchRidable = false;

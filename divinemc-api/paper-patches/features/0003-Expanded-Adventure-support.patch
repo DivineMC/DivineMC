@@ -1,0 +1,77 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Tue, 14 Jan 2025 19:49:49 +0300
+Subject: [PATCH] Expanded Adventure support
+
+Adds support for Adventure in a few places where it was previously missing.
+Original patch was taken from Parchment: https://github.com/ProjectEdenGG/Parchment
+
+diff --git a/src/main/java/org/bukkit/Color.java b/src/main/java/org/bukkit/Color.java
+index f8edb964c4af597b03a2de06c464cc06a96b791c..596e2e09c6a64fa5861221789185d2fd7b004248 100644
+--- a/src/main/java/org/bukkit/Color.java
++++ b/src/main/java/org/bukkit/Color.java
+@@ -17,7 +17,7 @@ import org.jetbrains.annotations.Nullable;
+  * but subject to change.
+  */
+ @SerializableAs("Color")
+-public final class Color implements ConfigurationSerializable {
++public final class Color implements ConfigurationSerializable, net.kyori.adventure.text.format.TextColor { // DivineMC - Expanded Adventure support
+     private static final int BIT_MASK = 0xff;
+     private static final int DEFAULT_ALPHA = 255;
+ 
+@@ -310,6 +310,13 @@ public final class Color implements ConfigurationSerializable {
+         return getAlpha() << 24 | getRed() << 16 | getGreen() << 8 | getBlue();
+     }
+ 
++    // DivineMC start - Expanded Adventure support
++    @Override
++    public int value() {
++        return asRGB();
++    }
++    // DivineMC end - Expanded Adventure support
++
+     /**
+      * Gets the color as an BGR integer.
+      *
+diff --git a/src/main/java/org/bukkit/DyeColor.java b/src/main/java/org/bukkit/DyeColor.java
+index 2f038f233afd4210687586800070d5f61e40562a..24068f23f45a0d3b837b04565d143a5cd8cd8869 100644
+--- a/src/main/java/org/bukkit/DyeColor.java
++++ b/src/main/java/org/bukkit/DyeColor.java
+@@ -8,7 +8,7 @@ import org.jetbrains.annotations.Nullable;
+ /**
+  * All supported color values for dyes and cloth
+  */
+-public enum DyeColor {
++public enum DyeColor implements net.kyori.adventure.util.RGBLike, net.kyori.adventure.text.format.StyleBuilderApplicable { // DivineMC - Expanded Adventure support
+ 
+     /**
+      * Represents white dye.
+@@ -135,6 +135,28 @@ public enum DyeColor {
+         return firework;
+     }
+ 
++    // DivineMC start - Expanded Adventure support
++    @Override
++    public @org.jetbrains.annotations.Range(from = 0L, to = 255L) int red() {
++        return color.getRed();
++    }
++
++    @Override
++    public @org.jetbrains.annotations.Range(from = 0L, to = 255L) int green() {
++        return color.getGreen();
++    }
++
++    @Override
++    public @org.jetbrains.annotations.Range(from = 0L, to = 255L) int blue() {
++        return color.getBlue();
++    }
++
++    @Override
++    public void styleApply(net.kyori.adventure.text.format.Style.@org.jetbrains.annotations.NotNull Builder style) {
++        style.color(net.kyori.adventure.text.format.TextColor.color(color));
++    }
++    // DivineMC end - Expanded Adventure support
++
+     /**
+      * Gets the DyeColor with the given wool data value.
+      *

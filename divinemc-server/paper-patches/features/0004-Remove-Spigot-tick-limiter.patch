@@ -1,0 +1,52 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Sun, 12 Jan 2025 01:47:27 +0300
+Subject: [PATCH] Remove Spigot tick limiter
+
+
+diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
+index 5b305092a808c2b9b339b9072bf7f7bfc00f0b8a..c9ff04efcdf063326119b9f65630979d38dc7abf 100644
+--- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
++++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
+@@ -418,6 +418,7 @@ public class SpigotWorldConfig {
+         this.hangingTickFrequency = this.getInt("hanging-tick-frequency", 200); // DivineMC - Optimize default values for configs
+     }
+ 
++    /* DivineMC - remove tick limiter
+     public int tileMaxTickTime;
+     public int entityMaxTickTime;
+     private void maxTickTimes() {
+@@ -425,6 +426,7 @@ public class SpigotWorldConfig {
+         this.entityMaxTickTime = this.getInt("max-tick-time.entity", 50);
+         this.log("Tile Max Tick Time: " + this.tileMaxTickTime + "ms Entity max Tick Time: " + this.entityMaxTickTime + "ms");
+     }
++     */
+ 
+     public int thunderChance;
+     private void thunderChance() {
+diff --git a/src/main/java/org/spigotmc/TickLimiter.java b/src/main/java/org/spigotmc/TickLimiter.java
+deleted file mode 100644
+index 961489499e220d71339771dcabf151edeaf6d231..0000000000000000000000000000000000000000
+--- a/src/main/java/org/spigotmc/TickLimiter.java
++++ /dev/null
+@@ -1,20 +0,0 @@
+-package org.spigotmc;
+-
+-public class TickLimiter {
+-
+-    private final int maxTime;
+-    private long startTime;
+-
+-    public TickLimiter(int maxTime) {
+-        this.maxTime = maxTime;
+-    }
+-
+-    public void initTick() {
+-        this.startTime = System.currentTimeMillis();
+-    }
+-
+-    public boolean shouldContinue() {
+-        long remaining = System.currentTimeMillis() - this.startTime;
+-        return remaining < this.maxTime;
+-    }
+-}

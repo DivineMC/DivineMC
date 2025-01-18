@@ -1,13 +1,15 @@
-# DivineMC-API and DivineMC-Server changes + paper-api-generator
-DivineMC-API
-DivineMC-Server
-paper-api-generator/*
-
 # IDE and Gradle things
 build
 .gradle
 run
 .idea
 
-# Other files and folders
-build-data
+# Server things
+/divinemc-server/build.gradle.kts
+/divinemc-server/src/minecraft
+/paper-server
+/purpur-server
+/divinemc-api/build.gradle.kts
+/paper-api
+/purpur-api
+*.jar
