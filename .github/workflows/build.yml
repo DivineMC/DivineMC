@@ -60,7 +60,7 @@ jobs:
           title: "Release #${{ env.workflow }}"
           automatic_release_tag: release-${{ env.workflow }}
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          files: build/libs/*.jar
+          files: divinemc-server/build/libs/divinemc-paperclip-*-mojmap.jar
           prerelease: false
 
       - name: Release Artifacts (Latest)
@@ -70,5 +70,5 @@ jobs:
           title: "Release #${{ env.workflow }}"
           automatic_release_tag: latest-${{ env.version }}
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          files: build/libs/*.jar
+          files: divinemc-server/build/libs/divinemc-paperclip-*-mojmap.jar
           prerelease: false
