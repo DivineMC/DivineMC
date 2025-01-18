@@ -46,7 +46,7 @@ jobs:
           BUILD_NUMBER: ${{ env.BUILD_NUMBER }}
 
       - name: Create Release
-        uses: ncipollo/release-action@latest
+        uses: ncipollo/release-action@v1.15.0
         with:
           artifacts: ${{ env.jar }}
           bodyFile: ${{ env.info }}
