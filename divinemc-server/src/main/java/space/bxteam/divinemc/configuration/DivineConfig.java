@@ -163,6 +163,18 @@ public class DivineConfig {
         enableSecureSeed = getBoolean("settings.misc.enable-secure-seed", enableSecureSeed);
     }
 
+    public static int linearFlushFrequency = 5;
+    public static int linearFlushThreads = 1;
+    private static void linearSettings() {
+        linearFlushFrequency = getInt("settings.region-format.linear.flush-frequency", linearFlushFrequency);
+        linearFlushThreads = getInt("settings.region-format.linear.flush-max-threads", linearFlushThreads);
+
+        if (linearFlushThreads < 0)
+            linearFlushThreads = Math.max(Runtime.getRuntime().availableProcessors() + linearFlushThreads, 1);
+        else
+            linearFlushThreads = Math.max(linearFlushThreads, 1);
+    }
+
     public static boolean asyncPathfinding = true;
     public static int asyncPathfindingMaxThreads = 0;
     public static int asyncPathfindingKeepalive = 60;

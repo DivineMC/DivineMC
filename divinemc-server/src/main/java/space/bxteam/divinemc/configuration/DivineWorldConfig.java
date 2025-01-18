@@ -3,10 +3,12 @@ package space.bxteam.divinemc.configuration;
 import org.apache.commons.lang.BooleanUtils;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
+import space.bxteam.divinemc.region.RegionFileFormat;
 
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
+import java.util.logging.Level;
 
 import static space.bxteam.divinemc.configuration.DivineConfig.log;
 
@@ -90,5 +92,23 @@ public class DivineWorldConfig {
     public boolean suppressErrorsFromDirtyAttributes = true;
     private void suppressErrorsFromDirtyAttributes() {
         suppressErrorsFromDirtyAttributes = getBoolean("suppress-errors-from-dirty-attributes", suppressErrorsFromDirtyAttributes);
+    }
+
+    public RegionFileFormat regionFormat = RegionFileFormat.ANVIL;
+    public int linearCompressionLevel = 1;
+    private void regionFormatSettings() {
+        regionFormat = RegionFileFormat.fromString(getString("region-format.format", regionFormat.name()));
+        if (regionFormat.equals(RegionFileFormat.INVALID)) {
+            log(Level.SEVERE, "Unknown region format in linear.yml: " + regionFormat);
+            log(Level.SEVERE, "Falling back to ANVIL region file format.");
+            regionFormat = RegionFileFormat.ANVIL;
+        }
+
+        linearCompressionLevel = getInt("region-format.linear.compression-level", linearCompressionLevel);
+        if (linearCompressionLevel > 23 || linearCompressionLevel < 1) {
+            log(Level.SEVERE, "Linear region compression level should be between 1 and 22 in linear.yml: " + linearCompressionLevel);
+            log(Level.SEVERE, "Falling back to compression level 1.");
+            linearCompressionLevel = 1;
+        }
     }
 }

@@ -57,6 +57,16 @@
      implementation("ca.spottedleaf:concurrentutil:0.0.3")
      implementation("org.jline:jline-terminal-ffm:3.27.1") // use ffm on java 22+
      implementation("org.jline:jline-terminal-jni:3.27.1") // fall back to jni on java 21
+@@ -176,6 +_,9 @@
+     implementation("org.mozilla:rhino-engine:1.7.14") // Purpur
+     implementation("dev.omega24:upnp4j:1.0") // Purpur
+ 
++    implementation("com.github.luben:zstd-jni:1.5.6-9") // DivineMC
++    implementation("org.lz4:lz4-java:1.8.0") // DivineMC
++
+     runtimeOnly("org.apache.maven:maven-resolver-provider:3.9.6")
+     runtimeOnly("org.apache.maven.resolver:maven-resolver-connector-basic:1.9.18")
+     runtimeOnly("org.apache.maven.resolver:maven-resolver-transport-http:1.9.18")
 @@ -203,26 +_,35 @@
      implementation("me.lucko:spark-paper:1.10.119-SNAPSHOT")
  }

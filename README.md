@@ -77,11 +77,11 @@ First, clone this repository (do not download it) and the run the following comm
 After that, project is ready to use and editing it.
 
 ### Creating a patch
-Patches are effectively just commits in either `paper-api`, `paper-server`, `purpur-api`, `purpur-server` or `divinmc-server`. If you want to learn how to work with patch system, you can read our [contributing documentation](https://docs.bx-team.space/documentation/divinemc/development/contributing).
+Patches are effectively just commits in either `paper-api`, `paper-server`, `purpur-api`, `purpur-server` or `divinemc-server`. If you want to learn how to work with patch system, you can read our [contributing documentation](https://docs.bx-team.space/documentation/divinemc/development/contributing).
 
 ### Compiling
 Use the command `./gradlew build` to build the API and server. Compiled JARs will be placed under `divinemc-api/build/libs` and `divinemc-server/build/libs`. **These JARs are not used to start a server**.
 
-To compile a server-ready paperclip jar, run `./gradlew createMojmapPaperclipJar`. The compiled paperclip jar will be in `divinemc-server/build/libs` in the main root.
+To compile a server-ready paperclip jar, run `./gradlew createMojmapPaperclipJar`. The compiled paperclip jar will be put in `divinemc-server/build/libs`.
 
 ###### We don't steal logo from YatopiaMC! [List of all forks](https://gist.github.com/NONPLAYT/48742353af8ae36bcef5d1c36de9730a)
