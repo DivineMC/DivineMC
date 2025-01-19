@@ -21,6 +21,63 @@
          final Vec3 originalMovement = movement; // Paper - Expose pre-collision velocity
          // Paper start - detailed watchdog information
          ca.spottedleaf.moonrise.common.util.TickThread.ensureTickThread("Cannot move an entity off-main");
+@@ -2161,30 +_,42 @@
+         return new Vec3(this.xOld, this.yOld, this.zOld);
+     }
+ 
+-    public float distanceTo(Entity entity) {
+-        float f = (float)(this.getX() - entity.getX());
+-        float f1 = (float)(this.getY() - entity.getY());
+-        float f2 = (float)(this.getZ() - entity.getZ());
+-        return Mth.sqrt(f * f + f1 * f1 + f2 * f2);
++    // DivineMC start - Optimize distanceTo
++    public final float distanceTo(Entity entity) {
++        final double dx = this.getX() - entity.getX();
++        final double dy = this.getY() - entity.getY();
++        final double dz = this.getZ() - entity.getZ();
++        return (float) Math.sqrt(Boolean.parseBoolean(System.getProperty("DivineMC.enableFMA"))
++            ? Math.fma(dx, dx, Math.fma(dy, dy, dz * dz))
++            : dx * dx + dy * dy + dz * dz);
+     }
++    // DivineMC end - Optimize distanceTo
+ 
+-    public double distanceToSqr(double x, double y, double z) {
+-        double d = this.getX() - x;
+-        double d1 = this.getY() - y;
+-        double d2 = this.getZ() - z;
+-        return d * d + d1 * d1 + d2 * d2;
++    // DivineMC start - Optimize distanceToSqr
++    public final double distanceToSqr(final double x, final double y, final double z) {
++        final double dx = this.getX() - x;
++        final double dy = this.getY() - y;
++        final double dz = this.getZ() - z;
++        return Boolean.parseBoolean(System.getProperty("DivineMC.enableFMA"))
++            ? Math.fma(dx, dx, Math.fma(dy, dy, dz * dz))
++            : dx * dx + dy * dy + dz * dz;
+     }
++    // DivineMC end - Optimize distanceToSqr
+ 
+     public double distanceToSqr(Entity entity) {
+         return this.distanceToSqr(entity.position());
+     }
+ 
++    // DivineMC start - Optimize distanceToSqr
+     public double distanceToSqr(Vec3 vec) {
+-        double d = this.getX() - vec.x;
+-        double d1 = this.getY() - vec.y;
+-        double d2 = this.getZ() - vec.z;
+-        return d * d + d1 * d1 + d2 * d2;
++        final double dx = this.getX() - vec.x;
++        final double dy = this.getY() - vec.y;
++        final double dz = this.getZ() - vec.z;
++        return Boolean.parseBoolean(System.getProperty("DivineMC.enableFMA"))
++            ? Math.fma(dx, dx, Math.fma(dy, dy, dz * dz))
++            : dx * dx + dy * dy + dz * dz;
+     }
++    // DivineMC end - Optimize distanceToSqr
+ 
+     public void playerTouch(Player player) {
+     }
 @@ -4251,6 +_,7 @@
      }
  

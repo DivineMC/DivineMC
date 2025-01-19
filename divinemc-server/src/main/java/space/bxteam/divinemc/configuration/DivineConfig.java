@@ -148,8 +148,14 @@ public class DivineConfig {
     }
 
     public static boolean optimizedDragonRespawn = true;
+    public static boolean lagCompensationEnabled = false;
+    public static boolean lagCompensationEnableForWater = false;
+    public static boolean lagCompensationEnableForLava = false;
     private static void optimizations() {
         optimizedDragonRespawn = getBoolean("settings.optimizations.optimized-dragon-respawn", optimizedDragonRespawn);
+        lagCompensationEnabled = getBoolean("settings.optimizations.lag-compensation.enabled", lagCompensationEnabled);
+        lagCompensationEnableForWater = getBoolean("settings.optimizations.lag-compensation.enable-for-water", lagCompensationEnableForWater);
+        lagCompensationEnableForLava = getBoolean("settings.optimizations.lag-compensation.enable-for-lava", lagCompensationEnableForLava);
     }
 
     public static boolean disableNonEditableSignWarning = true;

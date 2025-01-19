@@ -1,0 +1,21 @@
+--- a/net/minecraft/core/BlockPos.java
++++ b/net/minecraft/core/BlockPos.java
+@@ -347,7 +_,18 @@
+         };
+     }
+ 
++    // DivineMC start - lithium: cached iterate outwards
++    private static final space.bxteam.divinemc.util.lithium.IterateOutwardsCache ITERATE_OUTWARDS_CACHE = new space.bxteam.divinemc.util.lithium.IterateOutwardsCache(50);
++    private static final it.unimi.dsi.fastutil.longs.LongList HOGLIN_PIGLIN_CACHE = ITERATE_OUTWARDS_CACHE.getOrCompute(8, 4, 8);
++    // DivineMC end - lithium: cached iterate outwards
++
+     public static Iterable<BlockPos> withinManhattan(BlockPos pos, int xSize, int ySize, int zSize) {
++        // DivineMC start - lithium: cached iterate outwards
++        if (pos != space.bxteam.divinemc.util.lithium.IterateOutwardsCache.POS_ZERO) {
++            final it.unimi.dsi.fastutil.longs.LongList positions = xSize == 8 && ySize == 4 && zSize == 8 ? HOGLIN_PIGLIN_CACHE : ITERATE_OUTWARDS_CACHE.getOrCompute(xSize, ySize, zSize);
++            return new space.bxteam.divinemc.util.lithium.LongList2BlockPosMutableIterable(pos, positions);
++        }
++        // DivineMC end - lithium: cached iterate outwards
+         int i = xSize + ySize + zSize;
+         int x1 = pos.getX();
+         int y1 = pos.getY();

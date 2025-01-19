@@ -1,0 +1,56 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Sun, 19 Jan 2025 02:48:59 +0300
+Subject: [PATCH] Lag Compensation
+
+
+diff --git a/net/minecraft/server/MinecraftServer.java b/net/minecraft/server/MinecraftServer.java
+index b3f2e7bb4519cc078d3cede11bce232f1255c6a0..d7da8622264f5bf676bcdb0b535d5c9ceedc2025 100644
+--- a/net/minecraft/server/MinecraftServer.java
++++ b/net/minecraft/server/MinecraftServer.java
+@@ -1570,6 +1570,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+ 
+         this.server.spark.tickStart(); // Paper - spark
+         new com.destroystokyo.paper.event.server.ServerTickStartEvent(this.tickCount+1).callEvent(); // Paper - Server Tick Events
++        if (space.bxteam.divinemc.configuration.DivineConfig.lagCompensationEnabled) space.bxteam.divinemc.util.LagCompensation.TPSCalculator.onTick(); // DivineMC - Lag Compensation
+         this.tickCount++;
+         this.tickRateManager.tick();
+         this.tickChildren(hasTimeLeft);
+diff --git a/net/minecraft/world/level/material/LavaFluid.java b/net/minecraft/world/level/material/LavaFluid.java
+index 85629a43f5469a89dd6078d879f475e8212438ec..06cb57207182ca279abe769e3e7017eddb6ae199 100644
+--- a/net/minecraft/world/level/material/LavaFluid.java
++++ b/net/minecraft/world/level/material/LavaFluid.java
+@@ -177,7 +177,13 @@ public abstract class LavaFluid extends FlowingFluid {
+ 
+     @Override
+     public int getTickDelay(LevelReader level) {
+-        return level.dimensionType().ultraWarm() ? level.getWorldBorder().world.purpurConfig.lavaSpeedNether : level.getWorldBorder().world.purpurConfig.lavaSpeedNotNether; // Purpur - Make lava flow speed configurable
++        // DivineMC start - Lag Compensation
++        if (space.bxteam.divinemc.configuration.DivineConfig.lagCompensationEnabled && space.bxteam.divinemc.configuration.DivineConfig.lagCompensationEnableForLava) {
++            return level.dimensionType().ultraWarm() ? space.bxteam.divinemc.util.LagCompensation.tt20(level.getWorldBorder().world.purpurConfig.lavaSpeedNether, true) : space.bxteam.divinemc.util.LagCompensation.tt20(level.getWorldBorder().world.purpurConfig.lavaSpeedNotNether, true); // Purpur - Make lava flow speed configurable
++        } else {
++            return level.dimensionType().ultraWarm() ? level.getWorldBorder().world.purpurConfig.lavaSpeedNether : level.getWorldBorder().world.purpurConfig.lavaSpeedNotNether; // Purpur - Make lava flow speed configurable
++        }
++        // DivineMC end - Lag Compensation
+     }
+ 
+     @Override
+diff --git a/net/minecraft/world/level/material/WaterFluid.java b/net/minecraft/world/level/material/WaterFluid.java
+index 2e4fed7c27910b6c886f710f33b0841c2a175837..e5886e35026690f6fcbaad18d7ca3c21c58b23d1 100644
+--- a/net/minecraft/world/level/material/WaterFluid.java
++++ b/net/minecraft/world/level/material/WaterFluid.java
+@@ -115,7 +115,13 @@ public abstract class WaterFluid extends FlowingFluid {
+ 
+     @Override
+     public int getTickDelay(LevelReader level) {
+-        return 5;
++        // DivineMC start - Lag Compensation
++        if (space.bxteam.divinemc.configuration.DivineConfig.lagCompensationEnabled && space.bxteam.divinemc.configuration.DivineConfig.lagCompensationEnableForWater) {
++            return space.bxteam.divinemc.util.LagCompensation.tt20(5, true);
++        } else {
++            return 5;
++        }
++        // DivineMC end - Lag Compensation
+     }
+ 
+     @Override
