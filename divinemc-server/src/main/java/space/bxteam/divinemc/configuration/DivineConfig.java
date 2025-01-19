@@ -162,11 +162,13 @@ public class DivineConfig {
     public static boolean removeVanillaUsernameCheck = false;
     public static boolean disableMovedWronglyThreshold = false;
     public static boolean enableSecureSeed = false;
+    public static boolean asyncPlayerDataSaveEnabled = false;
     private static void miscSettings() {
         disableNonEditableSignWarning = getBoolean("settings.misc.disable-non-editable-sign-warning", disableNonEditableSignWarning);
         removeVanillaUsernameCheck = getBoolean("settings.misc.remove-vanilla-username-check", removeVanillaUsernameCheck);
         disableMovedWronglyThreshold = getBoolean("settings.misc.disable-moved-wrongly-threshold", disableMovedWronglyThreshold);
         enableSecureSeed = getBoolean("settings.misc.enable-secure-seed", enableSecureSeed);
+        asyncPlayerDataSaveEnabled = getBoolean("settings.misc.experimental.async-player-data-save-enabled", asyncPlayerDataSaveEnabled);
     }
 
     public static int linearFlushFrequency = 5;

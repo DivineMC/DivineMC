@@ -43,6 +43,7 @@ mv divinemc-server/build/libs/divinemc-paperclip-"$version"-mojmap.jar "$jarName
   echo "====="
   echo ""
   if [ "$experimental" = "true" ]; then
+    echo "> [!WARNING]"
     echo "> This is an early, experimental build. It is only recommended for usage on test servers and should be used with caution."
     echo "> **Backups are mandatory!**"
     echo ""

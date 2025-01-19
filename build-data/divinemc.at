@@ -1,5 +1,6 @@
 # This file is auto generated, any changes may be overridden!
 # See CONTRIBUTING.md on how to add access transformers.
+public net.minecraft.world.entity.projectile.AbstractArrow startFalling()V
 public net.minecraft.world.level.block.state.pattern.BlockPattern matches(Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/Direction;Lnet/minecraft/core/Direction;Lcom/google/common/cache/LoadingCache;)Lnet/minecraft/world/level/block/state/pattern/BlockPattern$BlockPatternMatch;
 public net.minecraft.world.level.chunk.storage.RegionFile getOversizedData(II)Lnet/minecraft/nbt/CompoundTag;
 public net.minecraft.world.level.chunk.storage.RegionFile isOversized(II)Z

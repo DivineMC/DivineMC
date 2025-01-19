@@ -1,0 +1,53 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: NONPLAYT <76615486+NONPLAYT@users.noreply.github.com>
+Date: Sun, 19 Jan 2025 18:01:27 +0300
+Subject: [PATCH] Async data saving
+
+
+diff --git a/net/minecraft/world/level/storage/LevelStorageSource.java b/net/minecraft/world/level/storage/LevelStorageSource.java
+index de43e54698125ce9f319d4889dd49f7029fe95e0..38a36da1d6e064b538b7b95c46994772d079a9ca 100644
+--- a/net/minecraft/world/level/storage/LevelStorageSource.java
++++ b/net/minecraft/world/level/storage/LevelStorageSource.java
+@@ -514,7 +514,10 @@ public class LevelStorageSource {
+             CompoundTag compoundTag = serverConfiguration.createTag(registries, hostPlayerNBT);
+             CompoundTag compoundTag1 = new CompoundTag();
+             compoundTag1.put("Data", compoundTag);
+-            this.saveLevelData(compoundTag1);
++            // DivineMC start - Async data saving
++            Runnable runnable = () -> this.saveLevelData(compoundTag1);
++            space.bxteam.divinemc.util.AsyncDataSaving.saveAsync(runnable);
++            // DivineMC end - Async data saving
+         }
+ 
+         private void saveLevelData(CompoundTag tag) {
+@@ -601,7 +604,10 @@ public class LevelStorageSource {
+             this.checkLock();
+             CompoundTag levelDataTagRaw = LevelStorageSource.readLevelDataTagRaw(this.levelDirectory.dataFile());
+             modifier.accept(levelDataTagRaw.getCompound("Data"));
+-            this.saveLevelData(levelDataTagRaw);
++            // DivineMC start - Async data saving
++            Runnable runnable = () -> this.saveLevelData(levelDataTagRaw);
++            space.bxteam.divinemc.util.AsyncDataSaving.saveAsync(runnable);
++            // DivineMC end - Async data saving
+         }
+ 
+         public long makeWorldBackup() throws IOException {
+diff --git a/net/minecraft/world/level/storage/PlayerDataStorage.java b/net/minecraft/world/level/storage/PlayerDataStorage.java
+index c44110b123ba5912af18faf0065e9ded780da9b7..339efaaf92fbec457759235f91e9a03d5d5d2e4f 100644
+--- a/net/minecraft/world/level/storage/PlayerDataStorage.java
++++ b/net/minecraft/world/level/storage/PlayerDataStorage.java
+@@ -32,7 +32,14 @@ public class PlayerDataStorage {
+         this.playerDir.mkdirs();
+     }
+ 
++    // DivineMC start - Async playerdata save
+     public void save(Player player) {
++        Runnable runnable = () -> saveInternal(player);
++        space.bxteam.divinemc.util.AsyncDataSaving.saveAsync(runnable);
++    }
++
++    private void saveInternal(Player player) {
++    // DivineMC end - Async playerdata save
+         if (org.spigotmc.SpigotConfig.disablePlayerDataSaving) return; // Spigot
+         try {
+             CompoundTag compoundTag = player.saveWithoutId(new CompoundTag());
