@@ -5,7 +5,7 @@ Subject: [PATCH] Multithreaded Tracker
 
 
 diff --git a/net/minecraft/server/level/ChunkMap.java b/net/minecraft/server/level/ChunkMap.java
-index 718487155b923bfffa215b70a12d42681a8ae141..19e98a8d905541f72becd0f61a86cc5c08e09daa 100644
+index 94da5ce57b27047443859503f6dcc01d0493021a..15a5e2d95260bfb33f286853c04e94bad96a2d5f 100644
 --- a/net/minecraft/server/level/ChunkMap.java
 +++ b/net/minecraft/server/level/ChunkMap.java
 @@ -250,9 +250,19 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
@@ -283,10 +283,10 @@ index 8127a71fd7d45541525be75e6699c2a5bae95f5f..e6a55f6fa9f4b827d14ae29c82cb7e30
      }
  
 diff --git a/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index b2f2682c44eeed9ed4f5421113cc7cc704454ba5..33730967df54467b2f046f66a1590c7069e44c5d 100644
+index c20d9cf66641a70a724c93599d668eb7b16bbb42..f4f47bb6ad9a5ae981b0de3fbc1405ea1e8a3947 100644
 --- a/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -1806,7 +1806,7 @@ public class ServerGamePacketListenerImpl
+@@ -1813,7 +1813,7 @@ public class ServerGamePacketListenerImpl
      }
  
      public void internalTeleport(PositionMoveRotation posMoveRotation, Set<Relative> relatives) {

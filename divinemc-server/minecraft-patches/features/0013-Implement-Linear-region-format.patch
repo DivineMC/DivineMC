@@ -56,10 +56,10 @@ index 51c126735ace8fdde89ad97b5cab62f244212db0..cf497c3919a1d5114a18474f04ccce18
 +    public void moonrise$write(final space.bxteam.divinemc.region.AbstractRegionFile regionFile) throws IOException; // DivineMC - linear region format
  }
 diff --git a/net/minecraft/server/MinecraftServer.java b/net/minecraft/server/MinecraftServer.java
-index d04c06fafd133f773f311e7c2708fa8b049da67c..b3f2e7bb4519cc078d3cede11bce232f1255c6a0 100644
+index 989be9b9ea224efecb1bb5998fdf6ceeed2850ae..836224638eca453cd7c83f393c08f3fc86c3da2b 100644
 --- a/net/minecraft/server/MinecraftServer.java
 +++ b/net/minecraft/server/MinecraftServer.java
-@@ -950,10 +950,10 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -951,10 +951,10 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          // CraftBukkit end
          if (flush) {
              for (ServerLevel serverLevel2 : this.getAllLevels()) {

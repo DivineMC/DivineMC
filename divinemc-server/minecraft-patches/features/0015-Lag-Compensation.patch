@@ -5,10 +5,10 @@ Subject: [PATCH] Lag Compensation
 
 
 diff --git a/net/minecraft/server/MinecraftServer.java b/net/minecraft/server/MinecraftServer.java
-index b3f2e7bb4519cc078d3cede11bce232f1255c6a0..d7da8622264f5bf676bcdb0b535d5c9ceedc2025 100644
+index 836224638eca453cd7c83f393c08f3fc86c3da2b..e7491104c5510dcd2d9732ac3809d80b53c3a9e8 100644
 --- a/net/minecraft/server/MinecraftServer.java
 +++ b/net/minecraft/server/MinecraftServer.java
-@@ -1570,6 +1570,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1571,6 +1571,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
  
          this.server.spark.tickStart(); // Paper - spark
          new com.destroystokyo.paper.event.server.ServerTickStartEvent(this.tickCount+1).callEvent(); // Paper - Server Tick Events

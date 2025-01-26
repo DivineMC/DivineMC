@@ -1,0 +1,40 @@
+--- a/net/minecraft/server/MinecraftServer.java
++++ b/net/minecraft/server/MinecraftServer.java
+@@ -306,6 +_,7 @@
+     public boolean lagging = false; // Purpur - Lagging threshold
+     public static final long SERVER_INIT = System.nanoTime(); // Paper - Lag compensation
+     protected boolean upnp = false; // Purpur - UPnP Port Forwarding
++    public final Set<net.minecraft.world.entity.Entity> entitiesWithScheduledTasks = java.util.concurrent.ConcurrentHashMap.newKeySet(); // DivineMC - Skip EntityScheduler's executeTick checks if there isn't any tasks to be run
+ 
+     public static <S extends MinecraftServer> S spin(Function<Thread, S> threadFunction) {
+         ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry.init(); // Paper - rewrite data converter system
+@@ -1705,17 +_,18 @@
+         this.server.getScheduler().mainThreadHeartbeat(); // CraftBukkit
+         // Paper start - Folia scheduler API
+         ((io.papermc.paper.threadedregions.scheduler.FoliaGlobalRegionScheduler) org.bukkit.Bukkit.getGlobalRegionScheduler()).tick();
+-        getAllLevels().forEach(level -> {
+-            for (final net.minecraft.world.entity.Entity entity : level.getEntities().getAll()) {
+-                if (entity.isRemoved()) {
+-                    continue;
+-                }
+-                final org.bukkit.craftbukkit.entity.CraftEntity bukkit = entity.getBukkitEntityRaw();
+-                if (bukkit != null) {
+-                    bukkit.taskScheduler.executeTick();
+-                }
+-            }
+-        });
++        // DivineMC start - Skip EntityScheduler's executeTick checks if there isn't any tasks to be run
++        for (final net.minecraft.world.entity.Entity entity : entitiesWithScheduledTasks) {
++            if (entity.isRemoved()) {
++                continue;
++            }
++
++            final org.bukkit.craftbukkit.entity.CraftEntity bukkit = entity.getBukkitEntityRaw();
++            if (bukkit != null) {
++                bukkit.taskScheduler.executeTick();
++            }
++        }
++        // DivineMC end - Skip EntityScheduler's executeTick checks if there isn't any tasks to be run
+         // Paper end - Folia scheduler API
+         io.papermc.paper.adventure.providers.ClickCallbackProviderImpl.CALLBACK_MANAGER.handleQueue(this.tickCount); // Paper
+         profilerFiller.push("commandFunctions");
