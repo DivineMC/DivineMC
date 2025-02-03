@@ -5,13 +5,13 @@ Subject: [PATCH] DivineMC Configuration
 
 
 diff --git a/net/minecraft/server/dedicated/DedicatedServer.java b/net/minecraft/server/dedicated/DedicatedServer.java
-index 2d7493122db9067ecbc9ca66cc62e7df4ae78a90..c85023893fbb227894f8f888244f1f53e25dff3f 100644
+index db82329935145ec12fa47eef730613ee9c7666ee..7362e0244cdeca7c59cb0ee855bb83e08006dd57 100644
 --- a/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -243,6 +243,17 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
          }
          org.purpurmc.purpur.PurpurConfig.registerCommands();
-         // Purpur end - Purpur config files
+         */// Purpur end - Purpur config files // Purpur - Configurable void damage height and damage
 +
 +        // DivineMC start - DivineMC configuration
 +        try {
@@ -27,7 +27,7 @@ index 2d7493122db9067ecbc9ca66cc62e7df4ae78a90..c85023893fbb227894f8f888244f1f53
  
          this.setPvpAllowed(properties.pvp);
 diff --git a/net/minecraft/world/level/Level.java b/net/minecraft/world/level/Level.java
-index 1b2d152649bc12b37db1cd7a4f54517f417d46e8..71c4c79d94473a95479bc73cfb7415e1813970de 100644
+index 6fd1f21802754edb27dd92afa09116f5076cabec..1234b40effb46509f49f1d5565cbcf3472312150 100644
 --- a/net/minecraft/world/level/Level.java
 +++ b/net/minecraft/world/level/Level.java
 @@ -171,6 +171,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl

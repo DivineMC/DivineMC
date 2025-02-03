@@ -554,10 +554,10 @@ index 1f96fd5085bacb4c584576c7cb9f51e7898e9b03..cc202eb0848a2faecd556fa279565717
      }
  }
 diff --git a/net/minecraft/world/entity/animal/Bee.java b/net/minecraft/world/entity/animal/Bee.java
-index 57c50ce5724b073b1aedf4df3129285143097303..5bdf82df2dbb79b8933813b61e617c4882fd5c60 100644
+index d5727999eb67ff30dbf47865d59452483338e170..ddbee0f0f42fae0a26321bb324d22f5e7520ae72 100644
 --- a/net/minecraft/world/entity/animal/Bee.java
 +++ b/net/minecraft/world/entity/animal/Bee.java
-@@ -934,7 +934,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
+@@ -936,7 +936,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
                          } else {
                              Bee.this.pathfindRandomlyTowards(Bee.this.hivePos);
                          }
@@ -566,7 +566,7 @@ index 57c50ce5724b073b1aedf4df3129285143097303..5bdf82df2dbb79b8933813b61e617c48
                          boolean flag = this.pathfindDirectlyTowards(Bee.this.hivePos);
                          if (!flag) {
                              this.dropAndBlacklistHive();
-@@ -988,7 +988,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
+@@ -990,7 +990,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
                  return true;
              } else {
                  Path path = Bee.this.navigation.getPath();
