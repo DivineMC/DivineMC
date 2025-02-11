@@ -21,7 +21,7 @@
              if (this.status == Raid.RaidStatus.ONGOING) {
                  boolean flag = this.active;
                  this.active = this.level.hasChunkAt(this.center);
-@@ -587,9 +_,15 @@
+@@ -580,9 +_,15 @@
          }
      }
  

@@ -5,7 +5,7 @@ Subject: [PATCH] DivineMC Configuration
 
 
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index d072bd2e46abfa9366bc973028e068849c0a0a45..55f9267c83427dbe4ab28580ec515539565f3bdb 100644
+index d429c5d34fb4b91749705b6a17c4b12d1a5220e1..87af0d7b87caca4a3828359388ac3eeda7b3d76f 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -1103,6 +1103,7 @@ public final class CraftServer implements Server {
@@ -24,7 +24,7 @@ index d072bd2e46abfa9366bc973028e068849c0a0a45..55f9267c83427dbe4ab28580ec515539
          }
  
          Plugin[] pluginClone = pluginManager.getPlugins().clone(); // Paper
-@@ -3130,6 +3132,13 @@ public final class CraftServer implements Server {
+@@ -3120,6 +3122,13 @@ public final class CraftServer implements Server {
              return CraftServer.this.console.paperConfigurations.createLegacyObject(CraftServer.this.console);
          }
  
@@ -39,7 +39,7 @@ index d072bd2e46abfa9366bc973028e068849c0a0a45..55f9267c83427dbe4ab28580ec515539
          @Override
          public YamlConfiguration getPurpurConfig() {
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 90fb036607e752fcf43575be4f03bbf00bbb05c7..cefb51630b26cac0dd3d69973437b14532f59710 100644
+index 2e1b7f613de8876095ef39bb0341a3f9520c8d5d..8c619b7d72cb153a3204cb9e215f7f5de83e8347 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -183,6 +183,15 @@ public class Main {

@@ -576,10 +576,10 @@ index d5727999eb67ff30dbf47865d59452483338e170..ddbee0f0f42fae0a26321bb324d22f5e
          }
      }
 diff --git a/net/minecraft/world/entity/animal/frog/Frog.java b/net/minecraft/world/entity/animal/frog/Frog.java
-index d286d4a45b6c8d5c684ad11500d2ad1a10a70c18..9c97f7bd3eaf1a962793287d1b6c7911cdf149fd 100644
+index 87d21e142c3f1522a60bc3e8a0ff3b4954cf5ec9..d71437ec950af094059969537687c27892d01202 100644
 --- a/net/minecraft/world/entity/animal/frog/Frog.java
 +++ b/net/minecraft/world/entity/animal/frog/Frog.java
-@@ -496,6 +496,17 @@ public class Frog extends Animal implements VariantHolder<Holder<FrogVariant>> {
+@@ -497,6 +497,17 @@ public class Frog extends Animal implements VariantHolder<Holder<FrogVariant>> {
              super(mob, level);
          }
  
@@ -597,7 +597,7 @@ index d286d4a45b6c8d5c684ad11500d2ad1a10a70c18..9c97f7bd3eaf1a962793287d1b6c7911
          @Override
          public boolean canCutCorner(PathType pathType) {
              return pathType != PathType.WATER_BORDER && super.canCutCorner(pathType);
-@@ -504,6 +515,11 @@ public class Frog extends Animal implements VariantHolder<Holder<FrogVariant>> {
+@@ -505,6 +516,11 @@ public class Frog extends Animal implements VariantHolder<Holder<FrogVariant>> {
          @Override
          protected PathFinder createPathFinder(int maxVisitedNodes) {
              this.nodeEvaluator = new Frog.FrogNodeEvaluator(true);
