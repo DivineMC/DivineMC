@@ -14,12 +14,12 @@
  
      public static float sin(float value) {
 -        return SIN[(int)(value * 10430.378F) & 65535];
-+        return space.bxteam.divinemc.util.lithium.CompactSineLUT.sin(value); // DivineMC - lithium: math.sine_lut
++        return org.bxteam.divinemc.util.lithium.CompactSineLUT.sin(value); // DivineMC - lithium: math.sine_lut
      }
  
      public static float cos(float value) {
 -        return SIN[(int)(value * 10430.378F + 16384.0F) & 65535];
-+        return space.bxteam.divinemc.util.lithium.CompactSineLUT.cos(value); // DivineMC - lithium: math.sine_lut
++        return org.bxteam.divinemc.util.lithium.CompactSineLUT.cos(value); // DivineMC - lithium: math.sine_lut
      }
  
      public static float sqrt(float value) {

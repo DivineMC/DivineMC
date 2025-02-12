@@ -7,7 +7,7 @@ Original license: GPLv3
 Original project: https://github.com/plasmoapp/matter
 
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftChunk.java b/src/main/java/org/bukkit/craftbukkit/CraftChunk.java
-index de8b9048c8395c05b8688bc9d984b8ad680f15b3..287fd2f3931ab776203f322fb05dfa236d94c59b 100644
+index de8b9048c8395c05b8688bc9d984b8ad680f15b3..c245a30f8bef4dc9ac980bdc0b39b5e0344a524b 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftChunk.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftChunk.java
 @@ -206,7 +206,12 @@ public class CraftChunk implements Chunk {
@@ -16,7 +16,7 @@ index de8b9048c8395c05b8688bc9d984b8ad680f15b3..287fd2f3931ab776203f322fb05dfa23
          // 987234911L is deterimined in EntitySlime when seeing if a slime can spawn in a chunk
 -        return this.worldServer.paperConfig().entities.spawning.allChunksAreSlimeChunks || WorldgenRandom.seedSlimeChunk(this.getX(), this.getZ(), this.getWorld().getSeed(), worldServer.spigotConfig.slimeSeed).nextInt(10) == 0; // Paper
 +        // DivineMC start - Implement Secure Seed
-+        boolean isSlimeChunk = space.bxteam.divinemc.configuration.DivineConfig.enableSecureSeed
++        boolean isSlimeChunk = org.bxteam.divinemc.configuration.DivineConfig.enableSecureSeed
 +                ? worldServer.getChunk(this.getX(), this.getZ()).isSlimeChunk()
 +                : WorldgenRandom.seedSlimeChunk(this.getX(), this.getZ(), this.getWorld().getSeed(), worldServer.spigotConfig.slimeSeed).nextInt(10) == 0; // Paper
 +        return this.worldServer.paperConfig().entities.spawning.allChunksAreSlimeChunks || isSlimeChunk;
@@ -25,7 +25,7 @@ index de8b9048c8395c05b8688bc9d984b8ad680f15b3..287fd2f3931ab776203f322fb05dfa23
  
      @Override
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 55f9267c83427dbe4ab28580ec515539565f3bdb..bfcf494a34fad26f282b705270725b724d5719a7 100644
+index 54da9c08a3e78fd53fa4c0311c0d662180262d4b..55556a038e09d6fb92d4b9696f291ccac34347cb 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -1404,7 +1404,11 @@ public final class CraftServer implements Server {
@@ -34,8 +34,8 @@ index 55f9267c83427dbe4ab28580ec515539565f3bdb..bfcf494a34fad26f282b705270725b72
              LevelSettings levelSettings;
 -            WorldOptions worldOptions = new WorldOptions(creator.seed(), creator.generateStructures(), false);
 +            // DivineMC start - Implement Secure Seed
-+            WorldOptions worldOptions = space.bxteam.divinemc.configuration.DivineConfig.enableSecureSeed
-+                    ? new WorldOptions(creator.seed(), space.bxteam.divinemc.seed.Globals.createRandomWorldSeed(), creator.generateStructures(), false)
++            WorldOptions worldOptions = org.bxteam.divinemc.configuration.DivineConfig.enableSecureSeed
++                    ? new WorldOptions(creator.seed(), org.bxteam.divinemc.seed.Globals.createRandomWorldSeed(), creator.generateStructures(), false)
 +                    : new WorldOptions(creator.seed(), creator.generateStructures(), false);
 +            // DivineMC end - Implement Secure Seed
              WorldDimensions worldDimensions;

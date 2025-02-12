@@ -36,7 +36,7 @@ All other files are licensed under MIT.
 [![bStats](https://bstats.org/signatures/server-implementation/DivineMC.svg)](https://bstats.org/plugin/server-implementation/DivineMC)
 
 ## API
-### [Javadoc](https://repo.bx-team.space/javadoc/snapshots/space/bxteam/divinemc/divinemc-api/1.21.4-R0.1-SNAPSHOT)
+### [Javadoc](https://repo.bxteam.org/javadoc/snapshots/org/bxteam/divinemc/divinemc-api/1.21.4-R0.1-SNAPSHOT)
 
 ### Dependency Information
 
@@ -44,12 +44,12 @@ All other files are licensed under MIT.
 ```xml
 <repository>
   <id>bx-team</id>
-  <url>https://repo.bx-team.space/snapshots</url>
+  <url>https://repo.bxteam.org/snapshots</url>
 </repository>
 ```
 ```xml
 <dependency>
-  <groupId>space.bxteam.divinemc</groupId>
+  <groupId>org.bxteam.divinemc</groupId>
   <artifactId>divinemc-api</artifactId>
   <version>1.21.4-R0.1-SNAPSHOT</version>
   <scope>provided</scope>
@@ -59,12 +59,12 @@ All other files are licensed under MIT.
 #### Gradle
 ```groovy
 repositories {
-    maven("https://repo.bx-team.space/snapshots")
+    maven("https://repo.bxteam.org/snapshots")
 }
 ```
 ```groovy
 dependencies {
-    compileOnly("space.bxteam.divinemc:divinemc-api:1.21.4-R0.1-SNAPSHOT")
+    compileOnly("org.bxteam.divinemc:divinemc-api:1.21.4-R0.1-SNAPSHOT")
 }
 ```
 
@@ -77,7 +77,7 @@ First, clone this repository (do not download it) and the run the following comm
 After that, project is ready to use and editing it.
 
 ### Creating a patch
-Patches are effectively just commits in either `paper-api`, `paper-server`, `purpur-api`, `purpur-server` or `divinemc-server`. If you want to learn how to work with patch system, you can read our [contributing documentation](https://docs.bx-team.space/documentation/divinemc/development/contributing).
+Patches are effectively just commits in either `paper-api`, `paper-server`, `purpur-api`, `purpur-server` or `divinemc-server`. If you want to learn how to work with patch system, you can read our [contributing documentation](https://docs.bxteam.org/documentation/divinemc/development/contributing).
 
 ### Compiling
 Use the command `./gradlew build` to build the API and server. Compiled JARs will be placed under `divinemc-api/build/libs` and `divinemc-server/build/libs`. **These JARs are not used to start a server**.

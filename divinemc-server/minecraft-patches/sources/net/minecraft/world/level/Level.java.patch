@@ -5,7 +5,7 @@
      public static final int MAX_ENTITY_SPAWN_Y = 20000000;
      public static final int MIN_ENTITY_SPAWN_Y = -20000000;
 -    public final List<TickingBlockEntity> blockEntityTickers = Lists.newArrayList(); // Paper - public
-+    public final space.bxteam.divinemc.util.BlockEntityTickersList blockEntityTickers = new space.bxteam.divinemc.util.BlockEntityTickersList(); // DivineMC - optimize block entity removal
++    public final org.bxteam.divinemc.util.BlockEntityTickersList blockEntityTickers = new org.bxteam.divinemc.util.BlockEntityTickersList(); // DivineMC - optimize block entity removal
      protected final NeighborUpdater neighborUpdater;
      private final List<TickingBlockEntity> pendingBlockEntityTickers = Lists.newArrayList();
      private boolean tickingBlockEntities;

@@ -5,7 +5,7 @@ Subject: [PATCH] Async data saving
 
 
 diff --git a/net/minecraft/world/level/storage/LevelStorageSource.java b/net/minecraft/world/level/storage/LevelStorageSource.java
-index de43e54698125ce9f319d4889dd49f7029fe95e0..38a36da1d6e064b538b7b95c46994772d079a9ca 100644
+index de43e54698125ce9f319d4889dd49f7029fe95e0..cdc5ad5ba3a3c4d48609fe80bbe657da90da29fd 100644
 --- a/net/minecraft/world/level/storage/LevelStorageSource.java
 +++ b/net/minecraft/world/level/storage/LevelStorageSource.java
 @@ -514,7 +514,10 @@ public class LevelStorageSource {
@@ -15,7 +15,7 @@ index de43e54698125ce9f319d4889dd49f7029fe95e0..38a36da1d6e064b538b7b95c46994772
 -            this.saveLevelData(compoundTag1);
 +            // DivineMC start - Async data saving
 +            Runnable runnable = () -> this.saveLevelData(compoundTag1);
-+            space.bxteam.divinemc.util.AsyncDataSaving.saveAsync(runnable);
++            org.bxteam.divinemc.util.AsyncDataSaving.saveAsync(runnable);
 +            // DivineMC end - Async data saving
          }
  
@@ -27,13 +27,13 @@ index de43e54698125ce9f319d4889dd49f7029fe95e0..38a36da1d6e064b538b7b95c46994772
 -            this.saveLevelData(levelDataTagRaw);
 +            // DivineMC start - Async data saving
 +            Runnable runnable = () -> this.saveLevelData(levelDataTagRaw);
-+            space.bxteam.divinemc.util.AsyncDataSaving.saveAsync(runnable);
++            org.bxteam.divinemc.util.AsyncDataSaving.saveAsync(runnable);
 +            // DivineMC end - Async data saving
          }
  
          public long makeWorldBackup() throws IOException {
 diff --git a/net/minecraft/world/level/storage/PlayerDataStorage.java b/net/minecraft/world/level/storage/PlayerDataStorage.java
-index c44110b123ba5912af18faf0065e9ded780da9b7..339efaaf92fbec457759235f91e9a03d5d5d2e4f 100644
+index c44110b123ba5912af18faf0065e9ded780da9b7..c8dd87faf9a2bdc9fe7c0b9f2076dbed4a339021 100644
 --- a/net/minecraft/world/level/storage/PlayerDataStorage.java
 +++ b/net/minecraft/world/level/storage/PlayerDataStorage.java
 @@ -32,7 +32,14 @@ public class PlayerDataStorage {
@@ -43,7 +43,7 @@ index c44110b123ba5912af18faf0065e9ded780da9b7..339efaaf92fbec457759235f91e9a03d
 +    // DivineMC start - Async playerdata save
      public void save(Player player) {
 +        Runnable runnable = () -> saveInternal(player);
-+        space.bxteam.divinemc.util.AsyncDataSaving.saveAsync(runnable);
++        org.bxteam.divinemc.util.AsyncDataSaving.saveAsync(runnable);
 +    }
 +
 +    private void saveInternal(Player player) {

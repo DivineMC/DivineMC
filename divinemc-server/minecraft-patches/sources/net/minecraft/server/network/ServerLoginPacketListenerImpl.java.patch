@@ -5,7 +5,7 @@
          Validate.validState(this.state == ServerLoginPacketListenerImpl.State.HELLO, "Unexpected hello packet");
          // Paper start - Validate usernames
 -        if (io.papermc.paper.configuration.GlobalConfiguration.get().proxies.isProxyOnlineMode()
-+        if (!space.bxteam.divinemc.configuration.DivineConfig.removeVanillaUsernameCheck // DivineMC - Remove vanilla username check
++        if (!org.bxteam.divinemc.configuration.DivineConfig.removeVanillaUsernameCheck // DivineMC - Remove vanilla username check
 +            && io.papermc.paper.configuration.GlobalConfiguration.get().proxies.isProxyOnlineMode()
              && io.papermc.paper.configuration.GlobalConfiguration.get().unsupportedSettings.performUsernameValidation
              && !this.iKnowThisMayNotBeTheBestIdeaButPleaseDisableUsernameValidation) {

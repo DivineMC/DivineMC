@@ -5,7 +5,7 @@
      ) {
          int i = 0;
 -        BitSet bitSet = new BitSet(width * height * width);
-+        BitSet bitSet = space.bxteam.divinemc.util.c2me.ObjectCachingUtils.getCachedOrNewBitSet(width * height * width); // DivineMC - C2ME: reduce_allocs
++        BitSet bitSet = org.bxteam.divinemc.util.c2me.ObjectCachingUtils.getCachedOrNewBitSet(width * height * width); // DivineMC - C2ME: reduce_allocs
          BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos();
          int i1 = config.size;
          double[] doubles = new double[i1 * 4];

@@ -158,7 +158,7 @@ index 2e7c3d4befeb6256ce81ecaa9ed4e8fbcb21651e..7f3d6dc1c37ffce387ddd04bdd7328e0
                  // (async tasks must live with race-conditions if they attempt to cancel between these few lines of code)
              }
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java b/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
-index 99eb04643fce44c37fd96c99756837ccafe7b559..7f5678aa5c6d6d4365ea219c7c78ff234c554499 100644
+index 99eb04643fce44c37fd96c99756837ccafe7b559..4aef151bd162c4c99a3eaec1854b54639980a630 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
 +++ b/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
 @@ -11,7 +11,7 @@ public final class Versioning {
@@ -166,7 +166,7 @@ index 99eb04643fce44c37fd96c99756837ccafe7b559..7f5678aa5c6d6d4365ea219c7c78ff23
          String result = "Unknown-Version";
  
 -        InputStream stream = Bukkit.class.getClassLoader().getResourceAsStream("META-INF/maven/org.purpurmc.purpur/purpur-api/pom.properties"); // Pufferfish // Purpur - Rebrand
-+        InputStream stream = Bukkit.class.getClassLoader().getResourceAsStream("META-INF/maven/space.bxteam.divinemc/divinemc-api/pom.properties"); // DivineMC - Rebrand
++        InputStream stream = Bukkit.class.getClassLoader().getResourceAsStream("META-INF/maven/org.bxteam.divinemc/divinemc-api/pom.properties"); // DivineMC - Rebrand
          Properties properties = new Properties();
  
          if (stream != null) {

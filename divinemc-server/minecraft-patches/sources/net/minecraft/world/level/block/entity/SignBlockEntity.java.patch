@@ -5,7 +5,7 @@
              this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);
          } else {
 -            LOGGER.warn("Player {} just tried to change non-editable sign", player.getName().getString());
-+            if (!space.bxteam.divinemc.configuration.DivineConfig.disableNonEditableSignWarning) LOGGER.warn("Player {} just tried to change non-editable sign", player.getName().getString()); // DivineMC - Option to disable warning
++            if (!org.bxteam.divinemc.configuration.DivineConfig.disableNonEditableSignWarning) LOGGER.warn("Player {} just tried to change non-editable sign", player.getName().getString()); // DivineMC - Option to disable warning
              if (player.distanceToSqr(this.getBlockPos().getX(), this.getBlockPos().getY(), this.getBlockPos().getZ()) < Mth.square(32)) // Paper - Don't send far away sign update
              ((net.minecraft.server.level.ServerPlayer) player).connection.send(this.getUpdatePacket()); // CraftBukkit
          }

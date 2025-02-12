@@ -19,7 +19,7 @@
              throw new IllegalStateException(event.getEventName() + " may only be triggered asynchronously.");
          } else if (!event.isAsynchronous() && !this.server.isPrimaryThread() && !this.server.isStopping()) {
 +            // DivineMC start - Multithreaded tracker
-+            if (space.bxteam.divinemc.configuration.DivineConfig.multithreadedEnabled) {
++            if (org.bxteam.divinemc.configuration.DivineConfig.multithreadedEnabled) {
 +                net.minecraft.server.MinecraftServer.getServer().scheduleOnMain(event::callEvent);
 +                return;
 +            }

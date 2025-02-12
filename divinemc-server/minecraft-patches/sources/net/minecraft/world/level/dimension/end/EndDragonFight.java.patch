@@ -11,7 +11,7 @@
 +
      @Nullable
      public BlockPattern.BlockPatternMatch findExitPortal() {
-+        if (space.bxteam.divinemc.configuration.DivineConfig.optimizedDragonRespawn) {
++        if (org.bxteam.divinemc.configuration.DivineConfig.optimizedDragonRespawn) {
 +            int i, j;
 +            for (i = cachePortalChunkIteratorX; i <= 8; ++i) {
 +                for (j = cachePortalChunkIteratorZ; j <= 8; ++j) {
@@ -47,7 +47,7 @@
 +                for (j = i; j >= 0; --j) {
 +                    BlockPattern.BlockPatternMatch result2 = null;
 +                    if (notFirstSearch) {
-+                        result2 = space.bxteam.divinemc.util.carpetams.BlockPatternHelper.partialSearchAround(this.exitPortalPattern, this.level, new BlockPos(EndPodiumFeature.getLocation(BlockPos.ZERO).getY(), j, EndPodiumFeature.getLocation(BlockPos.ZERO).getZ()));
++                        result2 = org.bxteam.divinemc.util.carpetams.BlockPatternHelper.partialSearchAround(this.exitPortalPattern, this.level, new BlockPos(EndPodiumFeature.getLocation(BlockPos.ZERO).getY(), j, EndPodiumFeature.getLocation(BlockPos.ZERO).getZ()));
 +                    } else {
 +                        result2 = this.exitPortalPattern.find(this.level, new BlockPos(EndPodiumFeature.getLocation(BlockPos.ZERO).getX(), j, EndPodiumFeature.getLocation(BlockPos.ZERO).getZ()));
 +                    }
