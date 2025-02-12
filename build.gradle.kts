@@ -78,7 +78,7 @@ subprojects {
 
     extensions.configure<PublishingExtension> {
         repositories {
-            maven("https://repo.bx-team.space/snapshots") {
+            maven("https://repo.bxteam.org/snapshots") {
                 name = "divinemc"
                 credentials(PasswordCredentials::class)
             }

@@ -12,6 +12,6 @@
 +     * @param enderChest ender chest
 +     * @return whether the chest was opened
 +     */
-+    boolean openEnderChest(@NotNull org.bukkit.block.EnderChest enderChest);
++    boolean openEnderChest(org.bukkit.block.EnderChest enderChest);
 +    // DivineMC end - Open Ender Chest API
  }
