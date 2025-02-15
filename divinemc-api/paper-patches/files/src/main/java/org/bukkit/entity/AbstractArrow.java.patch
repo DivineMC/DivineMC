@@ -1,6 +1,6 @@
 --- a/src/main/java/org/bukkit/entity/AbstractArrow.java
 +++ b/src/main/java/org/bukkit/entity/AbstractArrow.java
-@@ -282,4 +_,11 @@
+@@ -297,4 +_,11 @@
       */
      void setShooter(@Nullable org.bukkit.projectiles.ProjectileSource source, boolean resetPickupStatus);
      // Paper end - Fix PickupStatus getting reset

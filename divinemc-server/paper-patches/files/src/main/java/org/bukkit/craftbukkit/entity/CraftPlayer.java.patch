@@ -1,6 +1,6 @@
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-@@ -213,7 +_,7 @@
+@@ -214,7 +_,7 @@
      private boolean hasPlayedBefore = false;
      private final ConversationTracker conversationTracker = new ConversationTracker();
      private final Set<String> channels = new HashSet<String>();
@@ -9,7 +9,7 @@
      private final Set<UUID> unlistedEntities = new HashSet<>(); // Paper - Add Listing API for Player
      private static final WeakHashMap<Plugin, WeakReference<Plugin>> pluginWeakReferences = new WeakHashMap<>();
      private int hash = 0;
-@@ -2269,8 +_,14 @@
+@@ -2270,8 +_,14 @@
  
      @Override
      public boolean canSee(org.bukkit.entity.Entity entity) {
@@ -26,7 +26,7 @@
  
      public boolean canSeePlayer(UUID uuid) {
          org.bukkit.entity.Entity entity = this.getServer().getPlayer(uuid);
-@@ -3682,4 +_,19 @@
+@@ -3684,4 +_,19 @@
          this.getHandle().connection.send(new net.minecraft.network.protocol.game.ClientboundPlayerCombatKillPacket(getEntityId(), io.papermc.paper.adventure.PaperAdventure.asVanilla(message)));
      }
      // Purpur end - Death screen API

@@ -1,0 +1,84 @@
+#!/bin/bash
+
+set -e
+
+force_run=false
+
+if [[ "$1" == "--force" ]]; then
+  force_run=true
+  echo "Force mode enabled. All Gradle tasks will run."
+fi
+
+echo "Processing file patches..."
+
+declare -A gradle_tasks
+
+process_changes() {
+  local dir="$1"
+  local project="$2"
+
+  if [ ! -d "$dir" ]; then
+    echo "Error: The directory '$dir' does not exist or is not valid."
+    exit 1
+  fi
+
+  cd "$dir"
+
+  if $force_run || ! git diff --quiet || ! git diff --cached --quiet; then
+    echo "Changes detected in $dir (or force mode enabled). Running Gradle fixup and rebuild tasks."
+    gradle_tasks["fixup${project}FilePatches"]="true"
+    gradle_tasks["rebuild${project}FilePatches"]="true"
+  else
+    echo "No changes detected in $dir"
+  fi
+
+  cd - > /dev/null
+}
+
+run_gradle_task() {
+  local task="$1"
+  if [ "${gradle_tasks[$task]}" = "true" ]; then
+    echo "Running Gradle task: $task"
+    ./gradlew "$task" || echo "Gradle task '$task' failed, continuing..."
+    echo "Gradle task '$task' completed (or failed but continuing)."
+  else
+    echo "Skipping Gradle task '$task' as no changes were detected."
+  fi
+}
+
+process_changes "./purpur-server/" "PurpurServer"
+process_changes "./purpur-api/" "PurpurApi"
+process_changes "./paper-server/" "PaperServer"
+process_changes "./paper-api/" "PaperApi"
+process_changes "./divinemc-server/src/minecraft/java" "Minecraft"
+
+gradle_rebuild_task=false
+
+if $force_run || ! git diff --quiet "./divinemc-server/build.gradle.kts" || ! git diff --cached --quiet "./divinemc-server/build.gradle.kts"; then
+  echo "Changes detected in ./divinemc-server/build.gradle.kts"
+  gradle_rebuild_task=true
+fi
+
+if $force_run || ! git diff --quiet "./divinemc-api/build.gradle.kts" || ! git diff --cached --quiet "./divinemc-api/build.gradle.kts"; then
+  echo "Changes detected in ./divinemc-api/build.gradle.kts"
+  gradle_rebuild_task=true
+fi
+
+if $gradle_rebuild_task; then
+  gradle_tasks["rebuildPurpurSingleFilePatches"]="true"
+fi
+
+echo "Running fixup tasks..."
+run_gradle_task "fixupPurpurApiFilePatches"
+run_gradle_task "fixupPaperApiFilePatches"
+run_gradle_task "fixupPurpurServerFilePatches"
+run_gradle_task "fixupPaperServerFilePatches"
+run_gradle_task "fixupMinecraftFilePatches"
+
+echo "Running rebuild tasks..."
+run_gradle_task "rebuildPurpurApiFilePatches"
+run_gradle_task "rebuildPaperApiFilePatches"
+run_gradle_task "rebuildPurpurServerFilePatches"
+run_gradle_task "rebuildPaperServerFilePatches"
+run_gradle_task "rebuildMinecraftFilePatches"
+run_gradle_task "rebuildPurpurSingleFilePatches"
