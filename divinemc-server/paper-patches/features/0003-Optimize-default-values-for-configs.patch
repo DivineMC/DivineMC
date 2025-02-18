@@ -5,10 +5,10 @@ Subject: [PATCH] Optimize default values for configs
 
 
 diff --git a/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java b/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
-index bacd1d90a0703576924fb50cc8c9a89cbd376175..2d8bbb9094c284221735e7e77cdfce3b147a7ae0 100644
+index 42777adb028fe282c1619aeb5431c442ad5df0d0..3afcf93d1e9519577ca9b6974f23f2258ecaad3e 100644
 --- a/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
 +++ b/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
-@@ -341,9 +341,9 @@ public class GlobalConfiguration extends ConfigurationPart {
+@@ -343,9 +343,9 @@ public class GlobalConfiguration extends ConfigurationPart {
          public boolean fixEntityPositionDesync = true;
          public boolean loadPermissionsYmlBeforePlugins = true;
          @Constraints.Min(4)

@@ -32,7 +32,7 @@
      }
  
      public float getSpeed() {
-@@ -3617,6 +_,7 @@
+@@ -3635,6 +_,7 @@
      protected void updateFallFlying() {
          this.checkSlowFallDistance();
          if (!this.level().isClientSide) {

@@ -8,7 +8,7 @@
      public boolean onGround;
      public boolean horizontalCollision;
      public boolean verticalCollision;
-@@ -1116,6 +_,12 @@
+@@ -1117,6 +_,12 @@
      // Paper end - detailed watchdog information
  
      public void move(MoverType type, Vec3 movement) {
@@ -21,7 +21,7 @@
          final Vec3 originalMovement = movement; // Paper - Expose pre-collision velocity
          // Paper start - detailed watchdog information
          ca.spottedleaf.moonrise.common.util.TickThread.ensureTickThread("Cannot move an entity off-main");
-@@ -2157,30 +_,42 @@
+@@ -2158,30 +_,42 @@
          return new Vec3(this.xOld, this.yOld, this.zOld);
      }
  
@@ -78,7 +78,7 @@
  
      public void playerTouch(Player player) {
      }
-@@ -4247,6 +_,7 @@
+@@ -4248,6 +_,7 @@
      }
  
      public final void setBoundingBox(AABB bb) {
